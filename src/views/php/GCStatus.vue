@@ -1,0 +1,100 @@
+<template>
+    <div>
+        <el-row>
+            <el-descriptions class="margin-top" border>
+                <el-descriptions-item label="runs">{{ runs }}</el-descriptions-item>
+                <el-descriptions-item label="collected">{{
+                    collected
+                }}</el-descriptions-item>
+                <el-descriptions-item label="threshold">{{
+                    threshold
+                }}</el-descriptions-item>
+                <el-descriptions-item label="roots">{{ roots }}</el-descriptions-item>
+            </el-descriptions>
+        </el-row>
+    </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+    data() {
+        return {
+            runs: -1,
+            collected: -1,
+            threshold: -1,
+            roots: -1,
+            extensions: [],
+        };
+    },
+    created() {
+        this.getGCStatus();
+    },
+    methods: {
+        async getGCStatus() {
+            const { id } = this.$route.params;
+            const result = await axios.get(
+                `http://127.0.0.1:9999/api/gc_status/worker-${id}`,
+            );
+
+            const { code } = result.data;
+
+            if (code !== 0) {
+                this.$message({
+                    showClose: true,
+                    message: result.data.data,
+                    type: 'error',
+                });
+                return;
+            }
+
+            const {
+                runs, collected, threshold, roots,
+            } = result.data.data;
+
+            this.runs = runs;
+            this.collected = collected;
+            this.threshold = threshold;
+            this.roots = roots;
+        }
+    },
+};
+</script>
+
+<style>
+.el-tag + .el-tag {
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.el-row {
+    margin-bottom: 20px;
+}
+
+.el-col {
+    border-radius: 4px;
+}
+
+.bg-purple-dark {
+    background: #99a9bf;
+}
+
+.bg-purple {
+    background: #d3dce6;
+}
+
+.bg-purple-light {
+    background: #e5e9f2;
+}
+
+.grid-content {
+    min-height: 36px;
+    border-radius: 4px;
+}
+
+.row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+}
+</style>

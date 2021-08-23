@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { getServerStats } from '@/api/server'
 
 export default {
   data() {
@@ -67,20 +67,7 @@ export default {
   },
   methods: {
     async getServerStats() {
-      const { id } = this.$route.params;
-      const result = await axios.get(
-        `http://127.0.0.1:9999/api/server_stats/worker-${id}`
-      )
-
-      const { code } = result.data
-      if (code !== 0) {
-        this.$message({
-          showClose: true,
-          message: result.data.data,
-          type: 'error'
-        })
-        return
-      }
+      const { data } = await getServerStats()
 
       const {
         close_count: closeCount,
@@ -95,8 +82,8 @@ export default {
         tasking_num: taskingNum,
         worker_dispatch_count: workerDispatchCount,
         worker_num: workerNum,
-        worker_request_count: workerRequestCount,
-      } = result.data.data;
+        worker_request_count: workerRequestCount
+      } = data
 
       this.closeCount = closeCount
       this.acceptCount = acceptCount
@@ -111,7 +98,7 @@ export default {
       this.workerDispatchCount = workerDispatchCount
       this.workerNum = workerNum
       this.workerRequestCount = workerRequestCount
-    },
-  },
-};
+    }
+  }
+}
 </script>

@@ -11,3 +11,9 @@ export const getGCStatus = () =>
     url: '/api/gc_status/worker-0',
     method: 'get'
   })
+
+export const getIncludedFiles = () =>
+  request({
+    url: '/api/get_included_files/worker-0',
+    method: 'get'
+  })

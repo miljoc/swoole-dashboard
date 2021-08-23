@@ -74,6 +74,14 @@ export default new Router({
             title: '垃圾回收信息',
             icon: 'stats'
           }
+        },
+        {
+          path: '/includedfiles',
+          component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/IncludedFiles.vue'),
+          meta: {
+            title: '载入的文件',
+            icon: 'stats'
+          }
         }
       ]
     },

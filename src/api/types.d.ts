@@ -19,3 +19,7 @@ export interface IArticleData {
 export interface IWorkerData {
   id: number
 }
+
+export interface IIncludedFilesData {
+  filename: string
+}

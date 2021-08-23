@@ -10,7 +10,7 @@
     >
       <el-table-column label="进程序号" align="center" width="180">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.$index }}</span>
+          <span style="margin-left: 10px">{{ scope.row.id }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
@@ -21,6 +21,14 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      @pagination="getWorkers"
+    />
   </div>
 </template>
 
@@ -28,13 +36,22 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { getServerStats } from '@/api/server'
 import { IWorkerData } from '@/api/types'
+import Pagination from '@/components/Pagination/index.vue'
 
 @Component({
-  name: 'Workers'
+  name: 'Workers',
+  components: {
+    Pagination
+  }
 })
 export default class extends Vue {
   private workers: IWorkerData[] = [];
+  private total = 0
   private listLoading = true;
+  private listQuery = {
+    page: 1,
+    limit: 20
+  }
 
   created() {
     this.getWorkers()
@@ -48,11 +65,21 @@ export default class extends Vue {
     this.listLoading = true
     const { data } = await getServerStats()
 
+    const total = data.worker_num
+
+    const start = (this.listQuery.page - 1) * this.listQuery.limit
+    let end = this.listQuery.page * this.listQuery.limit
+
+    end = Math.min(total, end)
+
     const workers: IWorkerData[] = []
-    for (let index = 0; index < data.worker_num; index++) {
+
+    for (let index = start; index < end; index++) {
       workers[index] = { id: index }
     }
+
     this.workers = workers
+    this.total = total
     this.listLoading = false
   }
 }

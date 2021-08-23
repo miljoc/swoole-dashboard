@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { getLoadedExtensions } from '@/api/extensions'
+import { getLoadedExtensions } from '@/api/phpinfos'
 
 export default {
   data() {

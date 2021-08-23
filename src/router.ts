@@ -44,7 +44,7 @@ export default new Router({
           path: 'dashboard',
           component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/index.vue'),
           meta: {
-            title: 'Dashboard',
+            title: 'Swoole Dashboard',
             icon: 'dashboard'
           }
         }

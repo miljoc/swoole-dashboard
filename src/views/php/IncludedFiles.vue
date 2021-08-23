@@ -6,6 +6,7 @@
       :data="files"
       highlight-current-row
       fit
+      border
       style="width: 100%"
     >
       <el-table-column label="文件序号" align="center" width="180">

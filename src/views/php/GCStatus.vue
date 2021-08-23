@@ -16,50 +16,50 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
-    data() {
-        return {
-            runs: -1,
-            collected: -1,
-            threshold: -1,
-            roots: -1,
-            extensions: [],
-        };
-    },
-    created() {
-        this.getGCStatus();
-    },
-    methods: {
-        async getGCStatus() {
-            const { id } = this.$route.params;
-            const result = await axios.get(
-                `http://127.0.0.1:9999/api/gc_status/worker-${id}`,
-            );
+  data() {
+    return {
+      runs: -1,
+      collected: -1,
+      threshold: -1,
+      roots: -1,
+      extensions: []
+    }
+  },
+  created() {
+    this.getGCStatus()
+  },
+  methods: {
+    async getGCStatus() {
+      const { id } = this.$route.params
+      const result = await axios.get(
+                `http://127.0.0.1:9999/api/gc_status/worker-${id}`
+      )
 
-            const { code } = result.data;
+      const { code } = result.data
 
-            if (code !== 0) {
-                this.$message({
-                    showClose: true,
-                    message: result.data.data,
-                    type: 'error',
-                });
-                return;
-            }
+      if (code !== 0) {
+        this.$message({
+          showClose: true,
+          message: result.data.data,
+          type: 'error'
+        })
+        return
+      }
 
-            const {
-                runs, collected, threshold, roots,
-            } = result.data.data;
+      const {
+        runs, collected, threshold, roots
+      } = result.data.data
 
-            this.runs = runs;
-            this.collected = collected;
-            this.threshold = threshold;
-            this.roots = roots;
-        }
-    },
-};
+      this.runs = runs
+      this.collected = collected
+      this.threshold = threshold
+      this.roots = roots
+    }
+  }
+}
 </script>
 
 <style>

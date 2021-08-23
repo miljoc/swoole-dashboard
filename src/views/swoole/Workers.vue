@@ -32,78 +32,75 @@ export default {
       tableData: [
         {
           id: 0,
-          processID: 1000,
+          processID: 1000
         },
         {
           id: 1,
-          processID: 1001,
+          processID: 1001
         },
         {
           id: 2,
-          processID: 1002,
+          processID: 1002
         },
         {
           id: 3,
-          processID: 1003,
+          processID: 1003
         },
         {
           id: 4,
-          processID: 1004,
+          processID: 1004
         },
         {
           id: 5,
-          processID: 1005,
+          processID: 1005
         },
         {
           id: 6,
-          processID: 1006,
+          processID: 1006
         },
         {
           id: 7,
-          processID: 1007,
+          processID: 1007
         },
         {
           id: 8,
-          processID: 1008,
+          processID: 1008
         },
         {
           id: 9,
-          processID: 1009,
+          processID: 1009
         },
         {
           id: 10,
-          processID: 1010,
+          processID: 1010
         },
         {
           id: 11,
-          processID: 1011,
+          processID: 1011
         },
         {
           id: 12,
-          processID: 1012,
+          processID: 1012
         },
         {
           id: 13,
-          processID: 1013,
+          processID: 1013
         },
         {
           id: 14,
-          processID: 1014,
-        },
-      ],
-    };
+          processID: 1014
+        }
+      ]
+    }
   },
   computed: {},
   watch: {},
-  created() {},
-  mounted() {},
-  destroyed() {},
   methods: {
     handleEdit(index, row) {
-      this.$router.push({ path: `/worker/${row.id}` });
-    },
-  },
-};
+      this.$router.push({ path: `/worker/${row.id}` })
+    }
+  }
+}
 </script>
 <style lang='scss' scoped>
 .customzie {

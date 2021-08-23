@@ -64,7 +64,7 @@ export default class extends Vue {
 
     const files: IIncludedFilesData[] = []
     const start = (this.listQuery.page - 1) * this.listQuery.limit
-    let end = this.listQuery.page * this.listQuery.limit - 1
+    let end = this.listQuery.page * this.listQuery.limit
 
     end = Math.min(total, end)
 

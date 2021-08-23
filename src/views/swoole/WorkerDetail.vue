@@ -22,7 +22,7 @@
     </el-descriptions>
 
     <el-dialog
-      title="提示"
+      title="协程信息"
       :visible.sync="showCoroutineStats"
       width="100%"
       :before-close="handleClose"

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { getLoadedExtensions } from '@/api/extensions'
 
 export default {
   data() {
@@ -26,23 +26,9 @@ export default {
   },
   methods: {
     async getLoadedExtensions() {
-      const { id } = this.$route.params
-      const result = await axios.get(
-                `http://127.0.0.1:9999/api/get_loaded_extensions/worker-${id}`
-      )
+      const { data } = await getLoadedExtensions()
 
-      const { code } = result.data
-
-      if (code !== 0) {
-        this.$message({
-          showClose: true,
-          message: result.data.data,
-          type: 'error'
-        })
-        return
-      }
-
-      this.extensions = result.data.data
+      this.extensions = data
     }
   }
 }

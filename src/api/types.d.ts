@@ -21,5 +21,6 @@ export interface IWorkerData {
 }
 
 export interface IIncludedFilesData {
+  id: number
   filename: string
 }

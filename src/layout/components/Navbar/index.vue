@@ -17,7 +17,7 @@
       >
         <div class="avatar-wrapper">
           <img
-            :src="avatar+'?imageView2/1/w/80/h/80'"
+            src="/img/icons/favicon-32x32.png"
             class="user-avatar"
           >
           <i class="el-icon-caret-bottom" />
@@ -44,12 +44,12 @@
               Docs
             </el-dropdown-item>
           </a>
-          <el-dropdown-item divided>
+          <!-- <el-dropdown-item divided>
             <span
               style="display:block;"
               @click="logout"
             >LogOut</span>
-          </el-dropdown-item>
+          </el-dropdown-item> -->
         </el-dropdown-menu>
       </el-dropdown>
     </div>

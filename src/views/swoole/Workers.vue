@@ -10,7 +10,7 @@
     >
       <el-table-column label="进程序号" align="center" width="180">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.id }}</span>
+          <span style="margin-left: 10px">{{ scope.$index }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">

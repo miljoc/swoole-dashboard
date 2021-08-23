@@ -15,3 +15,7 @@ export interface IArticleData {
   type: string
   pageviews: number
 }
+
+export interface IWorkerData {
+  id: number
+}

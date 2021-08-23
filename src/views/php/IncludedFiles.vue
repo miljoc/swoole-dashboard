@@ -37,7 +37,7 @@ import { IIncludedFilesData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 
 @Component({
-  name: 'Workers',
+  name: 'IncludedFiles',
   components: {
     Pagination
   }

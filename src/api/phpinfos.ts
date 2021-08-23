@@ -5,3 +5,9 @@ export const getLoadedExtensions = () =>
     url: '/api/get_loaded_extensions/worker-0',
     method: 'get'
   })
+
+export const getGCStatus = () =>
+  request({
+    url: '/api/gc_status/worker-0',
+    method: 'get'
+  })

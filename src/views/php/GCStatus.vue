@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { getGCStatus } from '@/api/phpinfos'
 
 export default {
   data() {
@@ -33,25 +33,11 @@ export default {
   },
   methods: {
     async getGCStatus() {
-      const { id } = this.$route.params
-      const result = await axios.get(
-                `http://127.0.0.1:9999/api/gc_status/worker-${id}`
-      )
-
-      const { code } = result.data
-
-      if (code !== 0) {
-        this.$message({
-          showClose: true,
-          message: result.data.data,
-          type: 'error'
-        })
-        return
-      }
+      const { data } = await getGCStatus()
 
       const {
         runs, collected, threshold, roots
-      } = result.data.data
+      } = data
 
       this.runs = runs
       this.collected = collected

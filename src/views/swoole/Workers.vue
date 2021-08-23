@@ -25,35 +25,35 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { getServerStats } from "@/api/server";
-import { IWorkerData } from "@/api/types";
+import { Component, Vue } from 'vue-property-decorator'
+import { getServerStats } from '@/api/server'
+import { IWorkerData } from '@/api/types'
 
 @Component({
-  name: "Workers",
+  name: 'Workers'
 })
 export default class extends Vue {
   private workers: IWorkerData[] = [];
   private listLoading = true;
 
   created() {
-    this.getWorkers();
+    this.getWorkers()
   }
 
   private handleEdit(row: any) {
-    this.$router.push({ path: `/worker/${row.id}` });
+    this.$router.push({ path: `/worker/${row.id}` })
   }
 
   private async getWorkers() {
-    this.listLoading = true;
-    const { data } = await getServerStats();
+    this.listLoading = true
+    const { data } = await getServerStats()
 
-    let workers: IWorkerData[] = new Array();
+    const workers: IWorkerData[] = []
     for (let index = 0; index < data.worker_num; index++) {
-      workers[index] = { id: index };
+      workers[index] = { id: index }
     }
-    this.workers = workers;
-    this.listLoading = false;
+    this.workers = workers
+    this.listLoading = false
   }
 }
 </script>

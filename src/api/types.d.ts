@@ -23,12 +23,19 @@ export interface IDeclaredClass {
 
 export interface IDefinedFunction {
   id: number
-  name: string,
+  name: string
   type: string
 }
 
 export interface IWorkerData {
   id: number
+}
+
+export interface IMasterData {
+  name: string
+  pid: number
+  usage: number
+  realUsage: number
 }
 
 export interface IIncludedFilesData {

@@ -6,6 +6,12 @@ export const getLoadedExtensions = () =>
     method: 'get'
   })
 
+export const getClasses = () =>
+  request({
+    url: '/api/get_declared_classes/worker-0',
+    method: 'get'
+  })
+
 export const getGCStatus = () =>
   request({
     url: '/api/gc_status/worker-0',

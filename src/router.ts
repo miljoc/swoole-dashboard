@@ -115,7 +115,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/swoole/ServerStats.vue'),
           meta: {
             title: '服务器状态',
-            icon: 'stats'
+            icon: 'example'
           }
         },
         {
@@ -123,7 +123,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Workers.vue'),
           meta: {
             title: '所有worker进程',
-            icon: 'stats'
+            icon: 'example'
           }
         },
         {
@@ -132,6 +132,41 @@ export default new Router({
           meta: {
             title: '进程详情',
             hidden: true
+          }
+        }
+      ]
+    },
+    {
+      path: '/process',
+      component: Layout,
+      redirect: '/process/master',
+      meta: {
+        title: '进程列表',
+        icon: 'list'
+      },
+      children: [
+        {
+          path: '/master',
+          component: () => import('@/views/process/Master.vue'),
+          meta: {
+            title: 'Master 进程',
+            icon: 'list'
+          }
+        },
+        {
+          path: '/manger',
+          component: () => import('@/views/process/Manger.vue'),
+          meta: {
+            title: 'Manger 进程',
+            icon: 'list'
+          }
+        },
+        {
+          path: '/worker',
+          component: () => import('@/views/process/Worker.vue'),
+          meta: {
+            title: 'Worker 进程',
+            icon: 'list'
           }
         }
       ]

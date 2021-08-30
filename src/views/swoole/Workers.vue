@@ -1,6 +1,5 @@
-
 <template>
-  <div class="customzie">
+  <div class="app-container">
     <el-table
       v-loading="listLoading"
       :data="workers"
@@ -85,11 +84,3 @@ export default class extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-.customzie {
-  // @import '@/assets/style/table.scss';
-
-  width: 100%;
-  height: vh(950);
-}
-</style>

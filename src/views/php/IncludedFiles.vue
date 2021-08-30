@@ -1,6 +1,6 @@
 
 <template>
-  <div class="customzie">
+  <div class="app-container">
     <el-table
       v-loading="listLoading"
       :data="files"
@@ -16,7 +16,11 @@
       </el-table-column>
       <el-table-column label="文件名">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.filename }}</span>
+          <span style="margin-left: 10px">{{ scope.row.filename }}
+            <span class="svg-container">
+              <a :href="'phpstorm://open?file=' + scope.row.filename "><svg-icon name="edit" title="编辑"/></a>
+            </span>
+          </span>
         </template>
       </el-table-column>
     </el-table>
@@ -81,11 +85,3 @@ export default class extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-.customzie {
-  // @import '@/assets/style/table.scss';
-
-  width: 100%;
-  height: vh(950);
-}
-</style>

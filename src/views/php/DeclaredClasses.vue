@@ -17,7 +17,6 @@
         </template>
       </el-table-column>
 
-
       <el-table-column
           align="center"
           label="Name"
@@ -26,7 +25,6 @@
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-
 
 <!--      <el-table-column-->
 <!--          min-width="250px"-->
@@ -109,9 +107,11 @@ export default class extends Vue {
     page: 1,
     limit: 10
   }
+
   created() {
     this.getList()
   }
+
   private async getList() {
     this.listLoading = true
     const { data } = await getDeclaredClasses()
@@ -138,6 +138,7 @@ export default class extends Vue {
       this.listLoading = false
     }, 0.5 * 1000)
   }
+
   private cancelEdit(row: any) {
     row.title = row.originalTitle
     row.edit = false
@@ -146,6 +147,7 @@ export default class extends Vue {
       type: 'warning'
     })
   }
+
   private confirmEdit(row: any) {
     row.edit = false
     row.originalTitle = row.title

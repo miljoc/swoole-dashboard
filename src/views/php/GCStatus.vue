@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="app-container">
         <el-row>
             <el-descriptions class="margin-top" border>
                 <el-descriptions-item label="runs">{{ runs }}</el-descriptions-item>

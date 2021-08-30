@@ -1,72 +1,63 @@
 <template>
-    <div>
-        <el-row>
-            <el-tag v-for="extension in extensions" :key="extension">
-                {{ extension }}
-            </el-tag>
-        </el-row>
-    </div>
+  <div class="tab-container">
+    <el-tabs
+      v-model="activeName"
+      style="margin-top:15px"
+      type="border-card"
+    >
+      <el-tab-pane
+        v-for="item in tabMapOptions"
+        :key="item.key"
+        :label="item.label"
+        :name="item.key"
+      >
+        <keep-alive>
+          <tab-pane
+            v-if="activeName === item.key"
+            :type="item.key"
+          />
+        </keep-alive>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
 </template>
 
 <script>
-import { getLoadedExtensions } from '@/api/phpinfos'
+import TabPane from './components/TabPane'
 
 export default {
+  name: 'Tab',
+  components: { TabPane },
   data() {
     return {
-      runs: -1,
-      collected: -1,
-      threshold: -1,
-      roots: -1,
-      extensions: []
+      tabMapOptions: [
+        { label: '已安装扩展', key: 'extensions' }
+      ],
+      activeName: 'extensions'
+    }
+  },
+  watch: {
+    activeName(val) {
+      this.$router.push(`${this.$route.path}?tab=${val}`)
     }
   },
   created() {
-    this.getLoadedExtensions()
-  },
-  methods: {
-    async getLoadedExtensions() {
-      const { data } = await getLoadedExtensions()
-
-      this.extensions = data
+    // init the default selected tab
+    const tab = this.$route.query.tab
+    if (tab) {
+      this.activeName = tab
     }
   }
 }
 </script>
 
 <style>
+.tab-container {
+  margin: 30px;
+}
+
 .el-tag {
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
-.el-row {
-    margin-bottom: 20px;
-}
-
-.el-col {
-    border-radius: 4px;
-}
-
-.bg-purple-dark {
-    background: #99a9bf;
-}
-
-.bg-purple {
-    background: #d3dce6;
-}
-
-.bg-purple-light {
-    background: #e5e9f2;
-}
-
-.grid-content {
-    min-height: 36px;
-    border-radius: 4px;
-}
-
-.row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
+  margin-bottom: 10px;
+  margin-left: 10px;
 }
 </style>

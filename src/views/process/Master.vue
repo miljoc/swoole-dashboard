@@ -63,7 +63,7 @@ export default class extends Vue {
   private async getServer() {
     const { data } = await getServer()
 
-    this.isBase = data.model === 1
+    this.isBase = data.mode === 1
     this.swooleServer = data
     const masterWorker: IMasterData[] = []
 

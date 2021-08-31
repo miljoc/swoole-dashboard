@@ -2,40 +2,40 @@
   <div>
     <el-descriptions border>
       <el-descriptions-item label="关闭连接数量">{{
-        closeCount
+        serverStats.close_count
       }}</el-descriptions-item>
       <el-descriptions-item label="接收连接数量">{{
-        acceptCount
+        serverStats.accept_count
       }}</el-descriptions-item>
       <el-descriptions-item label="协程数">{{
-        coroutineNum
+        serverStats.coroutine_num
       }}</el-descriptions-item>
       <el-descriptions-item label="dispatch数量">{{
-        dispatchCount
+        serverStats.dispatch_count
       }}</el-descriptions-item>
       <el-descriptions-item label="空闲进程数量">{{
-        idleWorkerNum
+        serverStats.idle_worker_num
       }}</el-descriptions-item>
       <el-descriptions-item label="请求数量">{{
-        requestCount
+        serverStats.request_count
       }}</el-descriptions-item>
       <el-descriptions-item label="服务器启动时间">{{
-        startTime
+        serverStats.start_time
       }}</el-descriptions-item>
       <el-descriptions-item label="taskWorker进程数量">{{
-        taskWorkerNum
+        serverStats.task_worker_num
       }}</el-descriptions-item>
       <el-descriptions-item label="taskingNum数量">{{
-        taskingNum
+        serverStats.tasking_num
       }}</el-descriptions-item>
       <el-descriptions-item label="worker进程dispatch数量">{{
-        workerDispatchCount
+        serverStats.worker_dispatch_count
       }}</el-descriptions-item>
       <el-descriptions-item label="worker进程数量">{{
-        workerNum
+        serverStats.worker_num
       }}</el-descriptions-item>
       <el-descriptions-item label="worker进程请求数量">{{
-        workerRequestCount
+        serverStats.worker_request_count
       }}</el-descriptions-item>
     </el-descriptions>
   </div>
@@ -47,19 +47,21 @@ import { getServerStats } from '@/api/server'
 export default {
   data() {
     return {
-      closeCount: -1,
-      acceptCount: -1,
-      connectionNum: -1,
-      coroutineNum: -1,
-      dispatchCount: -1,
-      idleWorkerNum: -1,
-      requestCount: -1,
-      startTime: -1,
-      taskWorkerNum: -1,
-      taskingNum: -1,
-      workerDispatchCount: -1,
-      workerNum: -1,
-      workerRequestCount: -1
+      serverStats: {
+        close_count: -1,
+        accept_count: -1,
+        connection_num: -1,
+        coroutine_num: -1,
+        dispatch_count: -1,
+        idle_worker_num: -1,
+        request_count: -1,
+        start_time: -1,
+        task_worker_num: -1,
+        tasking_num: -1,
+        worker_dispatch_count: -1,
+        worker_num: -1,
+        worker_request_count: -1
+      }
     }
   },
   created() {
@@ -69,35 +71,7 @@ export default {
     async getServerStats() {
       const { data } = await getServerStats()
 
-      const {
-        close_count: closeCount,
-        accept_count: acceptCount,
-        connection_num: connectionNum,
-        coroutine_num: coroutineNum,
-        dispatch_count: dispatchCount,
-        idle_worker_num: idleWorkerNum,
-        request_count: requestCount,
-        start_time: startTime,
-        task_worker_num: taskWorkerNum,
-        tasking_num: taskingNum,
-        worker_dispatch_count: workerDispatchCount,
-        worker_num: workerNum,
-        worker_request_count: workerRequestCount
-      } = data
-
-      this.closeCount = closeCount
-      this.acceptCount = acceptCount
-      this.connectionNum = connectionNum
-      this.coroutineNum = coroutineNum
-      this.dispatchCount = dispatchCount
-      this.idleWorkerNum = idleWorkerNum
-      this.requestCount = requestCount
-      this.startTime = startTime
-      this.taskWorkerNum = taskWorkerNum
-      this.taskingNum = taskingNum
-      this.workerDispatchCount = workerDispatchCount
-      this.workerNum = workerNum
-      this.workerRequestCount = workerRequestCount
+      this.serverStats = data
     }
   }
 }

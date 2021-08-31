@@ -6,6 +6,7 @@
       :data="workers"
       highlight-current-row
       fit
+      border
       style="width: 100%"
     >
       <el-table-column label="进程序号" align="center" width="180">

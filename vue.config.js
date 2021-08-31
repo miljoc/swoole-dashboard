@@ -1,5 +1,5 @@
 const path = require('path')
-const name = 'Vue Typescript Admin'
+const name = 'Swoole Dashboard'
 
 module.exports = {
   // TODO: Remember to change publicPath to fit your need

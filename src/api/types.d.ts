@@ -16,6 +16,17 @@ export interface IArticleData {
   pageviews: number
 }
 
+export interface IDeclaredClass {
+  id: number
+  name: string
+}
+
+export interface IDefinedFunction {
+  id: number
+  name: string,
+  type: string
+}
+
 export interface IWorkerData {
   id: number
 }

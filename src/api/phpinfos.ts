@@ -17,3 +17,15 @@ export const getIncludedFiles = () =>
     url: '/api/get_included_files/worker-0',
     method: 'get'
   })
+
+export const getDeclaredClasses = () =>
+  request({
+    url: '/api/get_declared_classes/worker-0',
+    method: 'get'
+  })
+
+export const getDefinedFunctions = () =>
+  request({
+    url: '/api/get_defined_functions/worker-0',
+    method: 'get'
+  })

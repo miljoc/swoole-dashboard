@@ -9,6 +9,9 @@
       border
       style="width: 100%"
     >
+      <template slot="empty">
+        <span class="el-table__empty-text">{{ msg }}</span>
+      </template>
       <el-table-column label="进程名称" align="center" width="180">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
@@ -29,6 +32,32 @@
           <span>{{ scope.row.realUsage }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="CPU" align="center">
+        <template slot-scope="scope">
+          <span></span>
+        </template>
+      </el-table-column>
+      <el-table-column label="定时器" align="center">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="handleTimer(scope.row)"
+          >查看详情</el-button
+          >
+        </template>
+      </el-table-column>
+      <el-table-column label="事件" align="center">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="handleEvent(scope.row)"
+          >查看详情</el-button
+          >
+        </template>
+      </el-table-column>
+      <el-table-column label="协程" align="center">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="handleCo(scope.row)"
+          >查看详情</el-button
+          >
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -43,21 +72,35 @@ import { IMasterData } from '@/api/types'
 })
 
 export default class extends Vue {
-  private listLoading = true;
+  private listLoading = true
   private isBase = false
   private swooleServer = []
+  private msg = '暂无数据'
 
-  private masterWorker: IMasterData[] = [];
+  private masterWorker: IMasterData[] = []
 
   private master = {
     name: 'master-线程',
     pid: 0,
     usage: 0,
-    realUsage: 0
+    realUsage: 0,
+    id: 'master'
   }
 
   created() {
     this.getServer()
+  }
+
+  private handleTimer(row: any) {
+    this.$router.push({ path: `/worker/${row.id}` })
+  }
+
+  private handleEvent(row: any) {
+    this.$router.push({ path: `/worker/${row.id}` })
+  }
+
+  private handleCo(row: any) {
+    this.$router.push({ path: `/worker/${row.id}` })
   }
 
   private async getServer() {
@@ -74,6 +117,8 @@ export default class extends Vue {
       this.master.usage = getMasterMemoryUsage.data.usage
       this.master.realUsage = getMasterMemoryUsage.data.real_usage
       masterWorker[0] = this.master
+    } else {
+      this.msg = 'BASE 模式没有 Master 进程'
     }
     this.masterWorker = masterWorker
     this.listLoading = false

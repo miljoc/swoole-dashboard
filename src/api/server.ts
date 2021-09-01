@@ -29,3 +29,9 @@ export const getMemoryUsage = (param: any) =>
     url: `/api/memory_usage/${param}`,
     method: 'get'
   })
+
+export const getCoroutineStats = (param: any) =>
+  request({
+    url: `/api/coroutine_stats/${param}`,
+    method: 'get'
+  })

@@ -36,6 +36,7 @@ export interface IMasterData {
   pid: number
   usage: number
   realUsage: number
+  id: string | number
 }
 
 export interface IIncludedFilesData {

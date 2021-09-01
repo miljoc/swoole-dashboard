@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-container">
     <el-descriptions border>
       <el-descriptions-item label="进程序号">{{ id }}</el-descriptions-item>
       <el-descriptions-item label="进程id">{{
@@ -16,7 +16,7 @@
       }}</el-descriptions-item>
       <el-descriptions-item label="协程信息"
         ><el-button type="text" @click="showCoroutineStats = true"
-          >查看</el-button
+      >查看</el-button
         ></el-descriptions-item
       >
     </el-descriptions>

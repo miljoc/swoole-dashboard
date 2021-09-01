@@ -36,6 +36,13 @@ export default new Router({
       meta: { hidden: true }
     },
     {
+      path: '/workers',
+      component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Workers.vue'),
+      meta: {
+        hidden: true
+      }
+    },
+    {
       path: '/',
       component: Layout,
       redirect: '/dashboard',
@@ -55,7 +62,7 @@ export default new Router({
       component: Layout,
       redirect: '/php/extensions',
       meta: {
-        title: 'PHP信息',
+        title: 'ZendVM',
         icon: 'example'
       },
       children: [
@@ -107,23 +114,22 @@ export default new Router({
       redirect: '/swoole/serverstats',
       meta: {
         title: 'Swoole',
-        icon: 'example'
+        icon: 'international'
       },
       children: [
         {
           path: '/serverstats',
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/swoole/ServerStats.vue'),
           meta: {
-            title: '服务器状态',
-            icon: 'stats'
+            title: 'Server Stats',
+            icon: 'list'
           }
-        },
-        {
-          path: '/workers',
-          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Workers.vue'),
+        }, {
+          path: '/processes',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Processes.vue'),
           meta: {
-            title: '所有worker进程',
-            icon: 'stats'
+            title: 'Process',
+            icon: 'list'
           }
         },
         {

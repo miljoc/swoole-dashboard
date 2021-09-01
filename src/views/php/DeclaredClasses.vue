@@ -11,51 +11,30 @@
       <el-table-column
           align="center"
           label="ID"
+          width="200"
       >
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
 
-
       <el-table-column
           align="center"
           label="Name"
       >
         <template slot-scope="{row}">
-          <span>{{ row.name }}</span>
+          <el-link type="primary">
+          <router-link class="link-type"
+                       :to="{path: `/class_info/?class=${row.name}`}">{{ row.name }}
+          </router-link>
+          </el-link>
         </template>
       </el-table-column>
-
-
-<!--      <el-table-column-->
-<!--          min-width="250px"-->
-<!--          label="Title"-->
-<!--      >-->
-<!--        <template slot-scope="{row}">-->
-<!--          <template v-if="row.edit">-->
-<!--            <el-input-->
-<!--                v-model="row.title"-->
-<!--                class="edit-input"-->
-<!--                size="small"-->
-<!--            />-->
-<!--            <el-button-->
-<!--                class="cancel-btn"-->
-<!--                size="small"-->
-<!--                icon="el-icon-refresh"-->
-<!--                type="warning"-->
-<!--                @click="cancelEdit(row)"-->
-<!--            >-->
-<!--              cancel-->
-<!--            </el-button>-->
-<!--          </template>-->
-<!--          <span v-else>{{ row.title }}</span>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
 
       <el-table-column
           align="center"
           label="Actions"
+          width="200"
       >
         <template slot-scope="{row}">
           <el-button
@@ -95,12 +74,14 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getDeclaredClasses } from '@/api/phpinfos'
 import { IDeclaredClass } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
+
 @Component({
   name: 'InlineEditTable',
   components: {
     Pagination
   }
 })
+
 export default class extends Vue {
   private list: IDeclaredClass[] = []
   private listLoading = true
@@ -109,17 +90,14 @@ export default class extends Vue {
     page: 1,
     limit: 10
   }
+
   created() {
     this.getList()
   }
+
   private async getList() {
     this.listLoading = true
     const { data } = await getDeclaredClasses()
-    // this.list = data.map((v: any) => {
-    //   // this.$set(v, 'edit', false) // https://vuejs.org/v2/guide/reactivity.html
-    //   v.originalTitle = v // will be used when user click the cancel botton
-    //   return v
-    // })
     let index = 0
     this.list = []
     for (const name of data) {
@@ -138,6 +116,7 @@ export default class extends Vue {
       this.listLoading = false
     }, 0.5 * 1000)
   }
+
   private cancelEdit(row: any) {
     row.title = row.originalTitle
     row.edit = false
@@ -146,6 +125,7 @@ export default class extends Vue {
       type: 'warning'
     })
   }
+
   private confirmEdit(row: any) {
     row.edit = false
     row.originalTitle = row.title
@@ -161,6 +141,7 @@ export default class extends Vue {
 .edit-input {
   padding-right: 100px;
 }
+
 .cancel-btn {
   position: absolute;
   right: 15px;

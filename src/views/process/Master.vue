@@ -33,7 +33,7 @@
         </template>
       </el-table-column>
       <el-table-column label="CPU" align="center">
-        <template slot-scope="scope">
+        <template>
           <span></span>
         </template>
       </el-table-column>

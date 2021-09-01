@@ -35,3 +35,9 @@ export const getCoroutineStats = (param: any) =>
     url: `/api/coroutine_stats/${param}`,
     method: 'get'
   })
+
+export const getServerStatsInfo = (param: any) =>
+  request({
+    url: `/api/server_stats/${param}`,
+    method: 'get'
+  })

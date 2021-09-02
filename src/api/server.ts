@@ -17,3 +17,9 @@ export const getWorkerInfo = (workerId: number) =>
     url: '/api/get_worker_info/worker-' + workerId,
     method: 'get'
   })
+
+export const getTaskWorkerInfo = (workerId: number) =>
+  request({
+    url: '/api/get_worker_info/task_worker-' + workerId,
+    method: 'get'
+  })

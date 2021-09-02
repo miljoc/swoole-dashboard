@@ -50,7 +50,7 @@ export default class extends Vue {
     },
     {
       label: 'TaskWorker',
-      key: 'taskworker'
+      key: 'task_worker'
     }
   ]
 

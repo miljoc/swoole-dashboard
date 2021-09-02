@@ -27,14 +27,6 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Status" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status.toString() | workerStatusClassFilter">
-            {{ scope.row.status.toString()  | workerStatusTextFilter }}
-          </el-tag>
-        </template>
-      </el-table-column>
-
       <el-table-column label="Coroutines" align="center">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.coroutine_stats.coroutine_num }}</span>
@@ -88,14 +80,6 @@ import Pagination from '@/components/Pagination/index.vue'
   name: 'Workers',
   components: {
     Pagination
-  },
-  filters: {
-    workerStatusTextFilter: (status: string) => {
-      return status === '1' ? 'BUSY' : 'IDLE'
-    },
-    workerStatusClassFilter: (status: string) => {
-      return status === '1' ? 'danger' : 'success'
-    }
   }
 })
 

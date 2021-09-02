@@ -43,7 +43,7 @@
 
       <el-table-column label="Timers" align="center" width="180">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.coroutine_stats.timer_num }}</span>
+          <span style="margin-left: 10px">{{ scope.row.timer_stats.num }}</span>
         </template>
       </el-table-column>
 
@@ -137,11 +137,3 @@ export default class extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-.customzie {
-  // @import '@/assets/style/table.scss';
-
-  width: 100%;
-  height: vh(950);
-}
-</style>

@@ -31,22 +31,6 @@ export interface IWorkerData {
   id: number
 }
 
-export interface IWorkersData {
-  id: number
-  pid: number
-  usage: number
-  realUsage: number
-  co: number
-}
-
-export interface IMasterData {
-  name: string
-  pid: number
-  usage: number
-  realUsage: number
-  id: string | number
-}
-
 export interface IIncludedFilesData {
   id: number
   filename: string

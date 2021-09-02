@@ -1,6 +1,6 @@
 
 <template>
-  <div class="customzie">
+  <div>
     <el-table
         v-loading="listLoading"
         :data="workers"

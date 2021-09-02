@@ -9,12 +9,12 @@
       border
       style="width: 100%"
     >
-      <el-table-column label="文件序号" align="center" width="180">
+      <el-table-column label="ID" align="center" width="180">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="文件名">
+      <el-table-column label="Filename">
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.filename }}
             <span class="svg-container">

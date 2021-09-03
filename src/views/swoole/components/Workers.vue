@@ -29,7 +29,11 @@
 
       <el-table-column label="Coroutines" align="center">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.coroutine_stats.coroutine_num }}</span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/coroutine/${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.coroutine_num }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 
@@ -41,7 +45,11 @@
 
       <el-table-column label="Timers" align="center">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.timer_stats.num }}</span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/timer/${type}-${scope.$index}`}">{{ scope.row.timer_stats.num }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 

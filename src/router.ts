@@ -136,7 +136,23 @@ export default new Router({
           path: '/worker/:id',
           component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/WorkerDetail.vue'),
           meta: {
-            title: '进程详情',
+            title: 'Worker Detail',
+            hidden: true
+          }
+        },
+        {
+          path: '/coroutine/:id',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/CoroutineList.vue'),
+          meta: {
+            title: 'Coroutine List',
+            hidden: true
+          }
+        },
+        {
+          path: '/timer/:id',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/TimerList.vue'),
+          meta: {
+            title: 'Timer List',
             hidden: true
           }
         }

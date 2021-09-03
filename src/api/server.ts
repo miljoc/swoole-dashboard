@@ -23,3 +23,15 @@ export const getTaskWorkerInfo = (workerId: number) =>
     url: '/api/get_worker_info/task_worker-' + workerId,
     method: 'get'
   })
+
+export const getCoroutineInfo = (worker: any) =>
+  request({
+    url: `/api/get_co_info/${worker}`,
+    method: 'get'
+  })
+
+export const getTimerInfo = (worker: any) =>
+  request({
+    url: `/api/get_timer_info/${worker}`,
+    method: 'get'
+  })

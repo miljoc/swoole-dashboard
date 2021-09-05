@@ -35,3 +35,14 @@ export interface IIncludedFilesData {
   id: number
   filename: string
 }
+
+export interface IWorkerCoroutineData {
+  id: number
+  elapsed: number
+  backTrace: string[]
+}
+
+export interface IWorkerTimerData {
+  id: number
+  info: string[]
+}

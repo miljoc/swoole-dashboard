@@ -85,7 +85,7 @@ export default class extends Vue {
     const { id } = this.$route.params
     const { data } = await getTimerInfo(id)
 
-    const total = data.total
+    const total = data.length
 
     const start = (this.listQuery.page - 1) * this.listQuery.limit
     let end = this.listQuery.page * this.listQuery.limit
@@ -95,7 +95,7 @@ export default class extends Vue {
     const list: IWorkerTimerData[] = []
 
     for (let index = start; index < end; index++) {
-      list[index] = data.data[index]
+      list[index] = data[index]
     }
 
     this.list = list

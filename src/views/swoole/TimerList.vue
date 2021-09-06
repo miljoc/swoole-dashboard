@@ -58,7 +58,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getTimerInfo } from '@/api/server'
-import {IWorkerTimerData} from '@/api/types'
+import { IWorkerTimerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 
 @Component({

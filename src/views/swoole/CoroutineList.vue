@@ -28,9 +28,7 @@
 
       <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.row)"
-          >查看调用栈</el-button
-          >
+          <el-button size="mini" @click="handleBackTrace(scope.row)">BackTrace</el-button>
         </template>
       </el-table-column>
 
@@ -43,13 +41,21 @@
       :limit.sync="listQuery.limit"
       @pagination="getData"
     />
+
+    <el-dialog title="BackTrace" :visible.sync="dialogTableVisible">
+      <el-table :data="backTrace">
+        <el-table-column property="id" label="ID" width="50"></el-table-column>
+        <el-table-column property="name" label="Function"></el-table-column>
+        <el-table-column property="file" label="File"></el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getCoroutineInfo } from '@/api/server'
-import {IWorkerCoroutineData} from '@/api/types'
+import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 
 @Component({
@@ -62,13 +68,34 @@ export default class extends Vue {
   private list: IWorkerCoroutineData[] = []
   private listLoading = true
   private total = 0
+  private dialogTableVisible = false
   private listQuery = {
     page: 1,
     limit: 10
   }
 
+  private backTrace = [{}]
+
   created() {
     this.getData()
+  }
+
+  private handleBackTrace(row: any) {
+    this.backTrace = [{}]
+
+    let trace
+    for (let index = 0; index < row.backTrace.length; index++) {
+      trace = row.backTrace[index]
+      this.backTrace[index] = {
+        id: `#${index}`,
+        file: `${trace.file || ''}${trace.line || '' ? ':' + trace.line : ''}`,
+        name: `${trace.class}${trace.type}${trace.function}`
+      }
+    }
+
+    this.dialogTableVisible = true
+
+    console.log(this.backTrace)
   }
 
   private async getData() {

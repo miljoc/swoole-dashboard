@@ -70,7 +70,7 @@ export default new Router({
           path: '/extensions',
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/Extensions.vue'),
           meta: {
-            title: '所有扩展',
+            title: 'Extensions',
             icon: 'component'
           }
         },
@@ -78,7 +78,7 @@ export default new Router({
           path: '/gcstatus',
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/GCStatus.vue'),
           meta: {
-            title: '垃圾回收信息',
+            title: 'GC Status',
             icon: 'component'
           }
         },
@@ -86,7 +86,7 @@ export default new Router({
           path: '/includedfiles',
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/IncludedFiles.vue'),
           meta: {
-            title: '载入的文件',
+            title: 'Included Files',
             icon: 'component'
           }
         },
@@ -94,7 +94,7 @@ export default new Router({
           path: '/declared_classes',
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/DeclaredClasses.vue'),
           meta: {
-            title: '类',
+            title: 'Classes',
             icon: 'list'
           }
         },
@@ -102,7 +102,7 @@ export default new Router({
           path: '/defined_functions',
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/DefinedFunctions.vue'),
           meta: {
-            title: '函数',
+            title: 'Functions',
             icon: 'list'
           }
         }

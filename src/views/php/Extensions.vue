@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       tabMapOptions: [
-        { label: '已安装扩展', key: 'extensions' }
+        { label: 'Extensions', key: 'extensions' }
       ],
       activeName: 'extensions'
     }

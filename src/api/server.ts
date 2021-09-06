@@ -26,7 +26,7 @@ export const getTaskWorkerInfo = (workerId: number) =>
 
 export const getCoroutineInfo = (worker: any) =>
   request({
-    url: `/api/get_co_info/${worker}`,
+    url: `/api/get_coroutine_info/${worker}`,
     method: 'get'
   })
 

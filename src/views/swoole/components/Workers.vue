@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <div class="app-container">
     <el-table
         v-loading="listLoading"
         :data="workers"
@@ -11,19 +11,19 @@
     >
       <el-table-column label="ID" align="center">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.$index }}</span>
+          <span>{{ scope.$index }}</span>
         </template>
       </el-table-column>
 
       <el-table-column label="Worker ID" align="center">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.id }}</span>
+          <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
 
       <el-table-column label="PID" align="center">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.pid }}</span>
+          <span>{{ scope.row.pid }}</span>
         </template>
       </el-table-column>
 
@@ -39,7 +39,7 @@
 
       <el-table-column label="Events" align="center">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.coroutine_stats.event_num }}</span>
+          <span>{{ scope.row.coroutine_stats.event_num }}</span>
         </template>
       </el-table-column>
 
@@ -55,7 +55,7 @@
 
       <el-table-column label="Memory Usage" align="center">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.memory_usage }}</span>
+          <span>{{ scope.row.memory_usage }}</span>
         </template>
       </el-table-column>
 

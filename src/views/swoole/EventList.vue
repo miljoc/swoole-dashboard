@@ -10,25 +10,73 @@
     >
       <el-table-column
           align="center"
-          label="ID"
+          label="FD"
       >
         <template slot-scope="{row}">
-          <span>{{ row.id }}</span>
+          <span>{{ row.fd }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
           align="center"
-          label="Elapsed"
+          label="Events"
       >
         <template slot-scope="{row}">
-          <span>{{ row.elapsed }}</span>
+          <span>{{ row.events | eventsFitler }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Actions" align="center">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="handleBackTrace(scope.row)">BackTrace</el-button>
+      <el-table-column
+          align="center"
+          label="Socket Type"
+      >
+        <template slot-scope="{row}">
+          <span>{{ row.socket_type }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          align="center"
+          label="FD Type"
+      >
+        <template slot-scope="{row}">
+          <span>{{ row.fd_type | fdTypeFilter }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          align="center"
+          label="Name"
+      >
+        <template slot-scope="{row}">
+          <span>{{ row.address }}:{{ row.port }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          align="center"
+          label="Send Buffer Size"
+      >
+        <template slot-scope="{row}">
+          <span>{{ row.out_buffer_size }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          align="center"
+          label="Number of bytes sent"
+      >
+        <template slot-scope="{row}">
+          <span>{{ row.total_send_bytes }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          align="center"
+          label="Number of bytes received"
+      >
+        <template slot-scope="{row}">
+          <span>{{ row.total_recv_bytes }}</span>
         </template>
       </el-table-column>
 
@@ -54,16 +102,39 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getCoroutineList } from '@/api/server'
+import { getAllSockets } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 
 @Component({
-  name: 'InlineEditTable',
+  name: 'EventList',
   components: {
     Pagination
+  },
+  filters: {
+    eventsFitler: (events: number) => {
+      const array = []
+      if (events & 512) {
+        array.push('Readable')
+      }
+      if (events & 1024) {
+        array.push('Writable')
+      }
+      return array.join(' | ')
+    },
+    fdTypeFilter: (type: number) => {
+      switch (type) {
+        case 9:
+          return 'signal'
+        case 3:
+          return 'pipe'
+        default:
+          return 'php_stream'
+      }
+    }
   }
 })
+
 export default class extends Vue {
   private list: IWorkerCoroutineData[] = []
   private listLoading = true
@@ -86,16 +157,10 @@ export default class extends Vue {
     let trace
     for (let index = 0; index < row.backTrace.length; index++) {
       trace = row.backTrace[index]
-      if (!trace.class) {
-        trace.class = ''
-      }
-      if (!trace.type) {
-        trace.type = ''
-      }
       this.backTrace[index] = {
         id: `#${index}`,
         file: `${trace.file || ''}${trace.line || '' ? ':' + trace.line : ''}`,
-        name: `${trace.class}${trace.type}${trace.function}()`
+        name: `${trace.class}${trace.type}${trace.function}`
       }
     }
 
@@ -107,7 +172,7 @@ export default class extends Vue {
   private async getData() {
     this.listLoading = true
     const { id } = this.$route.params
-    const { data } = await getCoroutineList(id)
+    const { data } = await getAllSockets(id)
 
     const total = data.length
 

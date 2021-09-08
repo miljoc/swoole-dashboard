@@ -31,7 +31,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/coroutine/${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.coroutine_num }}
+                         :to="{path: `/coroutines/${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.coroutine_num }}
             </router-link>
           </el-link>
         </template>
@@ -39,7 +39,11 @@
 
       <el-table-column label="Events" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.coroutine_stats.event_num }}</span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/events/${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.event_num }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 
@@ -47,7 +51,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/timer/${type}-${scope.$index}`}">{{ scope.row.timer_stats.num }}
+                         :to="{path: `/timers/${type}-${scope.$index}`}">{{ scope.row.timer_stats.num }}
             </router-link>
           </el-link>
         </template>

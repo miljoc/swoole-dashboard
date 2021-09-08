@@ -128,7 +128,7 @@ export default new Router({
           path: '/processes',
           component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Processes.vue'),
           meta: {
-            title: 'Process',
+            title: 'Processes',
             icon: 'list'
           }
         },
@@ -141,7 +141,7 @@ export default new Router({
           }
         },
         {
-          path: '/coroutine/:id',
+          path: '/coroutines/:id',
           component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/CoroutineList.vue'),
           meta: {
             title: 'Coroutine List',
@@ -149,7 +149,15 @@ export default new Router({
           }
         },
         {
-          path: '/timer/:id',
+          path: '/events/:id',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/EventList.vue'),
+          meta: {
+            title: 'Event List',
+            hidden: true
+          }
+        },
+        {
+          path: '/timers/:id',
           component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/TimerList.vue'),
           meta: {
             title: 'Timer List',

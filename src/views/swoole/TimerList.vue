@@ -57,7 +57,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getTimerInfo } from '@/api/server'
+import { getTimerList } from '@/api/server'
 import { IWorkerTimerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 
@@ -83,7 +83,7 @@ export default class extends Vue {
   private async getData() {
     this.listLoading = true
     const { id } = this.$route.params
-    const { data } = await getTimerInfo(id)
+    const { data } = await getTimerList(id)
 
     const total = data.length
 

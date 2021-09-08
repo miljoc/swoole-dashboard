@@ -24,14 +24,20 @@ export const getTaskWorkerInfo = (workerId: number) =>
     method: 'get'
   })
 
-export const getCoroutineInfo = (worker: any) =>
+export const getCoroutineList = (worker: any) =>
   request({
-    url: `/api/get_coroutine_info/${worker}`,
+    url: `/api/get_coroutine_list/${worker}`,
     method: 'get'
   })
 
-export const getTimerInfo = (worker: any) =>
+export const getTimerList = (worker: any) =>
   request({
-    url: `/api/get_timer_info/${worker}`,
+    url: `/api/get_timer_list/${worker}`,
+    method: 'get'
+  })
+
+export const getAllSockets = (worker: any) =>
+  request({
+    url: `/api/get_all_sockets/${worker}`,
     method: 'get'
   })

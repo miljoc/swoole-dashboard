@@ -18,6 +18,12 @@ export const getWorkerInfo = (workerId: number) =>
     method: 'get'
   })
 
+export const getThreadInfo = (threadId: number) =>
+  request({
+    url: '/api/get_thread_info/reactor-' + threadId,
+    method: 'get'
+  })
+
 export const getTaskWorkerInfo = (workerId: number) =>
   request({
     url: '/api/get_worker_info/task_worker-' + workerId,

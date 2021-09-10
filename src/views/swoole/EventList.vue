@@ -49,7 +49,7 @@
           label="Name"
       >
         <template slot-scope="{row}">
-          <span>{{ row.address }}:{{ row.port }}</span>
+          <el-tag type="success">{{ row.address }}:{{ row.port }}</el-tag>
         </template>
       </el-table-column>
 
@@ -67,7 +67,7 @@
           label="Number of bytes sent"
       >
         <template slot-scope="{row}">
-          <span>{{ row.total_send_bytes }}</span>
+          <span>{{ row.total_send_bytes | byteFormat }}</span>
         </template>
       </el-table-column>
 
@@ -76,7 +76,7 @@
           label="Number of bytes received"
       >
         <template slot-scope="{row}">
-          <span>{{ row.total_recv_bytes }}</span>
+          <span>{{ row.total_recv_bytes | byteFormat }}</span>
         </template>
       </el-table-column>
 
@@ -105,6 +105,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getAllSockets } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
+import { byteFormat } from '@/utils/index'
 
 @Component({
   name: 'EventList',
@@ -112,6 +113,7 @@ import Pagination from '@/components/Pagination/index.vue'
     Pagination
   },
   filters: {
+    byteFormat: byteFormat,
     eventsFitler: (events: number) => {
       const array = []
       if (events & 512) {
@@ -128,6 +130,8 @@ import Pagination from '@/components/Pagination/index.vue'
           return 'signal'
         case 3:
           return 'pipe'
+        case 0:
+          return 'session'
         default:
           return 'php_stream'
       }

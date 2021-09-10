@@ -36,6 +36,15 @@
       </el-table-column>
 
       <el-table-column
+          align="center"
+          label="Exec Count"
+      >
+        <template slot-scope="{row}">
+          <span>{{ row.info.exec_count }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
         align="center"
         label="Round"
       >

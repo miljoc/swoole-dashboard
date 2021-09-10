@@ -46,6 +46,20 @@ export const parseTime = (
   return timeStr
 }
 
+export const byteFormat = (bytes: number) => {
+  const array = []
+  if (bytes > 1024 * 1024 * 1024) {
+    return String((bytes / (1024 * 1024 * 1024)).toFixed(2)) + ' GB'
+  }
+  if (bytes > 1024 * 1024) {
+    return String((bytes / (1024 * 1024)).toFixed(2)) + ' MB'
+  }
+  if (bytes > 1024) {
+    return String((bytes / (1024)).toFixed(2)) + ' KB'
+  }
+  return bytes
+}
+
 // Format and filter json data using filterKeys array
 export const formatJson = (filterKeys: any, jsonData: any) =>
   jsonData.map((data: any) => filterKeys.map((key: string) => {

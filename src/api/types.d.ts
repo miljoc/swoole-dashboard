@@ -31,6 +31,11 @@ export interface IWorkerData {
   id: number
 }
 
+export interface IThreadData {
+  id: number
+  tid: number
+}
+
 export interface IIncludedFilesData {
   id: number
   filename: string

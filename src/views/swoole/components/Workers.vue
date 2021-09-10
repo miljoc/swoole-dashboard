@@ -1,6 +1,72 @@
-
 <template>
   <div class="app-container">
+
+    <el-alert
+        :closable="false"
+        style="display:inline-block; vertical-align:middle; margin-bottom: 10px; margin-top: 10px "
+        :title="'Reactor Threads ' + '(' + threads.length + ')'"
+        type="success"
+        v-if="type === 'master'"
+    />
+
+    <el-table
+        :data="threads"
+        highlight-current-row
+        fit
+        border
+        v-if="type === 'master'"
+        style="width: 100%; margin-bottom: 20px"
+    >
+      <el-table-column label="ID" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.id }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="TID" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.tid }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Events" align="center">
+        <template slot-scope="scope">
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/events/reactor-${scope.row.id}`}">{{ scope.row.event_num }}
+            </router-link>
+          </el-link>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Timers" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.timer_num }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Receive Count" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.receive_count }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Dispatch Count" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.dispatch_count }}</span>
+        </template>
+      </el-table-column>
+
+    </el-table>
+
+    <el-alert
+        :closable="false"
+        style="display:inline-block; vertical-align:middle; margin-bottom: 10px "
+        title="Master Thread"
+        type="warning"
+        v-if="type === 'master'"
+    />
+
     <el-table
         v-loading="listLoading"
         :data="workers"
@@ -10,12 +76,6 @@
         style="width: 100%"
     >
       <el-table-column label="ID" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.$index }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="Worker ID" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
@@ -31,7 +91,9 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/coroutines/${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.coroutine_num }}
+                         :to="{path: `/coroutines/${type}-${scope.$index}`}">{{
+                scope.row.coroutine_stats.coroutine_num
+              }}
             </router-link>
           </el-link>
         </template>
@@ -59,20 +121,46 @@
 
       <el-table-column label="Memory Usage" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.memory_usage }}</span>
+          <span>{{ scope.row.memory_usage | bytesFormat }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="VmSize" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.process_status.VmSize | toBytes | bytesFormat }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="VmRSS" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.process_status.VmRSS | toBytes | bytesFormat }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="V-CS" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.process_status.voluntary_ctxt_switches }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="NV-CS" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.process_status.nonvoluntary_ctxt_switches }}</span>
         </template>
       </el-table-column>
 
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.row, scope.$index)"
-          >查看详情</el-button
+          >查看详情
+          </el-button
           >
         </template>
       </el-table-column>
     </el-table>
 
     <pagination
+        v-if="type !== 'master'"
         v-show="total>0"
         :total="total"
         :page.sync="listQuery.page"
@@ -84,22 +172,35 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { getServerStats, getWorkerInfo, getTaskWorkerInfo } from '@/api/server'
-import { IWorkerData } from '@/api/types'
+import { getServerStats, getWorkerInfo, getTaskWorkerInfo, getThreadInfo, getServerSetting } from '@/api/server'
+import { IThreadData, IWorkerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
+import request from '@/utils/request'
+import { byteFormat } from '@/utils'
 
 @Component({
   name: 'Workers',
   components: {
     Pagination
+  },
+  filters: {
+    bytesFormat: byteFormat,
+    toBytes: (bytes: string) => {
+      if (bytes.substring(bytes.length - 2, bytes.length) === 'kB') {
+        return bytes.substring(0, bytes.length - 3) * 1024
+      } else {
+        return bytes
+      }
+    }
   }
 })
 
 export default class extends Vue {
   @Prop({ default: 'master' }) private type!: string
-  private workers: IWorkerData[] = [];
+  private workers: IWorkerData[] = []
+  private threads: IThreadData[] = []
   private total = 0
-  private listLoading = true;
+  private listLoading = true
   private listQuery = {
     page: 1,
     limit: 20,
@@ -108,6 +209,9 @@ export default class extends Vue {
 
   created() {
     switch (this.type) {
+      case 'master':
+        this.getThreads()
+        break
       case 'task_worker':
         this.getTaskerWorkers()
         break
@@ -147,6 +251,47 @@ export default class extends Vue {
     }
 
     this.workers = workers
+    this.total = total
+    this.listLoading = false
+  }
+
+  private async getThreads() {
+    this.listLoading = true
+    const { data } = await getServerSetting()
+
+    const total = data.reactor_num
+    const master_pid = data.master_pid
+
+    const threads = []
+
+    for (let index = 0; index < total; index++) {
+      const { data } = await getThreadInfo(index)
+      threads[index] = data
+    }
+
+    // do {
+    //   const { data } = await request({
+    //     url: '/api/get_thread_info/master',
+    //     method: 'get'
+    //   })
+    //   threads[total] = data
+    // } while (0)
+
+    do {
+      const workers: IWorkerData[] = []
+      const { data } = await request({
+        url: '/api/get_worker_info/master',
+        method: 'get'
+      })
+      data.id = 0
+      data.pid = master_pid
+      workers[0] = data
+      console.dir(data)
+
+      this.workers = workers
+    } while (0)
+
+    this.threads = threads
     this.total = total
     this.listLoading = false
   }

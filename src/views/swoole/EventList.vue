@@ -101,7 +101,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getAllSockets } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
@@ -149,28 +149,19 @@ export default class extends Vue {
     limit: 10
   }
 
-  private backTrace = [{}]
-
   created() {
     this.getData()
   }
 
-  private handleBackTrace(row: any) {
-    this.backTrace = [{}]
+  private timer() {
+    return setTimeout(() => {
+      this.getData()
+    }, 3000)
+  }
 
-    let trace
-    for (let index = 0; index < row.backTrace.length; index++) {
-      trace = row.backTrace[index]
-      this.backTrace[index] = {
-        id: `#${index}`,
-        file: `${trace.file || ''}${trace.line || '' ? ':' + trace.line : ''}`,
-        name: `${trace.class}${trace.type}${trace.function}`
-      }
-    }
-
-    this.dialogTableVisible = true
-
-    console.log(this.backTrace)
+  @Watch('list')
+  onPropertyChanged(value: string, oldValue: string) {
+    this.timer()
   }
 
   private async getData() {

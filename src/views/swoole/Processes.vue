@@ -78,6 +78,10 @@ export default class extends Vue {
 
     this.serverSetting = data
 
+    if (this.serverSetting.task_worker_num === 0) {
+      this.tabMapOptions = this.tabMapOptions.filter(item => item.key !== 'task_worker')
+    }
+
     if (this.serverSetting.mode === 1) {
       this.tabMapOptions = this.tabMapOptions.filter(item => item.key !== 'master')
       if (this.activeName === 'master') {

@@ -45,12 +45,6 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Receive Count" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.receive_count }}</span>
-        </template>
-      </el-table-column>
-
       <el-table-column label="Dispatch Count" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.dispatch_count }}</span>
@@ -75,7 +69,7 @@
         border
         style="width: 100%"
     >
-      <el-table-column label="ID" align="center">
+      <el-table-column label="ID" align="center" v-if="type === 'worker' || type === 'task_worker'">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
@@ -87,7 +81,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Coroutines" align="center">
+      <el-table-column label="Coroutines" align="center"  v-if="type !== 'manager'">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
@@ -99,13 +93,25 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Events" align="center">
+      <el-table-column label="Events" align="center" v-if="type !== 'manager'">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
                          :to="{path: `/events/${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.event_num }}
             </router-link>
           </el-link>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Reload Count" align="center" v-if="type === 'manager'">
+        <template slot-scope="scope">
+          <span>{{ scope.row.reload_count }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Time of last reload" align="center" v-if="type === 'manager'">
+        <template slot-scope="scope">
+          <span>{{ scope.row.reload_last_time | parseTime }}</span>
         </template>
       </el-table-column>
 
@@ -160,7 +166,7 @@
     </el-table>
 
     <pagination
-        v-if="type !== 'master'"
+        v-if="type === 'worker' || type === 'task_worker'"
         v-show="total>0"
         :total="total"
         :page.sync="listQuery.page"
@@ -176,7 +182,7 @@ import { getServerStats, getWorkerInfo, getTaskWorkerInfo, getThreadInfo, getSer
 import { IThreadData, IWorkerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import request from '@/utils/request'
-import { byteFormat } from '@/utils'
+import { byteFormat, parseTime } from '@/utils'
 
 @Component({
   name: 'Workers',
@@ -185,6 +191,7 @@ import { byteFormat } from '@/utils'
   },
   filters: {
     bytesFormat: byteFormat,
+    parseTime: parseTime,
     toBytes: (bytes: string) => {
       if (bytes.substring(bytes.length - 2, bytes.length) === 'kB') {
         return bytes.substring(0, bytes.length - 3) * 1024
@@ -214,6 +221,9 @@ export default class extends Vue {
         break
       case 'task_worker':
         this.getTaskerWorkers()
+        break
+      case 'manager':
+        this.getManagerInfo()
         break
       case 'worker':
       default:
@@ -293,6 +303,40 @@ export default class extends Vue {
 
     this.threads = threads
     this.total = total
+    this.listLoading = false
+  }
+
+  private async getManagerInfo() {
+    this.listLoading = true
+    const { data } = await getServerSetting()
+
+    const manager_pid = data.manager_pid
+    const workers: IWorkerData[] = []
+
+    do {
+      const { data } = await request({
+        url: '/api/get_worker_info/manager',
+        method: 'get'
+      })
+
+      workers[0] = data
+      workers[0].id = 0
+      workers[0].pid = manager_pid
+    } while (0)
+
+    do {
+      const { data } = await request({
+        url: '/api/get_manager_info/manager',
+        method: 'get'
+      })
+      workers[0].reload_count = data.reload_count
+      workers[0].reload_last_time = data.reload_last_time
+    } while (0)
+
+    console.dir(workers[0])
+
+    this.workers = workers
+    this.total = 1
     this.listLoading = false
   }
 

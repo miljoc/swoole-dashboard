@@ -47,3 +47,9 @@ export const getAllSockets = (worker: any) =>
     url: `/api/get_all_sockets/${worker}`,
     method: 'get'
   })
+
+export const getConnections = (worker: any) =>
+  request({
+    url: `/api/get_connections/${worker}`,
+    method: 'get'
+  })

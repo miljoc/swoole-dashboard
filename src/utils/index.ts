@@ -21,7 +21,7 @@ export const parseTime = (
         time = time.replace(/-/gm, '/')
       }
     }
-    if (typeof time === 'number' && time.toString().length === 10) {
+    if (typeof time === 'number' && time.toString().length > 10) {
       time = time * 1000
     }
     date = new Date(time)
@@ -33,9 +33,10 @@ export const parseTime = (
     h: date.getHours(),
     i: date.getMinutes(),
     s: date.getSeconds(),
-    a: date.getDay()
+    a: date.getDay(),
+    M: date.getMilliseconds()
   }
-  const timeStr = format.replace(/{([ymdhisa])+}/g, (result, key) => {
+  const timeStr = format.replace(/{([ymdhisaM])+}/g, (result, key) => {
     const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
     if (key === 'a') {

@@ -20,7 +20,10 @@ export default new Router({
     if (savedPosition) {
       return savedPosition
     } else {
-      return { x: 0, y: 0 }
+      return {
+        x: 0,
+        y: 0
+      }
     }
   },
   base: process.env.BASE_URL,
@@ -129,6 +132,20 @@ export default new Router({
           component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Processes.vue'),
           meta: {
             title: 'Processes',
+            icon: 'list'
+          }
+        }, {
+          path: '/pipelines',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Pipelines.vue'),
+          meta: {
+            title: 'Pipelines',
+            icon: 'list'
+          }
+        }, {
+          path: '/connections',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Connections.vue'),
+          meta: {
+            title: 'Connections',
             icon: 'list'
           }
         },

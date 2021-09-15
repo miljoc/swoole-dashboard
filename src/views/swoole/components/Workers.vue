@@ -269,6 +269,10 @@ export default class extends Vue {
     this.listLoading = true
     const { data } = await getServerSetting()
 
+    if (data.mode === 1) {
+      return
+    }
+
     const total = data.reactor_num
     const master_pid = data.master_pid
 
@@ -296,8 +300,6 @@ export default class extends Vue {
       data.id = 0
       data.pid = master_pid
       workers[0] = data
-      console.dir(data)
-
       this.workers = workers
     } while (0)
 

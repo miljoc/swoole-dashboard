@@ -29,6 +29,9 @@ export interface IDefinedFunction {
 
 export interface IWorkerData {
   id: number
+  pid: number
+  reload_count: number
+  reload_last_time: number
 }
 
 export interface IThreadData {

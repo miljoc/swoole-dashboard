@@ -8,15 +8,15 @@
 > 修改 `.vue` 文件和 `.ts` 文件后不需要重启服务，刷新浏览器即可
 
 
+
 ## 环境
 * Version: typescript 4.2.4
 * node -v  v10.15.1
 * npm -v  7.21.0
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
-[![CircleCI](https://circleci.com/gh/Armour/vue-typescript-admin-template/tree/minimal.svg?style=shield)](https://circleci.com/gh/Armour/vue-typescript-admin-template/tree/minimal)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Template from jarvis](https://img.shields.io/badge/Hi-Jarvis-ff69b4.svg)](https://github.com/Armour/Jarvis)
+## 前端模版
+[https://github.com/Armour/vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template)
+
 
 English | [简体中文](./README-zh.md)
 

@@ -59,4 +59,5 @@ export interface IServerSetting {
   mode: number
   reactor_num: number
   manager_pid: number
+  task_worker_num: number
 }

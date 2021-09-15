@@ -182,7 +182,7 @@ import { getServerStats, getWorkerInfo, getTaskWorkerInfo, getThreadInfo, getSer
 import { IServerSetting, IThreadData, IWorkerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import request from '@/utils/request'
-import { byteFormat, parseTime } from '@/utils'
+import { bytesFormat, parseTime } from '@/utils'
 
 @Component({
   name: 'Workers',
@@ -190,7 +190,7 @@ import { byteFormat, parseTime } from '@/utils'
     Pagination
   },
   filters: {
-    bytesFormat: byteFormat,
+    bytesFormat: bytesFormat,
     parseTime: parseTime,
     toBytes: (bytes: string) => {
       if (bytes.substring(bytes.length - 2, bytes.length) === 'kB') {

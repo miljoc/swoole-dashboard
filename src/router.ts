@@ -117,7 +117,7 @@ export default new Router({
       redirect: '/swoole/serverstats',
       meta: {
         title: 'Swoole',
-        icon: 'international'
+        icon: 'myicon'
       },
       children: [
         {
@@ -125,28 +125,28 @@ export default new Router({
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/swoole/ServerStats.vue'),
           meta: {
             title: 'Server Stats',
-            icon: 'list'
+            icon: 'myicon'
           }
         }, {
           path: '/processes',
           component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Processes.vue'),
           meta: {
             title: 'Processes',
-            icon: 'list'
+            icon: 'gallery-view'
           }
         }, {
           path: '/pipelines',
           component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Pipelines.vue'),
           meta: {
             title: 'Pipelines',
-            icon: 'list'
+            icon: 'email'
           }
         }, {
           path: '/connections',
           component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Connections.vue'),
           meta: {
             title: 'Connections',
-            icon: 'list'
+            icon: 'tree-table'
           }
         },
         {

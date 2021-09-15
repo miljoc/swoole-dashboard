@@ -74,19 +74,10 @@
 
       <el-table-column
           align="center"
-          label="Send Buffer Size"
-      >
-        <template slot-scope="{row}">
-          <span>{{ row.out_buffer_size | byteFormat }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-          align="center"
           label="recv_queued_bytes"
       >
         <template slot-scope="{row}">
-          <span>{{ row.recv_queued_bytes | byteFormat }}</span>
+          <span>{{ row.recv_queued_bytes | bytesFormat }}</span>
         </template>
       </el-table-column>
 
@@ -95,7 +86,7 @@
           label="send_queued_bytes"
       >
         <template slot-scope="{row}">
-          <span>{{ row.send_queued_bytes | byteFormat }}</span>
+          <span>{{ row.send_queued_bytes | bytesFormat }}</span>
         </template>
       </el-table-column>
 
@@ -104,7 +95,7 @@
           label="Number of bytes sent"
       >
         <template slot-scope="{row}">
-          <span>{{ row.total_send_bytes | byteFormat }}</span>
+          <span>{{ row.total_send_bytes | bytesFormat }}</span>
         </template>
       </el-table-column>
 
@@ -113,7 +104,7 @@
           label="Number of bytes received"
       >
         <template slot-scope="{row}">
-          <span>{{ row.total_recv_bytes | byteFormat }}</span>
+          <span>{{ row.total_recv_bytes | bytesFormat }}</span>
         </template>
       </el-table-column>
 
@@ -134,7 +125,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getServerSetting, getConnections } from '@/api/server'
 import { IWorkerCoroutineData, IServerSetting } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { byteFormat, parseTime } from '@/utils/index'
+import { bytesFormat, parseTime } from '@/utils/index'
 
 @Component({
   name: 'EventList',
@@ -142,7 +133,7 @@ import { byteFormat, parseTime } from '@/utils/index'
     Pagination
   },
   filters: {
-    byteFormat: byteFormat,
+    bytesFormat: bytesFormat,
     parseTime: parseTime,
     eventsFitler: (events: number) => {
       const array = []

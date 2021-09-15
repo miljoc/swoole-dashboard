@@ -12,51 +12,62 @@
           <el-descriptions
               border
           >
-            <el-descriptions-item label="关闭连接数量">{{
+            <el-descriptions-item label="Cloud Count">{{
                 serverStats.close_count
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="接收连接数量">{{
+            <el-descriptions-item label="Accept Count">{{
                 serverStats.accept_count
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="协程数">{{
+            <el-descriptions-item label="Coroutine Num">{{
                 serverStats.coroutine_num
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="dispatch数量">{{
+            <el-descriptions-item label="Dispatch Count">{{
                 serverStats.dispatch_count
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="空闲进程数量">{{
+            <el-descriptions-item label="Idle Worker Num">{{
                 serverStats.idle_worker_num
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="请求数量">{{
+            <el-descriptions-item label="Request Count">{{
                 serverStats.request_count
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="服务器启动时间">{{
-                serverStats.start_time
+            <el-descriptions-item label="Started Time">{{
+                serverStats.start_time | parseTime
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="TaskWorker 进程数量">{{
-                serverStats.task_worker_num
-              }}
+
+            <el-descriptions-item label="TaskWorker Num">
+              <el-link type="primary">
+                <router-link class="link-type"
+                             :to="{path: `/processes?tab=task_worker`}"> {{ serverStats.task_worker_num }}
+                </router-link>
+              </el-link>
             </el-descriptions-item>
-            <el-descriptions-item label="TaskingNum 数量">{{
+
+            <el-descriptions-item label="Tasking Num">{{
                 serverStats.tasking_num
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="Worker 进程dispatch数量">{{
+
+            <el-descriptions-item label="Worker Dispatch Count">{{
                 serverStats.worker_dispatch_count
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="Worker 进程数量">{{
-                serverStats.worker_num
-              }}
+
+            <el-descriptions-item label="Worker Num">
+              <el-link type="primary">
+                <router-link class="link-type"
+                             :to="{path: `/processes?tab=worker`}"> {{ serverStats.worker_num }}
+                </router-link>
+              </el-link>
             </el-descriptions-item>
-            <el-descriptions-item label="Worker 进程请求数量">{{
+
+            <el-descriptions-item label="Worker Request Count">{{
                 serverStats.worker_request_count
               }}
             </el-descriptions-item>
@@ -68,7 +79,9 @@
 </template>
 
 <script>
+
 import { getServerStats } from '@/api/server'
+import { parseTime, bytesFormat } from '@/utils'
 
 export default {
   data() {
@@ -89,6 +102,10 @@ export default {
         worker_request_count: -1
       }
     }
+  },
+  filters: {
+    parseTime: parseTime,
+    bytesFormat: bytesFormat
   },
   created() {
     this.getServerStats()

@@ -21,7 +21,7 @@ export const parseTime = (
         time = time.replace(/-/gm, '/')
       }
     }
-    if (typeof time === 'number' && time.toString().length > 10) {
+    if (typeof time === 'number' && time.toString().length >= 10) {
       time = time * 1000
     }
     date = new Date(time)
@@ -47,8 +47,7 @@ export const parseTime = (
   return timeStr
 }
 
-export const byteFormat = (bytes: number) => {
-  const array = []
+export const bytesFormat = (bytes: number) => {
   if (bytes > 1024 * 1024 * 1024) {
     return String((bytes / (1024 * 1024 * 1024)).toFixed(2)) + ' GB'
   }
@@ -58,7 +57,7 @@ export const byteFormat = (bytes: number) => {
   if (bytes > 1024) {
     return String((bytes / (1024)).toFixed(2)) + ' KB'
   }
-  return bytes
+  return String(bytes) + ' B'
 }
 
 // Format and filter json data using filterKeys array

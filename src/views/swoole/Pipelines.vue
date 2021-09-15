@@ -67,7 +67,7 @@
           label="Number of bytes sent"
       >
         <template slot-scope="{row}">
-          <span>{{ row.total_send_bytes | byteFormat }}</span>
+          <span>{{ row.total_send_bytes | bytesFormat }}</span>
         </template>
       </el-table-column>
 
@@ -76,7 +76,7 @@
           label="Number of bytes received"
       >
         <template slot-scope="{row}">
-          <span>{{ row.total_recv_bytes | byteFormat }}</span>
+          <span>{{ row.total_recv_bytes | bytesFormat }}</span>
         </template>
       </el-table-column>
 
@@ -97,7 +97,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getAllSockets } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { byteFormat } from '@/utils/index'
+import { bytesFormat } from '@/utils/index'
 
 @Component({
   name: 'EventList',
@@ -105,7 +105,7 @@ import { byteFormat } from '@/utils/index'
     Pagination
   },
   filters: {
-    byteFormat: byteFormat,
+    bytesFormat: bytesFormat,
     eventsFitler: (events: number) => {
       const array = []
       if (events & 512) {

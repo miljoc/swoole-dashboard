@@ -179,7 +179,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { getServerStats, getWorkerInfo, getTaskWorkerInfo, getThreadInfo, getServerSetting } from '@/api/server'
-import { IThreadData, IWorkerData } from '@/api/types'
+import { IServerSetting, IThreadData, IWorkerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import request from '@/utils/request'
 import { byteFormat, parseTime } from '@/utils'
@@ -194,9 +194,9 @@ import { byteFormat, parseTime } from '@/utils'
     parseTime: parseTime,
     toBytes: (bytes: string) => {
       if (bytes.substring(bytes.length - 2, bytes.length) === 'kB') {
-        return bytes.substring(0, bytes.length - 3) * 1024
+        return parseInt(bytes.substring(0, bytes.length - 3), 10) * 1024
       } else {
-        return bytes
+        return parseInt(bytes, 10)
       }
     }
   }
@@ -206,6 +206,7 @@ export default class extends Vue {
   @Prop({ default: 'master' }) private type!: string
   private workers: IWorkerData[] = []
   private threads: IThreadData[] = []
+  private serverSetting: IServerSetting
   private total = 0
   private listLoading = true
   private listQuery = {
@@ -269,12 +270,13 @@ export default class extends Vue {
     this.listLoading = true
     const { data } = await getServerSetting()
 
-    if (data.mode === 1) {
+    this.serverSetting = data
+    if (this.serverSetting.mode === 1) {
       return
     }
 
-    const total = data.reactor_num
-    const master_pid = data.master_pid
+    const total = this.serverSetting.reactor_num
+    const master_pid = this.serverSetting.master_pid
 
     const threads = []
 

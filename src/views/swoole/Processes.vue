@@ -26,6 +26,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import Workers from '@/views/swoole/components/Workers.vue'
 import { getServerSetting, getServerStats } from '@/api/server'
+import { IServerSetting } from '@/api/types'
 
 @Component({
   name: 'Tab',
@@ -56,7 +57,7 @@ export default class extends Vue {
 
   private activeName = 'master'
   private serverStats = {}
-  private serverSetting = {
+  private serverSetting: IServerSetting = {
     mode: 1
   }
 

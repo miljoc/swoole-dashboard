@@ -159,7 +159,7 @@ export default new Router({
         },
         {
           path: '/coroutines/:id',
-          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/CoroutineList.vue'),
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Coroutines.vue'),
           meta: {
             title: 'Coroutine List',
             hidden: true
@@ -167,7 +167,7 @@ export default new Router({
         },
         {
           path: '/events/:id',
-          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/EventList.vue'),
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Events.vue'),
           meta: {
             title: 'Event List',
             hidden: true
@@ -175,7 +175,7 @@ export default new Router({
         },
         {
           path: '/timers/:id',
-          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/TimerList.vue'),
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Timers.vue'),
           meta: {
             title: 'Timer List',
             hidden: true

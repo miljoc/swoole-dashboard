@@ -132,7 +132,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getServerSetting, getConnections } from '@/api/server'
-import { IWorkerCoroutineData } from '@/api/types'
+import { IWorkerCoroutineData, IServerSetting } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { byteFormat, parseTime } from '@/utils/index'
 
@@ -161,13 +161,13 @@ export default class extends Vue {
   private list: IWorkerCoroutineData[] = []
   private listLoading = true
   private total = 0
-  private _timer
+  private _timer: any
   private listQuery = {
     page: 1,
     limit: 10
   }
 
-  private serverSetting = {
+  private serverSetting: IServerSetting = {
     mode: 1
   }
 
@@ -198,7 +198,8 @@ export default class extends Vue {
       this.serverSetting = data
     }
 
-    let list = []
+    // eslint-disable-next-line camelcase
+    let list: { session_id: 0 }[] = []
 
     if (this.serverSetting.mode === 2) {
       for (let i = 0; i < this.serverSetting.reactor_num; i++) {

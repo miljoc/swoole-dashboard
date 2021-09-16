@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export const getServerStats = () =>
+export const getServerStats = (worker = 'worker-0') =>
   request({
-    url: '/api/server_stats/worker-0',
+    url: '/api/server_stats/' + worker,
     method: 'get'
   })
 
@@ -52,4 +52,11 @@ export const getConnections = (worker: any) =>
   request({
     url: `/api/get_connections/${worker}`,
     method: 'get'
+  })
+
+export const getAllUnixSockets = (type: string, worker: string) =>
+  request({
+    url: `/api/get_all_unix_sockets/${worker}`,
+    method: 'get',
+    params: { type: type }
   })

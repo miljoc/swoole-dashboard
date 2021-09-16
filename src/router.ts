@@ -82,7 +82,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/GCStatus.vue'),
           meta: {
             title: 'GC Status',
-            icon: 'component'
+            icon: 'gc'
           }
         },
         {
@@ -90,7 +90,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/IncludedFiles.vue'),
           meta: {
             title: 'Included Files',
-            icon: 'component'
+            icon: 'documentation'
           }
         },
         {
@@ -98,7 +98,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/DeclaredClasses.vue'),
           meta: {
             title: 'Classes',
-            icon: 'list'
+            icon: 'hamburger'
           }
         },
         {
@@ -106,7 +106,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/DefinedFunctions.vue'),
           meta: {
             title: 'Functions',
-            icon: 'list'
+            icon: 'function'
           }
         }
       ]
@@ -114,10 +114,10 @@ export default new Router({
     {
       path: '/swoole',
       component: Layout,
-      redirect: '/swoole/serverstats',
+      redirect: '/serverstats',
       meta: {
         title: 'Swoole',
-        icon: 'myicon'
+        icon: 'sw-1'
       },
       children: [
         {
@@ -125,7 +125,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/swoole/ServerStats.vue'),
           meta: {
             title: 'Server Stats',
-            icon: 'myicon'
+            icon: 'temp'
           }
         }, {
           path: '/processes',
@@ -133,13 +133,6 @@ export default new Router({
           meta: {
             title: 'Processes',
             icon: 'gallery-view'
-          }
-        }, {
-          path: '/pipelines',
-          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Pipelines.vue'),
-          meta: {
-            title: 'Pipelines',
-            icon: 'email'
           }
         }, {
           path: '/connections',

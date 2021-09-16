@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <div class="filter-container">
     <el-table
         v-loading="listLoading"
         :data="list"
@@ -118,6 +119,7 @@
         @pagination="getData"
     />
   </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -155,7 +157,7 @@ export default class extends Vue {
   private _timer: any
   private listQuery = {
     page: 1,
-    limit: 10
+    limit: 20
   }
 
   private serverSetting: IServerSetting = {

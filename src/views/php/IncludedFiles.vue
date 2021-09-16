@@ -16,11 +16,7 @@
       </el-table-column>
       <el-table-column label="Filename">
         <template slot-scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.filename }}
-            <span class="svg-container">
-              <a :href="'phpstorm://open?file=' + scope.row.filename "><svg-icon name="edit" title="编辑"/></a>
-            </span>
-          </span>
+          <span style="margin-left: 10px"> {{ scope.row.filename }} </span>
         </template>
       </el-table-column>
     </el-table>

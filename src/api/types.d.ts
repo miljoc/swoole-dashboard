@@ -61,3 +61,7 @@ export interface IServerSetting {
   manager_pid: number
   task_worker_num: number
 }
+
+export interface IUnixSocket {
+  fd: number
+}

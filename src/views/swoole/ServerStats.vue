@@ -6,28 +6,32 @@
             slot="header"
             class="clearfix"
         >
-          <span>Server Stats</span>
+          <span>Master Stats</span>
         </div>
         <div style="padding: 0; margin: 0">
           <el-descriptions
               border
           >
-            <el-descriptions-item label="Cloud Count">{{
-                serverStats.close_count
+            <el-descriptions-item label="Started Time">{{
+                serverStats.start_time | parseTime
               }}
             </el-descriptions-item>
+
             <el-descriptions-item label="Accept Count">{{
                 serverStats.accept_count
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="Coroutine Num">{{
-                serverStats.coroutine_num
+
+            <el-descriptions-item label="Close Count">{{
+                serverStats.close_count
               }}
             </el-descriptions-item>
+
             <el-descriptions-item label="Dispatch Count">{{
                 serverStats.dispatch_count
               }}
             </el-descriptions-item>
+
             <el-descriptions-item label="Idle Worker Num">{{
                 serverStats.idle_worker_num
               }}
@@ -36,9 +40,14 @@
                 serverStats.request_count
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="Started Time">{{
-                serverStats.start_time | parseTime
-              }}
+
+
+            <el-descriptions-item label="Worker Num">
+              <el-link type="primary">
+                <router-link class="link-type"
+                             :to="{path: `/processes?tab=worker`}"> {{ serverStats.worker_num }}
+                </router-link>
+              </el-link>
             </el-descriptions-item>
 
             <el-descriptions-item label="TaskWorker Num">
@@ -49,30 +58,76 @@
               </el-link>
             </el-descriptions-item>
 
-            <el-descriptions-item label="Tasking Num">{{
-                serverStats.tasking_num
-              }}
-            </el-descriptions-item>
-
-            <el-descriptions-item label="Worker Dispatch Count">{{
-                serverStats.worker_dispatch_count
-              }}
-            </el-descriptions-item>
-
-            <el-descriptions-item label="Worker Num">
-              <el-link type="primary">
-                <router-link class="link-type"
-                             :to="{path: `/processes?tab=worker`}"> {{ serverStats.worker_num }}
-                </router-link>
-              </el-link>
-            </el-descriptions-item>
-
-            <el-descriptions-item label="Worker Request Count">{{
-                serverStats.worker_request_count
-              }}
-            </el-descriptions-item>
+            <el-descriptions-item label="Tasking Num"> {{ serverStats.tasking_num }}</el-descriptions-item>
           </el-descriptions>
         </div>
+      </el-card>
+    </el-row>
+
+    <el-row>
+      <el-card class="box-card" style="margin-top: 20px">
+        <div
+            slot="header"
+            class="clearfix"
+        >
+          <span>Worker Stats</span>
+        </div>
+
+        <div style="padding: 0; margin: 0">
+          <el-descriptions
+              border
+          >
+          </el-descriptions>
+        </div>
+        <el-table
+            :data="workerStats"
+            border
+            fit
+            highlight-current-row
+            width="100%"
+        >
+          <el-table-column
+              align="center"
+              label="Worker ID"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.worker_id }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              align="center"
+              label="Dispatch Count"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.worker_request_count }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              align="center"
+              label="Request Count"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.worker_dispatch_count }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              align="center"
+              label="Coroutine Num"
+          >
+            <template slot-scope="{row}">
+
+              <el-link type="primary">
+                <router-link class="link-type"
+                             :to="{path: `/coroutines/worker-${row.worker_id}`}">{{ row.coroutine_num }}
+                </router-link>
+              </el-link>
+            </template>
+          </el-table-column>
+
+        </el-table>
       </el-card>
     </el-row>
   </div>
@@ -100,7 +155,8 @@ export default {
         worker_dispatch_count: -1,
         worker_num: -1,
         worker_request_count: -1
-      }
+      },
+      workerStats: []
     }
   },
   filters: {
@@ -108,13 +164,31 @@ export default {
     bytesFormat: bytesFormat
   },
   created() {
-    this.getServerStats()
-    console.log(this.serverStats)
+    this.getData()
   },
   methods: {
-    async getServerStats() {
+    async getData() {
       const { data } = await getServerStats()
       this.serverStats = data
+      this.workerStats.push({
+        worker_id: 0,
+        worker_request_count: data.worker_request_count,
+        worker_dispatch_count: data.worker_dispatch_count,
+        coroutine_num: data.coroutine_num
+      })
+
+      for (let i = 1; i < this.serverStats.worker_num; i++) {
+        const { data } = await getServerStats('worker-' + i)
+        this.workerStats.push({
+          worker_id: i,
+          worker_request_count: data.worker_request_count,
+          worker_dispatch_count: data.worker_dispatch_count,
+          coroutine_num: data.coroutine_num
+        })
+      }
+
+      console.dir(this.serverStats)
+      console.dir(this.workerStats)
     }
   }
 }

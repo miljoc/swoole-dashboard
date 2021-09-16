@@ -6,6 +6,7 @@
         style="display:inline-block; vertical-align:middle; margin-bottom: 10px; margin-top: 10px "
         :title="'Reactor Threads ' + '(' + threads.length + ')'"
         type="success"
+        effect="dark"
         v-if="type === 'master'"
     />
 
@@ -58,6 +59,7 @@
         style="display:inline-block; vertical-align:middle; margin-bottom: 10px "
         title="Master Thread"
         type="warning"
+        effect="dark"
         v-if="type === 'master'"
     />
 

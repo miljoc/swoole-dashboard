@@ -184,7 +184,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getAllSockets } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { bytesFormat, getSortFun } from '@/utils/index'
+import { bytesFormat, getSortFun, eventsFitler } from '@/utils/index'
 
 @Component({
   name: 'EventList',
@@ -193,16 +193,7 @@ import { bytesFormat, getSortFun } from '@/utils/index'
   },
   filters: {
     bytesFormat: bytesFormat,
-    eventsFitler: (events: number) => {
-      const array = []
-      if (events & 512) {
-        array.push('Readable')
-      }
-      if (events & 1024) {
-        array.push('Writable')
-      }
-      return array.join(' | ')
-    },
+    eventsFitler: eventsFitler,
     fdTypeFilter: (type: number) => {
       switch (type) {
         case 9:

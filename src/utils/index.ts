@@ -60,6 +60,17 @@ export const bytesFormat = (bytes: number) => {
   return String(bytes) + ' B'
 }
 
+export const eventsFitler = (events: number) => {
+  const array = []
+  if (events & 512) {
+    array.push('Readable')
+  }
+  if (events & 1024) {
+    array.push('Writable')
+  }
+  return array.join(' | ')
+}
+
 // Format and filter json data using filterKeys array
 export const formatJson = (filterKeys: any, jsonData: any) =>
   jsonData.map((data: any) => filterKeys.map((key: string) => {

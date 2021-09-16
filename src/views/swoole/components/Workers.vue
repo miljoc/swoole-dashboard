@@ -68,6 +68,7 @@
         fit
         border
         style="width: 100%"
+        @sort-change="sortChange"
     >
       <el-table-column label="ID" align="center" v-if="type === 'worker' || type === 'task_worker'">
         <template slot-scope="scope">
@@ -85,9 +86,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/coroutines/${type}-${scope.$index}`}">{{
-                scope.row.coroutine_stats.coroutine_num
-              }}
+                         :to="{path: `/coroutines/${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.coroutine_num }}
             </router-link>
           </el-link>
         </template>
@@ -137,7 +136,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="VmRSS" align="center">
+      <el-table-column label="VmRSS" align="center" sortable="process_status.VmRSS">
         <template slot-scope="scope">
           <span>{{ scope.row.process_status.VmRSS | toBytes | bytesFormat }}</span>
         </template>
@@ -155,10 +154,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center">
+      <el-table-column label="action" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.row, scope.$index)"
-          >查看详情
+          <el-button size="mini" @click="handleEdit(scope.row, scope.$index)">
+              detail
           </el-button
           >
         </template>
@@ -182,7 +181,7 @@ import { getServerStats, getWorkerInfo, getTaskWorkerInfo, getThreadInfo, getSer
 import { IServerSetting, IThreadData, IWorkerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import request from '@/utils/request'
-import { bytesFormat, parseTime } from '@/utils'
+import { bytesFormat, parseTime, getSortFun } from '@/utils'
 
 @Component({
   name: 'Workers',
@@ -230,6 +229,26 @@ export default class extends Vue {
       default:
         this.getWorkers()
         break
+    }
+  }
+
+  /**
+   * 点击排序
+   * @param column
+   * @param prop
+   * @param order
+   */
+  private sortChange(column:any, prop:any, order:any) {
+    console.log(column)
+    if (column.order !== null) {
+      const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
+      const field: string = column.column.sortable // 排序字段
+      console.log(sortType)
+      console.log(field)
+      console.log(this.type)
+      this.worders.sort(getSortFun(sortType, field))
+    } else {
+      console.log(12312312)
     }
   }
 

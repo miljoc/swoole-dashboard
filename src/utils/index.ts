@@ -104,3 +104,14 @@ export const toggleClass = (ele: HTMLElement, className: string) => {
   }
   ele.className = classString
 }
+
+/**
+ * 获取排序后数据
+ * @param order
+ * @param sortBy
+ */
+export const getSortFun = (order: string, sortBy: string) => {
+  const ordAlpah = (order === 'asc') ? '>' : '<'
+  const sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1')
+  return sortFun
+}

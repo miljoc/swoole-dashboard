@@ -126,6 +126,18 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="Object Num" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.vm_status.object_num }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Resource Num" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.vm_status.resource_num }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column label="Memory Usage" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.memory_usage | bytesFormat }}</span>

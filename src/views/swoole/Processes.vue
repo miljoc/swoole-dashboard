@@ -89,6 +89,14 @@ export default class extends Vue {
         this.activeName = 'worker'
       }
     }
+
+    this.tabMapOptions.forEach(function(item) {
+      if (item.key === 'task_worker') {
+        item.label = 'TaskWorker (' + this.serverSetting.task_worker_num + ')'
+      } else if (item.key === 'worker') {
+        item.label = 'Worker (' + this.serverSetting.worker_num + ')'
+      }
+    }, this)
   }
 
   created() {

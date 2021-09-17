@@ -176,7 +176,7 @@ export default new Router({
         },
         {
           path: '/network_traffic/',
-          component: () => import('@/views/chart/NetworkTraffic'),
+          component: () => import('@/views/chart/NetworkTraffic.vue'),
           meta: {
             title: 'Network Traffic',
             hidden: true

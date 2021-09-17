@@ -137,7 +137,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getServerSetting, getConnections } from '@/api/server'
 import { IWorkerCoroutineData, IServerSetting } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { bytesFormat, parseTime } from '@/utils/index'
+import { bytesFormat, eventsFitler, parseTime } from '@/utils/index'
 
 @Component({
   name: 'EventList',
@@ -147,16 +147,7 @@ import { bytesFormat, parseTime } from '@/utils/index'
   filters: {
     bytesFormat: bytesFormat,
     parseTime: parseTime,
-    eventsFitler: (events: number) => {
-      const array = []
-      if (events & 512) {
-        array.push('Readable')
-      }
-      if (events & 1024) {
-        array.push('Writable')
-      }
-      return array.join(' | ')
-    }
+    eventsFitler: eventsFitler
   }
 })
 
@@ -167,7 +158,7 @@ export default class extends Vue {
   private _timer: any
   private listQuery = {
     page: 1,
-    limit: 20
+    limit: 10
   }
 
   private serverSetting: IServerSetting = {

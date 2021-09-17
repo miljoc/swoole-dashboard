@@ -60,7 +60,7 @@ export const bytesFormat = (bytes: number) => {
   return String(bytes) + ' B'
 }
 
-export const parseSocketType = (type: number, ssl: number) => {
+export const socketTypeFilter = (type: number, ssl = 0) => {
   let _type = ''
   switch (type) {
     case 1:
@@ -82,7 +82,7 @@ export const parseSocketType = (type: number, ssl: number) => {
       _type += 'DGRAM:Unix'
       break
     default:
-      return 'unknown'
+      return '-'
   }
 
   if (ssl) {
@@ -101,6 +101,19 @@ export const eventsFitler = (events: number) => {
     array.push('Writable')
   }
   return array.join(' | ')
+}
+
+export const fdTypeFilter = (type: number) => {
+  switch (type) {
+    case 9:
+      return 'signal'
+    case 3:
+      return 'pipe'
+    case 0:
+      return 'session'
+    default:
+      return 'php_stream'
+  }
 }
 
 // Format and filter json data using filterKeys array

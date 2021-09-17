@@ -163,7 +163,7 @@
               label="Type"
           >
             <template slot-scope="{row}">
-              <span>{{ row.type | parseSocketType(row.ssl) }}</span>
+              <span>{{ row.type | socketTypeFilter(row.ssl) }}</span>
             </template>
           </el-table-column>
 
@@ -203,7 +203,7 @@
 <script>
 
 import { getServerStats, getAllPorts } from '@/api/server'
-import { parseTime, bytesFormat, parseSocketType } from '@/utils'
+import { parseTime, bytesFormat, socketTypeFilter } from '@/utils'
 
 export default {
   data() {
@@ -230,7 +230,7 @@ export default {
   filters: {
     parseTime: parseTime,
     bytesFormat: bytesFormat,
-    parseSocketType: parseSocketType
+    socketTypeFilter: socketTypeFilter
   },
   created() {
     this.getData()

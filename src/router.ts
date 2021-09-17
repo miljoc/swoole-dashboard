@@ -181,6 +181,22 @@ export default new Router({
             title: 'Network Traffic',
             hidden: true
           }
+        },
+        {
+          path: '/objects/:worker',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/php/Objects.vue'),
+          meta: {
+            title: 'Objects',
+            hidden: true
+          }
+        },
+        {
+          path: '/memory_info/:worker',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/MemoryInfo.vue'),
+          meta: {
+            title: 'Memory Info',
+            hidden: true
+          }
         }
       ]
     },

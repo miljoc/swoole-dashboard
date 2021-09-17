@@ -95,7 +95,12 @@
           label="Number of bytes sent"
       >
         <template slot-scope="{row}">
-          <span>{{ row.total_send_bytes | bytesFormat }}</span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/network_traffic/?session_id=${row.session_id}&reactor_id=${row.reactor_id}`}">
+              {{ row.total_send_bytes | bytesFormat }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 
@@ -104,7 +109,12 @@
           label="Number of bytes received"
       >
         <template slot-scope="{row}">
-          <span>{{ row.total_recv_bytes | bytesFormat }}</span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/network_traffic/?session_id=${row.session_id}&reactor_id=${row.reactor_id}`}">
+              {{ row.total_recv_bytes | bytesFormat }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 
@@ -143,7 +153,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getServerSetting, getConnections, closeConnection, getSocketInfo } from '@/api/server'
 import { IWorkerCoroutineData, IServerSetting } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { bytesFormat, parseTime } from '@/utils/index'
+import { bytesFormat, eventsFitler, parseTime } from '@/utils/index'
 
 @Component({
   name: 'EventList',
@@ -153,16 +163,7 @@ import { bytesFormat, parseTime } from '@/utils/index'
   filters: {
     bytesFormat: bytesFormat,
     parseTime: parseTime,
-    eventsFitler: (events: number) => {
-      const array = []
-      if (events & 512) {
-        array.push('Readable')
-      }
-      if (events & 1024) {
-        array.push('Writable')
-      }
-      return array.join(' | ')
-    }
+    eventsFitler: eventsFitler
   }
 })
 

@@ -48,16 +48,48 @@ export const parseTime = (
 }
 
 export const bytesFormat = (bytes: number) => {
-  if (bytes > 1024 * 1024 * 1024) {
+  if (bytes >= 1024 * 1024 * 1024) {
     return String((bytes / (1024 * 1024 * 1024)).toFixed(2)) + ' GB'
   }
-  if (bytes > 1024 * 1024) {
+  if (bytes >= 1024 * 1024) {
     return String((bytes / (1024 * 1024)).toFixed(2)) + ' MB'
   }
-  if (bytes > 1024) {
+  if (bytes >= 1024) {
     return String((bytes / (1024)).toFixed(2)) + ' KB'
   }
   return String(bytes) + ' B'
+}
+
+export const socketTypeFilter = (type: number, ssl = 0) => {
+  let _type = ''
+  switch (type) {
+    case 1:
+      _type += 'TCP:IPv4'
+      break
+    case 2:
+      _type += 'UDP:IPv4'
+      break
+    case 3:
+      _type += 'TCP:IPv6'
+      break
+    case 4:
+      _type += 'UDP:IPv6'
+      break
+    case 5:
+      _type += 'STREAM:Unix'
+      break
+    case 6:
+      _type += 'DGRAM:Unix'
+      break
+    default:
+      return '-'
+  }
+
+  if (ssl) {
+    _type += ':SSL'
+  }
+
+  return _type
 }
 
 export const eventsFitler = (events: number) => {
@@ -69,6 +101,19 @@ export const eventsFitler = (events: number) => {
     array.push('Writable')
   }
   return array.join(' | ')
+}
+
+export const fdTypeFilter = (type: number) => {
+  switch (type) {
+    case 9:
+      return 'signal'
+    case 3:
+      return 'pipe'
+    case 0:
+      return 'session'
+    default:
+      return 'php_stream'
+  }
 }
 
 // Format and filter json data using filterKeys array

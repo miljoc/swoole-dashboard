@@ -1412,6 +1412,13 @@
     "@types/connect" "*"
     "@types/node" "*"
 
+"@types/chart.js@^2.7.55":
+  "integrity" "sha1-1B+2t0typWuscCVbtO0Ic4a2btY="
+  "resolved" "https://registry.nlark.com/@types/chart.js/download/@types/chart.js-2.9.34.tgz"
+  "version" "2.9.34"
+  dependencies:
+    "moment" "^2.10.2"
+
 "@types/codemirror@0.0.71":
   "integrity" "sha1-hh8byzEAwKBkVnxUAPKYHPSujKc="
   "resolved" "https://registry.nlark.com/@types/codemirror/download/@types/codemirror-0.0.71.tgz?cache=0&sync_timestamp=1629707020494&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fcodemirror%2Fdownload%2F%40types%2Fcodemirror-0.0.71.tgz"
@@ -3691,6 +3698,29 @@
   "resolved" "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz"
   "version" "0.7.0"
 
+"chart.js@^2.9.4", "chart.js@>= 2.5":
+  "integrity" "sha1-CCf5Vj+v+y3FwGVi+OsQM31bloQ="
+  "resolved" "https://registry.nlark.com/chart.js/download/chart.js-2.9.4.tgz"
+  "version" "2.9.4"
+  dependencies:
+    "chartjs-color" "^2.1.0"
+    "moment" "^2.10.2"
+
+"chartjs-color-string@^0.6.0":
+  "integrity" "sha1-HfCWYhwOcHIKZPQTXqFx0FFAL3E="
+  "resolved" "https://registry.npm.taobao.org/chartjs-color-string/download/chartjs-color-string-0.6.0.tgz"
+  "version" "0.6.0"
+  dependencies:
+    "color-name" "^1.0.0"
+
+"chartjs-color@^2.1.0":
+  "integrity" "sha1-YRi7ogL+Hqed1/fA+dqTRnKWw7A="
+  "resolved" "https://registry.npm.taobao.org/chartjs-color/download/chartjs-color-2.4.1.tgz"
+  "version" "2.4.1"
+  dependencies:
+    "chartjs-color-string" "^0.6.0"
+    "color-convert" "^1.9.3"
+
 "check-types@^8.0.3":
   "integrity" "sha512-YpeKZngUmG65rLudJ4taU7VLkOCTMhNl/u4ctNC56LQS/zJTyNH0Lrtwm1tfTsbLlwvlfsA2d1c8vCf/Kh2KwQ=="
   "resolved" "https://registry.yarnpkg.com/check-types/-/check-types-8.0.3.tgz"
@@ -3930,7 +3960,7 @@
     "map-visit" "^1.0.0"
     "object-visit" "^1.0.0"
 
-"color-convert@^1.9.0", "color-convert@^1.9.1":
+"color-convert@^1.9.0", "color-convert@^1.9.1", "color-convert@^1.9.3":
   "integrity" "sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg=="
   "resolved" "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz"
   "version" "1.9.3"
@@ -9056,6 +9086,11 @@
   "resolved" "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz"
   "version" "1.0.4"
 
+"moment@^2.10.2":
+  "integrity" "sha1-sr52n6MZQL6e7qZGnAdeNQBvo9M="
+  "resolved" "https://registry.nlark.com/moment/download/moment-2.29.1.tgz"
+  "version" "2.29.1"
+
 "morgan@^1.10.0":
   "integrity" "sha1-CRd4q8H8R801CYJGU9rh+qtrF9c="
   "resolved" "https://registry.nlark.com/morgan/download/morgan-1.10.0.tgz"
@@ -12815,6 +12850,13 @@
   "integrity" "sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ=="
   "resolved" "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz"
   "version" "1.1.2"
+
+"vue-chartjs@^3.5.1":
+  "integrity" "sha1-0l6EVwj3dErlG+2dI6l19fj8ZSk="
+  "resolved" "https://registry.nlark.com/vue-chartjs/download/vue-chartjs-3.5.1.tgz"
+  "version" "3.5.1"
+  dependencies:
+    "@types/chart.js" "^2.7.55"
 
 "vue-class-component@*", "vue-class-component@^7.2.6":
   "integrity" "sha512-+eaQXVrAm/LldalI272PpDe3+i4mPis0ORiMYxF6Ae4hyuCh15W8Idet7wPUEs4N4YptgFHGys4UrgNQOMyO6w=="

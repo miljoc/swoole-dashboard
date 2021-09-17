@@ -74,3 +74,23 @@ export const getAllUnixSockets = (type: string, worker: string) =>
     method: 'get',
     params: { type: type }
   })
+
+export const getAllPorts = () =>
+  request({
+    url: '/api/get_all_ports',
+    method: 'get'
+  })
+
+export const getClientInfo = (worker: any, session_id: number) =>
+  request({
+    url: `/api/get_client_info/${worker}`,
+    method: 'get',
+    params: { session_id: session_id }
+  })
+
+export const getConnectionInfo = (worker: any, session_id: number) =>
+  request({
+    url: `/api/get_connection_info/${worker}`,
+    method: 'get',
+    params: { session_id: session_id }
+  })

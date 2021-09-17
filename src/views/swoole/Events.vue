@@ -4,81 +4,81 @@
       <BackButton />
       <!---------------------------返回按钮------开始----------------------->
 
-  <!---------------------------查询------开始----------------------->
-      <!---------------------------Event------开始----------------------->
-      <el-select
-              v-model="eventFieldValue"
-              multiple
-              collapse-tags
-              placeholder="Events"
-              style="margin: 0 10px 10px 0;"
-              @change="filterHandler"
-      >
-          <el-option
-                  v-for="item in eventOptions"
-                  :label="item | eventsFitler"
-                  :key="item"
-                  :value="item">
-          </el-option>
-      </el-select>
-      <!---------------------------Event------结束----------------------->
-      <!---------------------------Socket Type------开始----------------------->
-      <el-select
+    <!---------------------------查询------开始----------------------->
+    <!---------------------------Event------开始----------------------->
+    <el-select
+        v-model="eventFieldValue"
+        multiple
+        collapse-tags
+        placeholder="Events"
+        style="margin: 0 10px 10px 0;"
+        @change="filterHandler"
+    >
+      <el-option
+          v-for="item in eventOptions"
+          :label="item | eventsFitler"
+          :key="item"
+          :value="item">
+      </el-option>
+    </el-select>
+    <!---------------------------Event------结束----------------------->
+    <!---------------------------Socket Type------开始----------------------->
+    <el-select
         v-model="socketTypeFieldValue"
         multiple
         collapse-tags
         placeholder="Socket Type"
         style="margin: 0 10px 10px 0;"
         @change="filterHandler"
-      >
-        <el-option
-            v-for="item in socketTypeOptions"
-            :label="item"
-            :key="item"
-            :value="item">
-        </el-option>
-      </el-select>
-      <!---------------------------Socket Type------结束----------------------->
-      <!---------------------------FD Type------开始----------------------->
-      <el-select
+    >
+      <el-option
+          v-for="item in socketTypeOptions"
+          :label="item"
+          :key="item"
+          :value="item">
+      </el-option>
+    </el-select>
+    <!---------------------------Socket Type------结束----------------------->
+    <!---------------------------FD Type------开始----------------------->
+    <el-select
         v-model="fdTypeFieldValue"
         multiple
         collapse-tags
         placeholder="FD Type"
         style="margin: 0 10px 10px 0;"
         @change="filterHandler"
-      >
-        <el-option
+    >
+      <el-option
           v-for="item in fdTypeOptions"
           :label="item | fdTypeFilter"
           :key="item"
           :value="item">
-        </el-option>
-      </el-select>
-      <!---------------------------FD Type------结束----------------------->
-      <!---------------------------port------开始----------------------->
-      <el-select
+      </el-option>
+    </el-select>
+    <!---------------------------FD Type------结束----------------------->
+    <!---------------------------port------开始----------------------->
+    <el-select
         v-model="portFieldValue"
         multiple
         collapse-tags
         placeholder="Ports"
         style="margin: 0 10px 10px 0;"
         @change="filterHandler"
-      >
-        <el-option
+    >
+      <el-option
           v-for="item in portOptions"
           :label="item"
           :key="item"
           :value="item">
-        </el-option>
-      </el-select>
-      <!---------------------------port------结束----------------------->
-<!--      <el-button type="primary" icon="el-icon-search" @click="searchData">search</el-button>-->
-      <el-button type="default" style="color:#909399;" @click="clearFilter">clear filter</el-button>
-  <!---------------------------查询------结束----------------------->
+      </el-option>
+    </el-select>
+    <!---------------------------port------结束----------------------->
+    <!--      <el-button type="primary" icon="el-icon-search" @click="searchData">search</el-button>-->
+    <el-button type="default" style="color:#909399;" @click="clearFilter">clear filter</el-button>
+    <!---------------------------查询------结束----------------------->
 
-      <!---------------------------表格数据------开始----------------------->
-      <el-table
+    <!---------------------------表格数据------开始----------------------->
+    <el-table
         ref="filterTable"
         v-loading="listLoading"
         :data="list"
@@ -87,14 +87,14 @@
         highlight-current-row
         width="100%"
         @sort-change="sortChange"
-      >
+    >
       <el-table-column
           align="center"
           label="FD"
           prop="fd"
           sortable="fd"
       >
-        <template slot-scope="{row}" >
+        <template slot-scope="{row}">
           <span>{{ row.fd }}</span>
         </template>
       </el-table-column>
@@ -104,7 +104,8 @@
           label="Events"
       >
         <template slot-scope="{row}">
-          <span>{{ row.events | eventsFitler }}</span>
+          <el-tag v-if="row.events & 512"> Readable</el-tag>
+          <el-tag v-if="row.events & 1024" type="success" style="margin-left: 5px"> Writable</el-tag>
         </template>
       </el-table-column>
 
@@ -113,7 +114,7 @@
           label="Socket Type"
       >
         <template slot-scope="{row}">
-          <span>{{ row.socket_type }}</span>
+          <span>{{ row.socket_type | socketTypeFilter }}</span>
         </template>
       </el-table-column>
 
@@ -188,7 +189,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getAllSockets } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { bytesFormat, getSortFun, eventsFitler } from '@/utils/index'
+import { bytesFormat, getSortFun, eventsFitler, fdTypeFilter, socketTypeFilter } from '@/utils/index'
 import BackButton from '@/components/BackButton/index.vue'
 
 @Component({
@@ -200,136 +201,126 @@ import BackButton from '@/components/BackButton/index.vue'
   filters: {
     bytesFormat: bytesFormat,
     eventsFitler: eventsFitler,
-    fdTypeFilter: (type: number) => {
-      switch (type) {
-        case 9:
-          return 'signal'
-        case 3:
-          return 'pipe'
-        case 0:
-          return 'session'
-        default:
-          return 'php_stream'
-      }
-    }
+    fdTypeFilter: fdTypeFilter,
+    socketTypeFilter: socketTypeFilter
   }
 })
 
 export default class extends Vue {
-    private allList: IWorkerCoroutineData[] = [] // 接口返回原始数据
-    private handleAllList: Array<any> = [] // 处理处理后所有数据
-    private list: IWorkerCoroutineData[] = [] // 当前页显示数据
-    private listLoading = true
-    private total = 0
-    private _timer: any
-    private listQuery = {
-      page: 1,
-      limit: 10
-    }
+  private allList: IWorkerCoroutineData[] = [] // 接口返回原始数据
+  private handleAllList: Array<any> = [] // 处理处理后所有数据
+  private list: IWorkerCoroutineData[] = [] // 当前页显示数据
+  private listLoading = true
+  private total = 0
+  private _timer: any
+  private listQuery = {
+    page: 1,
+    limit: 10
+  }
 
-    // 选项参数
-    private eventFieldValue: Array<string> = []
-    private eventOptions: any = []
-    private socketTypeFieldValue: Array<string> = []
-    private socketTypeOptions: any = []
-    private fdTypeFieldValue: Array<string> = []
-    private fdTypeOptions: any = []
-    private portFieldValue: Array<string> = []
-    private portOptions: any = []
+  // 选项参数
+  private eventFieldValue: Array<string> = []
+  private eventOptions: any = []
+  private socketTypeFieldValue: Array<string> = []
+  private socketTypeOptions: any = []
+  private fdTypeFieldValue: Array<string> = []
+  private fdTypeOptions: any = []
+  private portFieldValue: Array<string> = []
+  private portOptions: any = []
 
-    created() {
-      this.getData()
-    }
+  created() {
+    this.getData()
+  }
 
-    destroyed() {
-      clearTimeout(this._timer)
-    }
+  destroyed() {
+    clearTimeout(this._timer)
+  }
 
-    /**
-     * 点击搜索过滤数据
-     * @private
-     */
+  /**
+   * 点击搜索过滤数据
+   * @private
+   */
     private filterHandler() {
       this.handleAllList = JSON.parse(JSON.stringify(this.allList))
 
-      if (this.eventFieldValue.length > 0) {
-        this.handleAllList = this.handleAllList.filter((item) => {
-          let mark = true
-          for (let i = 0; i < this.eventFieldValue.length; i++) {
-            if (item.events !== this.eventFieldValue[i]) {
-              mark = false
-              break
-            }
+    if (this.eventFieldValue.length > 0) {
+      this.handleAllList = this.handleAllList.filter((item) => {
+        let mark = true
+        for (let i = 0; i < this.eventFieldValue.length; i++) {
+          if (item.events !== this.eventFieldValue[i]) {
+            mark = false
+            break
           }
-          return mark
-        })
-      }
+        }
+        return mark
+      })
+    }
 
-      if (this.socketTypeFieldValue.length > 0) {
-        this.handleAllList = this.handleAllList.filter((item) => {
-          let mark = true
-          for (let i = 0; i < this.socketTypeFieldValue.length; i++) {
-            if (item.socket_type !== this.socketTypeFieldValue[i]) {
-              mark = false
-              break
-            }
+    if (this.socketTypeFieldValue.length > 0) {
+      this.handleAllList = this.handleAllList.filter((item) => {
+        let mark = true
+        for (let i = 0; i < this.socketTypeFieldValue.length; i++) {
+          if (item.socket_type !== this.socketTypeFieldValue[i]) {
+            mark = false
+            break
           }
-          return mark
-        })
-      }
+        }
+        return mark
+      })
+    }
 
-      if (this.fdTypeFieldValue.length > 0) {
-        this.handleAllList = this.handleAllList.filter((item) => {
-          let mark = true
-          for (let i = 0; i < this.fdTypeFieldValue.length; i++) {
-            if (item.fd_type !== this.fdTypeFieldValue[i]) {
-              mark = false
-              break
-            }
+    if (this.fdTypeFieldValue.length > 0) {
+      this.handleAllList = this.handleAllList.filter((item) => {
+        let mark = true
+        for (let i = 0; i < this.fdTypeFieldValue.length; i++) {
+          if (item.fd_type !== this.fdTypeFieldValue[i]) {
+            mark = false
+            break
           }
-          return mark
-        })
-      }
+        }
+        return mark
+      })
+    }
 
-      if (this.portFieldValue.length > 0) {
-        this.handleAllList = this.handleAllList.filter((item) => {
-          let mark = true
-          for (let i = 0; i < this.portFieldValue.length; i++) {
-            if (item.port !== this.portFieldValue[i]) {
-              mark = false
-              break
-            }
+    if (this.portFieldValue.length > 0) {
+      this.handleAllList = this.handleAllList.filter((item) => {
+        let mark = true
+        for (let i = 0; i < this.portFieldValue.length; i++) {
+          if (item.port !== this.portFieldValue[i]) {
+            mark = false
+            break
           }
-          return mark
-        })
-      }
+        }
+        return mark
+      })
+    }
 
       this.listQuery.page = 1
       this.total = this.handleAllList.length
       this.showList(this.handleAllList)
     }
 
-    /**
-     * 清除筛选
-     * @private
-     */
-    private clearFilter(): void {
-      if (
+  /**
+   * 清除筛选
+   * @private
+   */
+  private clearFilter(): void {
+    if (
         this.eventFieldValue.length > 0 ||
         this.socketTypeFieldValue.length > 0 ||
         this.fdTypeFieldValue.length > 0 ||
         this.portFieldValue.length > 0
-      ) {
-        console.log('清除筛选项')
-        this.eventFieldValue = []
-        this.socketTypeFieldValue = []
-        this.fdTypeFieldValue = []
-        this.portFieldValue = []
-        this.handleAllList = JSON.parse(JSON.stringify(this.allList))
-        this.showList(this.handleAllList)
-        this.total = this.handleAllList.length
-      }
+    ) {
+      console.log('清除筛选项')
+      this.eventFieldValue = []
+      this.socketTypeFieldValue = []
+      this.fdTypeFieldValue = []
+      this.portFieldValue = []
+      this.handleAllList = JSON.parse(JSON.stringify(this.allList))
+      this.showList(this.handleAllList)
+      this.total = this.handleAllList.length
     }
+  }
 
     // private timer() {
     //   this.getData()
@@ -338,71 +329,71 @@ export default class extends Vue {
     //   }, 3000)
     // }
 
-    // @Watch('list')
-    // onPropertyChanged(value: string, oldValue: string) {
-    //   this.timer()
-    //   console.log(111)
-    // }
+  // @Watch('list')
+  // onPropertyChanged(value: string, oldValue: string) {
+  //   this.timer()
+  //   console.log(111)
+  // }
 
-    /**
-     * 获取数据
-     * @private
-     */
-    private async getData() {
-      this.listLoading = true
-      const { id } = this.$route.params
-      const { data } = await getAllSockets(id)
-      const total = data.length // 数据总数
+  /**
+   * 获取数据
+   * @private
+   */
+  private async getData() {
+    this.listLoading = true
+    const { id } = this.$route.params
+    const { data } = await getAllSockets(id)
+    const total = data.length // 数据总数
 
-      const tmpEvents: Array<number> = []
-      const tmpSocketType: Array<number> = []
-      const tmpFdType: Array<number> = []
-      const tmpPort: Array<number> = []
-      for (let index = 0; index < data.length; index++) {
-        // 处理 events 选项数据
-        tmpEvents[index] = data[index].events
-        // 处理 socket type 选项数据
-        tmpSocketType[index] = data[index].socket_type
-        // 处理 fd type 选项数据
-        tmpFdType[index] = data[index].fd_type
-        // 处理 ports 选项数据
-        tmpPort[index] = data[index].port
-      }
-      // 去除重复值
-      for (let i = 0; i < tmpEvents.length; i++) {
-        if (tmpEvents.indexOf(tmpEvents[i]) === i) {
-          this.eventOptions.push(tmpEvents[i])
-        }
-      }
-      for (let i = 0; i < tmpSocketType.length; i++) {
-        if (tmpSocketType.indexOf(tmpSocketType[i]) === i) {
-          this.socketTypeOptions.push(tmpSocketType[i])
-        }
-      }
-      for (let i = 0; i < tmpFdType.length; i++) {
-        if (tmpFdType.indexOf(tmpFdType[i]) === i) {
-          this.fdTypeOptions.push(tmpFdType[i])
-        }
-      }
-      for (let i = 0; i < tmpPort.length; i++) {
-        if (tmpPort.indexOf(tmpPort[i]) === i) {
-          this.portOptions.push(tmpPort[i])
-        }
-      }
-      this.allList = JSON.parse(JSON.stringify(data)) // 备份初始数据
-      this.handleAllList = data // 处理使用数据
-      this.showList(this.handleAllList)
-      this.total = total // 数据总数量
-      this.listLoading = false
+    const tmpEvents: Array<number> = []
+    const tmpSocketType: Array<number> = []
+    const tmpFdType: Array<number> = []
+    const tmpPort: Array<number> = []
+    for (let index = 0; index < data.length; index++) {
+      // 处理 events 选项数据
+      tmpEvents[index] = data[index].events
+      // 处理 socket type 选项数据
+      tmpSocketType[index] = data[index].socket_type
+      // 处理 fd type 选项数据
+      tmpFdType[index] = data[index].fd_type
+      // 处理 ports 选项数据
+      tmpPort[index] = data[index].port
     }
-
-    /**
-     * 数据翻页显示数据
-     * @private
-     */
-    private jumpPage() {
-      this.showList(this.handleAllList)
+    // 去除重复值
+    for (let i = 0; i < tmpEvents.length; i++) {
+      if (tmpEvents.indexOf(tmpEvents[i]) === i) {
+        this.eventOptions.push(tmpEvents[i])
+      }
     }
+    for (let i = 0; i < tmpSocketType.length; i++) {
+      if (tmpSocketType.indexOf(tmpSocketType[i]) === i) {
+        this.socketTypeOptions.push(tmpSocketType[i])
+      }
+    }
+    for (let i = 0; i < tmpFdType.length; i++) {
+      if (tmpFdType.indexOf(tmpFdType[i]) === i) {
+        this.fdTypeOptions.push(tmpFdType[i])
+      }
+    }
+    for (let i = 0; i < tmpPort.length; i++) {
+      if (tmpPort.indexOf(tmpPort[i]) === i) {
+        this.portOptions.push(tmpPort[i])
+      }
+    }
+    this.allList = JSON.parse(JSON.stringify(data)) // 备份初始数据
+    this.handleAllList = data // 处理使用数据
+    this.showList(this.handleAllList)
+    this.total = total // 数据总数量
+    this.listLoading = false
+  }
+
+  /**
+   * 数据翻页显示数据
+   * @private
+   */
+  private jumpPage() {
+    this.showList(this.handleAllList)
+  }
 
     /**
      * 点击排序

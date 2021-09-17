@@ -12,35 +12,15 @@
           <el-descriptions
               border
           >
-            <el-descriptions-item label="Started Time">{{
-                serverStats.start_time | parseTime
-              }}
-            </el-descriptions-item>
-
-            <el-descriptions-item label="Accept Count">{{
-                serverStats.accept_count
-              }}
-            </el-descriptions-item>
-
-            <el-descriptions-item label="Close Count">{{
-                serverStats.close_count
-              }}
-            </el-descriptions-item>
-
-            <el-descriptions-item label="Dispatch Count">{{
-                serverStats.dispatch_count
-              }}
-            </el-descriptions-item>
-
-            <el-descriptions-item label="Idle Worker Num">{{
-                serverStats.idle_worker_num
-              }}
-            </el-descriptions-item>
-            <el-descriptions-item label="Request Count">{{
-                serverStats.request_count
-              }}
-            </el-descriptions-item>
-
+            <el-descriptions-item label="Started Time">{{ serverStats.start_time | parseTime }}</el-descriptions-item>
+            <el-descriptions-item label="Accept Count">{{ serverStats.accept_count }}</el-descriptions-item>
+            <el-descriptions-item label="Close Count">{{ serverStats.close_count }}</el-descriptions-item>
+            <el-descriptions-item label="Dispatch Count">{{ serverStats.dispatch_count }}</el-descriptions-item>
+            <el-descriptions-item label="Idle Worker Num">{{ serverStats.idle_worker_num }}</el-descriptions-item>
+            <el-descriptions-item label="Request Count">{{ serverStats.request_count }}</el-descriptions-item>
+            <el-descriptions-item label="Current Session ID">{{ serverStats.session_round }}</el-descriptions-item>
+            <el-descriptions-item label="Current Packet ID">{{ serverStats.pipe_packet_msg_id }}</el-descriptions-item>
+            <el-descriptions-item label="Max FD">{{ serverStats.max_fd }}</el-descriptions-item>
 
             <el-descriptions-item label="Worker Num">
               <el-link type="primary">
@@ -63,7 +43,6 @@
         </div>
       </el-card>
     </el-row>
-
     <el-row>
       <el-card class="box-card" style="margin-top: 20px">
         <div
@@ -127,6 +106,94 @@
             </template>
           </el-table-column>
 
+          <el-table-column
+              align="center"
+              label="Coroutine Peek Num"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.coroutine_peek_num }}</span>
+            </template>
+          </el-table-column>
+
+        </el-table>
+      </el-card>
+    </el-row>
+    <el-row>
+      <el-card class="box-card" style="margin-top: 20px">
+        <div
+            slot="header"
+            class="clearfix"
+        >
+          <span>Ports</span>
+        </div>
+
+        <div style="padding: 0; margin: 0">
+          <el-descriptions
+              border
+          >
+          </el-descriptions>
+        </div>
+        <el-table
+            :data="ports"
+            border
+            fit
+            highlight-current-row
+            width="100%"
+        >
+          <el-table-column
+              align="center"
+              label="Host"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.host }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              align="center"
+              label="Port"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.port }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              align="center"
+              label="Type"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.type | socketTypeFilter(row.ssl) }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              align="center"
+              label="Potocols"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.protocols }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              align="center"
+              label="Backlog"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.backlog }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              align="center"
+              label="Connection Num"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.connection_num }}</span>
+            </template>
+          </el-table-column>
+
         </el-table>
       </el-card>
     </el-row>
@@ -135,8 +202,8 @@
 
 <script>
 
-import { getServerStats } from '@/api/server'
-import { parseTime, bytesFormat } from '@/utils'
+import { getServerStats, getAllPorts } from '@/api/server'
+import { parseTime, bytesFormat, socketTypeFilter } from '@/utils'
 
 export default {
   data() {
@@ -156,26 +223,31 @@ export default {
         worker_num: -1,
         worker_request_count: -1
       },
-      workerStats: []
+      workerStats: [],
+      ports: []
     }
   },
   filters: {
     parseTime: parseTime,
-    bytesFormat: bytesFormat
+    bytesFormat: bytesFormat,
+    socketTypeFilter: socketTypeFilter
   },
   created() {
     this.getData()
   },
   methods: {
     async getData() {
-      const { data } = await getServerStats()
-      this.serverStats = data
-      this.workerStats.push({
-        worker_id: 0,
-        worker_request_count: data.worker_request_count,
-        worker_dispatch_count: data.worker_dispatch_count,
-        coroutine_num: data.coroutine_num
-      })
+      do {
+        const { data } = await getServerStats()
+        this.serverStats = data
+        this.workerStats.push({
+          worker_id: 0,
+          worker_request_count: data.worker_request_count,
+          worker_dispatch_count: data.worker_dispatch_count,
+          coroutine_num: data.coroutine_num,
+          coroutine_peek_num: data.coroutine_peek_num
+        })
+      } while (0)
 
       for (let i = 1; i < this.serverStats.worker_num; i++) {
         const { data } = await getServerStats('worker-' + i)
@@ -183,12 +255,15 @@ export default {
           worker_id: i,
           worker_request_count: data.worker_request_count,
           worker_dispatch_count: data.worker_dispatch_count,
-          coroutine_num: data.coroutine_num
+          coroutine_num: data.coroutine_num,
+          coroutine_peek_num: data.coroutine_peek_num
         })
       }
 
-      console.dir(this.serverStats)
-      console.dir(this.workerStats)
+      do {
+        const { data } = await getAllPorts()
+        this.ports = data
+      } while (0)
     }
   }
 }

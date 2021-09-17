@@ -63,7 +63,7 @@ export default new Router({
     {
       path: '/php',
       component: Layout,
-      redirect: '/php/extensions',
+      redirect: '/extensions',
       meta: {
         title: 'ZendVM',
         icon: 'example'
@@ -171,6 +171,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Timers.vue'),
           meta: {
             title: 'Timer List',
+            hidden: true
+          }
+        },
+        {
+          path: '/network_traffic/',
+          component: () => import('@/views/chart/NetworkTraffic.vue'),
+          meta: {
+            title: 'Network Traffic',
             hidden: true
           }
         }

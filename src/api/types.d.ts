@@ -56,10 +56,11 @@ export interface IWorkerTimerData {
 }
 
 export interface IServerSetting {
-  mode: number
-  reactor_num: number
-  manager_pid: number
-  task_worker_num: number
+  mode?: number
+  reactor_num?: number
+  manager_pid?: number
+  task_worker_num?: number
+  master_pid?: number
 }
 
 export interface IUnixSocket {

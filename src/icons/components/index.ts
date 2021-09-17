@@ -2,6 +2,7 @@
 import './404'
 import './application_group'
 import './back-top'
+import './back'
 import './bug'
 import './chart'
 import './clipboard'

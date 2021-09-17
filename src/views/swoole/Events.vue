@@ -1,7 +1,9 @@
 <template>
   <div class="app-container">
       <!---------------------------返回按钮------开始----------------------->
-      <el-button type="default" style="color:#909399;margin: 0 10px 10px 0;" icon="el-icon-back"></el-button>
+      <el-button type="default" style="color:#909399;margin: 0 10px 10px 0;" @click="back">
+        <svg-icon name="back" />
+      </el-button>
       <!---------------------------返回按钮------开始----------------------->
 
   <!---------------------------查询------开始----------------------->
@@ -17,6 +19,7 @@
           <el-option
                   v-for="item in eventOptions"
                   :label="item | eventsFitler"
+                  :key="item"
                   :value="item">
           </el-option>
       </el-select>
@@ -33,6 +36,7 @@
         <el-option
             v-for="item in socketTypeOptions"
             :label="item"
+            :key="item"
             :value="item">
         </el-option>
       </el-select>
@@ -49,6 +53,7 @@
         <el-option
           v-for="item in fdTypeOptions"
           :label="item | fdTypeFilter"
+          :key="item"
           :value="item">
         </el-option>
       </el-select>
@@ -65,6 +70,7 @@
         <el-option
           v-for="item in portOptions"
           :label="item"
+          :key="item"
           :value="item">
         </el-option>
       </el-select>
@@ -211,7 +217,7 @@ import { bytesFormat, getSortFun, eventsFitler } from '@/utils/index'
 
 export default class extends Vue {
     private allList: IWorkerCoroutineData[] = [] // 接口返回原始数据
-    private handleAllList: IWorkerCoroutineData[] = [] // 处理处理后所有数据
+    private handleAllList: Array<any> = [] // 处理处理后所有数据
     private list: IWorkerCoroutineData[] = [] // 当前页显示数据
     private listLoading = true
     private total = 0
@@ -232,7 +238,6 @@ export default class extends Vue {
     private portOptions: any = []
 
     created() {
-      // this.timer()
       this.getData()
     }
 
@@ -240,43 +245,76 @@ export default class extends Vue {
       clearTimeout(this._timer)
     }
 
-    // 点击搜索过滤数据
-    private filterHandler(value: string, row: any, column: any) {
+    /**
+     * 点击搜索过滤数据
+     * @private
+     */
+    private filterHandler() {
+    // private filterHandler(value: string, row: any, column: any) {
       // const property = column['property']
       // return row[property] === value
-      // console.log(value)
-      // console.log(row)
-      // console.log(column)
-      // console.log(this.handleAllList)
-      console.log(this.eventFieldValue)
-      if(this.eventFieldValue.length > 0){
+      this.handleAllList = JSON.parse(JSON.stringify(this.allList))
+
+      if (this.eventFieldValue.length > 0) {
         this.handleAllList = this.handleAllList.filter((item) => {
-          return item.events == value
+          let mark = true
+          for (let i = 0; i < this.eventFieldValue.length; i++) {
+            if (item.events !== this.eventFieldValue[i]) {
+              mark = false
+              break
+            }
+          }
+          return mark
         })
       }
-      console.log(this.socketTypeFieldValue)
-      if(this.socketTypeFieldValue.length > 0){
+
+      if (this.socketTypeFieldValue.length > 0) {
         this.handleAllList = this.handleAllList.filter((item) => {
-          return item.socket_type == value
+          let mark = true
+          for (let i = 0; i < this.socketTypeFieldValue.length; i++) {
+            if (item.socket_type !== this.socketTypeFieldValue[i]) {
+              mark = false
+              break
+            }
+          }
+          return mark
         })
       }
-      if(this.fdTypeFieldValue.length > 0){
+
+      if (this.fdTypeFieldValue.length > 0) {
         this.handleAllList = this.handleAllList.filter((item) => {
-          return item.fd_type == value
+          let mark = true
+          for (let i = 0; i < this.fdTypeFieldValue.length; i++) {
+            if (item.fd_type !== this.fdTypeFieldValue[i]) {
+              mark = false
+              break
+            }
+          }
+          return mark
         })
       }
-      if(this.portFieldValue.length > 0){
+
+      if (this.portFieldValue.length > 0) {
         this.handleAllList = this.handleAllList.filter((item) => {
-          return item.port == value
+          let mark = true
+          for (let i = 0; i < this.portFieldValue.length; i++) {
+            if (item.port !== this.portFieldValue[i]) {
+              mark = false
+              break
+            }
+          }
+          return mark
         })
       }
-      console.log(this.handleAllList)
-      this.list = this.handleAllList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+
+      this.showList(this.handleAllList)
       this.total = this.handleAllList.length
-      console.log(this.list)
     }
 
-    // 清除筛选
+    /**
+     * 清除筛选
+     * @private
+     */
     private clearFilter(): void {
       if (
         this.eventFieldValue.length > 0 ||
@@ -289,14 +327,15 @@ export default class extends Vue {
         this.socketTypeFieldValue = []
         this.fdTypeFieldValue = []
         this.portFieldValue = []
-        this.list = this.allList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+        this.handleAllList = JSON.parse(JSON.stringify(this.allList))
+        this.showList(this.handleAllList)
+        this.total = this.handleAllList.length
       }
     }
 
     private timer() {
       this.getData()
-      this._timer = setInterval(() => {
-      // this._timer = setTimeout(() => {
+      this._timer = setTimeout(() => {
         this.getData()
       }, 3000)
     }
@@ -352,28 +391,10 @@ export default class extends Vue {
           this.portOptions.push(tmpPort[i])
         }
       }
-
-      // console.log(this.eventOptions)
-      // console.log(this.socketTypeOptions)
-      // console.log(this.fdTypeOptions)
-      // console.log(this.portOptions)
-
-      // const start = (this.listQuery.page - 1) * this.listQuery.limit
-      // let end = this.listQuery.page * this.listQuery.limit
-      // end = Math.min(total, end)
-      // const list: IWorkerCoroutineData[] = []
-      // for (let index = start; index < end; index++) {
-      //   list[index] = data[index]
-      // }
       this.allList = JSON.parse(JSON.stringify(data)) // 备份初始数据
       this.handleAllList = data // 处理使用数据
-      this.list = this.handleAllList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit) // 当前页显示数据
-      // console.log(this.AllList)
-      // console.log(data)
-      // console.log((this.listQuery.page - 1) * this.listQuery.limit)
-      // console.log(this.listQuery.limit)
-      // console.log(data.slice((this.listQuery.page - 1) * this.listQuery.limit, this.listQuery.limit))
-      this.total = total
+      this.showList(this.handleAllList)
+      this.total = total // 数据总数量
       this.listLoading = false
     }
 
@@ -382,14 +403,13 @@ export default class extends Vue {
      * @private
      */
     private jumpPage() {
-      this.list = this.handleAllList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+      this.showList(this.handleAllList)
     }
 
     /**
      * 点击排序
      * @param column
      */
-    // private sortChange(column:any, prop:any, order:any) {
     private sortChange(column:any) {
       const field: string = column.column.sortable // 排序字段
       if (column.order !== null) {
@@ -398,12 +418,28 @@ export default class extends Vue {
         // console.log(this.allList)
         this.handleAllList = JSON.parse(JSON.stringify(this.allList)) // 备份初始数据
         this.handleAllList.sort(getSortFun(sortType, field)) // 处理使用数据
-        this.list = this.handleAllList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit) // 当前页显示数据
+        this.showList(this.handleAllList)
       } else {
         console.log(field + '取消排序')
-        // console.log(this.allList)
-        this.list = this.allList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+        this.showList(this.allList)
       }
+    }
+
+    /**
+     * 当前显示页数据
+     * @param data
+     * @private
+     */
+    private showList(data: Array<any>) {
+      this.list = data.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+    }
+
+    /**
+     * 返回上一页
+     * @private
+     */
+    private back() {
+      this.$router.go(-1) // 返回上一层
     }
 }
 </script>

@@ -207,7 +207,7 @@ export default class extends Vue {
   @Prop({ default: 'master' }) private type!: string
   private workers: IWorkerData[] = []
   private threads: IThreadData[] = []
-  private serverSetting: IServerSetting
+  private serverSetting: IServerSetting = {}
   private total = 0
   private listLoading = true
   private listQuery = {
@@ -248,7 +248,7 @@ export default class extends Vue {
       console.log(sortType)
       console.log(field)
       console.log(this.type)
-      this.worders.sort(getSortFun(sortType, field))
+      this.workers.sort(getSortFun(sortType, field))
     } else {
       console.log(12312312)
     }

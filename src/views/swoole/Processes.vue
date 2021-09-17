@@ -24,14 +24,14 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import Workers from '@/views/swoole/components/Workers.vue'
+import TabPane from '@/views/swoole/components/TabPane.vue'
 import { getServerSetting, getServerStats } from '@/api/server'
 import { IServerSetting } from '@/api/types'
 
 @Component({
   name: 'Tab',
   components: {
-    TabPane: Workers
+    TabPane: TabPane
   }
 })
 

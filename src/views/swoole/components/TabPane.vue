@@ -248,7 +248,8 @@ export default class extends Vue {
       console.log(sortType)
       console.log(field)
       console.log(this.type)
-      this.workers.sort(getSortFun(sortType, field))
+      this.workers = getSortFun(field, sortType, this.workers) // 处理使用数据
+      // this.workers.sort(getSortFun(sortType, field))
     } else {
       console.log(12312312)
     }

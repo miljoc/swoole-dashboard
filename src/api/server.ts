@@ -54,6 +54,20 @@ export const getConnections = (worker: any) =>
     method: 'get'
   })
 
+export const closeConnection = (session_id: string) =>
+  request({
+    url: '/api/close_session',
+    method: 'get',
+    params: { session_id }
+  })
+
+export const getSocketInfo = (fd: string) =>
+  request({
+    url: '/api/get_socket_info',
+    method: 'get',
+    params: { fd }
+  })
+
 export const getAllUnixSockets = (type: string, worker: string) =>
   request({
     url: `/api/get_all_unix_sockets/${worker}`,

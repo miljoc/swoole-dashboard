@@ -1,9 +1,7 @@
 <template>
   <div class="app-container">
       <!---------------------------返回按钮------开始----------------------->
-      <el-button type="default" style="color:#909399;margin: 0 10px 10px 0;" @click="back">
-        <svg-icon name="back" />
-      </el-button>
+      <BackButton />
       <!---------------------------返回按钮------开始----------------------->
 
   <!---------------------------查询------开始----------------------->
@@ -191,10 +189,12 @@ import { getAllSockets } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { bytesFormat, getSortFun, eventsFitler } from '@/utils/index'
+import BackButton from '@/components/BackButton/index.vue'
 
 @Component({
   name: 'EventList',
   components: {
+    BackButton,
     Pagination
   },
   filters: {
@@ -250,9 +250,6 @@ export default class extends Vue {
      * @private
      */
     private filterHandler() {
-    // private filterHandler(value: string, row: any, column: any) {
-      // const property = column['property']
-      // return row[property] === value
       this.handleAllList = JSON.parse(JSON.stringify(this.allList))
 
       if (this.eventFieldValue.length > 0) {
@@ -307,8 +304,9 @@ export default class extends Vue {
         })
       }
 
-      this.showList(this.handleAllList)
+      this.listQuery.page = 1
       this.total = this.handleAllList.length
+      this.showList(this.handleAllList)
     }
 
     /**
@@ -333,12 +331,12 @@ export default class extends Vue {
       }
     }
 
-    private timer() {
-      this.getData()
-      this._timer = setTimeout(() => {
-        this.getData()
-      }, 3000)
-    }
+    // private timer() {
+    //   this.getData()
+    //   this._timer = setTimeout(() => {
+    //     this.getData()
+    //   }, 3000)
+    // }
 
     // @Watch('list')
     // onPropertyChanged(value: string, oldValue: string) {
@@ -412,17 +410,23 @@ export default class extends Vue {
      */
     private sortChange(column:any) {
       const field: string = column.column.sortable // 排序字段
+      if (
+        this.eventFieldValue.length === 0 &&
+        this.socketTypeFieldValue.length === 0 &&
+        this.fdTypeFieldValue.length === 0 &&
+        this.portFieldValue.length === 0
+      ) {
+        this.handleAllList = JSON.parse(JSON.stringify(this.allList)) // 备份初始数据
+      }
+
       if (column.order !== null) {
         const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
         console.log('选择' + field + '-' + sortType + '排序')
-        // console.log(this.allList)
-        this.handleAllList = JSON.parse(JSON.stringify(this.allList)) // 备份初始数据
-        this.handleAllList.sort(getSortFun(sortType, field)) // 处理使用数据
-        this.showList(this.handleAllList)
+        this.handleAllList = getSortFun(field, sortType, this.handleAllList) // 处理使用数据
       } else {
         console.log(field + '取消排序')
-        this.showList(this.allList)
       }
+      this.showList(this.handleAllList)
     }
 
     /**
@@ -432,14 +436,6 @@ export default class extends Vue {
      */
     private showList(data: Array<any>) {
       this.list = data.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
-    }
-
-    /**
-     * 返回上一页
-     * @private
-     */
-    private back() {
-      this.$router.go(-1) // 返回上一层
     }
 }
 </script>

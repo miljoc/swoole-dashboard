@@ -96,7 +96,12 @@
           label="Number of bytes sent"
       >
         <template slot-scope="{row}">
-          <span>{{ row.total_send_bytes | bytesFormat }}</span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/network_traffic/?session_id=${row.session_id}&reactor_id=${row.reactor_id}`}">
+              {{ row.total_send_bytes | bytesFormat }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 
@@ -105,7 +110,12 @@
           label="Number of bytes received"
       >
         <template slot-scope="{row}">
-          <span>{{ row.total_recv_bytes | bytesFormat }}</span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/network_traffic/?session_id=${row.session_id}&reactor_id=${row.reactor_id}`}">
+              {{ row.total_recv_bytes | bytesFormat }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 
@@ -203,8 +213,6 @@ export default class extends Vue {
 
     }
 
-    console.dir(list)
-
     // eslint-disable-next-line camelcase
     list.sort((a: { session_id: number }, b: { session_id: number }) => {
       return a.session_id - b.session_id
@@ -221,6 +229,8 @@ export default class extends Vue {
     for (let index = start; index < end; index++) {
       _tmpList[index] = list[index]
     }
+
+    console.dir(_tmpList)
 
     this.list = _tmpList
     this.total = total

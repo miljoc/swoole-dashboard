@@ -48,16 +48,48 @@ export const parseTime = (
 }
 
 export const bytesFormat = (bytes: number) => {
-  if (bytes > 1024 * 1024 * 1024) {
+  if (bytes >= 1024 * 1024 * 1024) {
     return String((bytes / (1024 * 1024 * 1024)).toFixed(2)) + ' GB'
   }
-  if (bytes > 1024 * 1024) {
+  if (bytes >= 1024 * 1024) {
     return String((bytes / (1024 * 1024)).toFixed(2)) + ' MB'
   }
-  if (bytes > 1024) {
+  if (bytes >= 1024) {
     return String((bytes / (1024)).toFixed(2)) + ' KB'
   }
   return String(bytes) + ' B'
+}
+
+export const parseSocketType = (type: number, ssl: number) => {
+  let _type = ''
+  switch (type) {
+    case 1:
+      _type += 'TCP:IPv4'
+      break
+    case 2:
+      _type += 'UDP:IPv4'
+      break
+    case 3:
+      _type += 'TCP:IPv6'
+      break
+    case 4:
+      _type += 'UDP:IPv6'
+      break
+    case 5:
+      _type += 'STREAM:Unix'
+      break
+    case 6:
+      _type += 'DGRAM:Unix'
+      break
+    default:
+      return 'unknown'
+  }
+
+  if (ssl) {
+    _type += ':SSL'
+  }
+
+  return _type
 }
 
 export const eventsFitler = (events: number) => {

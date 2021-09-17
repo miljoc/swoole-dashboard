@@ -126,6 +126,22 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="Objects" align="center">
+        <template slot-scope="scope">
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/objects/${type}-${scope.$index}`}"> {{ scope.row.vm_status.object_num }}
+            </router-link>
+          </el-link>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Resources" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.vm_status.resource_num }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column label="Memory Usage" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.memory_usage | bytesFormat }}</span>
@@ -134,13 +150,22 @@
 
       <el-table-column label="VmSize" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.process_status.VmSize | toBytes | bytesFormat }}</span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/memory_info/${type}-${scope.$index}`}"> {{ scope.row.process_status.VmSize | toBytes | bytesFormat }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 
       <el-table-column label="VmRSS" align="center" sortable="process_status.VmRSS">
         <template slot-scope="scope">
-          <span>{{ scope.row.process_status.VmRSS | toBytes | bytesFormat }}</span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/memory_info/${type}-${scope.$index}`}">
+              {{ scope.row.process_status.VmRSS | toBytes | bytesFormat }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 

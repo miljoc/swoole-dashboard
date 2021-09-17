@@ -42,6 +42,12 @@ export const getTimerList = (worker: any) =>
     method: 'get'
   })
 
+export const getObjects = (worker: any) =>
+  request({
+    url: `/api/get_objects/${worker}`,
+    method: 'get'
+  })
+
 export const getAllSockets = (worker: any) =>
   request({
     url: `/api/get_all_sockets/${worker}`,
@@ -81,16 +87,22 @@ export const getAllPorts = () =>
     method: 'get'
   })
 
-export const getClientInfo = (worker: any, session_id: number) =>
+export const getClientInfo = (worker: string, session_id: number) =>
   request({
     url: `/api/get_client_info/${worker}`,
     method: 'get',
     params: { session_id: session_id }
   })
 
-export const getConnectionInfo = (worker: any, session_id: number) =>
+export const getConnectionInfo = (worker: string, session_id: number) =>
   request({
     url: `/api/get_connection_info/${worker}`,
     method: 'get',
     params: { session_id: session_id }
+  })
+
+export const getMemoryInfo = (worker: string) =>
+  request({
+    url: `/api/get_memory_info/${worker}`,
+    method: 'get'
   })

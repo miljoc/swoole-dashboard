@@ -12,6 +12,7 @@
       <el-table-column
           align="center"
           label="Session ID"
+          width="100"
       >
         <template slot-scope="{row}">
           <span>{{ row.session_id }}</span>
@@ -21,9 +22,11 @@
       <el-table-column
           align="center"
           label="FD"
+          width="100"
       >
         <template slot-scope="{row}">
-          <span style="color: #1890ff;cursor: pointer;font-size: 14px;font-weight: 500;" @click="showSocketInfo(row.fd)">{{ row.fd }}</span>
+          <span style="color: #1890ff;cursor: pointer;font-size: 14px;font-weight: 500;"
+                @click="showSocketInfo(row.fd)">{{ row.fd }}</span>
         </template>
       </el-table-column>
 
@@ -118,10 +121,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="action" align="center">
+      <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleCloseSession(scope.row, scope.$index)">
-            CloseSession
+          <el-button type="warning" size="mini" @click="handleCloseSession(scope.row, scope.$index)">
+            Close Session
           </el-button>
         </template>
       </el-table-column>

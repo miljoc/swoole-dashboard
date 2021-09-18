@@ -35,3 +35,9 @@ export const getDefinedFunctions = () =>
     url: '/api/get_defined_functions/worker-0',
     method: 'get'
   })
+
+export const getResources = (worker = 'master') =>
+  request({
+    url: '/api/get_resources/' + worker,
+    method: 'get'
+  })

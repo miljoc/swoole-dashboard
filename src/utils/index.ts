@@ -171,3 +171,10 @@ export const getSortFun = (order: string, sortBy: string) => {
   const sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1')
   return sortFun
 }
+
+export const parseResourceInfo = (row: any) => {
+  if (row.type !== 'stream') {
+    return '-'
+  }
+  return row.info.stream_type
+}

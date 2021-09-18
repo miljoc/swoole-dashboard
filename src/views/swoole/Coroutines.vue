@@ -66,6 +66,7 @@ import Pagination from '@/components/Pagination/index.vue'
 })
 export default class extends Vue {
   private list: IWorkerCoroutineData[] = []
+  private data: IWorkerCoroutineData[] = []
   private listLoading = true
   private total = 0
   private dialogTableVisible = false
@@ -106,10 +107,13 @@ export default class extends Vue {
 
   private async getData() {
     this.listLoading = true
-    const { id } = this.$route.params
-    const { data } = await getCoroutineList(id)
+    if (this.data.length === 0) {
+      const { id } = this.$route.params
+      const { data } = await getCoroutineList(id)
+      this.data = data
+    }
 
-    const total = data.length
+    const total = this.data.length
 
     const start = (this.listQuery.page - 1) * this.listQuery.limit
     let end = this.listQuery.page * this.listQuery.limit
@@ -119,7 +123,7 @@ export default class extends Vue {
     const list: IWorkerCoroutineData[] = []
 
     for (let index = start; index < end; index++) {
-      list[index] = data[index]
+      list[index] = this.data[index]
     }
 
     this.list = list

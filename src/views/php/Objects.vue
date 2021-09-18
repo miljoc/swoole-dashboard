@@ -73,6 +73,7 @@ import { bytesFormat, parseTime, getSortFun } from '@/utils'
 })
 export default class extends Vue {
   private list: IWorkerTimerData[] = []
+  private data: IWorkerTimerData[] = []
   private listLoading = true
   private total = 0
   private listQuery = {
@@ -86,10 +87,13 @@ export default class extends Vue {
 
   private async getData() {
     this.listLoading = true
-    const worker = this.$route.params.worker
-    const { data } = await getObjects(worker)
+    if (this.data.length === 0) {
+      const worker = this.$route.params.worker
+      const { data } = await getObjects(worker)
+      this.data = data
+    }
 
-    const total = data.length
+    const total = this.data.length
 
     const start = (this.listQuery.page - 1) * this.listQuery.limit
     let end = this.listQuery.page * this.listQuery.limit
@@ -99,7 +103,7 @@ export default class extends Vue {
     const list: IWorkerTimerData[] = []
 
     for (let index = start; index < end; index++) {
-      list[index] = data[index]
+      list[index] = this.data[index]
     }
 
     this.list = list

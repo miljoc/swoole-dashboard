@@ -39,13 +39,6 @@ export default new Router({
       meta: { hidden: true }
     },
     {
-      path: '/workers',
-      component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/Workers.vue'),
-      meta: {
-        hidden: true
-      }
-    },
-    {
       path: '/',
       component: Layout,
       redirect: '/dashboard',
@@ -94,19 +87,27 @@ export default new Router({
           }
         },
         {
-          path: '/declared_classes',
-          component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/DeclaredClasses.vue'),
+          path: '/classes',
+          component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/Classes.vue'),
           meta: {
             title: 'Classes',
             icon: 'hamburger'
           }
         },
         {
-          path: '/defined_functions',
-          component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/DefinedFunctions.vue'),
+          path: '/functions',
+          component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/Functions.vue'),
           meta: {
             title: 'Functions',
             icon: 'function'
+          }
+        },
+        {
+          path: '/resources',
+          component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/Resources.vue'),
+          meta: {
+            title: 'Resources',
+            icon: 'resource'
           }
         }
       ]

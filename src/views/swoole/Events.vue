@@ -189,7 +189,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getAllSockets } from '@/api/server'
-import { IWorkerCoroutineData } from '@/api/types'
+import { IWorkerCoroutineData, IWorkerTimerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { bytesFormat, getSortFun, eventsFitler, fdTypeFilter, socketTypeFilter } from '@/utils/index'
 

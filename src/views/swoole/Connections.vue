@@ -1,134 +1,134 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-    <el-table
-        v-loading="listLoading"
-        :data="list"
-        border
-        fit
-        highlight-current-row
-        width="100%"
-    >
-      <el-table-column
-          align="center"
-          label="Session ID"
+      <el-table
+          v-loading="listLoading"
+          :data="list"
+          border
+          fit
+          highlight-current-row
+          width="100%"
       >
-        <template slot-scope="{row}">
-          <span>{{ row.session_id }}</span>
-        </template>
-      </el-table-column>
+        <el-table-column
+            align="center"
+            label="Session ID"
+        >
+          <template slot-scope="{row}">
+            <span>{{ row.session_id }}</span>
+          </template>
+        </el-table-column>
 
-      <el-table-column
-          align="center"
-          label="FD"
-      >
-        <template slot-scope="{row}">
-          <span>{{ row.fd }}</span>
-        </template>
-      </el-table-column>
+        <el-table-column
+            align="center"
+            label="FD"
+        >
+          <template slot-scope="{row}">
+            <span>{{ row.fd }}</span>
+          </template>
+        </el-table-column>
 
-      <el-table-column
-          align="center"
-          label="Socket Name"
-      >
-        <template slot-scope="{row}">
-          <el-tag type="success">{{ row.address }}:{{ row.port }}</el-tag>
-        </template>
-      </el-table-column>
+        <el-table-column
+            align="center"
+            label="Socket Name"
+        >
+          <template slot-scope="{row}">
+            <el-tag type="success">{{ row.address }}:{{ row.port }}</el-tag>
+          </template>
+        </el-table-column>
 
-      <el-table-column
-          align="center"
-          label="Server Port"
-      >
-        <template slot-scope="{row}">
-          <span>{{ row.server_port }}</span>
-        </template>
-      </el-table-column>
+        <el-table-column
+            align="center"
+            label="Server Port"
+        >
+          <template slot-scope="{row}">
+            <span>{{ row.server_port }}</span>
+          </template>
+        </el-table-column>
 
-      <el-table-column
-          align="center"
-          label="Connect Time"
-      >
-        <template slot-scope="{row}">
-          <span>{{ row.connect_time | parseTime('{h}:{i}:{s}.{M}') }}</span>
-        </template>
-      </el-table-column>
+        <el-table-column
+            align="center"
+            label="Connect Time"
+        >
+          <template slot-scope="{row}">
+            <span>{{ row.connect_time | parseTime('{h}:{i}:{s}.{M}') }}</span>
+          </template>
+        </el-table-column>
 
 
-      <el-table-column
-          align="center"
-          label="Last Received Time"
-      >
-        <template slot-scope="{row}">
-          <span>{{ row.last_recv_time | parseTime('{h}:{i}:{s}.{M}') }}</span>
-        </template>
-      </el-table-column>
+        <el-table-column
+            align="center"
+            label="Last Received Time"
+        >
+          <template slot-scope="{row}">
+            <span>{{ row.last_recv_time | parseTime('{h}:{i}:{s}.{M}') }}</span>
+          </template>
+        </el-table-column>
 
-      <el-table-column
-          align="center"
-          label="Last Sent Time"
-      >
-        <template slot-scope="{row}">
-          <span>{{ row.last_send_time | parseTime('{h}:{i}:{s}.{M}') }}</span>
-        </template>
-      </el-table-column>
+        <el-table-column
+            align="center"
+            label="Last Sent Time"
+        >
+          <template slot-scope="{row}">
+            <span>{{ row.last_send_time | parseTime('{h}:{i}:{s}.{M}') }}</span>
+          </template>
+        </el-table-column>
 
-      <el-table-column
-          align="center"
-          label="recv_queued_bytes"
-      >
-        <template slot-scope="{row}">
-          <span>{{ row.recv_queued_bytes | bytesFormat }}</span>
-        </template>
-      </el-table-column>
+        <el-table-column
+            align="center"
+            label="recv_queued_bytes"
+        >
+          <template slot-scope="{row}">
+            <span>{{ row.recv_queued_bytes | bytesFormat }}</span>
+          </template>
+        </el-table-column>
 
-      <el-table-column
-          align="center"
-          label="send_queued_bytes"
-      >
-        <template slot-scope="{row}">
-          <span>{{ row.send_queued_bytes | bytesFormat }}</span>
-        </template>
-      </el-table-column>
+        <el-table-column
+            align="center"
+            label="send_queued_bytes"
+        >
+          <template slot-scope="{row}">
+            <span>{{ row.send_queued_bytes | bytesFormat }}</span>
+          </template>
+        </el-table-column>
 
-      <el-table-column
-          align="center"
-          label="Number of bytes sent"
-      >
-        <template slot-scope="{row}">
-          <el-link type="primary">
-            <router-link class="link-type"
-                         :to="{path: `/network_traffic/?session_id=${row.session_id}&reactor_id=${row.reactor_id}`}">
-              {{ row.total_send_bytes | bytesFormat }}
-            </router-link>
-          </el-link>
-        </template>
-      </el-table-column>
+        <el-table-column
+            align="center"
+            label="Number of bytes sent"
+        >
+          <template slot-scope="{row}">
+            <el-link type="primary">
+              <router-link class="link-type"
+                           :to="{path: `/network_traffic/?session_id=${row.session_id}&reactor_id=${row.reactor_id}`}">
+                {{ row.total_send_bytes | bytesFormat }}
+              </router-link>
+            </el-link>
+          </template>
+        </el-table-column>
 
-      <el-table-column
-          align="center"
-          label="Number of bytes received"
-      >
-        <template slot-scope="{row}">
-          <el-link type="primary">
-            <router-link class="link-type"
-                         :to="{path: `/network_traffic/?session_id=${row.session_id}&reactor_id=${row.reactor_id}`}">
-              {{ row.total_recv_bytes | bytesFormat }}
-            </router-link>
-          </el-link>
-        </template>
-      </el-table-column>
+        <el-table-column
+            align="center"
+            label="Number of bytes received"
+        >
+          <template slot-scope="{row}">
+            <el-link type="primary">
+              <router-link class="link-type"
+                           :to="{path: `/network_traffic/?session_id=${row.session_id}&reactor_id=${row.reactor_id}`}">
+                {{ row.total_recv_bytes | bytesFormat }}
+              </router-link>
+            </el-link>
+          </template>
+        </el-table-column>
 
-    </el-table>
+      </el-table>
 
-    <pagination
-        v-show="total>0"
-        :total="total"
-        :page.sync="listQuery.page"
-        :limit.sync="listQuery.limit"
-        @pagination="getData"
-    />
-  </div>
+      <pagination
+          v-show="total>0"
+          :total="total"
+          :page.sync="listQuery.page"
+          :limit.sync="listQuery.limit"
+          @pagination="getData"
+      />
+    </div>
   </div>
 </template>
 
@@ -153,6 +153,7 @@ import { bytesFormat, eventsFitler, parseTime } from '@/utils/index'
 
 export default class extends Vue {
   private list: IWorkerCoroutineData[] = []
+  private data: IWorkerCoroutineData[] = []
   private listLoading = true
   private total = 0
   private _timer: any
@@ -179,38 +180,43 @@ export default class extends Vue {
     }, 3000)
   }
 
-  //
-  // @Watch('list')
-  // onPropertyChanged(value: string, oldValue: string) {
-  //   this.timer()
-  // }
+  @Watch('list')
+  onPropertyChanged(value: string, oldValue: string) {
+    this.timer()
+  }
 
   private async getData() {
-    this.listLoading = true
-    {
-      const { data } = await getServerSetting()
-      this.serverSetting = data
-    }
+    if (this.data.length === 0) {
+      do {
+        const { data } = await getServerSetting()
+        this.serverSetting = data
+      } while (0)
+      // eslint-disable-next-line camelcase
+      let list: { session_id: 0 }[] = []
 
-    // eslint-disable-next-line camelcase
-    let list: { session_id: 0 }[] = []
-
-    if (this.serverSetting.mode === 2) {
-      for (let i = 0; i < this.serverSetting.reactor_num; i++) {
-        const { data } = await getConnections('reactor-' + i)
-        list = list.concat(data)
+      if (this.serverSetting.mode === 2) {
+        for (let i = 0; i < this.serverSetting.reactor_num; i++) {
+          const { data } = await getConnections('reactor-' + i)
+          list = list.concat(data)
+        }
+      } else {
+        for (let i = 0; i < this.serverSetting.worker_num; i++) {
+          const { data } = await getConnections('worker-' + i)
+          list = list.concat(data)
+        }
       }
-    } else {
 
+      // eslint-disable-next-line camelcase
+      list.sort((a: { session_id: number }, b: { session_id: number }) => {
+        return a.session_id - b.session_id
+      })
+      this.data = list
     }
 
-    // eslint-disable-next-line camelcase
-    list.sort((a: { session_id: number }, b: { session_id: number }) => {
-      return a.session_id - b.session_id
-    })
+    this.total = this.data.length
+    this.listLoading = true
 
-    const total = list.length
-
+    const total = this.data.length
     const start = (this.listQuery.page - 1) * this.listQuery.limit
     let end = this.listQuery.page * this.listQuery.limit
 
@@ -218,13 +224,10 @@ export default class extends Vue {
 
     const _tmpList = []
     for (let index = start; index < end; index++) {
-      _tmpList[index] = list[index]
+      _tmpList[index] = this.data[index]
     }
 
-    console.dir(_tmpList)
-
     this.list = _tmpList
-    this.total = total
     this.listLoading = false
   }
 }

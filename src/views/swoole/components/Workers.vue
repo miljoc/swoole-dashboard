@@ -138,7 +138,12 @@
 
       <el-table-column label="Resources" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.vm_status.resource_num }}</span>
+
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/resources/?worker=${type}-${scope.$index}`}">{{ scope.row.vm_status.resource_num }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 
@@ -181,10 +186,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="action" align="center">
+      <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.row, scope.$index)">
-              detail
+          <el-button size="mini" @click="viewWorkerDetail(scope.row, scope.$index)">
+              View Details
           </el-button
           >
         </template>
@@ -279,13 +284,8 @@ export default class extends Vue {
     }
   }
 
-  private handleEdit(row: any, index: number) {
-    switch (this.type) {
-      case 'task_worker':
-      case 'worker':
-        this.$router.push({ path: `/worker/${this.type}-${index}` })
-        break
-    }
+  private viewWorkerDetail(row: any, index: number) {
+    this.$router.push({ path: `/worker/${this.type}-${index}` })
   }
 
   private async getWorkers() {

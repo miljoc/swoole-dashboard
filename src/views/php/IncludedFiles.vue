@@ -45,6 +45,7 @@ import Pagination from '@/components/Pagination/index.vue'
 })
 export default class extends Vue {
   private files: IIncludedFilesData[] = [];
+  private data: IIncludedFilesData[] = [];
   private total = 0
   private listLoading = true;
   private listQuery = {
@@ -59,9 +60,13 @@ export default class extends Vue {
   private async getIncludedFiles() {
     console.log(this.listQuery)
     this.listLoading = true
-    const { data } = await getIncludedFiles()
 
-    const total = data.files.length
+    if (this.data.length === 0) {
+      const { data } = await getIncludedFiles()
+      this.data = data
+    }
+
+    const total = this.data.length
 
     const files: IIncludedFilesData[] = []
     const start = (this.listQuery.page - 1) * this.listQuery.limit
@@ -72,7 +77,7 @@ export default class extends Vue {
     for (let index = start; index < end; index++) {
       files[index] = {
         id: index + 1,
-        filename: data.files[index]
+        filename: this.data[index]
       }
     }
     this.files = files

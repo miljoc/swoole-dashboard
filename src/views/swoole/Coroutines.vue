@@ -1,5 +1,8 @@
 <template>
   <div class="app-container">
+    <!---------------------------返回按钮------开始----------------------->
+    <BackButton />
+    <!---------------------------返回按钮------开始----------------------->
     <el-table
         v-loading="listLoading"
         :data="list"
@@ -57,10 +60,12 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getCoroutineList } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
+import BackButton from '@/components/BackButton/index.vue'
 
 @Component({
   name: 'InlineEditTable',
   components: {
+    BackButton,
     Pagination
   }
 })

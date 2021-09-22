@@ -66,7 +66,7 @@ export const getConnections = (worker: any) =>
     method: 'get'
   })
 
-export const closeConnection = (session_id: string) =>
+export const closeConnection = (session_id: number) =>
   request({
     url: '/api/close_session',
     method: 'get',

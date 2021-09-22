@@ -77,7 +77,7 @@ export default class extends Vue {
     for (let index = start; index < end; index++) {
       files[index] = {
         id: index + 1,
-        filename: this.data[index]
+        filename: String(this.data[index])
       }
     }
 

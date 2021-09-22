@@ -138,12 +138,15 @@
         @pagination="getData"
     />
 
-    <!-------------------fd详情信息-----开始-------------------------------------------------->
+      <!-------------------fd详情信息-----开始-------------------------------------------------->
       <el-dialog title="SocketInfo" :visible.sync="dialogTableVisible">
         <el-descriptions
-                border
-                :column=1>
-          <el-descriptions-item :label="index" v-for="(item, index) in socketInfo" v-key="index">{{ item }}</el-descriptions-item>
+            border
+            :column=1>
+          <el-descriptions-item :label="index" v-for="(item, index) in socketInfo" v-key="index">{{
+              item
+            }}
+          </el-descriptions-item>
         </el-descriptions>
       </el-dialog>
     <!-------------------fd详情信息-----结束-------------------------------------------------->
@@ -154,7 +157,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getServerSetting, getConnections, closeConnection, getSocketInfo } from '@/api/server'
-import { IWorkerCoroutineData, IServerSetting } from '@/api/types'
+import { IWorkerCoroutineData, IServerSetting, IConnectionInfo } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { bytesFormat, eventsFitler, parseTime } from '@/utils/index'
 
@@ -171,9 +174,9 @@ import { bytesFormat, eventsFitler, parseTime } from '@/utils/index'
 })
 
 export default class extends Vue {
-  private allList: IWorkerCoroutineData[] = [] // 接口返回原始数据
+  private allList: IConnectionInfo[] = [] // 接口返回原始数据
   private handleAllList: Array<any> = [] // 处理处理后所有数据
-  private list: IWorkerCoroutineData[] = [] // 当前页显示数据
+  private list: IConnectionInfo[] = [] // 当前页显示数据
   private socketInfo = {} // socket info数据
   private dialogTableVisible = false
   private listLoading = true
@@ -185,7 +188,12 @@ export default class extends Vue {
   }
 
   private serverSetting: IServerSetting = {
-    mode: 1
+    mode: 0,
+    reactor_num: 0,
+    manager_pid: 0,
+    task_worker_num: 0,
+    worker_num: 0,
+    master_pid: 0
   }
 
   created() {
@@ -212,7 +220,7 @@ export default class extends Vue {
    * 显示socket info详情
    * @private
    */
-  private async showSocketInfo(fd) {
+  private async showSocketInfo(fd: any) {
     this.dialogTableVisible = true
     const { data } = await getSocketInfo(fd)
     this.socketInfo = data
@@ -273,7 +281,7 @@ export default class extends Vue {
    * @param res
    * @private
    */
-  private handleCloseSession(res) {
+  private handleCloseSession(res: any) {
     this.$confirm('Confirm whether to close the connection？', {
       confirmButtonText: 'close',
       cancelButtonText: 'cancel',
@@ -291,7 +299,7 @@ export default class extends Vue {
    * @param session_id
    * @private
    */
-  private async closeSession(session_id: string) {
+  private async closeSession(session_id: number) {
     const { data } = await closeConnection(session_id)
     this.$message({
       type: 'success',

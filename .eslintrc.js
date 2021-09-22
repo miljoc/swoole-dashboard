@@ -25,7 +25,7 @@ module.exports = {
       }],
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-var-requires': 'off',
-    'camelcase': 'off',
+    camelcase: 'off',
     '@typescript-eslint/camelcase': 0,
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',

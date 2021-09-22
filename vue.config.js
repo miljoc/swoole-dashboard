@@ -3,7 +3,7 @@ const name = 'Swoole Dashboard'
 
 module.exports = {
   // TODO: Remember to change publicPath to fit your need
-  publicPath: process.env.NODE_ENV === 'production' ? '/vue-typescript-admin-template/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
   lintOnSave: process.env.NODE_ENV === 'development',
   pwa: {
     name: name

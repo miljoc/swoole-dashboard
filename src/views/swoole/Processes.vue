@@ -58,7 +58,12 @@ export default class extends Vue {
   private activeName = 'master'
   private serverStats = {}
   private serverSetting: IServerSetting = {
-    mode: 1
+    mode: 0,
+    reactor_num: 0,
+    manager_pid: 0,
+    task_worker_num: 0,
+    worker_num: 0,
+    master_pid: 0
   }
 
   @Watch('activeName')
@@ -90,13 +95,15 @@ export default class extends Vue {
       }
     }
 
-    this.tabMapOptions.forEach(function(item) {
+    const serverSetting = this.serverSetting
+
+    this.tabMapOptions.forEach(function(item: any) {
       if (item.key === 'task_worker') {
-        item.label = 'TaskWorker (' + this.serverSetting.task_worker_num + ')'
+        item.label = 'TaskWorker (' + serverSetting.task_worker_num + ')'
       } else if (item.key === 'worker') {
-        item.label = 'Worker (' + this.serverSetting.worker_num + ')'
+        item.label = 'Worker (' + serverSetting.worker_num + ')'
       }
-    }, this)
+    })
   }
 
   created() {

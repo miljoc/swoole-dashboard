@@ -237,7 +237,15 @@ export default class extends Vue {
   @Prop({ default: 'master' }) private type!: string
   private workers: IWorkerData[] = []
   private threads: IThreadData[] = []
-  private serverSetting: IServerSetting = {}
+  private serverSetting: IServerSetting = {
+    mode: 0,
+    reactor_num: 0,
+    manager_pid: 0,
+    task_worker_num: 0,
+    worker_num: 0,
+    master_pid: 0
+  }
+
   private total = 0
   private listLoading = true
   private listQuery = {
@@ -270,7 +278,7 @@ export default class extends Vue {
    * @param prop
    * @param order
    */
-  private sortChange(column:any, prop:any, order:any) {
+  private sortChange(column: any, prop: any, order: any) {
     console.log(column)
     if (column.order !== null) {
       const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序

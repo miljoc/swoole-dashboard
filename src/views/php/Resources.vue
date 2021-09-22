@@ -79,7 +79,7 @@ export default class extends Vue {
   }
 
   private async getData() {
-    const worker = this.$route.query.worker ? this.$route.query.worker : 'master'
+    const worker: string = this.$route.query.worker ? String(this.$route.query.worker) : 'master'
     const { data } = await getResources(worker)
     this.list = data
   }

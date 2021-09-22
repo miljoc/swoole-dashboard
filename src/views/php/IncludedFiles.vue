@@ -63,7 +63,7 @@ export default class extends Vue {
 
     if (this.data.length === 0) {
       const { data } = await getIncludedFiles()
-      this.data = data
+      this.data = data.files
     }
 
     const total = this.data.length
@@ -77,9 +77,12 @@ export default class extends Vue {
     for (let index = start; index < end; index++) {
       files[index] = {
         id: index + 1,
-        filename: this.data[index]
+        filename: String(this.data[index])
       }
     }
+
+    console.dir(files, this.data)
+
     this.files = files
     this.total = total
     this.listLoading = false

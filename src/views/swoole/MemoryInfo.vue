@@ -74,7 +74,7 @@ export default {
     return {
       info: {},
       serverSetting: {},
-      threadMemoryInfo:[],
+      threadMemoryInfo: [],
       total: 0
     }
   },
@@ -88,8 +88,8 @@ export default {
   },
   methods: {
     sum(info) {
-      var total = 0
-      for (var key in info) {
+      let total = 0
+      for (const key in info) {
         total += info[key]
       }
       return total

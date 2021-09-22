@@ -50,17 +50,24 @@ export interface IWorkerCoroutineData {
   backTrace: string[]
 }
 
+export interface IConnectionInfo {
+  total_recv_bytes: number
+  total_send_bytes: number
+  session_id: number
+}
+
 export interface IWorkerTimerData {
   id: number
   info: string[]
 }
 
 export interface IServerSetting {
-  mode?: number
-  reactor_num?: number
-  manager_pid?: number
-  task_worker_num?: number
-  master_pid?: number
+  mode: number
+  reactor_num: number
+  worker_num: number
+  manager_pid: number
+  task_worker_num: number
+  master_pid: number
 }
 
 export interface IUnixSocket {

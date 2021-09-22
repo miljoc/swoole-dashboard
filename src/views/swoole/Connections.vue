@@ -53,6 +53,7 @@
       <el-table-column
           align="center"
           label="Session ID"
+          width="100"
           sortable="session_id"
       >
         <template slot-scope="{row}">
@@ -63,6 +64,7 @@
       <el-table-column
           align="center"
           label="FD"
+          width="100"
           sortable="fd"
       >
         <template slot-scope="{row}">
@@ -173,10 +175,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Action" align="center">
+      <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleCloseSession(scope.row, scope.$index)">
-            CloseSession
+          <el-button type="warning" size="mini" @click="handleCloseSession(scope.row, scope.$index)">
+            Close Session
           </el-button>
         </template>
       </el-table-column>
@@ -196,7 +198,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getServerSetting, getConnections, closeConnection, getSocketInfo } from '@/api/server'
-import { IWorkerCoroutineData, IServerSetting } from '@/api/types'
+import { IWorkerCoroutineData, IServerSetting, IConnectionInfo } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { bytesFormat, eventsFitler, getSortFun, parseTime } from '@/utils/index'
 
@@ -213,9 +215,9 @@ import { bytesFormat, eventsFitler, getSortFun, parseTime } from '@/utils/index'
 })
 
 export default class extends Vue {
-  private allList: IWorkerCoroutineData[] = [] // 接口返回原始数据
+  private allList: IConnectionInfo[] = [] // 接口返回原始数据
   private handleAllList: Array<any> = [] // 处理处理后所有数据
-  private list: IWorkerCoroutineData[] = [] // 当前页显示数据
+  private list: IConnectionInfo[] = [] // 当前页显示数据
   private listLoading = true
   private total = 0
   // private _timer: any
@@ -231,7 +233,12 @@ export default class extends Vue {
   private ServerPortOptions: any = []
 
   private serverSetting: IServerSetting = {
-    mode: 1
+    mode: 0,
+    reactor_num: 0,
+    manager_pid: 0,
+    task_worker_num: 0,
+    worker_num: 0,
+    master_pid: 0
   }
 
   created() {
@@ -356,7 +363,7 @@ export default class extends Vue {
    * @param res
    * @private
    */
-  private handleCloseSession(res) {
+  private handleCloseSession(res: any) {
     this.$confirm('Confirm whether to close the connection？', {
       confirmButtonText: 'close',
       cancelButtonText: 'cancel',
@@ -374,7 +381,7 @@ export default class extends Vue {
    * @param session_id
    * @private
    */
-  private async closeSession(session_id: string) {
+  private async closeSession(session_id: number) {
     const { data } = await closeConnection(session_id)
     this.$message({
       type: 'success',

@@ -87,6 +87,14 @@ export default new Router({
           }
         },
         {
+          path: '/includedfiles_detail',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/php/IncludedFilesDetail.vue'),
+          meta: {
+            title: 'Included Files Content',
+            hidden: true
+          }
+        },
+        {
           path: '/classes',
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/Classes.vue'),
           meta: {

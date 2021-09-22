@@ -192,6 +192,14 @@ export default new Router({
           }
         },
         {
+          path: '/object_var_dump',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/php/ObjectVarDump.vue'),
+          meta: {
+            title: 'ObjectVarDump',
+            hidden: true
+          }
+        },
+        {
           path: '/memory_info/:worker',
           component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/MemoryInfo.vue'),
           meta: {

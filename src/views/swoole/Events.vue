@@ -1,9 +1,5 @@
 <template>
   <div class="app-container">
-      <!---------------------------返回按钮------开始----------------------->
-      <BackButton />
-      <!---------------------------返回按钮------开始----------------------->
-
     <!---------------------------查询------开始----------------------->
     <!---------------------------Event------开始----------------------->
     <el-select
@@ -33,7 +29,7 @@
     >
       <el-option
           v-for="item in socketTypeOptions"
-          :label="item"
+          :label="item | socketTypeFilter"
           :key="item"
           :value="item">
       </el-option>
@@ -73,7 +69,6 @@
       </el-option>
     </el-select>
     <!---------------------------port------结束----------------------->
-    <!--      <el-button type="primary" icon="el-icon-search" @click="searchData">search</el-button>-->
     <el-button type="default" style="color:#909399;" @click="clearFilter">clear filter</el-button>
     <!---------------------------查询------结束----------------------->
 
@@ -189,20 +184,19 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getAllSockets } from '@/api/server'
 import { IWorkerCoroutineData, IWorkerTimerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { bytesFormat, getSortFun, eventsFitler, fdTypeFilter, socketTypeFilter } from '@/utils/index'
-import BackButton from '@/components/BackButton/index.vue'
+import { bytesFormat, getSortFun, eventsFitler, fdTypeFilter, socketTypeFilter, formatNumber } from '@/utils/index'
 
 @Component({
   name: 'EventList',
   components: {
-    BackButton,
     Pagination
   },
   filters: {
     bytesFormat: bytesFormat,
     eventsFitler: eventsFitler,
     fdTypeFilter: fdTypeFilter,
-    socketTypeFilter: socketTypeFilter
+    socketTypeFilter: socketTypeFilter,
+    formatNumber: formatNumber
   }
 })
 

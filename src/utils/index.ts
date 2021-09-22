@@ -184,3 +184,11 @@ export const parseResourceInfo = (row: any) => {
   }
   return row.info.stream_type
 }
+
+/**
+ * 格式化数值 千位逗号分隔
+ * @param num
+ */
+export const formatNumber = (num: Number) => {
+  return num.toLocaleString()
+}

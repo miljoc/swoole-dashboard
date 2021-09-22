@@ -198,6 +198,14 @@ export default new Router({
             title: 'Memory Info',
             hidden: true
           }
+        },
+        {
+          path: '/socket_info/',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/SocketInfo.vue'),
+          meta: {
+            title: 'Socket Info',
+            hidden: true
+          }
         }
       ]
     },

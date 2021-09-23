@@ -2,8 +2,25 @@
   <div class="dashboard-editor-container">
     <panel-group @handle-set-line-chart-data="handleSetLineChartData" :serverStats="serverStats"/>
 
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart :chart-data="lineChartData"/>
+    <el-row :gutter="32">
+      <el-col
+          :xs="24"
+          :sm="24"
+          :lg="12"
+      >
+        <div class="chart-wrapper">
+          <line-chart :chart-data="lineChartData"/>
+        </div>
+      </el-col>
+      <el-col
+          :xs="24"
+          :sm="24"
+          :lg="12"
+      >
+        <div class="chart-wrapper">
+          <line-chart :chart-data="lineChartData"/>
+        </div>
+      </el-col>
     </el-row>
 
     <el-row :gutter="32">
@@ -75,15 +92,17 @@
             <el-descriptions-item label="Current Packet ID">{{ serverStats.pipe_packet_msg_id }}</el-descriptions-item>
             <el-descriptions-item label="Max FD">{{ serverStats.max_fd }}</el-descriptions-item>
 
-            <el-descriptions-item label="Idle Worker Num">{{ serverStats.idle_worker_num }}</el-descriptions-item>
-            <el-descriptions-item label="Worker Num">
+            <el-descriptions-item label="Idle Event Worker Num">{{ serverStats.idle_worker_num }}</el-descriptions-item>
+            <el-descriptions-item label="Idle Task Worker Num">{{ serverStats.task_idle_worker_num }}</el-descriptions-item>
+
+            <el-descriptions-item label="Event Worker Num">
               <el-link type="primary">
                 <router-link class="link-type"
                              :to="{path: `/processes?tab=worker`}"> {{ serverStats.worker_num }}
                 </router-link>
               </el-link>
             </el-descriptions-item>
-            <el-descriptions-item label="TaskWorker Num">
+            <el-descriptions-item label="Task Worker Num">
               <el-link type="primary">
                 <router-link class="link-type"
                              :to="{path: `/processes?tab=task_worker`}"> {{ serverStats.task_worker_num }}
@@ -270,6 +289,7 @@ import GaugeChart from './components/GaugeChart.vue'
 import TransactionTable from './components/TransactionTable.vue'
 import { getServerStats, getAllPorts } from '@/api/server'
 import { parseTime, bytesFormat, socketTypeFilter } from '@/utils'
+import { IServerStats } from '@/api/types'
 
 const lineChartData: { [type: string]: ILineChartData } = {
   newVisitis: {
@@ -318,7 +338,7 @@ export default class extends Vue {
   private lineChartData = lineChartData.newVisitis
   private gaugeChartData = 0
   private gaugeChartData2 = 0
-  private serverStats = {
+  private serverStats: IServerStats = {
     close_count: -1,
     accept_count: -1,
     connection_num: -1,
@@ -326,6 +346,7 @@ export default class extends Vue {
     dispatch_count: -1,
     idle_worker_num: -1,
     request_count: -1,
+    response_count: -1,
     start_time: -1,
     task_worker_num: -1,
     tasking_num: -1,
@@ -343,7 +364,7 @@ export default class extends Vue {
     this.timer = setInterval(this.updateData, 1000)
   }
 
-  destroyd() {
+  destroyed() {
     clearInterval(this.timer)
   }
 
@@ -358,23 +379,15 @@ export default class extends Vue {
   }
 
   private async getServerStats() {
-    const { data } = await getServerStats()
+    const { data } = await getServerStats('master')
     this.serverStats = data
   }
 
   private async getData() {
-    do {
-      await this.getServerStats()
-      this.workerStats.push({
-        worker_id: 0,
-        worker_request_count: this.serverStats.worker_request_count,
-        worker_dispatch_count: this.serverStats.worker_dispatch_count,
-        coroutine_num: this.serverStats.coroutine_num,
-        coroutine_peek_num: this.serverStats.coroutine_peek_num
-      })
-    } while (0)
+    const { data } = await getServerStats('master')
+    this.serverStats = data
 
-    for (let i = 1; i < this.serverStats.worker_num; i++) {
+    for (let i = 0; i < this.serverStats.worker_num; i++) {
       const { data } = await getServerStats('worker-' + i)
       this.workerStats.push({
         worker_id: i,

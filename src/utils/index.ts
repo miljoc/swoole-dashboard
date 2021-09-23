@@ -49,20 +49,22 @@ export const parseTime = (
 
 export const parseUptime = (started_time: number) => {
   const date = new Date()
-  const diff = date.getTime() - (started_time * 1000)
-  const days = Math.floor(diff / 1000 / 60 / (60 * 24))
-  const date_diff = new Date(days * 1000)
+  const diff = date.getTime() / 1000 - started_time
 
-  if (days > 0) {
-    return days + ' days'
+  const _DAY = 60 * 60 * 24
+  const _HOUR = 60 * 60
+  const _MINUTE = 60
+
+  if (diff > _DAY) {
+    return `${parseInt(String(diff / _DAY), 10)} days`
   }
-  if (date_diff.getHours() > 0) {
-    return date_diff.getHours() + ' hours'
+  if (diff > _HOUR) {
+    return `${parseInt(String(diff / _HOUR), 10)} hours`
   }
-  if (date_diff.getMinutes() > 0) {
-    return date_diff.getHours() + ' minutes'
+  if (diff > _MINUTE) {
+    return `${parseInt(String(diff / _MINUTE), 10)} minutes`
   }
-  return date_diff.getSeconds() + ' seconds'
+  return `${parseInt(String(diff), 10)} seconds`
 }
 
 export const bytesFormat = (bytes: number) => {

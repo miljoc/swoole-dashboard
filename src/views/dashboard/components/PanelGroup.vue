@@ -6,7 +6,7 @@
     <el-col
         :xs="12"
         :sm="12"
-        :lg="4"
+        :lg="3"
         class="card-panel-col"
     >
       <div
@@ -30,7 +30,7 @@
     <el-col
         :xs="12"
         :sm="12"
-        :lg="4"
+        :lg="3"
         class="card-panel-col"
     >
       <div
@@ -46,17 +46,36 @@
           <div class="card-panel-text">
             Connections
           </div>
-          <count-to
-              :start-val="0"
-              :end-val="serverStats.connection_num"
-              :duration="3600"
-              class="card-panel-num"
-          />
+          <span class="card-panel-num"> {{ serverStats.connection_num }} </span>
         </div>
       </div>
     </el-col>
 
-    <el-col :xs="12" :sm="12" :lg="4" class="card-panel-col">
+    <el-col
+        :xs="12"
+        :sm="12"
+        :lg="3"
+        class="card-panel-col"
+    >
+      <div
+          class="card-panel"
+      >
+        <div class="card-panel-icon-wrapper icon-money">
+          <svg-icon
+              name="bug"
+              class="card-panel-icon"
+          />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            Abort
+          </div>
+          <span class="card-panel-num"> {{ serverStats.abort_count }} </span>
+        </div>
+      </div>
+    </el-col>
+
+    <el-col :xs="12" :sm="12" :lg="3" class="card-panel-col">
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon
@@ -73,27 +92,10 @@
       </div>
     </el-col>
 
-    <el-col :xs="12" :sm="12" :lg="4" class="card-panel-col">
-      <div class="card-panel">
-        <div class="card-panel-icon-wrapper icon-people">
-          <svg-icon
-              name="stop-circle-fill"
-              class="card-panel-icon"
-          />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            Close
-          </div>
-          <span class="card-panel-num"> {{ serverStats.close_count }} </span>
-        </div>
-      </div>
-    </el-col>
-
     <el-col
       :xs="12"
       :sm="12"
-      :lg="4"
+      :lg="3"
       class="card-panel-col"
     >
       <div
@@ -117,13 +119,13 @@
     <el-col
         :xs="12"
         :sm="12"
-        :lg="4"
+        :lg="3"
         class="card-panel-col"
     >
       <div
           class="card-panel"
       >
-        <div class="card-panel-icon-wrapper icon-money">
+        <div class="card-panel-icon-wrapper icon-shopping">
           <svg-icon
             name="terminal"
             class="card-panel-icon"
@@ -137,6 +139,47 @@
         </div>
       </div>
     </el-col>
+
+    <el-col
+        :xs="12"
+        :sm="12"
+        :lg="3"
+        class="card-panel-col"
+    >
+      <div
+          class="card-panel"
+      >
+        <div class="card-panel-icon-wrapper icon-message">
+          <svg-icon
+              name="guide"
+              class="card-panel-icon"
+          />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            Response
+          </div>
+          <span class="card-panel-num"> {{ serverStats.response_count }} </span>
+        </div>
+      </div>
+    </el-col>
+
+    <el-col :xs="12" :sm="12" :lg="3" class="card-panel-col">
+      <div class="card-panel">
+        <div class="card-panel-icon-wrapper icon-close">
+          <svg-icon
+              name="stop-circle-fill"
+              class="card-panel-icon"
+          />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            Close
+          </div>
+          <span class="card-panel-num"> {{ serverStats.close_count }} </span>
+        </div>
+      </div>
+    </el-col>
   </el-row>
 </template>
 
@@ -144,6 +187,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import CountTo from 'vue-count-to'
 import { parseUptime } from '@/utils'
+import { IServerSetting, IServerStats } from '@/api/types'
 
 @Component({
   name: 'PanelGroup',
@@ -155,7 +199,7 @@ import { parseUptime } from '@/utils'
   }
 })
 export default class extends Vue {
-  @Prop({ required: true }) private serverStats
+  @Prop({ required: true }) private serverStats: IServerStats
 
   private handleSetLineChartData(type: string) {
     this.$emit('handle-set-line-chart-data', type)
@@ -199,6 +243,10 @@ export default class extends Vue {
         background: #f4516c;
       }
 
+      .icon-close {
+        background: #ffba00;
+      }
+
       .icon-shopping {
         background: #34bfa3
       }
@@ -214,6 +262,10 @@ export default class extends Vue {
 
     .icon-money {
       color: #f4516c;
+    }
+
+    .icon-close {
+      color: #ffba00;
     }
 
     .icon-shopping {
@@ -247,7 +299,7 @@ export default class extends Vue {
       }
 
       .card-panel-num {
-        font-size: 20px;
+        font-size: 18px;
       }
     }
   }

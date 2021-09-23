@@ -52,7 +52,7 @@
           label="Source File"
       >
         <template slot-scope="{row}">
-          <span>{{ row.backTrace| parseBackTraceCaller }}</span>
+          <span>{{ row.backTrace| parseBackTraceSource }}</span>
         </template>
       </el-table-column>
 
@@ -88,7 +88,7 @@ import { getCoroutineList, getCoroutineBackTrace } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 
-const parseBackTraceCaller = (_frame_list: any) => {
+const parseBackTraceSource = (_frame_list: any) => {
   if (_frame_list.length === 0) {
     return '-'
   }
@@ -96,7 +96,7 @@ const parseBackTraceCaller = (_frame_list: any) => {
   return frame0.file + ':' + frame0.line
 }
 
-const parseBackTraceSource = (_frame_list: any) => {
+const parseBackTraceCaller = (_frame_list: any) => {
   if (_frame_list.length === 0) {
     return '-'
   }

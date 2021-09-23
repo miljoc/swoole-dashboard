@@ -34,7 +34,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/events/reactor-${scope.row.id}`}">{{ scope.row.event_num }}
+                         :to="{path: `/events/?worker=reactor-${scope.row.id}`}">{{ scope.row.event_num }}
             </router-link>
           </el-link>
         </template>
@@ -88,7 +88,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/coroutines/${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.coroutine_num }}
+                         :to="{path: `/coroutines/?worker=${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.coroutine_num }}
             </router-link>
           </el-link>
         </template>
@@ -98,7 +98,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/events/${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.event_num }}
+                         :to="{path: `/events/?worker=${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.event_num }}
             </router-link>
           </el-link>
         </template>
@@ -120,7 +120,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/timers/${type}-${scope.$index}`}">{{ scope.row.timer_stats.num }}
+                         :to="{path: `/timers/?worker=${type}-${scope.$index}`}">{{ scope.row.timer_stats.num }}
             </router-link>
           </el-link>
         </template>
@@ -130,7 +130,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/objects/${type}-${scope.$index}`}"> {{ scope.row.vm_status.object_num }}
+                         :to="{path: `/objects/?worker=${type}-${scope.$index}`}"> {{ scope.row.vm_status.object_num }}
             </router-link>
           </el-link>
         </template>

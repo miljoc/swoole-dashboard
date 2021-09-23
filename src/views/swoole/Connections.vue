@@ -53,7 +53,7 @@
       <el-table-column
           align="center"
           label="Session ID"
-          width="100"
+          width="120"
           sortable="session_id"
       >
         <template slot-scope="{row}">
@@ -64,7 +64,7 @@
       <el-table-column
           align="center"
           label="FD"
-          width="100"
+          width="120"
           sortable="fd"
       >
         <template slot-scope="{row}">

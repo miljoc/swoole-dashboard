@@ -4,43 +4,100 @@
     class="panel-group"
   >
     <el-col
-      :xs="12"
-      :sm="12"
-      :lg="6"
-      class="card-panel-col"
+        :xs="12"
+        :sm="12"
+        :lg="4"
+        class="card-panel-col"
     >
       <div
-        class="card-panel"
-        @click="handleSetLineChartData('newVisitis')"
+          class="card-panel"
       >
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon
-            name="peoples"
-            class="card-panel-icon"
+              name="clock-fill"
+              class="card-panel-icon"
           />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            New Visits
+            Uptime
+          </div>
+          <span class="card-panel-num"> {{ serverStats.start_time | parseUptime }} </span>
+        </div>
+      </div>
+    </el-col>
+
+    <el-col
+        :xs="12"
+        :sm="12"
+        :lg="4"
+        class="card-panel-col"
+    >
+      <div
+          class="card-panel"
+      >
+        <div class="card-panel-icon-wrapper icon-shopping">
+          <svg-icon
+              name="connection"
+              class="card-panel-icon"
+          />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            Connections
           </div>
           <count-to
-            :start-val="0"
-            :end-val="102400"
-            :duration="2600"
-            class="card-panel-num"
+              :start-val="0"
+              :end-val="serverStats.connection_num"
+              :duration="3600"
+              class="card-panel-num"
           />
         </div>
       </div>
     </el-col>
+
+    <el-col :xs="12" :sm="12" :lg="4" class="card-panel-col">
+      <div class="card-panel">
+        <div class="card-panel-icon-wrapper icon-people">
+          <svg-icon
+              name="start-circle-fill"
+              class="card-panel-icon"
+          />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            Accept
+          </div>
+          <span class="card-panel-num"> {{ serverStats.accept_count }} </span>
+        </div>
+      </div>
+    </el-col>
+
+    <el-col :xs="12" :sm="12" :lg="4" class="card-panel-col">
+      <div class="card-panel">
+        <div class="card-panel-icon-wrapper icon-people">
+          <svg-icon
+              name="stop-circle-fill"
+              class="card-panel-icon"
+          />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            Close
+          </div>
+          <span class="card-panel-num"> {{ serverStats.close_count }} </span>
+        </div>
+      </div>
+    </el-col>
+
     <el-col
       :xs="12"
       :sm="12"
-      :lg="6"
+      :lg="4"
       class="card-panel-col"
     >
       <div
         class="card-panel"
-        @click="handleSetLineChartData('messages')"
       >
         <div class="card-panel-icon-wrapper icon-message">
           <svg-icon
@@ -50,72 +107,33 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Messages
+            Dispatch
           </div>
-          <count-to
-            :start-val="0"
-            :end-val="81212"
-            :duration="3000"
-            class="card-panel-num"
-          />
+          <span class="card-panel-num"> {{ serverStats.dispatch_count }} </span>
         </div>
       </div>
     </el-col>
+
     <el-col
-      :xs="12"
-      :sm="12"
-      :lg="6"
-      class="card-panel-col"
+        :xs="12"
+        :sm="12"
+        :lg="4"
+        class="card-panel-col"
     >
       <div
-        class="card-panel"
-        @click="handleSetLineChartData('purchases')"
+          class="card-panel"
       >
         <div class="card-panel-icon-wrapper icon-money">
           <svg-icon
-            name="money"
+            name="terminal"
             class="card-panel-icon"
           />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            Purchases
+            Request
           </div>
-          <count-to
-            :start-val="0"
-            :end-val="9280"
-            :duration="3200"
-            class="card-panel-num"
-          />
-        </div>
-      </div>
-    </el-col>
-    <el-col
-      :xs="12"
-      :sm="12"
-      :lg="6"
-      class="card-panel-col"
-    >
-      <div
-        class="card-panel"
-        @click="handleSetLineChartData('shoppings')"
-      >
-        <div class="card-panel-icon-wrapper icon-shopping">
-          <svg-icon
-            name="shopping"
-            class="card-panel-icon"
-          />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            Shoppings
-          </div>
-          <count-to
-            :start-val="0"
-            :end-val="13600"
-            :duration="3600"
-            class="card-panel-num"
-          />
+          <span class="card-panel-num"> {{ serverStats.request_count }} </span>
         </div>
       </div>
     </el-col>
@@ -123,16 +141,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import CountTo from 'vue-count-to'
+import { parseUptime } from '@/utils'
 
 @Component({
   name: 'PanelGroup',
   components: {
     CountTo
+  },
+  filters: {
+    parseUptime: parseUptime
   }
 })
 export default class extends Vue {
+  @Prop({ required: true }) private serverStats
+
   private handleSetLineChartData(type: string) {
     this.$emit('handle-set-line-chart-data', type)
   }

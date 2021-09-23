@@ -93,8 +93,8 @@ export default class extends Vue {
   private async getData() {
     this.listLoading = true
     if (this.data.length === 0) {
-      const { id } = this.$route.params
-      const { data } = await getTimerList(id)
+      const worker = this.$route.query.worker ?? 'master'
+      const { data } = await getTimerList(worker)
       this.data = data
     }
 

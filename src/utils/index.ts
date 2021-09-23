@@ -47,6 +47,24 @@ export const parseTime = (
   return timeStr
 }
 
+export const parseUptime = (started_time: number) => {
+  const date = new Date()
+  const diff = date.getTime() - (started_time * 1000)
+  const days = Math.floor(diff / 1000 / 60 / (60 * 24))
+  const date_diff = new Date(days * 1000)
+
+  if (days > 0) {
+    return days + ' days'
+  }
+  if (date_diff.getHours() > 0) {
+    return date_diff.getHours() + ' hours'
+  }
+  if (date_diff.getMinutes() > 0) {
+    return date_diff.getHours() + ' minutes'
+  }
+  return date_diff.getSeconds() + ' seconds'
+}
+
 export const bytesFormat = (bytes: number) => {
   if (bytes >= 1024 * 1024 * 1024) {
     return String((bytes / (1024 * 1024 * 1024)).toFixed(2)) + ' GB'

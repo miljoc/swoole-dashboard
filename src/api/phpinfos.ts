@@ -24,6 +24,12 @@ export const getIncludedFiles = () =>
     method: 'get'
   })
 
+export const getIncludedFilesContent = (filename = '') =>
+  request({
+    url: `/api/get_included_file_contents/worker-0?filename=${filename}`,
+    method: 'get'
+  })
+
 export const getDeclaredClasses = () =>
   request({
     url: '/api/get_declared_classes/worker-0',

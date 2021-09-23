@@ -127,6 +127,22 @@ export default new Router({
           }
         },
         {
+          path: '/defined_constants',
+          component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/DefinedConstants.vue'),
+          meta: {
+            title: 'Constants',
+            icon: 'hamburger'
+          }
+        },
+        {
+          path: '/defined_interfaces',
+          component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/DefinedInterfaces.vue'),
+          meta: {
+            title: 'Interfaces',
+            icon: 'hamburger'
+          }
+        },
+        {
           path: '/objects',
           component: () => import('@/views/php/Objects.vue'),
           meta: {

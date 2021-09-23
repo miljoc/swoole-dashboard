@@ -103,6 +103,14 @@ export default new Router({
           }
         },
         {
+          path: '/class_info',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/php/ClassInfo.vue'),
+          meta: {
+            title: 'Class Info',
+            hidden: true
+          }
+        },
+        {
           path: '/functions',
           component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/Functions.vue'),
           meta: {

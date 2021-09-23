@@ -1,18 +1,32 @@
 <template>
   <div class="app-container" id="VarDump">
-    <textarea ref="textarea" v-show="false"></textarea>
+    <el-card class="box-card">
+      <div
+        slot="header"
+        class="clearfix"
+      >
+        <span>Worker Info</span>
+      </div>
+      <textarea ref="textarea" v-show="false"></textarea>
+    </el-card>
   </div>
 </template>
 
 <script>
 import CodeMirror from 'codemirror'
 import 'codemirror/lib/codemirror.css'
-// import 'codemirror/theme/material-darker.css'
-// import 'codemirror/theme/material.css'
-// import 'codemirror/theme/dracula.css'
+import 'codemirror/theme/material-darker.css'
+import 'codemirror/theme/material.css'
+import 'codemirror/theme/dracula.css'
 import 'codemirror/theme/idea.css'
-import 'codemirror/mode/php/php'
-import 'codemirror/mode/javascript/javascript'
+import 'codemirror/theme/monokai.css'
+import 'codemirror/mode/php/php.js'
+import 'codemirror/mode/xml/xml.js'
+import 'codemirror/mode/css/css.js'
+import 'codemirror/mode/javascript/javascript.js'
+import 'codemirror/mode/htmlmixed/htmlmixed.js'
+import 'codemirror/mode/clike/clike.js'
+// import 'codemirror/mode/javascript/javascript'
 import { getObjectByHandle } from '@/api/server'
 
 export default {
@@ -30,13 +44,15 @@ export default {
         // theme: 'material-darker',
         // theme: 'material',
         // theme: 'dracula',
-        theme: 'idea',
+        // theme: 'idea',
+        theme: 'monokai',
         // 显示行号
         lineNumbers: true,
         line: true,
         // 是否为只读,如果为"nocursor" 不仅仅为只读 连光标都无法在区域聚焦
         readOnly: true,
         // 默认的语法类型
+        // mode: 'application/x-httpd-php'
         mode: 'javascript'
         // mode: { name: 'php', globalVars: true }
         // mode: { name: 'javascript', globalVars: true }

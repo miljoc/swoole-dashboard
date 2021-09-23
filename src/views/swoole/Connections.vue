@@ -217,7 +217,7 @@ import { bytesFormat, eventsFitler, getSortFun, parseTime } from '@/utils/index'
 export default class extends Vue {
   private allList: IConnectionInfo[] = [] // 接口返回原始数据
   private handleAllList: Array<any> = [] // 处理处理后所有数据
-  private list: IConnectionInfo[] = [] // 当前页显示数据
+  private list: Array<any> = [] // 当前页显示数据
   private listLoading = true
   private total = 0
   // private _timer: any
@@ -330,8 +330,8 @@ export default class extends Vue {
     })
 
     // 筛选项数据
-    const tmpSocketName: Array<number> = []
-    const tmpPort: Array<number> = []
+    const tmpSocketName: Array<any> = []
+    const tmpPort: Array<any> = []
     for (let index = 0; index < list.length; index++) {
       // 处理 events 选项数据
       tmpSocketName[index] = list[index].address + ':' + list[index].port

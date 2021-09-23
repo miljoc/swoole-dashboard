@@ -5,7 +5,7 @@
         slot="header"
         class="clearfix"
       >
-        <span>Worker Info</span>
+        <span>Object Var Dump</span>
       </div>
       <textarea ref="textarea" v-show="false"></textarea>
     </el-card>

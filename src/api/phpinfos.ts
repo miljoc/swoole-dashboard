@@ -36,6 +36,13 @@ export const getDeclaredClasses = () =>
     method: 'get'
   })
 
+export const getClassesInfo = (class_name: string) =>
+  request({
+    url: '/api/get_class_info',
+    method: 'get',
+    params: { class_name }
+  })
+
 export const getDefinedFunctions = () =>
   request({
     url: '/api/get_defined_functions/worker-0',

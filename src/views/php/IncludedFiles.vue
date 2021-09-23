@@ -21,7 +21,6 @@
               scope.row.filename
             }}
           </router-link>
-<!--          <a href="/#/gcstatus"><span style="margin-left: 10px"> {{ scope.row.filename }} </span></a>-->
         </template>
       </el-table-column>
     </el-table>

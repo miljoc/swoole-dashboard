@@ -11,6 +11,7 @@
       <el-table-column
           align="center"
           label="ID"
+          width="150"
       >
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
@@ -20,9 +21,38 @@
       <el-table-column
           align="center"
           label="Elapsed"
+          width="150"
       >
         <template slot-scope="{row}">
           <span>{{ row.elapsed }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          align="center"
+          label="Stack Usage"
+          width="150"
+      >
+        <template slot-scope="{row}">
+          <span>{{ row.stack_usage }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          align="center"
+          label="Called Function"
+      >
+        <template slot-scope="{row}">
+          <span>{{ row.backTrace | parseBackTraceCaller }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          align="center"
+          label="Source File"
+      >
+        <template slot-scope="{row}">
+          <span>{{ row.backTrace| parseBackTraceCaller }}</span>
         </template>
       </el-table-column>
 
@@ -54,14 +84,40 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getCoroutineList } from '@/api/server'
+import { getCoroutineList, getCoroutineBackTrace } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
+
+const parseBackTraceCaller = (_frame_list: any) => {
+  if (_frame_list.length === 0) {
+    return '-'
+  }
+  const frame0 = _frame_list[0]
+  return frame0.file + ':' + frame0.line
+}
+
+const parseBackTraceSource = (_frame_list: any) => {
+  if (_frame_list.length === 0) {
+    return '-'
+  }
+  const frame0 = _frame_list[0]
+  let bt = ''
+  if (frame0.class) {
+    bt = frame0.class + frame0.type + frame0.function
+  } else {
+    bt = frame0.function
+  }
+  return bt + '()'
+}
 
 @Component({
   name: 'InlineEditTable',
   components: {
     Pagination
+  },
+  filters: {
+    parseBackTraceCaller: parseBackTraceCaller,
+    parseBackTraceSource: parseBackTraceSource
   }
 })
 export default class extends Vue {
@@ -81,12 +137,16 @@ export default class extends Vue {
     this.getData()
   }
 
-  private handleBackTrace(row: any) {
+  private async handleBackTrace(row: any) {
     this.backTrace = [{}]
 
+    const cid = row.id
+    const worker = this.$route.query.worker ?? 'master'
+    const { data } = await getCoroutineBackTrace(worker, cid)
+
     let trace
-    for (let index = 0; index < row.backTrace.length; index++) {
-      trace = row.backTrace[index]
+    for (let index = 0; index < data.length; index++) {
+      trace = data[index]
       if (!trace.class) {
         trace.class = ''
       }
@@ -108,8 +168,8 @@ export default class extends Vue {
   private async getData() {
     this.listLoading = true
     if (this.data.length === 0) {
-      const { id } = this.$route.params
-      const { data } = await getCoroutineList(id)
+      const worker = this.$route.query.worker ?? 'master'
+      const { data } = await getCoroutineList(worker)
       this.data = data
     }
 

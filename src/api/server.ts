@@ -42,19 +42,26 @@ export const getCoroutineList = (worker: any) =>
     method: 'get'
   })
 
-export const getTimerList = (worker: any) =>
+export const getCoroutineBackTrace = (worker: string, cid: number) =>
+  request({
+    url: `/api/coroutine_bt/${worker}`,
+    method: 'get',
+    params: { cid: cid }
+  })
+
+export const getTimerList = (worker: string) =>
   request({
     url: `/api/get_timer_list/${worker}`,
     method: 'get'
   })
 
-export const getObjects = (worker: any) =>
+export const getObjects = (worker: string) =>
   request({
     url: `/api/get_objects/${worker}`,
     method: 'get'
   })
 
-export const getAllSockets = (worker: any) =>
+export const getAllSockets = (worker: string) =>
   request({
     url: `/api/get_all_sockets/${worker}`,
     method: 'get'

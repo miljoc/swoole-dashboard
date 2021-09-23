@@ -335,8 +335,8 @@ export default class extends Vue {
    */
   private async getData() {
     this.listLoading = true
-    const { id } = this.$route.params
-    const { data } = await getAllSockets(id)
+    const worker = this.$route.query.worker ?? 'master'
+    const { data } = await getAllSockets(worker)
     const total = data.length // 数据总数
 
     const tmpEvents: Array<number> = []

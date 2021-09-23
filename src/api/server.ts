@@ -58,7 +58,7 @@ export const getObjectByHandle = (object_id: number) =>
   request({
     url: '/api/get_object_by_handle',
     method: 'get',
-    params: object_id
+    params: { object_id }
   })
 
 export const getAllSockets = (worker: any) =>

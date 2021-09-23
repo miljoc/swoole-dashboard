@@ -13,16 +13,13 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/idea.css'
 import 'codemirror/mode/php/php'
 import 'codemirror/mode/javascript/javascript'
+import { getObjectByHandle } from '@/api/server'
 
 export default {
   name: 'ObjectVarDump',
-  props: {
-    object_id: null
-  },
   data() {
     return {
-      code: "Swoole\\Server\\Port::__set_state(array(\n   'onConnect' => \n  Closure::__set_state(array(\n  )),\n   'onReceive' => \n  Closure::__set_state(array(\n  )),\n   'onClose' => \n  Closure::__set_state(array(\n  )),\n   'onPacket' => NULL,\n   'onBufferFull' => NULL,\n   'onBufferEmpty' => NULL,\n   'onRequest' => NULL,\n   'onHandShake' => NULL,\n   'onOpen' => NULL,\n   'onMessage' => NULL,\n   'onDisconnect' => NULL,\n   'host' => '0.0.0.0',\n   'port' => 9501,\n   'type' => 1,\n   'sock' => 4,\n   'setting' => \n  array (\n    'admin_server' => '0.0.0.0:9502',\n    'worker_num' => 2,\n    'task_worker_num' => 4,\n  ),\n   'connections' => \n  Swoole\\Connection\\Iterator::__set_state(array(\n  )),\n))",
-      // code: "Swoole\\Connection\\Iterator::__set_state(array(\n))",
+      code: '',
       // 编辑器实例
       coder: null,
       // 默认配置
@@ -47,7 +44,7 @@ export default {
     }
   },
   mounted() {
-    this.initCode()
+    this.getData()
   },
   methods: {
     /**
@@ -55,7 +52,15 @@ export default {
      */
     initCode() {
       this.coder = CodeMirror.fromTextArea(this.$refs.textarea, this.options)
-      this.coder.setValue(this.code)
+      this.$nextTick(function() {
+        this.coder.setValue(this.code)
+      })
+    },
+    async getData() {
+      const object_id = this.$route.query.object_id
+      const data = await getObjectByHandle(object_id)
+      this.code = data.data
+      this.initCode()
     }
   }
 }

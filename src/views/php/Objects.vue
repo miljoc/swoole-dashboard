@@ -43,6 +43,14 @@
           <span>{{ row.memory_size | bytesFormat }}</span>
         </template>
       </el-table-column>
+
+      <el-table-column label="Actions" align="center">
+        <template slot-scope="scope">
+          <el-button type="success" size="mini" @click="handleVarDump(scope.row)">
+            Var Dump
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <pagination
@@ -83,6 +91,11 @@ export default class extends Vue {
 
   created() {
     this.getData()
+  }
+
+  private handleVarDump(row: any) {
+    // console.log(row)
+    this.$router.push({ path: '/object_var_dump?object_id=' + row.id })
   }
 
   private async getData() {

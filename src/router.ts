@@ -87,6 +87,14 @@ export default new Router({
           }
         },
         {
+          path: '/includedfiles_detail',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/php/IncludedFilesDetail.vue'),
+          meta: {
+            title: 'Included Files Content',
+            hidden: true
+          }
+        },
+        {
           path: '/classes',
           component: () => import('@/views/php/Classes.vue'),
           meta: {
@@ -123,7 +131,7 @@ export default new Router({
     {
       path: '/swoole',
       component: Layout,
-      redirect: '/server',
+      redirect: '/processes',
       meta: {
         title: 'Swoole',
         icon: 'sw-1'
@@ -180,6 +188,14 @@ export default new Router({
           component: () => import('@/views/chart/NetworkTraffic.vue'),
           meta: {
             title: 'Network Traffic',
+            hidden: true
+          }
+        },
+        {
+          path: '/object_var_dump',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/php/ObjectVarDump.vue'),
+          meta: {
+            title: 'ObjectVarDump',
             hidden: true
           }
         },

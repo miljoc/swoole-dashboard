@@ -16,7 +16,13 @@
       </el-table-column>
       <el-table-column label="Filename">
         <template slot-scope="scope">
-          <span style="margin-left: 10px"> {{ scope.row.filename }} </span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/includedfiles_detail?file_name=${scope.row.filename}`}">{{
+                scope.row.filename
+              }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
     </el-table>

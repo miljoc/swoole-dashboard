@@ -55,10 +55,17 @@ export const getTimerList = (worker: string) =>
     method: 'get'
   })
 
-export const getObjects = (worker: string) =>
+export const getObjects = (worker: any) =>
   request({
     url: `/api/get_objects/${worker}`,
     method: 'get'
+  })
+
+export const getObjectByHandle = (object_id: number) =>
+  request({
+    url: '/api/get_object_by_handle',
+    method: 'get',
+    params: { object_id }
   })
 
 export const getAllSockets = (worker: string) =>

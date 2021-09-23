@@ -1,6 +1,6 @@
 <template>
   <div class="app-container" id="VarDump">
-    <textarea ref="textarea"></textarea>
+    <textarea ref="textarea" v-show="false"></textarea>
   </div>
 </template>
 

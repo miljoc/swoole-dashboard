@@ -167,11 +167,11 @@ export default class extends Vue {
   private total = 0
   private version = ''
   private info = ''
-  private list = []
-  private functions_list = []
-  private constants_list = []
-  private ini_entries_list = []
-  private dependencies_list = []
+  private list:any = []
+  private functions_list:any = []
+  private constants_list:any = []
+  private ini_entries_list:any = []
+  private dependencies_list:any = []
   private listLoading = true
 
   created() {

@@ -6,7 +6,7 @@
       filterable
       collapse-tags
       placeholder="Constants Name"
-      style="margin: 0 10px 10px 0;"
+      style="margin: 0 10px 10px 0;width: 300px;"
       @change="filterHandler"
     >
       <el-option
@@ -78,8 +78,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getDefinedConstants } from '@/api/phpinfos'
 import {IDeclaredConstants, IDefinedFunction} from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { bytesFormat, getSortFun } from '@/utils/index'
-import {start} from "repl";
+import { getSortFun } from '@/utils/index'
 
 @Component({
   name: 'InlineEditTable',
@@ -112,7 +111,6 @@ export default class extends Vue {
   private filterHandler() {
     this.handleAllList = JSON.parse(JSON.stringify(this.list))
 
-    console.log(this.handleAllList,'handleAllList')
     const tmpList = []
 
     if (this.SocketNameFieldValue.length > 0) {
@@ -127,7 +125,11 @@ export default class extends Vue {
       }
       this.handleAllList = tmpList
     }
-    console.log(this.handleAllList,'handleAllList---------last')
+
+    let index = this.SocketNameFieldValue.length
+    if (index > this.listQuery.limit ) {
+      this.listQuery.limit = (Math.ceil( index/this.listQuery.limit ))  * 10
+    }
 
     this.listQuery.page = 1
     this.total = this.handleAllList.length

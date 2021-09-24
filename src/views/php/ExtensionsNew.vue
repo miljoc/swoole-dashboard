@@ -46,7 +46,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getLoadedExtensions  } from '@/api/phpinfos'
-import { IDeclaredInterfaces } from '@/api/types'
+import { IDeclaredInterfaces, IDefinedFunction } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 
 @Component({

@@ -66,6 +66,7 @@ export default class extends Vue {
   ]
 
   private activeName = 'class_name'
+  private extension_name = ''
 
   @Watch('activeName')
   private onActiveNameChange(value: string) {

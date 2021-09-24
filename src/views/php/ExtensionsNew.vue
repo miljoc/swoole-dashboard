@@ -69,7 +69,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getLoadedExtensions } from '@/api/phpinfos'
 import { IDeclaredInterfaces } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import {getSortFun} from "@/utils";
+import { getSortFun } from '@/utils'
 
 @Component({
   name: 'InlineEditTable',
@@ -120,8 +120,8 @@ export default class extends Vue {
     }
 
     let index = this.ExtensionNameFieldValue.length
-    if (index > this.listQuery.limit ) {
-      this.listQuery.limit = (Math.ceil( index/this.listQuery.limit ))  * 10
+    if (index > this.listQuery.limit) {
+      this.listQuery.limit = (Math.ceil(index / this.listQuery.limit)) * 10
     }
 
     this.listQuery.page = 1
@@ -130,7 +130,7 @@ export default class extends Vue {
   }
 
   private clearFilter(): void {
-    if ( this.ExtensionNameFieldValue.length > 0) {
+    if (this.ExtensionNameFieldValue.length > 0) {
       this.ExtensionNameFieldValue = []
       this.handleAllList = JSON.parse(JSON.stringify(this.list))
       this.total = this.handleAllList.length
@@ -175,7 +175,7 @@ export default class extends Vue {
       await this.getData()
     }
 
-    if (this.field != '' && this.order != '') {
+    if (this.field !== '' && this.order !== '') {
       this.sortChange(this.column)
     } else {
       this.tmpData = []

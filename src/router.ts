@@ -151,7 +151,7 @@ export default new Router({
           component: () => import('@/views/php/DefinedInterfaces.vue'),
           meta: {
             title: 'Interfaces',
-            icon: 'hamburger'
+            icon: 'comment-lines'
           }
         },
         {

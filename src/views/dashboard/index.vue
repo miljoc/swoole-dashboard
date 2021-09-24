@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-editor-container">
-    <panel-group @handle-set-line-chart-data="handleSetLineChartData" :serverStats="serverStats"/>
+    <panel-group :serverStats="serverStats"/>
 
     <el-row :gutter="32">
       <el-col
@@ -71,7 +71,7 @@
           :lg="8"
       >
         <div class="chart-wrapper">
-          <bar-chart/>
+          <worker-bar-chart :chart-data="workerBarChartData"/>
         </div>
       </el-col>
     </el-row>
@@ -285,7 +285,6 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import GithubCorner from '@/components/GithubCorner/index.vue'
 import BarChart from './components/BarChart.vue'
 import BoxCard from './components/BoxCard.vue'
-import LineChart, { ILineChartData } from './components/LineChart.vue'
 import PanelGroup from './components/PanelGroup.vue'
 import PieChart from './components/PieChart.vue'
 import RadarChart from './components/RadarChart.vue'
@@ -293,31 +292,13 @@ import TodoList from './components/TodoList/index.vue'
 import GaugeChart from './components/GaugeChart.vue'
 import TransactionTable from './components/TransactionTable.vue'
 import ClientsLineChart, { IClientsLineChartData } from '@/views/chart/ClientsLineChart.vue'
-import { getServerStats, getAllPorts, getServerCpuUsage, getServerMemoryUsage } from '@/api/server'
+import { getServerStats, getAllPorts, getServerCpuUsage, getServerMemoryUsage, getWorkerInfo2 } from '@/api/server'
 import { parseTime, bytesFormat, socketTypeFilter } from '@/utils'
 import { IServerStats } from '@/api/types'
 import ServerTrafficLineChart, { IServerTrafficLineChart } from '@/views/chart/ServerTrafficLineChart.vue'
 import WorkerPieChart, { IWorkerPieChartData } from '@/views/chart/WorkerPieChart.vue'
 import MemoryUsageChart from '@/views/chart/MemoryUsageChart.vue'
-
-const lineChartData: { [type: string]: ILineChartData } = {
-  newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
-  },
-  messages: {
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
-  },
-  purchases: {
-    expectedData: [80, 100, 121, 104, 105, 90, 100],
-    actualData: [120, 90, 100, 138, 142, 130, 130]
-  },
-  shoppings: {
-    expectedData: [130, 140, 141, 142, 145, 150, 160],
-    actualData: [120, 82, 91, 154, 162, 140, 130]
-  }
-}
+import WorkerBarChart, { IWorkerBarChartData } from '@/views/chart/WorkerBarChart.vue'
 
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -326,6 +307,7 @@ function getRandomInt(min: number, max: number) {
 @Component({
   name: 'DashboardAdmin',
   components: {
+    WorkerBarChart,
     MemoryUsageChart,
     WorkerPieChart,
     ServerTrafficLineChart,
@@ -333,7 +315,6 @@ function getRandomInt(min: number, max: number) {
     GithubCorner,
     BarChart,
     BoxCard,
-    LineChart,
     PanelGroup,
     PieChart,
     RadarChart,
@@ -348,7 +329,6 @@ function getRandomInt(min: number, max: number) {
   }
 })
 export default class extends Vue {
-  private lineChartData = lineChartData.newVisitis
   private clientsChartData: IClientsLineChartData = {
     labels: [],
     abort_count: [],
@@ -369,6 +349,13 @@ export default class extends Vue {
     name: 'Dispatch Count',
     labels: [],
     data: []
+  }
+
+  private workerBarChartData: IWorkerBarChartData = {
+    labels: [],
+    coroutine_data: [],
+    timer_data: [],
+    object_data: []
   }
 
   private lastCpuUsage = 0
@@ -453,10 +440,6 @@ export default class extends Vue {
     this.serverTrafficChartData.sendData.shift()
   }
 
-  private handleSetLineChartData(type: string) {
-    this.lineChartData = lineChartData[type]
-  }
-
   private async getCpuUsage() {
     const lastCpuUsage = this.lastCpuUsage
     const { data } = await getServerCpuUsage()
@@ -509,9 +492,48 @@ export default class extends Vue {
         name: worker_name
       })
     }
-
     this.workerStats = workerStats
     this.workerPieChartData = workerPieChartData
+
+    let workerBarChartData = {
+      labels: [],
+      coroutine_data: [],
+      event_data: [],
+      timer_data: [],
+      object_data: []
+    }
+
+    do {
+      const { data } = await getWorkerInfo2('master')
+      workerBarChartData.labels.push('master')
+      workerBarChartData.coroutine_data.push(data.coroutine_stats.coroutine_num)
+      workerBarChartData.event_data.push(data.coroutine_stats.event_num)
+      workerBarChartData.timer_data.push(data.timer_stats.num)
+      workerBarChartData.object_data.push(data.vm_status.object_num)
+    } while (0)
+
+    for (let i = 0; i < this.serverStats.worker_num; i++) {
+      const worker_name = 'worker-' + i
+      const { data } = await getWorkerInfo2(worker_name)
+
+      workerBarChartData.labels.push(worker_name)
+      workerBarChartData.coroutine_data.push(data.coroutine_stats.coroutine_num)
+      workerBarChartData.event_data.push(data.coroutine_stats.event_num)
+      workerBarChartData.timer_data.push(data.timer_stats.num)
+      workerBarChartData.object_data.push(data.vm_status.object_num)
+    }
+
+    for (let i = 0; i < this.serverStats.task_worker_num; i++) {
+      const { data } = await getWorkerInfo2('task_worker-' + i)
+
+      workerBarChartData.labels.push('task-worker-' + i)
+      workerBarChartData.coroutine_data.push(data.coroutine_stats.coroutine_num)
+      workerBarChartData.event_data.push(data.coroutine_stats.event_num)
+      workerBarChartData.timer_data.push(data.timer_stats.num)
+      workerBarChartData.object_data.push(data.vm_status.object_num)
+    }
+
+    this.workerBarChartData = workerBarChartData
 
     do {
       const { data } = await getAllPorts()

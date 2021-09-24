@@ -24,20 +24,20 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import ExtensionWorkers from '@/views/php/components/ExtensionWorkers.vue'
+import ExtensionInfo from '@/views/php/components/ExtensionInfo.vue'
 
 @Component({
   name: 'Tab',
   components: {
-    TabPane: ExtensionWorkers
+    TabPane: ExtensionInfo
   }
 })
 
 export default class extends Vue {
   private tabMapOptions = [
     {
-      label: 'ClassNames',
-      key: 'class_name'
+      label: 'Classes',
+      key: 'classes'
     },
     {
       label: 'Versions',
@@ -65,7 +65,7 @@ export default class extends Vue {
     }
   ]
 
-  private activeName = 'class_name'
+  private activeName = 'classes'
   private extension_name = ''
 
   @Watch('activeName')

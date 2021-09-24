@@ -109,5 +109,4 @@ export interface IVersionInfo {
   swooleVersion: string
   phpVersion: string
   host: string
-  local: string
 }

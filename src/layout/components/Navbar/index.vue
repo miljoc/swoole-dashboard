@@ -16,7 +16,6 @@
         <span>Swoole Version：<b>{{ versionInfo.swooleVersion }}</b></span>
         <span>Php Version：<b>{{ versionInfo.phpVersion }}</b></span>
         <span>Host：<b>{{ versionInfo.host }}</b></span>
-        <span>Local：<b>{{ versionInfo.local }}</b></span>
       </div>
       <el-dropdown
         class="avatar-container right-menu-item hover-effect"
@@ -85,7 +84,6 @@ export default class extends Vue {
     swooleVersion: '',
     phpVersion: '',
     host: '',
-    local: ''
   }
 
   get sidebar() {

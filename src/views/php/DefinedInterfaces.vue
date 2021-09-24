@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-table
       v-loading="listLoading"
-      :data="list"
+      :data="tmpData"
       border
       fit
       highlight-current-row
@@ -24,14 +24,10 @@
       >
         <template slot-scope="{row}">
           <el-link type="primary">
-<!--            <router-link class="link-type"-->
-<!--                         :to="{path: `/class_info/?class=${row.name}`}">{{ row.name }}-->
-<!--            </router-link>-->
             {{ row.name }}
           </el-link>
         </template>
       </el-table-column>
-
     </el-table>
 
     <pagination
@@ -56,9 +52,9 @@ import Pagination from '@/components/Pagination/index.vue'
     Pagination
   }
 })
-
 export default class extends Vue {
   private list: IDeclaredInterfaces[] = []
+  private tmpData: IDeclaredInterfaces[] = []
   private listLoading = true
   private total = 0
   private listQuery = {
@@ -70,27 +66,38 @@ export default class extends Vue {
     this.getList()
   }
 
-  private async getList() {
-    this.listLoading = true
+  private async getData() {
     const { data } = await getDeclaredInterfaces()
     let index = 0
-    this.list = []
-    console.log(data,'data')
-    for (const name of data) {
+    for (const name in data) {
       const id = index++
-      if (id >= (this.listQuery.page - 1) * this.listQuery.limit && id < this.listQuery.page * this.listQuery.limit) {
-        this.list.push({
-          name: name,
-          id: id
-        })
+      this.list.push({
+        name: data[name],
+        id: id,
+      })
+    }
+    this.total = this.list.length
+  }
+
+  private async getList() {
+    this.listLoading = true
+
+    if (this.list.length === 0) {
+      await this.getData()
+    }
+
+    this.tmpData = []
+
+    for (const item of this.list) {
+      if (item.id >= (this.listQuery.page - 1) * this.listQuery.limit && item.id < this.listQuery.page * this.listQuery.limit) {
+        this.tmpData.push(item)
       }
     }
-    this.total = data.length
 
     // Just to simulate the time of the request
     setTimeout(() => {
       this.listLoading = false
-    }, 0.5 * 1000)
+    }, 0.3 * 1000)
   }
 }
 </script>

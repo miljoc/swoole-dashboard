@@ -1,29 +1,30 @@
 <template>
   <div class="app-container">
     <el-table
-        v-loading="listLoading"
-        :data="list"
-        border
-        fit
-        highlight-current-row
-        width="100%"
+      v-loading="listLoading"
+      :data="tmpData"
+      border
+      fit
+      highlight-current-row
+      width="100%"
     >
       <el-table-column
-          align="center"
-          label="ID"
-          width="200"
+        align="center"
+        label="ID"
+        width="200"
       >
         <template slot-scope="{row}">
-          <span>{{ row.index + 1 }}</span>
+          <span>{{ row.id }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-          align="center"
-          label="Name"
+        align="center"
+        label="Name"
       >
         <template slot-scope="{row}">
-          <el-link type="primary">{{ row.name }}
+          <el-link type="primary">
+            {{ row.name }}
           </el-link>
         </template>
       </el-table-column>
@@ -31,21 +32,20 @@
       <el-table-column
         align="center"
         label="Value"
+        width="200"
       >
         <template slot-scope="{row}">
-          <el-link type="primary">{{ row.value }}
-          </el-link>
+          <span>{{ row.value }}</span>
         </template>
       </el-table-column>
-
     </el-table>
 
     <pagination
-        v-show="total>0"
-        :total="total"
-        :page.sync="listQuery.page"
-        :limit.sync="listQuery.limit"
-        @pagination="getList"
+      v-show="total>0"
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      @pagination="getList"
     />
   </div>
 </template>
@@ -53,7 +53,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getDefinedConstants } from '@/api/phpinfos'
-import { IDeclaredConstants } from '@/api/types'
+import {IDeclaredConstants, IDefinedFunction} from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 
 @Component({
@@ -62,9 +62,9 @@ import Pagination from '@/components/Pagination/index.vue'
     Pagination
   }
 })
-
 export default class extends Vue {
   private list: IDeclaredConstants[] = []
+  private tmpData: IDefinedFunction[] = []
   private listLoading = true
   private total = 0
   private listQuery = {
@@ -76,30 +76,39 @@ export default class extends Vue {
     this.getList()
   }
 
-  private async getList() {
-    this.listLoading = true
+  private async getData() {
     const { data } = await getDefinedConstants()
-
     let index = 0
-    this.list = []
-
     for (const name in data) {
       const id = index++
-      if (id >= (this.listQuery.page - 1) * this.listQuery.limit && id < this.listQuery.page * this.listQuery.limit) {
-        this.list.push({
-          name: name,
-          value: data[name],
-          index: id
-        })
-      }
+      this.list.push({
+        name: name,
+        id: id,
+        value: data[name]
+      })
+    }
+    this.total = this.list.length
+  }
+
+  private async getList() {
+    this.listLoading = true
+
+    if (this.list.length === 0) {
+      await this.getData()
     }
 
-    this.total = Object.keys(data).length
+    this.tmpData = []
+
+    for (const item of this.list) {
+      if (item.id >= (this.listQuery.page - 1) * this.listQuery.limit && item.id < this.listQuery.page * this.listQuery.limit) {
+        this.tmpData.push(item)
+      }
+    }
 
     // Just to simulate the time of the request
     setTimeout(() => {
       this.listLoading = false
-    }, 0.5 * 1000)
+    }, 0.3 * 1000)
   }
 }
 </script>

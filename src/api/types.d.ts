@@ -74,17 +74,19 @@ export interface IServerStats {
   start_time: number
   request_count: number
   response_count: number
+  abort_count: number
   accept_count: number
   close_count: number
   coroutine_num: number
   idle_worker_num: number
   dispatch_count: number
   connection_num: number
-  task_worker_num: number
   tasking_num: number
   worker_dispatch_count: number
-  worker_num: number
   worker_request_count: number
+  worker_num: number
+  user_worker_num: number
+  task_worker_num: number
 }
 
 export interface IUnixSocket {

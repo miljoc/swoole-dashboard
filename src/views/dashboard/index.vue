@@ -9,7 +9,7 @@
           :lg="12"
       >
         <div class="chart-wrapper">
-          <line-chart :chart-data="lineChartData"/>
+          <clients-line-chart :chart-data="clientsChartData"/>
         </div>
       </el-col>
       <el-col
@@ -18,7 +18,7 @@
           :lg="12"
       >
         <div class="chart-wrapper">
-          <line-chart :chart-data="lineChartData"/>
+          <server-traffic-line-chart :chart-data="serverTrafficChartData"/>
         </div>
       </el-col>
     </el-row>
@@ -94,6 +94,7 @@
 
             <el-descriptions-item label="Idle Event Worker Num">{{ serverStats.idle_worker_num }}</el-descriptions-item>
             <el-descriptions-item label="Idle Task Worker Num">{{ serverStats.task_idle_worker_num }}</el-descriptions-item>
+            <el-descriptions-item label="Tasking Num"> {{ serverStats.tasking_num }}</el-descriptions-item>
 
             <el-descriptions-item label="Event Worker Num">
               <el-link type="primary">
@@ -102,6 +103,7 @@
                 </router-link>
               </el-link>
             </el-descriptions-item>
+
             <el-descriptions-item label="Task Worker Num">
               <el-link type="primary">
                 <router-link class="link-type"
@@ -110,7 +112,10 @@
               </el-link>
             </el-descriptions-item>
 
-            <el-descriptions-item label="Tasking Num"> {{ serverStats.tasking_num }}</el-descriptions-item>
+            <el-descriptions-item label="User Worker Num">
+              {{ serverStats.user_worker_num }}
+            </el-descriptions-item>
+
           </el-descriptions>
         </div>
       </el-card>
@@ -287,9 +292,11 @@ import RadarChart from './components/RadarChart.vue'
 import TodoList from './components/TodoList/index.vue'
 import GaugeChart from './components/GaugeChart.vue'
 import TransactionTable from './components/TransactionTable.vue'
+import ClientsLineChart, { IClientsLineChartData } from '@/views/chart/ClientsLineChart.vue'
 import { getServerStats, getAllPorts } from '@/api/server'
 import { parseTime, bytesFormat, socketTypeFilter } from '@/utils'
 import { IServerStats } from '@/api/types'
+import ServerTrafficLineChart, { IServerTrafficLineChart } from '@/views/chart/ServerTrafficLineChart.vue'
 
 const lineChartData: { [type: string]: ILineChartData } = {
   newVisitis: {
@@ -317,6 +324,7 @@ function getRandomInt(min: number, max: number) {
 @Component({
   name: 'DashboardAdmin',
   components: {
+    ServerTrafficLineChart,
     GaugeChart,
     GithubCorner,
     BarChart,
@@ -326,7 +334,8 @@ function getRandomInt(min: number, max: number) {
     PieChart,
     RadarChart,
     TodoList,
-    TransactionTable
+    TransactionTable,
+    ClientsLineChart,
   },
   filters: {
     parseTime: parseTime,
@@ -336,9 +345,26 @@ function getRandomInt(min: number, max: number) {
 })
 export default class extends Vue {
   private lineChartData = lineChartData.newVisitis
+  private clientsChartData: IClientsLineChartData = {
+    labels: [],
+    abort_count: [],
+    accept_count: [],
+    dispatch_count: [],
+    request_count: [],
+    response_count: [],
+    close_count: []
+  }
+
+  private serverTrafficChartData: IServerTrafficLineChart = {
+    labels: [],
+    recvData: [],
+    sendData: []
+  }
+
   private gaugeChartData = 0
   private gaugeChartData2 = 0
   private serverStats: IServerStats = {
+    abort_count: -1,
     close_count: -1,
     accept_count: -1,
     connection_num: -1,
@@ -360,6 +386,19 @@ export default class extends Vue {
   private timer: any
 
   created() {
+    for (let i = 0; i < 60; i++) {
+      this.clientsChartData.labels.push(i.toString() + 's')
+      this.clientsChartData.abort_count.push(0)
+      this.clientsChartData.accept_count.push(0)
+      this.clientsChartData.dispatch_count.push(0)
+      this.clientsChartData.request_count.push(0)
+      this.clientsChartData.response_count.push(0)
+      this.clientsChartData.close_count.push(0)
+
+      this.serverTrafficChartData.labels.push(i.toString() + 's')
+      this.serverTrafficChartData.recvData.push(0)
+      this.serverTrafficChartData.sendData.push(0)
+    }
     this.getData()
     this.timer = setInterval(this.updateData, 1000)
   }
@@ -368,10 +407,31 @@ export default class extends Vue {
     clearInterval(this.timer)
   }
 
-  private updateData() {
+  private async updateData() {
     this.gaugeChartData = getRandomInt(5, 95)
     this.gaugeChartData2 = getRandomInt(5, 95)
-    this.getServerStats()
+
+    const lastServerStats = this.serverStats
+    await this.getServerStats()
+
+    this.clientsChartData.abort_count.push(this.serverStats.abort_count - lastServerStats.abort_count)
+    this.clientsChartData.accept_count.push(this.serverStats.accept_count - lastServerStats.accept_count)
+    this.clientsChartData.request_count.push(this.serverStats.request_count - lastServerStats.request_count)
+    this.clientsChartData.dispatch_count.push(this.serverStats.dispatch_count - lastServerStats.dispatch_count)
+    this.clientsChartData.response_count.push(this.serverStats.response_count - lastServerStats.response_count)
+    this.clientsChartData.close_count.push(this.serverStats.close_count - lastServerStats.close_count)
+
+    this.clientsChartData.abort_count.shift()
+    this.clientsChartData.accept_count.shift()
+    this.clientsChartData.request_count.shift()
+    this.clientsChartData.dispatch_count.shift()
+    this.clientsChartData.response_count.shift()
+    this.clientsChartData.close_count.shift()
+
+    this.serverTrafficChartData.recvData.push(this.serverStats.total_recv_bytes - lastServerStats.total_recv_bytes)
+    this.serverTrafficChartData.sendData.push(this.serverStats.total_send_bytes - lastServerStats.total_send_bytes)
+    this.serverTrafficChartData.recvData.shift()
+    this.serverTrafficChartData.sendData.shift()
   }
 
   private handleSetLineChartData(type: string) {

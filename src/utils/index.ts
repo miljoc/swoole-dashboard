@@ -80,6 +80,21 @@ export const bytesFormat = (bytes: number) => {
   return String(bytes) + ' B'
 }
 
+export const numberFormat = (n: number) => {
+  const step = 1000
+  const width = 3
+  if (n >= Math.pow(step, 3)) {
+    return String((n / Math.pow(step, 3)).toFixed(width)) + ' B'
+  }
+  if (n >= Math.pow(step, 2)) {
+    return String((n / Math.pow(step, 2)).toFixed(width)) + ' M'
+  }
+  if (n >= step) {
+    return String((n / step).toFixed(width)) + ' K'
+  }
+  return String(n)
+}
+
 export const socketTypeFilter = (type: number, ssl = 0) => {
   let _type = ''
   switch (type) {

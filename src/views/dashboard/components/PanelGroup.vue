@@ -46,7 +46,7 @@
           <div class="card-panel-text">
             Connections
           </div>
-          <span class="card-panel-num"> {{ serverStats.connection_num }} </span>
+          <span class="card-panel-num"> {{ serverStats.connection_num | numberFormat }} </span>
         </div>
       </div>
     </el-col>
@@ -70,7 +70,7 @@
           <div class="card-panel-text">
             Abort
           </div>
-          <span class="card-panel-num"> {{ serverStats.abort_count }} </span>
+          <span class="card-panel-num"> {{ serverStats.abort_count | numberFormat}} </span>
         </div>
       </div>
     </el-col>
@@ -87,7 +87,7 @@
           <div class="card-panel-text">
             Accept
           </div>
-          <span class="card-panel-num"> {{ serverStats.accept_count }} </span>
+          <span class="card-panel-num"> {{ serverStats.accept_count | numberFormat}} </span>
         </div>
       </div>
     </el-col>
@@ -111,7 +111,7 @@
           <div class="card-panel-text">
             Dispatch
           </div>
-          <span class="card-panel-num"> {{ serverStats.dispatch_count }} </span>
+          <span class="card-panel-num"> {{ serverStats.dispatch_count | numberFormat}} </span>
         </div>
       </div>
     </el-col>
@@ -135,7 +135,7 @@
           <div class="card-panel-text">
             Request
           </div>
-          <span class="card-panel-num"> {{ serverStats.request_count }} </span>
+          <span class="card-panel-num"> {{ serverStats.request_count | numberFormat}} </span>
         </div>
       </div>
     </el-col>
@@ -159,7 +159,7 @@
           <div class="card-panel-text">
             Response
           </div>
-          <span class="card-panel-num"> {{ serverStats.response_count }} </span>
+          <span class="card-panel-num"> {{ serverStats.response_count | numberFormat}} </span>
         </div>
       </div>
     </el-col>
@@ -176,7 +176,7 @@
           <div class="card-panel-text">
             Close
           </div>
-          <span class="card-panel-num"> {{ serverStats.close_count }} </span>
+          <span class="card-panel-num"> {{ serverStats.close_count | numberFormat }} </span>
         </div>
       </div>
     </el-col>
@@ -186,7 +186,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import CountTo from 'vue-count-to'
-import { parseUptime } from '@/utils'
+import { numberFormat, parseUptime } from '@/utils'
 import { IServerSetting, IServerStats } from '@/api/types'
 
 @Component({
@@ -195,7 +195,8 @@ import { IServerSetting, IServerStats } from '@/api/types'
     CountTo
   },
   filters: {
-    parseUptime: parseUptime
+    parseUptime: parseUptime,
+    numberFormat: numberFormat
   }
 })
 export default class extends Vue {

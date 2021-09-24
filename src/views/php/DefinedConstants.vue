@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-select
-      v-model="SocketNameFieldValue"
+      v-model="ConstantsNameFieldValue"
       multiple
       filterable
       collapse-tags
@@ -10,7 +10,7 @@
       @change="filterHandler"
     >
       <el-option
-        v-for="item in SocketNameOptions"
+        v-for="item in ConstantsNameOptions"
         :label="item"
         :key="item"
         :value="item">
@@ -76,7 +76,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getDefinedConstants } from '@/api/phpinfos'
-import {IDeclaredConstants, IDefinedFunction} from '@/api/types'
+import { IDeclaredConstants, IDefinedFunction } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { getSortFun } from '@/utils/index'
 
@@ -88,8 +88,8 @@ import { getSortFun } from '@/utils/index'
 })
 export default class extends Vue {
 
-  private SocketNameFieldValue: Array<string> = []
-  private SocketNameOptions: any = []
+  private ConstantsNameFieldValue: Array<string> = []
+  private ConstantsNameOptions: any = []
 
   private list: IDeclaredConstants[] = []
   private tmpData: IDefinedFunction[] = []
@@ -113,11 +113,11 @@ export default class extends Vue {
 
     const tmpList = []
 
-    if (this.SocketNameFieldValue.length > 0) {
-      for (let i = 0; i < this.SocketNameFieldValue.length; i++) {
+    if (this.ConstantsNameFieldValue.length > 0) {
+      for (let i = 0; i < this.ConstantsNameFieldValue.length; i++) {
         tmpList.push(this.handleAllList.filter((item) => {
           let mark = true
-          if (item.name !== this.SocketNameFieldValue[i]) {
+          if (item.name !== this.ConstantsNameFieldValue[i]) {
             mark = false
           }
           return mark
@@ -126,7 +126,7 @@ export default class extends Vue {
       this.handleAllList = tmpList
     }
 
-    let index = this.SocketNameFieldValue.length
+    let index = this.ConstantsNameFieldValue.length
     if (index > this.listQuery.limit ) {
       this.listQuery.limit = (Math.ceil( index/this.listQuery.limit ))  * 10
     }
@@ -137,9 +137,8 @@ export default class extends Vue {
   }
 
   private clearFilter(): void {
-    if ( this.SocketNameFieldValue.length > 0) {
-      console.log('清除筛选项')
-      this.SocketNameFieldValue = []
+    if ( this.ConstantsNameFieldValue.length > 0) {
+      this.ConstantsNameFieldValue = []
       this.handleAllList = JSON.parse(JSON.stringify(this.list))
       this.total = this.handleAllList.length
       this.tmpData = this.list.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
@@ -155,17 +154,11 @@ export default class extends Vue {
     const field: string = column.column.sortable // 排序字段
     if (column.order !== null) {
       const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
-      // console.log('选择' + field + '-' + sortType + '排序')
       this.handleAllList = JSON.parse(JSON.stringify(this.list)) // 备份初始数据
-      // console.log(sortType,'sortType')
-      // console.log(field,'field')
       this.handleAllList = getSortFun(field, sortType, this.handleAllList) // 处理使用数据
-      // console.log(this.handleAllList,'handleAllList')
       this.tmpData = this.handleAllList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit) // 当前页显示数据
-
     } else {
       console.log(field + '取消排序')
-      // console.log(this.allList)
       this.list = this.allList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
     }
   }
@@ -180,6 +173,7 @@ export default class extends Vue {
         id: id,
         value: data[name]
       })
+      this.ConstantsNameOptions.push(name)
     }
     this.total = this.list.length
   }
@@ -198,18 +192,6 @@ export default class extends Vue {
         this.tmpData.push(item)
       }
     }
-    // start
-    const tmpSocketName: Array<any> = []
-    for (let index = 0; index < this.list.length; index++) {
-      // 处理 events 选项数据
-      tmpSocketName[index] = this.list[index].name
-    }
-
-    // 去除重复值
-    for (let i = 0; i < tmpSocketName.length; i++) {
-      this.SocketNameOptions.push(tmpSocketName[i])
-    }
-    // end
 
     // Just to simulate the time of the request
     setTimeout(() => {

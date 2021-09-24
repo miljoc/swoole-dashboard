@@ -75,7 +75,7 @@ export default class extends Vue {
     for (const name in data) {
       const id = index++
       this.list.push({
-        id: id,
+        id: id + 1,
         name: data[name],
       })
     }

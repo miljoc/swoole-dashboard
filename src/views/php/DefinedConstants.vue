@@ -131,16 +131,16 @@ export default class extends Vue {
 
     this.listQuery.page = 1
     this.total = this.handleAllList.length
-    this.tmpData(this.handleAllList)
+    this.tmpData = this.handleAllList
   }
 
   private clearFilter(): void {
-    if ( this.ServerPortFieldValue.length > 0) {
+    if ( this.SocketNameFieldValue.length > 0) {
       console.log('清除筛选项')
-      this.ServerPortFieldValue = []
+      this.SocketNameFieldValue = []
       this.handleAllList = JSON.parse(JSON.stringify(this.list))
-      this.tmpData(this.handleAllList)
       this.total = this.handleAllList.length
+      this.tmpData = this.list.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
     }
   }
 

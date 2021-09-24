@@ -103,6 +103,14 @@ export default new Router({
           }
         },
         {
+          path: '/class_info',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/php/ClassInfo.vue'),
+          meta: {
+            title: 'Class Info',
+            hidden: true
+          }
+        },
+        {
           path: '/functions',
           component: () => import('@/views/php/Functions.vue'),
           meta: {
@@ -116,6 +124,22 @@ export default new Router({
           meta: {
             title: 'Resources',
             icon: 'resource'
+          }
+        },
+        {
+          path: '/defined_constants',
+          component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/DefinedConstants.vue'),
+          meta: {
+            title: 'Constants',
+            icon: 'hamburger'
+          }
+        },
+        {
+          path: '/defined_interfaces',
+          component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/DefinedInterfaces.vue'),
+          meta: {
+            title: 'Interfaces',
+            icon: 'hamburger'
           }
         },
         {

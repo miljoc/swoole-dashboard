@@ -36,6 +36,13 @@ export const getDeclaredClasses = () =>
     method: 'get'
   })
 
+export const getClassesInfo = (class_name: string) =>
+  request({
+    url: '/api/get_class_info',
+    method: 'get',
+    params: { class_name }
+  })
+
 export const getDefinedFunctions = () =>
   request({
     url: '/api/get_defined_functions/worker-0',
@@ -45,5 +52,17 @@ export const getDefinedFunctions = () =>
 export const getResources = (worker = 'master') =>
   request({
     url: '/api/get_resources/' + worker,
+    method: 'get'
+  })
+
+export const getDefinedConstants = () =>
+  request({
+    url: '/api/get_defined_constants/worker-0',
+    method: 'get'
+  })
+
+export const getDeclaredInterfaces = () =>
+  request({
+    url: '/api/get_declared_interfaces/worker-0',
     method: 'get'
   })

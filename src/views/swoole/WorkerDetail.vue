@@ -6,52 +6,55 @@
             slot="header"
             class="clearfix"
         >
-          <span>Worker Info</span>
+          <span>Worker Detail</span>
         </div>
         <div style="padding: 0; margin: 0">
           <el-descriptions
               border
-              :data="this.workerInfo"
+              :column=2
           >
-            <el-descriptions-item label="PID" v-if="!this.$route.params.id.startsWith('master')">{{
-                workerInfo.pid
-              }}
+            <el-descriptions-item v-for="(item, index) in process_status" :label="index" :key="index">
+              {{ item }}
             </el-descriptions-item>
-            <el-descriptions-item label="Worker ID" v-if="!this.$route.params.id.startsWith('master')">{{
-                workerInfo.id
-              }}
-            </el-descriptions-item>
-            <el-descriptions-item label="Memory Usage">{{ workerInfo.memory_usage }}</el-descriptions-item>
-            <el-descriptions-item label="Memory Real Usage">{{ workerInfo.memory_real_usage }}</el-descriptions-item>
-            <el-descriptions-item label="Timer Num">{{ workerInfo.memory_usage }}</el-descriptions-item>
-            <el-descriptions-item label="Coroutine Num">{{
-                workerInfo.coroutine_stats.coroutine_num
-              }}
-            </el-descriptions-item>
-            <el-descriptions-item label="Coroutine Peak Num">{{
-                workerInfo.coroutine_stats.coroutine_peak_num
-              }}
-            </el-descriptions-item>
-            <el-descriptions-item label="AIO Task Num">{{
-                workerInfo.coroutine_stats.aio_task_num
-              }}
-            </el-descriptions-item>
-            <el-descriptions-item label="AIO Thread Num">{{
-                workerInfo.coroutine_stats.aio_worker_num
-              }}
-            </el-descriptions-item>
-            <el-descriptions-item label="Event Num">{{
-                workerInfo.coroutine_stats.event_num
-              }}
-            </el-descriptions-item>
-            <el-descriptions-item label="Timer Num">{{
-                workerInfo.coroutine_stats.timer_num
-              }}
-            </el-descriptions-item>
-            <el-descriptions-item label="Signal Listener Num">{{
-                workerInfo.coroutine_stats.signal_listener_num
-              }}
-            </el-descriptions-item>
+<!--            <el-descriptions-item label="PID" v-if="!this.$route.params.id.startsWith('master')">{{-->
+<!--                workerInfo.pid-->
+<!--              }}-->
+<!--            </el-descriptions-item>-->
+<!--            <el-descriptions-item label="Worker ID" v-if="!this.$route.params.id.startsWith('master')">{{-->
+<!--                workerInfo.id-->
+<!--              }}-->
+<!--            </el-descriptions-item>-->
+<!--            <el-descriptions-item label="Memory Usage">{{ workerInfo.memory_usage }}</el-descriptions-item>-->
+<!--            <el-descriptions-item label="Memory Real Usage">{{ workerInfo.memory_real_usage }}</el-descriptions-item>-->
+<!--            <el-descriptions-item label="Timer Num">{{ workerInfo.memory_usage }}</el-descriptions-item>-->
+<!--            <el-descriptions-item label="Coroutine Num">{{-->
+<!--                workerInfo.coroutine_stats.coroutine_num-->
+<!--              }}-->
+<!--            </el-descriptions-item>-->
+<!--            <el-descriptions-item label="Coroutine Peak Num">{{-->
+<!--                workerInfo.coroutine_stats.coroutine_peak_num-->
+<!--              }}-->
+<!--            </el-descriptions-item>-->
+<!--            <el-descriptions-item label="AIO Task Num">{{-->
+<!--                workerInfo.coroutine_stats.aio_task_num-->
+<!--              }}-->
+<!--            </el-descriptions-item>-->
+<!--            <el-descriptions-item label="AIO Thread Num">{{-->
+<!--                workerInfo.coroutine_stats.aio_worker_num-->
+<!--              }}-->
+<!--            </el-descriptions-item>-->
+<!--            <el-descriptions-item label="Event Num">{{-->
+<!--                workerInfo.coroutine_stats.event_num-->
+<!--              }}-->
+<!--            </el-descriptions-item>-->
+<!--            <el-descriptions-item label="Timer Num">{{-->
+<!--                workerInfo.coroutine_stats.timer_num-->
+<!--              }}-->
+<!--            </el-descriptions-item>-->
+<!--            <el-descriptions-item label="Signal Listener Num">{{-->
+<!--                workerInfo.coroutine_stats.signal_listener_num-->
+<!--              }}-->
+<!--            </el-descriptions-item>-->
           </el-descriptions>
         </div>
       </el-card>
@@ -65,9 +68,7 @@ import { getWorkerInfo2 } from '@/api/server'
 export default {
   data() {
     return {
-      workerInfo: {
-        coroutine_stats: {}
-      }
+      process_status: {}
     }
   },
   created() {
@@ -76,8 +77,7 @@ export default {
   methods: {
     async getWorkerInfo() {
       const { data } = await getWorkerInfo2(this.$route.params.id)
-      this.workerInfo = data
-      console.dir(this.workerInfo)
+      this.process_status = data.process_status
     }
   }
 }

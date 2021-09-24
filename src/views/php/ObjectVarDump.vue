@@ -1,18 +1,22 @@
 <template>
   <div class="app-container" id="VarDump">
-    <textarea ref="textarea" v-show="false"></textarea>
+    <el-card class="box-card">
+      <div
+        slot="header"
+        class="clearfix"
+      >
+        <span>Object Var Dump</span>
+      </div>
+      <textarea ref="textarea" v-show="false"></textarea>
+    </el-card>
   </div>
 </template>
 
 <script>
 import CodeMirror from 'codemirror'
 import 'codemirror/lib/codemirror.css'
-// import 'codemirror/theme/material-darker.css'
-// import 'codemirror/theme/material.css'
-// import 'codemirror/theme/dracula.css'
-import 'codemirror/theme/idea.css'
-import 'codemirror/mode/php/php'
-import 'codemirror/mode/javascript/javascript'
+import 'codemirror/theme/monokai.css'
+import 'codemirror/mode/javascript/javascript.js'
 import { getObjectByHandle } from '@/api/server'
 
 export default {
@@ -27,10 +31,7 @@ export default {
         // 缩进格式
         tabSize: 4,
         // 主题，对应主题库 JS 需要提前引入
-        // theme: 'material-darker',
-        // theme: 'material',
-        // theme: 'dracula',
-        theme: 'idea',
+        theme: 'monokai',
         // 显示行号
         lineNumbers: true,
         line: true,
@@ -38,8 +39,6 @@ export default {
         readOnly: true,
         // 默认的语法类型
         mode: 'javascript'
-        // mode: { name: 'php', globalVars: true }
-        // mode: { name: 'javascript', globalVars: true }
       }
     }
   },
@@ -51,6 +50,8 @@ export default {
      * 初始化代码显示框
      */
     initCode() {
+      console.log(this.$refs.textarea)
+
       this.coder = CodeMirror.fromTextArea(this.$refs.textarea, this.options)
       this.$nextTick(function() {
         this.coder.setValue(this.code)
@@ -68,6 +69,11 @@ export default {
 
 <style lang="scss">
 #VarDump {
+  .el-card__body {
+    overflow-y: auto;
+    overflow-x: auto;
+    height: 80vh;
+  }
   .CodeMirror {
     border: 1px solid #eee;
     height: auto;

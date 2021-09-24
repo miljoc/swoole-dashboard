@@ -11,6 +11,9 @@
       class="breadcrumb-container"
     />
     <div class="right-menu">
+      <div class="right-menu-item" style="font-size: 14px">
+        <span>OS：Ubuntu20</span>
+      </div>
       <el-dropdown
         class="avatar-container right-menu-item hover-effect"
         trigger="click"

@@ -126,3 +126,17 @@ export const getMemoryInfo = (worker: string) =>
     url: `/api/get_memory_info/${worker}`,
     method: 'get'
   })
+
+export const getServerCpuUsage = () =>
+  request({
+    url: '/api/get_server_cpu_usage/master',
+    method: 'get'
+  })
+
+export const getServerMemoryUsage = () =>
+  request({
+    url: '/api/get_server_memory_usage/master',
+    method: 'get'
+  })
+
+

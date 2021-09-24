@@ -36,7 +36,7 @@
           >
             <span>CPU Usage</span>
           </div>
-          <gauge-chart ref="cpu_usage" width="300px" name="CPU Usage" height="280px" :chart-data="gaugeChartData"/>
+          <gauge-chart ref="cpu_usage" width="300px" :max="cpuUsageMax" name="CPU Usage" height="280px" :chart-data="cpuUsage"/>
         </div>
       </el-col>
 
@@ -52,7 +52,7 @@
           >
             <span>Memory Usage</span>
           </div>
-          <gauge-chart ref="qps" width="300px" height="280px" :chart-data="gaugeChartData2"/>
+          <memory-usage-chart ref="qps" width="300px" height="280px" :max="memoryUsageMax" :chart-data="memoryUsage"/>
         </div>
       </el-col>
 
@@ -293,11 +293,12 @@ import TodoList from './components/TodoList/index.vue'
 import GaugeChart from './components/GaugeChart.vue'
 import TransactionTable from './components/TransactionTable.vue'
 import ClientsLineChart, { IClientsLineChartData } from '@/views/chart/ClientsLineChart.vue'
-import { getServerStats, getAllPorts } from '@/api/server'
+import { getServerStats, getAllPorts, getServerCpuUsage, getServerMemoryUsage } from '@/api/server'
 import { parseTime, bytesFormat, socketTypeFilter } from '@/utils'
 import { IServerStats } from '@/api/types'
 import ServerTrafficLineChart, { IServerTrafficLineChart } from '@/views/chart/ServerTrafficLineChart.vue'
 import WorkerPieChart, { IWorkerPieChartData } from '@/views/chart/WorkerPieChart.vue'
+import MemoryUsageChart from '@/views/chart/MemoryUsageChart.vue'
 
 const lineChartData: { [type: string]: ILineChartData } = {
   newVisitis: {
@@ -325,6 +326,7 @@ function getRandomInt(min: number, max: number) {
 @Component({
   name: 'DashboardAdmin',
   components: {
+    MemoryUsageChart,
     WorkerPieChart,
     ServerTrafficLineChart,
     GaugeChart,
@@ -369,8 +371,13 @@ export default class extends Vue {
     data: []
   }
 
-  private gaugeChartData = 0
-  private gaugeChartData2 = 0
+  private lastCpuUsage = 0
+  private cpuUsage = 0
+  private cpuUsageMax = 100
+
+  private memoryUsage = 0
+  private memoryUsageMax = 100
+
   private serverStats: IServerStats = {
     abort_count: -1,
     close_count: -1,
@@ -408,9 +415,10 @@ export default class extends Vue {
       this.serverTrafficChartData.recvData.push(0)
       this.serverTrafficChartData.sendData.push(0)
     }
-    this.getData()
-    this.timer_1 = setInterval(this.updateData, 1000)
-    this.timer_2 = setInterval(this.getData, 10000)
+    this.getHighFrequencyData()
+    this.getLowFrequencyData()
+    this.timer_1 = setInterval(this.getHighFrequencyData, 1000)
+    this.timer_2 = setInterval(this.getLowFrequencyData, 10000)
   }
 
   destroyed() {
@@ -418,26 +426,26 @@ export default class extends Vue {
     clearInterval(this.timer_2)
   }
 
-  private async updateData() {
-    this.gaugeChartData = getRandomInt(5, 95)
-    this.gaugeChartData2 = getRandomInt(5, 95)
-
+  private async getHighFrequencyData() {
     const lastServerStats = this.serverStats
     await this.getServerStats()
+    await this.getCpuUsage()
 
-    this.clientsChartData.abort_count.push(this.serverStats.abort_count - lastServerStats.abort_count)
-    this.clientsChartData.accept_count.push(this.serverStats.accept_count - lastServerStats.accept_count)
-    this.clientsChartData.request_count.push(this.serverStats.request_count - lastServerStats.request_count)
-    this.clientsChartData.dispatch_count.push(this.serverStats.dispatch_count - lastServerStats.dispatch_count)
-    this.clientsChartData.response_count.push(this.serverStats.response_count - lastServerStats.response_count)
-    this.clientsChartData.close_count.push(this.serverStats.close_count - lastServerStats.close_count)
+    if (lastServerStats.worker_num > 0) {
+      this.clientsChartData.abort_count.push(this.serverStats.abort_count - lastServerStats.abort_count)
+      this.clientsChartData.accept_count.push(this.serverStats.accept_count - lastServerStats.accept_count)
+      this.clientsChartData.request_count.push(this.serverStats.request_count - lastServerStats.request_count)
+      this.clientsChartData.dispatch_count.push(this.serverStats.dispatch_count - lastServerStats.dispatch_count)
+      this.clientsChartData.response_count.push(this.serverStats.response_count - lastServerStats.response_count)
+      this.clientsChartData.close_count.push(this.serverStats.close_count - lastServerStats.close_count)
 
-    this.clientsChartData.abort_count.shift()
-    this.clientsChartData.accept_count.shift()
-    this.clientsChartData.request_count.shift()
-    this.clientsChartData.dispatch_count.shift()
-    this.clientsChartData.response_count.shift()
-    this.clientsChartData.close_count.shift()
+      this.clientsChartData.abort_count.shift()
+      this.clientsChartData.accept_count.shift()
+      this.clientsChartData.request_count.shift()
+      this.clientsChartData.dispatch_count.shift()
+      this.clientsChartData.response_count.shift()
+      this.clientsChartData.close_count.shift()
+    }
 
     this.serverTrafficChartData.recvData.push(this.serverStats.total_recv_bytes - lastServerStats.total_recv_bytes)
     this.serverTrafficChartData.sendData.push(this.serverStats.total_send_bytes - lastServerStats.total_send_bytes)
@@ -449,14 +457,32 @@ export default class extends Vue {
     this.lineChartData = lineChartData[type]
   }
 
+  private async getCpuUsage() {
+    const lastCpuUsage = this.lastCpuUsage
+    const { data } = await getServerCpuUsage()
+    this.lastCpuUsage = data.total
+    this.cpuUsage = this.lastCpuUsage - lastCpuUsage
+    this.cpuUsageMax = data.cpu_num * 100
+  }
+
+  private async getMemoryUsage() {
+    const { data } = await getServerMemoryUsage()
+    this.memoryUsage = data.total
+    this.memoryUsageMax = data.memory_size
+  }
+
   private async getServerStats() {
     const { data } = await getServerStats('master')
     this.serverStats = data
   }
 
-  private async getData() {
-    const { data } = await getServerStats('master')
-    this.serverStats = data
+  private async getLowFrequencyData() {
+    await this.getMemoryUsage()
+
+    if (this.serverStats.worker_num <= 0) {
+      const { data } = await getServerStats('master')
+      this.serverStats = data
+    }
 
     let workerStats = []
     let workerPieChartData = {

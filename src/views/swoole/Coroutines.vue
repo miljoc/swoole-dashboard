@@ -52,7 +52,13 @@
           label="Source File"
       >
         <template slot-scope="{row}">
-          <span>{{ row.backTrace| parseBackTraceSource }}</span>
+          <el-link type="primary" v-if="row.backTrace.length > 0">
+            <router-link class="link-type"
+                         :to="{path: `/includedfiles_detail?file_name=${row.backTrace[0].file}`}">
+              {{ row.backTrace| parseBackTraceSource }}
+            </router-link>
+          </el-link>
+          <span v-else> - </span>
         </template>
       </el-table-column>
 

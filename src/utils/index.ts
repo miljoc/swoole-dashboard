@@ -67,8 +67,8 @@ export const parseUptime = (started_time: number) => {
   return `${parseInt(String(diff), 10)} seconds`
 }
 
-function _format(n: number, step: number, width: number, max_index = 4, map = ['', 'K', 'M', 'B', 'T']) {
-  for (let i = max_index; i > 1; i--) {
+export const numberFormat = (n: number, step = 1000, width = 3, max_index = 4, map = ['', 'K', 'M', 'B', 'T']) => {
+  for (let i = max_index; i >= 1; i--) {
     if (n >= Math.pow(step, i)) {
       return String((n / Math.pow(step, i)).toFixed(width)) + ' ' + map[i]
     }
@@ -78,11 +78,7 @@ function _format(n: number, step: number, width: number, max_index = 4, map = ['
 }
 
 export const bytesFormat = (bytes: number) => {
-  return _format(bytes, 1024, 2, 4, ['B', 'KB', 'MB', 'GB', 'TB'])
-}
-
-export const numberFormat = (n: number) => {
-  return _format(n, 1000, 3, 4, ['', 'K', 'M', 'G', 'T'])
+  return numberFormat(bytes, 1024, 2, 4, ['B', 'KB', 'MB', 'GB', 'TB'])
 }
 
 export const socketTypeFilter = (type: number, ssl = 0) => {

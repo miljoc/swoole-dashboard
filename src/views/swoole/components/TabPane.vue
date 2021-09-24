@@ -34,7 +34,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/events/?worker=reactor-${scope.row.id}`}">{{ scope.row.event_num }}
+                         :to="{path: `/events/?worker=reactor-${scope.row.id}`}">{{ scope.row.event_num | amountRule }}
             </router-link>
           </el-link>
         </template>
@@ -42,13 +42,13 @@
 
       <el-table-column label="Timers" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.timer_num }}</span>
+          <span>{{ scope.row.timer_num | amountRule }}</span>
         </template>
       </el-table-column>
 
       <el-table-column label="Dispatch Count" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.dispatch_count }}</span>
+          <span>{{ scope.row.dispatch_count | amountRule }}</span>
         </template>
       </el-table-column>
 
@@ -88,7 +88,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/coroutines/?worker=${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.coroutine_num }}
+                         :to="{path: `/coroutines/?worker=${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.coroutine_num | amountRule }}
             </router-link>
           </el-link>
         </template>
@@ -98,7 +98,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/events/?worker=${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.event_num }}
+                         :to="{path: `/events/?worker=${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.event_num | amountRule }}
             </router-link>
           </el-link>
         </template>
@@ -106,7 +106,7 @@
 
       <el-table-column label="Reload Count" align="center" v-if="type === 'manager'">
         <template slot-scope="scope">
-          <span>{{ scope.row.reload_count }}</span>
+          <span>{{ scope.row.reload_count | amountRule }}</span>
         </template>
       </el-table-column>
 
@@ -120,7 +120,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/timers/?worker=${type}-${scope.$index}`}">{{ scope.row.timer_stats.num }}
+                         :to="{path: `/timers/?worker=${type}-${scope.$index}`}">{{ scope.row.timer_stats.num | amountRule }}
             </router-link>
           </el-link>
         </template>
@@ -130,7 +130,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/objects/?worker=${type}-${scope.$index}`}"> {{ scope.row.vm_status.object_num }}
+                         :to="{path: `/objects/?worker=${type}-${scope.$index}`}"> {{ scope.row.vm_status.object_num | amountRule }}
             </router-link>
           </el-link>
         </template>
@@ -141,7 +141,7 @@
 
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/resources/?worker=${type}-${scope.$index}`}">{{ scope.row.vm_status.resource_num }}
+                         :to="{path: `/resources/?worker=${type}-${scope.$index}`}">{{ scope.row.vm_status.resource_num | amountRule }}
             </router-link>
           </el-link>
         </template>
@@ -163,7 +163,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="VmRSS" align="center" sortable="process_status.VmRSS">
+      <el-table-column label="VmRSS" align="center">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
@@ -176,13 +176,13 @@
 
       <el-table-column label="V-CS" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.process_status.voluntary_ctxt_switches }}</span>
+          <span>{{ scope.row.process_status.voluntary_ctxt_switches | amountRule }}</span>
         </template>
       </el-table-column>
 
       <el-table-column label="NV-CS" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.process_status.nonvoluntary_ctxt_switches }}</span>
+          <span>{{ scope.row.process_status.nonvoluntary_ctxt_switches | amountRule }}</span>
         </template>
       </el-table-column>
 
@@ -213,7 +213,7 @@ import { getServerStats, getWorkerInfo, getTaskWorkerInfo, getThreadInfo, getSer
 import { IServerSetting, IThreadData, IWorkerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import request from '@/utils/request'
-import { bytesFormat, parseTime, getSortFun } from '@/utils'
+import { bytesFormat, parseTime, getSortFun, amountRule } from '@/utils'
 
 @Component({
   name: 'Workers',
@@ -223,6 +223,7 @@ import { bytesFormat, parseTime, getSortFun } from '@/utils'
   filters: {
     bytesFormat: bytesFormat,
     parseTime: parseTime,
+    amountRule: amountRule,
     toBytes: (bytes: string) => {
       if (bytes.substring(bytes.length - 2, bytes.length) === 'kB') {
         return parseInt(bytes.substring(0, bytes.length - 3), 10) * 1024
@@ -279,7 +280,6 @@ export default class extends Vue {
    * @param order
    */
   private sortChange(column: any, prop: any, order: any) {
-    console.log(column)
     if (column.order !== null) {
       const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
       const field: string = column.column.sortable // 排序字段
@@ -287,9 +287,6 @@ export default class extends Vue {
       console.log(field)
       console.log(this.type)
       this.workers = getSortFun(field, sortType, this.workers) // 处理使用数据
-      // this.workers.sort(getSortFun(sortType, field))
-    } else {
-      console.log(12312312)
     }
   }
 

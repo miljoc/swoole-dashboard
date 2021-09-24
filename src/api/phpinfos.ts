@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export const getVersionInfo = () =>
   request({
-    url: '/api/get_version_info',
+    url: '/api/get_version_info/worker-0',
     method: 'get'
   })
 
@@ -44,7 +44,7 @@ export const getDeclaredClasses = () =>
 
 export const getClassesInfo = (class_name: string) =>
   request({
-    url: '/api/get_class_info',
+    url: '/api/get_class_info/worker-0',
     method: 'get',
     params: { class_name }
   })

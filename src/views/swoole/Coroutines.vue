@@ -24,7 +24,7 @@
           width="150"
       >
         <template slot-scope="{row}">
-          <span>{{ row.elapsed }}</span>
+          <span>{{ row.elapsed | amountRule }}</span>
         </template>
       </el-table-column>
 
@@ -34,7 +34,7 @@
           width="150"
       >
         <template slot-scope="{row}">
-          <span>{{ row.stack_usage }}</span>
+          <span>{{ row.stack_usage | amountRule }}</span>
         </template>
       </el-table-column>
 
@@ -93,6 +93,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getCoroutineList, getCoroutineBackTrace } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
+import { amountRule } from '@/utils'
 
 const parseBackTraceSource = (_frame_list: any) => {
   if (_frame_list.length === 0) {
@@ -123,7 +124,8 @@ const parseBackTraceCaller = (_frame_list: any) => {
   },
   filters: {
     parseBackTraceCaller: parseBackTraceCaller,
-    parseBackTraceSource: parseBackTraceSource
+    parseBackTraceSource: parseBackTraceSource,
+    amountRule: amountRule
   }
 })
 export default class extends Vue {

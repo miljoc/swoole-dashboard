@@ -184,7 +184,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { getAllSockets } from '@/api/server'
 import { IWorkerCoroutineData, IWorkerTimerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { bytesFormat, getSortFun, eventsFitler, fdTypeFilter, socketTypeFilter, formatNumber } from '@/utils/index'
+import { bytesFormat, getSortFun, eventsFitler, fdTypeFilter, socketTypeFilter, amountRule } from '@/utils/index'
 
 @Component({
   name: 'EventList',
@@ -196,7 +196,7 @@ import { bytesFormat, getSortFun, eventsFitler, fdTypeFilter, socketTypeFilter, 
     eventsFitler: eventsFitler,
     fdTypeFilter: fdTypeFilter,
     socketTypeFilter: socketTypeFilter,
-    formatNumber: formatNumber
+    amountRule: amountRule
   }
 })
 

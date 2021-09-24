@@ -67,32 +67,22 @@ export const parseUptime = (started_time: number) => {
   return `${parseInt(String(diff), 10)} seconds`
 }
 
+function _format(n: number, step: number, width: number, max_index = 4, map = ['', 'K', 'M', 'B', 'T']) {
+  for (let i = max_index; i > 1; i--) {
+    if (n >= Math.pow(step, i)) {
+      return String((n / Math.pow(step, i)).toFixed(width)) + ' ' + map[i]
+    }
+  }
+
+  return String(n) + ' ' + map[0]
+}
+
 export const bytesFormat = (bytes: number) => {
-  if (bytes >= 1024 * 1024 * 1024) {
-    return String((bytes / (1024 * 1024 * 1024)).toFixed(2)) + ' GB'
-  }
-  if (bytes >= 1024 * 1024) {
-    return String((bytes / (1024 * 1024)).toFixed(2)) + ' MB'
-  }
-  if (bytes >= 1024) {
-    return String((bytes / (1024)).toFixed(2)) + ' KB'
-  }
-  return String(bytes) + ' B'
+  return _format(bytes, 1024, 2, 4, ['B', 'KB', 'MB', 'GB', 'TB'])
 }
 
 export const numberFormat = (n: number) => {
-  const step = 1000
-  const width = 3
-  if (n >= Math.pow(step, 3)) {
-    return String((n / Math.pow(step, 3)).toFixed(width)) + ' B'
-  }
-  if (n >= Math.pow(step, 2)) {
-    return String((n / Math.pow(step, 2)).toFixed(width)) + ' M'
-  }
-  if (n >= step) {
-    return String((n / step).toFixed(width)) + ' K'
-  }
-  return String(n)
+  return _format(n, 1000, 3, 4, ['', 'K', 'M', 'G', 'T'])
 }
 
 export const socketTypeFilter = (type: number, ssl = 0) => {

@@ -57,7 +57,7 @@
         sortable="value"
       >
         <template slot-scope="{row}">
-          <span>{{ row.value }}</span>
+          <span>{{ row.values }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -176,7 +176,8 @@ export default class extends Vue {
       this.list.push({
         name: name,
         id: id,
-        value: data[name]
+        value: data[name], // 不转化千分位做排序
+        values:data[name].toLocaleString() // 千分位展示
       })
       this.ConstantsNameOptions.push(name)
     }

@@ -94,8 +94,7 @@ export default class extends Vue {
   }
 
   private handleVarDump(row: any) {
-    // console.log(row)
-    this.$router.push({ path: '/object_var_dump?object_id=' + row.id })
+    this.$router.push({ path: '/object_var_dump?object_id=' + row.id + '&object_hash=' + row.hash })
   }
 
   private async getData() {

@@ -50,8 +50,6 @@ export default {
      * 初始化代码显示框
      */
     initCode() {
-      console.log(this.$refs.textarea)
-
       this.coder = CodeMirror.fromTextArea(this.$refs.textarea, this.options)
       this.$nextTick(function() {
         this.coder.setValue(this.code)
@@ -59,7 +57,8 @@ export default {
     },
     async getData() {
       const object_id = this.$route.query.object_id
-      const data = await getObjectByHandle(object_id)
+      const object_hash = this.$route.query.object_hash
+      const data = await getObjectByHandle(object_id, object_hash)
       this.code = data.data
       this.initCode()
     }

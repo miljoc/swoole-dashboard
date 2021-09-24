@@ -1,5 +1,11 @@
 import request from '@/utils/request'
 
+export const getVersionInfo = () =>
+  request({
+    url: '/api/get_version_info',
+    method: 'get'
+  })
+
 export const getLoadedExtensions = () =>
   request({
     url: '/api/get_loaded_extensions/worker-0',

@@ -18,7 +18,7 @@
             border
             :column=1
           >
-            <el-descriptions-item :label="item.name" v-for="(item, index) in constants_info" :key="index">
+            <el-descriptions-item :label="item.name" v-for="(item, index) in constants" :key="index">
               <el-link type="primary" v-if="item.type === 'array'" @click="showArray(index)">Detail</el-link>
               <span v-else>{{ item.value }}</span>
             </el-descriptions-item>
@@ -31,8 +31,9 @@
               <el-descriptions
                 border
                 :column=1
+                v-if="staticProperties"
               >
-                <el-descriptions-item :label="item.name" v-for="(item, index) in constants_info" :key="index">
+                <el-descriptions-item :label="item.name" v-for="(item, index) in staticProperties" :key="index">
                   <el-link type="primary" v-if="item.type === 'array'" @click="showArray(index)">Detail</el-link>
                   <span v-else>{{ item.value }}</span>
                 </el-descriptions-item>
@@ -43,7 +44,7 @@
                 border
                 :column=1
               >
-                <el-descriptions-item :label="item.name" v-for="(item, index) in constants_info" :key="index">
+                <el-descriptions-item :label="item.name" v-for="(item, index) in properties" :key="index">
                   <el-link type="primary" v-if="item.type === 'array'" @click="showArray(index)">Detail</el-link>
                   <span v-else>{{ item.value }}</span>
                 </el-descriptions-item>
@@ -57,7 +58,7 @@
       </el-tabs>
     </div>
     <div>
-      <el-dialog :title="constants_name" :visible.sync="dialogTableVisible">
+      <el-dialog :title="dialogTableTitle" :visible.sync="dialogTableVisible">
         <textarea ref="textarea" v-show="false"></textarea>
       </el-dialog>
     </div>
@@ -79,12 +80,18 @@ export default {
       tabs_active: 'Properties',
       class_name: '',
 
-      constants_name: '',
-      constants_info: {},
+      constants: {},
+      staticProperties: {},
+      properties: {},
+      staticMethods: {},
+      methods: {},
+      parentClass: '',
+      interface: {},
 
       collapse_active: ['1', '2'],
-
+      dialogTableTitle: '',
       dialogTableVisible: false,
+
       code: '',
       // 编辑器实例
       coder: null,
@@ -120,13 +127,19 @@ export default {
     },
     async getData(class_name) {
       const data = await getClassesInfo(class_name)
-      this.constants_info = data.data.constants
+      this.constants = data.data.constants
+      this.staticProperties = data.data.staticProperties
+      this.properties = data.data.properties
+      this.staticMethods = data.data.staticMethods
+      this.methods = data.data.methods
+      this.parentClass = data.data.parentClass
+      this.interface = data.data.interface
     },
     showArray(index) {
       this.dialogTableVisible = true
-      // console.log(this.constants_info[index].value)
-      this.constants_name = this.constants_info[index].name
-      this.code = this.constants_info[index].value
+      // console.log(this.constants[index].value)
+      this.dialogTableTitle = this.constants[index].name
+      this.code = this.constants[index].value
       this.$nextTick(function() {
         this.initCode()
       })

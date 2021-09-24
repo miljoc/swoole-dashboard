@@ -103,3 +103,11 @@ export interface IServerStats {
 export interface IUnixSocket {
   fd: number
 }
+
+export interface IVersionInfo {
+  os: string
+  swooleVersion: string
+  phpVersion: string
+  host: string
+  local: string
+}

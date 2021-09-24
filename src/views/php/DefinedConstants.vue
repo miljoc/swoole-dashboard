@@ -42,7 +42,6 @@
       <el-table-column
         align="center"
         label="Name"
-        sortable="name"
       >
         <template slot-scope="{row}">
           <el-link type="primary">
@@ -99,6 +98,9 @@ export default class extends Vue {
     page: 1,
     limit: 10
   }
+  private field = ''
+  private order = ''
+  private column = ''
 
   created() {
     this.getList()
@@ -152,7 +154,10 @@ export default class extends Vue {
   // private sortChange(column:any, prop:any, order:any) {
   private sortChange(column:any) {
     const field: string = column.column.sortable // 排序字段
+    this.field = column.column.sortable
+    this.column = column
     if (column.order !== null) {
+      this.order = column.order
       const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
       this.handleAllList = JSON.parse(JSON.stringify(this.list)) // 备份初始数据
       this.handleAllList = getSortFun(field, sortType, this.handleAllList) // 处理使用数据
@@ -185,11 +190,14 @@ export default class extends Vue {
       await this.getData()
     }
 
-    this.tmpData = []
-
-    for (const item of this.list) {
-      if (item.id >= (this.listQuery.page - 1) * this.listQuery.limit && item.id < this.listQuery.page * this.listQuery.limit) {
-        this.tmpData.push(item)
+    if (this.field != '' && this.order != '') {
+      this.sortChange(this.column)
+    } else {
+      this.tmpData = []
+      for (const item of this.list) {
+        if (item.id >= (this.listQuery.page - 1) * this.listQuery.limit && item.id < this.listQuery.page * this.listQuery.limit) {
+          this.tmpData.push(item)
+        }
       }
     }
 

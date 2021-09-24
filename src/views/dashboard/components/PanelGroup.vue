@@ -159,7 +159,7 @@
           <div class="card-panel-text">
             Response
           </div>
-          <span class="card-panel-num"> {{ serverStats.response_count | numberFormat}} </span>
+          <span class="card-panel-num"> {{ serverStats.response_count | numberFormat }} </span>
         </div>
       </div>
     </el-col>

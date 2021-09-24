@@ -10,6 +10,7 @@ import * as echarts from 'echarts'
 import { Component, Prop, Watch } from 'vue-property-decorator'
 import { mixins } from 'vue-class-component'
 import ResizeMixin from '@/components/Charts/mixins/resize'
+import { numberFormat } from '@/utils'
 
 export interface IGaugeChartData {
   value: number
@@ -58,6 +59,7 @@ export default class extends mixins(ResizeMixin) {
             type: 'gauge',
             max: this.max,
             min: 0,
+            splitNumber: 8,
             pointer: {
               show: true
             },
@@ -84,7 +86,10 @@ export default class extends mixins(ResizeMixin) {
             axisLabel: {
               distance: 15,
               color: '#999',
-              fontSize: 12
+              fontSize: 12,
+              formatter: function(value) {
+                return numberFormat(value, 1024, 0, 4, ['', 'K', 'M', 'G', 'T'])
+              }
             },
             anchor: {
               show: false,
@@ -104,7 +109,9 @@ export default class extends mixins(ResizeMixin) {
               fontSize: 24,
               borderRadius: 8,
               fontWeight: 'bolder',
-              formatter: '{value}%',
+              formatter: function(value) {
+                return numberFormat(value, 1024, 0, 4, ['', 'K', 'M', 'G', 'T'])
+              },
               color: 'auto'
             },
             data: [

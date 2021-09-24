@@ -118,3 +118,10 @@ export interface IExtensionInfo {
   ini_entries: object
   version: string
 }
+
+export interface IVersionInfo {
+  os: string
+  swooleVersion: string
+  phpVersion: string
+  host: string
+}

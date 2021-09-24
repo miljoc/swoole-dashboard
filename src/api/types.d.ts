@@ -24,7 +24,7 @@ export interface IDeclaredClass {
 export interface IDeclaredConstants {
   id: number
   name: string
-  index: number
+  value: any
 }
 
 export interface IDeclaredInterfaces {

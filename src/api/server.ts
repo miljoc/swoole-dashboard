@@ -61,11 +61,11 @@ export const getObjects = (worker: any) =>
     method: 'get'
   })
 
-export const getObjectByHandle = (object_id: number) =>
+export const getObjectByHandle = (object_id: number, object_hash: string) =>
   request({
     url: '/api/get_object_by_handle',
     method: 'get',
-    params: { object_id }
+    params: { object_id, object_hash }
   })
 
 export const getAllSockets = (worker: string) =>

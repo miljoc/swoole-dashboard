@@ -11,8 +11,12 @@
       class="breadcrumb-container"
     />
     <div class="right-menu">
-      <div class="right-menu-item" style="font-size: 14px">
-        <span>OS：Ubuntu20</span>
+      <div class="right-menu-item vsesion" style="font-size: 14px">
+        <span>OS：<b>{{ versionInfo.os }}</b></span>
+        <span>Swoole Version：<b>{{ versionInfo.swooleVersion }}</b></span>
+        <span>Php Version：<b>{{ versionInfo.phpVersion }}</b></span>
+        <span>Host：<b>{{ versionInfo.host }}</b></span>
+        <span>Local：<b>{{ versionInfo.local }}</b></span>
       </div>
       <el-dropdown
         class="avatar-container right-menu-item hover-effect"
@@ -65,6 +69,8 @@ import { AppModule } from '@/store/modules/app'
 import { UserModule } from '@/store/modules/user'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import Hamburger from '@/components/Hamburger/index.vue'
+import { getVersionInfo } from '@/api/phpinfos'
+import { IVersionInfo } from '@/api/types'
 
 @Component({
   name: 'Navbar',
@@ -74,6 +80,14 @@ import Hamburger from '@/components/Hamburger/index.vue'
   }
 })
 export default class extends Vue {
+  private versionInfo: IVersionInfo = {
+    os: '',
+    swooleVersion: '',
+    phpVersion: '',
+    host: '',
+    local: ''
+  }
+
   get sidebar() {
     return AppModule.sidebar
   }
@@ -84,6 +98,17 @@ export default class extends Vue {
 
   get avatar() {
     return UserModule.avatar
+  }
+
+  created() {
+    this.$nextTick(function() {
+      this.getVersion()
+    })
+  }
+
+  private async getVersion() {
+    const { data } = await getVersionInfo()
+    this.versionInfo = data
   }
 
   private toggleSideBar() {
@@ -171,6 +196,15 @@ export default class extends Vue {
           top: 25px;
           font-size: 12px;
         }
+      }
+    }
+  }
+  .vsesion {
+    span {
+      margin-right: 20px;
+      b {
+        color: #46a6ff;
+        font-weight: normal;
       }
     }
   }

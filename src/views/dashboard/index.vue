@@ -62,7 +62,7 @@
           :lg="8"
       >
         <div class="chart-wrapper">
-          <pie-chart/>
+          <worker-pie-chart :chart-data="workerPieChartData"/>
         </div>
       </el-col>
       <el-col
@@ -297,6 +297,7 @@ import { getServerStats, getAllPorts } from '@/api/server'
 import { parseTime, bytesFormat, socketTypeFilter } from '@/utils'
 import { IServerStats } from '@/api/types'
 import ServerTrafficLineChart, { IServerTrafficLineChart } from '@/views/chart/ServerTrafficLineChart.vue'
+import WorkerPieChart, { IWorkerPieChartData } from '@/views/chart/WorkerPieChart.vue'
 
 const lineChartData: { [type: string]: ILineChartData } = {
   newVisitis: {
@@ -324,6 +325,7 @@ function getRandomInt(min: number, max: number) {
 @Component({
   name: 'DashboardAdmin',
   components: {
+    WorkerPieChart,
     ServerTrafficLineChart,
     GaugeChart,
     GithubCorner,
@@ -335,7 +337,7 @@ function getRandomInt(min: number, max: number) {
     RadarChart,
     TodoList,
     TransactionTable,
-    ClientsLineChart,
+    ClientsLineChart
   },
   filters: {
     parseTime: parseTime,
@@ -361,6 +363,12 @@ export default class extends Vue {
     sendData: []
   }
 
+  private workerPieChartData: IWorkerPieChartData = {
+    name: 'Dispatch Count',
+    labels: [],
+    data: []
+  }
+
   private gaugeChartData = 0
   private gaugeChartData2 = 0
   private serverStats: IServerStats = {
@@ -383,7 +391,8 @@ export default class extends Vue {
 
   private workerStats = []
   private ports = []
-  private timer: any
+  private timer_1: any
+  private timer_2: any
 
   created() {
     for (let i = 0; i < 60; i++) {
@@ -400,11 +409,13 @@ export default class extends Vue {
       this.serverTrafficChartData.sendData.push(0)
     }
     this.getData()
-    this.timer = setInterval(this.updateData, 1000)
+    this.timer_1 = setInterval(this.updateData, 1000)
+    this.timer_2 = setInterval(this.getData, 10000)
   }
 
   destroyed() {
-    clearInterval(this.timer)
+    clearInterval(this.timer_1)
+    clearInterval(this.timer_2)
   }
 
   private async updateData() {
@@ -447,16 +458,34 @@ export default class extends Vue {
     const { data } = await getServerStats('master')
     this.serverStats = data
 
+    let workerStats = []
+    let workerPieChartData = {
+      name: this.workerPieChartData.name,
+      data: [],
+      labels: []
+    }
+
     for (let i = 0; i < this.serverStats.worker_num; i++) {
-      const { data } = await getServerStats('worker-' + i)
-      this.workerStats.push({
+      const worker_name = 'worker-' + i
+      const { data } = await getServerStats(worker_name)
+
+      workerStats.push({
         worker_id: i,
         worker_request_count: data.worker_request_count,
         worker_dispatch_count: data.worker_dispatch_count,
         coroutine_num: data.coroutine_num,
         coroutine_peek_num: data.coroutine_peek_num
       })
+
+      workerPieChartData.labels.push(worker_name)
+      workerPieChartData.data.push({
+        value: data.worker_dispatch_count,
+        name: worker_name
+      })
     }
+
+    this.workerStats = workerStats
+    this.workerPieChartData = workerPieChartData
 
     do {
       const { data } = await getAllPorts()

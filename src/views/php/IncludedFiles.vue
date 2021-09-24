@@ -64,7 +64,6 @@ export default class extends Vue {
   }
 
   private async getIncludedFiles() {
-    console.log(this.listQuery)
     this.listLoading = true
 
     if (this.data.length === 0) {
@@ -86,8 +85,6 @@ export default class extends Vue {
         filename: String(this.data[index])
       }
     }
-
-    console.dir(files, this.data)
 
     this.files = files
     this.total = total

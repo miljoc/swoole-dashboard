@@ -21,6 +21,17 @@ export interface IDeclaredClass {
   name: string
 }
 
+export interface IDeclaredConstants {
+  id: number
+  name: string
+  index: number
+}
+
+export interface IDeclaredInterfaces {
+  id: number
+  name: string
+}
+
 export interface IDefinedFunction {
   id: number
   name: string

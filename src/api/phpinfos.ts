@@ -54,3 +54,15 @@ export const getResources = (worker = 'master') =>
     url: '/api/get_resources/' + worker,
     method: 'get'
   })
+
+export const getDefinedConstants = () =>
+  request({
+    url: '/api/get_defined_constants/worker-0',
+    method: 'get'
+  })
+
+export const getDeclaredInterfaces = () =>
+  request({
+    url: '/api/get_declared_interfaces/worker-0',
+    method: 'get'
+  })

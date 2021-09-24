@@ -64,10 +64,19 @@ export default new Router({
       children: [
         {
           path: '/extensions',
-          component: () => import('@/views/php/Extensions.vue'),
+          // component: () => import('@/views/php/Extensions.vue'),
+          component: () => import('@/views/php/ExtensionsNew.vue'),
           meta: {
             title: 'Extensions',
             icon: 'component'
+          }
+        },
+        {
+          path: '/extension_detail',
+          component: () => import(/* webpackChunkName: "workers" */ '@/views/php/ExtensionsDetail.vue'),
+          meta: {
+            title: 'Extensions Detail',
+            hidden: true
           }
         },
         {

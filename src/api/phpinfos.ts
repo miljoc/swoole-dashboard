@@ -66,3 +66,9 @@ export const getDeclaredInterfaces = () =>
     url: '/api/get_declared_interfaces/worker-0',
     method: 'get'
   })
+
+export const getExtensionDetail = (extension_name = '') =>
+  request({
+    url: `/api/get_extension_info/worker-0?extension_name=${extension_name}`,
+    method: 'get'
+  })

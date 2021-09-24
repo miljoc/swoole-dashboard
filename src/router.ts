@@ -76,7 +76,8 @@ export default new Router({
           component: () => import('@/views/php/ExtensionsDetail.vue'),
           meta: {
             title: 'Extensions Detail',
-            hidden: true
+            hidden: true,
+            activeMenu: '/extensions'
           }
         },
         {
@@ -100,7 +101,8 @@ export default new Router({
           component: () => import('@/views/php/IncludedFilesDetail.vue'),
           meta: {
             title: 'Included Files Content',
-            hidden: true
+            hidden: true,
+            activeMenu: '/includedfiles'
           }
         },
         {
@@ -108,7 +110,8 @@ export default new Router({
           component: () => import('@/views/php/Classes.vue'),
           meta: {
             title: 'Classes',
-            icon: 'hamburger'
+            icon: 'hamburger',
+            activeMenu: '/classes'
           }
         },
         {

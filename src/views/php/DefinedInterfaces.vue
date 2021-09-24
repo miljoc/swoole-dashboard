@@ -73,7 +73,7 @@ export default class extends Vue {
       const id = index++
       this.list.push({
         name: data[name],
-        id: id + 1,
+        id: id + 1
       })
     }
     this.total = this.list.length

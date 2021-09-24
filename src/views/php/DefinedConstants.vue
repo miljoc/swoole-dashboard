@@ -76,7 +76,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getDefinedConstants } from '@/api/phpinfos'
-import { IDeclaredConstants, IDefinedFunction } from '@/api/types'
+import { IDeclaredConstants } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { getSortFun } from '@/utils/index'
 
@@ -87,12 +87,12 @@ import { getSortFun } from '@/utils/index'
   }
 })
 export default class extends Vue {
-
   private ConstantsNameFieldValue: Array<string> = []
   private ConstantsNameOptions: any = []
 
   private list: IDeclaredConstants[] = []
-  private tmpData: IDefinedFunction[] = []
+  private tmpData: any = []
+  private handleAllList: Array<any> = []
   private listLoading = true
   private total = 0
   private listQuery = {
@@ -159,7 +159,7 @@ export default class extends Vue {
       this.tmpData = this.handleAllList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit) // 当前页显示数据
     } else {
       console.log(field + '取消排序')
-      this.list = this.allList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+      // this.list = this.allList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
     }
   }
 

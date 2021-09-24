@@ -45,8 +45,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getLoadedExtensions  } from '@/api/phpinfos'
-import { IDeclaredInterfaces, IDefinedFunction } from '@/api/types'
+import { getLoadedExtensions } from '@/api/phpinfos'
+import { IDeclaredInterfaces } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 
 @Component({
@@ -57,7 +57,7 @@ import Pagination from '@/components/Pagination/index.vue'
 })
 export default class extends Vue {
   private list: IDeclaredInterfaces[] = []
-  private tmpData: IDefinedFunction[] = []
+  private tmpData: any = []
   private listLoading = true
   private total = 0
   private listQuery = {
@@ -76,7 +76,7 @@ export default class extends Vue {
       const id = index++
       this.list.push({
         id: id + 1,
-        name: data[name],
+        name: data[name]
       })
     }
     this.total = this.list.length

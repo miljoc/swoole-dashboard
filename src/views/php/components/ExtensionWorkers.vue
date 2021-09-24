@@ -23,7 +23,7 @@
       </el-table-column>
     </el-table>
 <!--    version-->
-    <p v-if="type == 'version'">Version : {{ version }}</p>
+    <p v-if="type === 'version'">Version : {{ version }}</p>
 
 <!--    constants-->
     <el-table
@@ -137,10 +137,9 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import {getExtensionDetail, getLoadedExtensions} from '@/api/phpinfos'
+import { getExtensionDetail } from '@/api/phpinfos'
 import { IExtensionInfo } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import request from '@/utils/request'
 import { bytesFormat, parseTime } from '@/utils'
 
 @Component({
@@ -182,9 +181,8 @@ export default class extends Vue {
     this.listLoading = true
 
     const { extension_name } = this.$route.query
-    const { data } = await getExtensionDetail(extension_name)
+    const { data } = await getExtensionDetail(extension_name || 'Core')
     let index = 0
-    let info = ''
     this.list = []
     this.functions_list = []
     this.constants_list = []
@@ -195,10 +193,10 @@ export default class extends Vue {
       case 'class_name':
         for (const name of data.class_name) {
           const id = index++
-            this.list.push({
-              name: name,
-              id: id
-            })
+          this.list.push({
+            name: name,
+            id: id
+          })
         }
         break
       case 'version':
@@ -244,7 +242,7 @@ export default class extends Vue {
         }
         break
       case 'info':
-        let info = data.info.replace(/(\r\n)|(\n)/g, '<br>')
+        const info = data.info.replace(/(\r\n)|(\n)/g, '<br>')
         this.info = info.trim('<br>')
         break
       default:
@@ -255,6 +253,5 @@ export default class extends Vue {
       this.listLoading = false
     }, 0.5 * 1000)
   }
-
 }
 </script>

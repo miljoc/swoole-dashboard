@@ -69,6 +69,11 @@ export default {
 
 <style lang="scss">
 #VarDump {
+  .el-card__body {
+    overflow-y: auto;
+    overflow-x: auto;
+    height: 80vh;
+  }
   .CodeMirror {
     border: 1px solid #eee;
     height: auto;

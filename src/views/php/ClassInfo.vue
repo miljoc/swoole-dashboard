@@ -82,7 +82,7 @@ export default {
       constants_name: '',
       constants_info: {},
 
-      collapse_active: ['1','2'],
+      collapse_active: ['1', '2'],
 
       dialogTableVisible: false,
       code: '',

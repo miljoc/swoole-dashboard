@@ -86,7 +86,6 @@
       <el-table-column
           align="center"
           label="FD"
-          prop="fd"
           sortable="fd"
       >
         <template slot-scope="{row}">
@@ -134,8 +133,7 @@
       <el-table-column
           align="center"
           label="Send Buffer Size"
-          prop="out_buffer_size"
-          sortable
+          sortable="out_buffer_size"
       >
         <template slot-scope="{row}">
           <span>{{ row.out_buffer_size | bytesFormat }}</span>
@@ -145,8 +143,7 @@
       <el-table-column
           align="center"
           label="Number of bytes sent"
-          prop="total_send_bytes"
-          sortable
+          sortable="total_send_bytes"
       >
         <template slot-scope="{row}">
           <span>{{ row.total_send_bytes | bytesFormat }}</span>
@@ -156,8 +153,7 @@
       <el-table-column
           align="center"
           label="Number of bytes received"
-          prop="total_recv_bytes"
-          sortable
+          sortable="total_recv_bytes"
       >
         <template slot-scope="{row}">
           <span>{{ row.total_recv_bytes | bytesFormat }}</span>

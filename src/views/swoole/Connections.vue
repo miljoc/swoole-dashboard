@@ -197,10 +197,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getServerSetting, getConnections, closeConnection, getSocketInfo } from '@/api/server'
-import { IWorkerCoroutineData, IServerSetting, IConnectionInfo } from '@/api/types'
+import {getServerSetting, getConnections, closeConnection, getSocketInfo, getObjects} from '@/api/server'
+import {IServerSetting, IConnectionInfo, IObjectsData} from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { bytesFormat, eventsFitler, getSortFun, parseTime } from '@/utils/index'
+import {bytesFormat, eventsFitler, getSortFun, inArray, parseTime} from '@/utils/index'
 
 @Component({
   name: 'EventList',
@@ -216,8 +216,8 @@ import { bytesFormat, eventsFitler, getSortFun, parseTime } from '@/utils/index'
 
 export default class extends Vue {
   private allList: IConnectionInfo[] = [] // 接口返回原始数据
-  private handleAllList: Array<any> = [] // 处理处理后所有数据
-  private list: Array<any> = [] // 当前页显示数据
+  private handleAllList: IConnectionInfo[] = [] // 处理处理后所有数据
+  private list: IConnectionInfo[] = [] // 当前页显示数据
   private listLoading = true
   private total = 0
   // private _timer: any
@@ -250,114 +250,6 @@ export default class extends Vue {
   }
 
   /**
-   * 点击搜索过滤数据
-   * @private
-   */
-  private filterHandler() {
-    this.handleAllList = JSON.parse(JSON.stringify(this.allList))
-    const tmpList = []
-
-    if (this.SocketNameFieldValue.length > 0) {
-      for (let i = 0; i < this.SocketNameFieldValue.length; i++) {
-        tmpList.push(this.handleAllList.filter((item) => {
-          let mark = true
-          if (item.address + ':' + item.port !== this.SocketNameFieldValue[i]) {
-            mark = false
-          }
-          return mark
-        })[0])
-      }
-      this.handleAllList = tmpList
-    }
-
-    if (this.ServerPortFieldValue.length > 0) {
-      for (let i = 0; i < this.ServerPortFieldValue.length; i++) {
-        tmpList.push(this.handleAllList.filter((item) => {
-          let mark = true
-          if (item.server_port !== this.ServerPortFieldValue[i]) {
-            mark = false
-          }
-          return mark
-        })[0])
-      }
-      this.handleAllList = tmpList
-    }
-
-    this.listQuery.page = 1
-    this.total = this.handleAllList.length
-    this.showList(this.handleAllList)
-  }
-
-  /**
-   * 清除筛选
-   * @private
-   */
-  private clearFilter(): void {
-    if (this.SocketNameFieldValue.length > 0 || this.ServerPortFieldValue.length > 0) {
-      console.log('清除筛选项')
-      this.SocketNameFieldValue = []
-      this.ServerPortFieldValue = []
-      this.handleAllList = JSON.parse(JSON.stringify(this.allList))
-      this.showList(this.handleAllList)
-      this.total = this.handleAllList.length
-    }
-  }
-
-  /**
-   * 获取连接数据
-   * @private
-   */
-  private async getData() {
-    this.listLoading = true
-    {
-      const { data } = await getServerSetting()
-      this.serverSetting = data
-    }
-
-    // eslint-disable-next-line camelcase
-    let list: { session_id: 0 }[] = []
-    if (this.serverSetting.mode === 2) {
-      for (let i = 0; i < this.serverSetting.reactor_num; i++) {
-        const { data } = await getConnections('reactor-' + i)
-        list = list.concat(data)
-      }
-    } else {
-    }
-
-    list.sort((a: { session_id: number }, b: { session_id: number }) => {
-      return a.session_id - b.session_id
-    })
-
-    // 筛选项数据
-    const tmpSocketName: Array<any> = []
-    const tmpPort: Array<any> = []
-    for (let index = 0; index < list.length; index++) {
-      // 处理 events 选项数据
-      tmpSocketName[index] = list[index].address + ':' + list[index].port
-      // 处理 socket type 选项数据
-      tmpPort[index] = list[index].server_port
-    }
-    // 去除重复值
-    for (let i = 0; i < tmpSocketName.length; i++) {
-      if (tmpSocketName.indexOf(tmpSocketName[i]) === i) {
-        this.SocketNameOptions.push(tmpSocketName[i])
-      }
-    }
-    for (let i = 0; i < tmpPort.length; i++) {
-      if (tmpPort.indexOf(tmpPort[i]) === i) {
-        this.ServerPortOptions.push(tmpPort[i])
-      }
-    }
-
-    const total = list.length
-    this.allList = JSON.parse(JSON.stringify(list)) // 备份初始数据
-    this.handleAllList = list // 处理使用数据
-    this.showList(this.handleAllList)
-    this.total = total
-    this.listLoading = false
-  }
-
-  /**
    * 断开连接询问框
    * @param res
    * @private
@@ -386,23 +278,117 @@ export default class extends Vue {
       type: 'success',
       message: 'close success!'
     })
-    // 删除所选记录
-    for (let i = 0; i < this.list.length; i++) {
-      if (this.list[i].session_id === session_id) {
+    // 删除记录
+    for (let i = 0; i < this.allList.length; i++) {
+      if (this.allList[i].session_id === session_id) {
         this.allList.splice(i, 1)
-        this.showList(this.allList)
-        this.total = this.allList.length
+      }
+    }
+    for (let i = 0; i < this.handleAllList.length; i++) {
+      if (this.handleAllList[i].session_id === session_id) {
+        this.handleAllList.splice(i, 1)
+        this.showList(this.handleAllList)
+        this.total = this.handleAllList.length
       }
     }
   }
 
   /**
-   * 当前显示页数据
-   * @param data
+   * 发送请求
    * @private
    */
-  private showList(data: Array<any>) {
-    this.list = data.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+  private async sendApi() {
+    const { data } = await getServerSetting()
+    return data
+  }
+
+  /**
+   * 获取连接数据
+   * @private
+   */
+  private async getData() {
+    this.listLoading = true
+    this.serverSetting = await this.sendApi()
+
+    // eslint-disable-next-line camelcase
+    let list: { session_id: 0 }[] = []
+    if (this.serverSetting.mode === 2) {
+      for (let i = 0; i < this.serverSetting.reactor_num; i++) {
+        const { data } = await getConnections('reactor-' + i)
+        list = list.concat(data)
+      }
+    }
+
+    list.sort((a: { session_id: number }, b: { session_id: number }) => {
+      return a.session_id - b.session_id
+    })
+
+    // 筛选项数据
+    const tmpSocketName: Array<any> = []
+    const tmpPort: Array<any> = []
+    for (let index = 0; index < list.length; index++) {
+      // 处理 socket name 选项数据
+      tmpSocketName[index] = list[index].address + ':' + list[index].port
+      // 处理 port 选项数据
+      tmpPort[index] = list[index].server_port
+    }
+
+    // 去除重复值
+    for (let i = 0; i < tmpSocketName.length; i++) {
+      if (tmpSocketName.indexOf(tmpSocketName[i]) === i) {
+        this.SocketNameOptions.push(tmpSocketName[i])
+      }
+    }
+    for (let i = 0; i < tmpPort.length; i++) {
+      if (tmpPort.indexOf(tmpPort[i]) === i) {
+        this.ServerPortOptions.push(tmpPort[i])
+      }
+    }
+
+    this.allList = JSON.parse(JSON.stringify(list)) // 备份初始数据
+    this.handleAllList = list // 处理使用数据
+    this.showList(this.handleAllList)
+    this.total = this.handleAllList.length
+    this.listLoading = false
+  }
+
+  /**
+   * 点击搜索过滤数据
+   * @private
+   */
+  private filterHandler() {
+    this.handleAllList = JSON.parse(JSON.stringify(this.allList))
+
+    if (this.SocketNameFieldValue.length > 0) {
+      this.handleAllList = this.handleAllList.filter((item) => {
+        return inArray(item.address + ':' + item.port, this.SocketNameFieldValue)
+      })
+    }
+
+    if (this.ServerPortFieldValue.length > 0) {
+      this.handleAllList = this.handleAllList.filter((item) => {
+        return inArray(item.server_port, this.ServerPortFieldValue)
+      })
+    }
+
+    this.listQuery.page = 1
+    this.total = this.handleAllList.length
+    this.showList(this.handleAllList)
+  }
+
+  /**
+   * 清除筛选
+   * @private
+   */
+  private clearFilter(): void {
+    if (this.SocketNameFieldValue.length > 0 || this.ServerPortFieldValue.length > 0) {
+      console.log('清除筛选项')
+      this.SocketNameFieldValue = []
+      this.ServerPortFieldValue = []
+      this.handleAllList = JSON.parse(JSON.stringify(this.allList))
+      this.showList(this.handleAllList)
+      this.total = this.handleAllList.length
+    }
   }
 
   /**
@@ -426,6 +412,15 @@ export default class extends Vue {
       console.log(field + '取消排序')
     }
     this.showList(this.handleAllList)
+  }
+
+  /**
+   * 当前显示页数据
+   * @param data
+   * @private
+   */
+  private showList(data: Array<any>) {
+    this.list = data.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
   }
 
   /**

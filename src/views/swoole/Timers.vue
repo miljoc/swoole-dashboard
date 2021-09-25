@@ -1,5 +1,27 @@
 <template>
   <div class="app-container">
+    <!---------------------------查询------开始----------------------->
+    <!---------------------------class------开始----------------------->
+    <el-select
+      v-model="execMsecFieldValue"
+      multiple
+      collapse-tags
+      placeholder="Exec Msec"
+      style="margin: 0 10px 10px 0;"
+      filterable
+      @change="filterHandler"
+    >
+      <el-option
+        v-for="item in execMsecOptions"
+        :label="item"
+        :key="item"
+        :value="item">
+      </el-option>
+    </el-select>
+    <!---------------------------class------结束----------------------->
+    <el-button type="default" style="color:#909399;" @click="clearFilter">clear filter</el-button>
+    <!---------------------------查询------结束----------------------->
+
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -32,7 +54,6 @@
       <el-table-column
         align="center"
         label="Exec Msec"
-        sortable="info.exec_msec"
       >
         <template slot-scope="{row}">
           <span>{{ row.info.exec_msec }}</span>
@@ -55,7 +76,7 @@
         sortable="info.round"
       >
         <template slot-scope="{row}">
-          <span>{{ row.info.round }}</span>
+          <span>{{ row.info.round | amountRule}}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -65,7 +86,7 @@
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
-      @pagination="getData"
+      @pagination="jumpPage"
     />
   </div>
 </template>
@@ -98,14 +119,8 @@ export default class extends Vue {
   }
 
   // 选项参数
-  private eventFieldValue: Array<string> = []
-  private eventOptions: any = []
-  private socketTypeFieldValue: Array<string> = []
-  private socketTypeOptions: any = []
-  private fdTypeFieldValue: Array<string> = []
-  private fdTypeOptions: any = []
-  private portFieldValue: Array<string> = []
-  private portOptions: any = []
+  private execMsecFieldValue: Array<string> = []
+  private execMsecOptions: any = []
 
   created() {
     this.getData()
@@ -130,40 +145,16 @@ export default class extends Vue {
     const data = await this.sendApi()
 
     // 筛选项数据
-    const tmpEvents: Array<number> = []
-    const tmpSocketType: Array<number> = []
-    const tmpFdType: Array<number> = []
-    const tmpPort: Array<number> = []
+    const tmpExecMsec: Array<number> = []
     for (let index = 0; index < data.length; index++) {
-      // 处理 events 选项数据
-      tmpEvents[index] = data[index].events
-      // 处理 socket type 选项数据
-      tmpSocketType[index] = data[index].socket_type
-      // 处理 fd type 选项数据
-      tmpFdType[index] = data[index].fd_type
-      // 处理 ports 选项数据
-      tmpPort[index] = data[index].port
+      // 处理 ExecMsec 选项数据
+      tmpExecMsec[index] = data[index].info.exec_msec
     }
 
     // 去除重复值
-    for (let i = 0; i < tmpEvents.length; i++) {
-      if (tmpEvents.indexOf(tmpEvents[i]) === i) {
-        this.eventOptions.push(tmpEvents[i])
-      }
-    }
-    for (let i = 0; i < tmpSocketType.length; i++) {
-      if (tmpSocketType.indexOf(tmpSocketType[i]) === i) {
-        this.socketTypeOptions.push(tmpSocketType[i])
-      }
-    }
-    for (let i = 0; i < tmpFdType.length; i++) {
-      if (tmpFdType.indexOf(tmpFdType[i]) === i) {
-        this.fdTypeOptions.push(tmpFdType[i])
-      }
-    }
-    for (let i = 0; i < tmpPort.length; i++) {
-      if (tmpPort.indexOf(tmpPort[i]) === i) {
-        this.portOptions.push(tmpPort[i])
+    for (let i = 0; i < tmpExecMsec.length; i++) {
+      if (tmpExecMsec.indexOf(tmpExecMsec[i]) === i) {
+        this.execMsecOptions.push(tmpExecMsec[i])
       }
     }
 
@@ -181,27 +172,9 @@ export default class extends Vue {
   private filterHandler() {
     this.handleAllList = JSON.parse(JSON.stringify(this.allList))
 
-    if (this.eventFieldValue.length > 0) {
+    if (this.execMsecFieldValue.length > 0) {
       this.handleAllList = this.handleAllList.filter((item) => {
-        return inArray(item.events, this.eventFieldValue)
-      })
-    }
-
-    if (this.socketTypeFieldValue.length > 0) {
-      this.handleAllList = this.handleAllList.filter((item) => {
-        return inArray(item.socket_type, this.socketTypeFieldValue)
-      })
-    }
-
-    if (this.fdTypeFieldValue.length > 0) {
-      this.handleAllList = this.handleAllList.filter((item) => {
-        return inArray(item.fd_type, this.fdTypeFieldValue)
-      })
-    }
-
-    if (this.portFieldValue.length > 0) {
-      this.handleAllList = this.handleAllList.filter((item) => {
-        return inArray(item.port, this.portFieldValue)
+        return inArray(item.info.exec_msec, this.execMsecFieldValue)
       })
     }
 

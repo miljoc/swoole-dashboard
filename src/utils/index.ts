@@ -213,10 +213,9 @@ export const amountRule = (num: String) => {
 }
 
 export const inArray = (search: any, arr: Array<any>) => {
-  for (const i in arr) {
-    if (arr[i] === search) {
-      return true
-    }
+  if (arr.indexOf(search) === -1) {
+    return false
+  } else {
+    return true
   }
-  return false
 }

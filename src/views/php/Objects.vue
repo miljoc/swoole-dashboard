@@ -92,7 +92,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getObjects } from '@/api/server'
-import {IEventsData, IObjectsData} from '@/api/types'
+import { IObjectsData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { bytesFormat, getSortFun, inArray } from '@/utils'
 
@@ -116,6 +116,7 @@ export default class extends Vue {
     limit: 10
   }
 
+  // 筛选项数据
   private classFieldValue: Array<string> = []
   private classOptions: any = []
 

@@ -211,3 +211,12 @@ export const amountRule = (num: String) => {
     return defaultAmount
   }
 }
+
+export const inArray = (search: any, arr: Array<any>) => {
+  for (const i in arr) {
+    if (arr[i] === search) {
+      return true
+    }
+  }
+  return false
+}

@@ -110,3 +110,23 @@ export interface IVersionInfo {
   phpVersion: string
   host: string
 }
+
+export interface IObjectsData {
+  id: number
+  hash: string
+  class: string
+  memory_size: number
+}
+
+export interface IEventsData {
+  fd: number
+  events: number
+  address: string
+  socket_type: number
+  fd_type: number
+  out_buffer_size: number
+  total_send_bytes: number
+  total_recv_bytes: number
+  port: number
+  name?: string
+}

@@ -322,7 +322,6 @@ export default class extends Vue {
         list = list.concat(data)
       }
     } else {
-      console.log(111)
     }
 
     list.sort((a: { session_id: number }, b: { session_id: number }) => {

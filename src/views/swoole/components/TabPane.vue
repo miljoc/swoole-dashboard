@@ -238,6 +238,7 @@ import { bytesFormat, parseTime, getSortFun, amountRule } from '@/utils'
 export default class extends Vue {
   @Prop({ default: 'master' }) private type!: string
   private allWorkers: IWorkerData[] = []
+  private handleAllWorkers: IWorkerData[] = []
   private workers: IWorkerData[] = []
 
   private allThreads: IThreadData[] = []
@@ -298,12 +299,11 @@ export default class extends Vue {
     for (let index = 0; index < data.worker_num; index++) {
       const { data } = await getWorkerInfo(index)
       workers[index] = data
-      // console.dir(data)
     }
 
     this.allWorkers = JSON.parse(JSON.stringify(workers))
-    this.workers = workers
-    this.showList(this.allWorkers)
+    this.handleAllWorkers = workers
+    this.showList(this.handleAllWorkers)
     this.total = this.allWorkers.length
     this.listLoading = false
   }
@@ -393,23 +393,24 @@ export default class extends Vue {
     this.listLoading = true
     const { data } = await getServerStats()
 
-    const total = data.task_worker_num
-
-    const start = (this.listQuery.page - 1) * this.listQuery.limit
-    let end = this.listQuery.page * this.listQuery.limit
-
-    end = Math.min(total, end)
+    // const total = data.task_worker_num
+    //
+    // const start = (this.listQuery.page - 1) * this.listQuery.limit
+    // let end = this.listQuery.page * this.listQuery.limit
+    //
+    // end = Math.min(total, end)
 
     const workers: IWorkerData[] = []
 
-    for (let index = start; index < end; index++) {
+    for (let index = 0; index < data.task_worker_num; index++) {
       const { data } = await getTaskWorkerInfo(index)
       workers[index] = data
     }
 
     this.allWorkers = JSON.parse(JSON.stringify(workers))
-    this.workers = workers
-    this.total = total
+    this.handleAllWorkers = workers
+    this.showList(this.handleAllWorkers)
+    this.total = this.allWorkers.length
     this.listLoading = false
   }
 
@@ -438,13 +439,12 @@ export default class extends Vue {
     if (column.order !== null) {
       const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
       console.log('选择' + field + '-' + sortType + '排序')
-      console.log(this.workers)
-      this.workers = getSortFun(field, sortType, this.workers) // 处理使用数据
-      console.log(this.workers)
+      this.workers = getSortFun(field, sortType, this.handleAllWorkers) // 处理使用数据
     } else {
       console.log(field + '取消排序')
-      this.workers = JSON.parse(JSON.stringify(this.allWorkers))
+      // this.workers = JSON.parse(JSON.stringify(this.allWorkers))
     }
+    this.showList(this.handleAllWorkers)
   }
 
   /**
@@ -461,8 +461,7 @@ export default class extends Vue {
    * @private
    */
   private jumpPage() {
-    console.log(this.workers)
-    this.showList(this.workers)
+    this.showList(this.handleAllWorkers)
   }
 }
 </script>

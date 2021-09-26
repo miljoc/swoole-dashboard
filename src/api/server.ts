@@ -80,16 +80,16 @@ export const getConnections = (worker: any) =>
     method: 'get'
   })
 
-export const closeConnection = (session_id: number) =>
+export const closeConnection = (session_id: number, worker: string) =>
   request({
-    url: '/api/close_session/worker-0',
+    url: `/api/close_session/${worker}`,
     method: 'get',
     params: { session_id }
   })
 
-export const getSocketInfo = (fd: string) =>
+export const getSocketInfo = (fd: string, worker: string) =>
   request({
-    url: '/api/get_socket_info/worker-0',
+    url: `/api/get_socket_info/${worker}`,
     method: 'get',
     params: { fd }
   })

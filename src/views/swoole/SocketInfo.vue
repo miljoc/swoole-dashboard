@@ -32,6 +32,7 @@ export default {
   methods: {
     async getSocketInfo() {
       const fd = this.$route.query.fd
+      const worker = this.$route.query.worker ?? 'master'
       if (fd === undefined || fd.length === 0) {
         this.$message({
           type: 'error',
@@ -39,7 +40,7 @@ export default {
         })
         return false
       }
-      const { data } = await getSocketInfo(fd)
+      const { data } = await getSocketInfo(fd, worker)
       this.socketInfo = data
     },
     handleData(index, item) {

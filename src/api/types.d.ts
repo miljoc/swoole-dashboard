@@ -64,7 +64,14 @@ export interface IWorkerCoroutineData {
 export interface IConnectionInfo {
   total_recv_bytes: number
   total_send_bytes: number
+  recv_queued_bytes: number
+  send_queued_bytes: number
+  server_port: number
   session_id: number
+  reactor_id: number
+  connect_time: number
+  last_recv_time: number
+  last_send_time: number
 }
 
 export interface IWorkerTimerData {

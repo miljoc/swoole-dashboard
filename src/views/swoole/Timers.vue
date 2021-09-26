@@ -1,27 +1,5 @@
 <template>
   <div class="app-container">
-    <!---------------------------查询------开始----------------------->
-    <!---------------------------class------开始----------------------->
-    <el-select
-      v-model="execMsecFieldValue"
-      multiple
-      collapse-tags
-      placeholder="Exec Msec"
-      style="margin: 0 10px 10px 0;"
-      filterable
-      @change="filterHandler"
-    >
-      <el-option
-        v-for="item in execMsecOptions"
-        :label="item"
-        :key="item"
-        :value="item">
-      </el-option>
-    </el-select>
-    <!---------------------------class------结束----------------------->
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear</el-button>
-    <!---------------------------查询------结束----------------------->
-
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -47,16 +25,17 @@
         sortable="info.interval"
       >
         <template slot-scope="{row}">
-          <span>{{ row.info.interval }}</span>
+          <span>{{ row.info.interval | amountRule }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
         align="center"
         label="Exec Msec"
+        sortable="info.exec_msec"
       >
         <template slot-scope="{row}">
-          <span>{{ row.info.exec_msec }}</span>
+          <span>{{ row.info.exec_msec | amountRule }}</span>
         </template>
       </el-table-column>
 
@@ -118,10 +97,6 @@ export default class extends Vue {
     limit: 10
   }
 
-  // 选项参数
-  private execMsecFieldValue: Array<string> = []
-  private execMsecOptions: any = []
-
   created() {
     this.getData()
   }
@@ -144,20 +119,6 @@ export default class extends Vue {
     this.listLoading = true
     const data = await this.sendApi()
 
-    // 筛选项数据
-    const tmpExecMsec: Array<number> = []
-    for (let index = 0; index < data.length; index++) {
-      // 处理 ExecMsec 选项数据
-      tmpExecMsec[index] = data[index].info.exec_msec
-    }
-
-    // 去除重复值
-    for (let i = 0; i < tmpExecMsec.length; i++) {
-      if (tmpExecMsec.indexOf(tmpExecMsec[i]) === i) {
-        this.execMsecOptions.push(tmpExecMsec[i])
-      }
-    }
-
     this.allList = JSON.parse(JSON.stringify(data))
     this.handleAllList = data
     this.showList(this.handleAllList)
@@ -166,59 +127,11 @@ export default class extends Vue {
   }
 
   /**
-   * 点击搜索过滤数据
-   * @private
-   */
-  private filterHandler() {
-    this.handleAllList = JSON.parse(JSON.stringify(this.allList))
-
-    if (this.execMsecFieldValue.length > 0) {
-      this.handleAllList = this.handleAllList.filter((item) => {
-        return inArray(item.info.exec_msec, this.execMsecFieldValue)
-      })
-    }
-
-    this.listQuery.page = 1
-    this.total = this.handleAllList.length
-    this.showList(this.handleAllList)
-  }
-
-  /**
-   * 清除筛选
-   * @private
-   */
-  private clearFilter(): void {
-    if (
-      this.eventFieldValue.length > 0 ||
-      this.socketTypeFieldValue.length > 0 ||
-      this.fdTypeFieldValue.length > 0 ||
-      this.portFieldValue.length > 0
-    ) {
-      console.log('清除筛选项')
-      this.eventFieldValue = []
-      this.socketTypeFieldValue = []
-      this.fdTypeFieldValue = []
-      this.portFieldValue = []
-      this.handleAllList = JSON.parse(JSON.stringify(this.allList))
-      this.showList(this.handleAllList)
-      this.total = this.handleAllList.length
-    }
-  }
-
-  /**
    * 点击排序
    * @param column
    */
   private sortChange(column:any) {
     const field: string = column.column.sortable // 排序字段
-    if (
-      this.eventFieldValue.length === 0 &&
-      this.socketTypeFieldValue.length === 0 &&
-      this.fdTypeFieldValue.length === 0 &&
-      this.portFieldValue.length === 0
-    ) {
-      this.handleAllList = JSON.parse(JSON.stringify(this.allList)) // 备份初始数据
-    }
 
     if (column.order !== null) {
       const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序

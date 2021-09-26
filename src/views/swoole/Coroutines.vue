@@ -95,8 +95,17 @@
     <el-dialog title="BackTrace" :visible.sync="dialogTableVisible">
       <el-table :data="backTrace">
         <el-table-column property="id" label="ID" width="50"></el-table-column>
-        <el-table-column property="name" label="Function"></el-table-column>
-        <el-table-column property="file" label="File"></el-table-column>
+        <el-table-column property="function" label="Function"></el-table-column>
+        <el-table-column property="file" label="File">
+          <template slot-scope="{row}">
+            <el-link type="primary" v-if="row.filename.length > 0 && row.line.length > 0">
+              <router-link class="link-type"
+                           :to="{path: `/includedfiles_detail?file_name=${row.filename}&line=${row.line}`}">
+                {{ row.file }}
+              </router-link>
+            </el-link>
+          </template>
+        </el-table-column>
       </el-table>
     </el-dialog>
   </div>
@@ -181,8 +190,10 @@ export default class extends Vue {
       }
       this.backTrace[index] = {
         id: `#${index}`,
+        line: `${trace.line || '' ? trace.line : ''}`,
+        filename: `${trace.file || '' ? trace.file : ''}`,
         file: `${trace.file || ''}${trace.line || '' ? ':' + trace.line : ''}`,
-        name: `${trace.class}${trace.type}${trace.function}()`
+        function: `${trace.class}${trace.type}${trace.function}()`
       }
     }
 

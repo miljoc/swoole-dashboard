@@ -68,7 +68,8 @@ export default new Router({
           component: () => import('@/views/php/ExtensionsNew.vue'),
           meta: {
             title: 'Extensions',
-            icon: 'component'
+            icon: 'component',
+            activeMenu: '/extensions'
           }
         },
         {
@@ -85,7 +86,8 @@ export default new Router({
           component: () => import('@/views/php/GCStatus.vue'),
           meta: {
             title: 'GC Status',
-            icon: 'gc'
+            icon: 'gc',
+            activeMenu: '/gcstatus'
           }
         },
         {
@@ -93,7 +95,8 @@ export default new Router({
           component: () => import('@/views/php/IncludedFiles.vue'),
           meta: {
             title: 'Included Files',
-            icon: 'documentation'
+            icon: 'documentation',
+            activeMenu: '/includedfiles'
           }
         },
         {
@@ -119,7 +122,8 @@ export default new Router({
           component: () => import('@/views/php/ClassInfo.vue'),
           meta: {
             title: 'Class Info',
-            hidden: true
+            hidden: true,
+            activeMenu: '/classes'
           }
         },
         {
@@ -172,7 +176,8 @@ export default new Router({
           component: () => import('@/views/php/ObjectVarDump.vue'),
           meta: {
             title: 'ObjectVarDump',
-            hidden: true
+            hidden: true,
+            activeMenu: '/objects'
           }
         }
       ]
@@ -225,7 +230,8 @@ export default new Router({
           component: () => import('@/views/swoole/WorkerDetail.vue'),
           meta: {
             title: 'Worker Detail',
-            hidden: true
+            hidden: true,
+            activeMenu: '/processes'
           }
         },
         {
@@ -242,7 +248,8 @@ export default new Router({
           component: () => import('@/views/chart/NetworkTraffic.vue'),
           meta: {
             title: 'Network Traffic',
-            hidden: true
+            hidden: true,
+            activeMenu: '/connections'
           }
         },
         {
@@ -250,7 +257,8 @@ export default new Router({
           component: () => import('@/views/swoole/MemoryInfo.vue'),
           meta: {
             title: 'Memory Info',
-            hidden: true
+            hidden: true,
+            activeMenu: '/processes'
           }
         },
         {

@@ -64,10 +64,20 @@ export default new Router({
       children: [
         {
           path: '/extensions',
-          component: () => import('@/views/php/Extensions.vue'),
+          // component: () => import('@/views/php/Extensions.vue'),
+          component: () => import('@/views/php/ExtensionsNew.vue'),
           meta: {
             title: 'Extensions',
             icon: 'component'
+          }
+        },
+        {
+          path: '/extension_detail',
+          component: () => import('@/views/php/ExtensionsDetail.vue'),
+          meta: {
+            title: 'Extensions Detail',
+            hidden: true,
+            activeMenu: '/extensions'
           }
         },
         {
@@ -88,10 +98,11 @@ export default new Router({
         },
         {
           path: '/includedfiles_detail',
-          component: () => import(/* webpackChunkName: "workers" */ '@/views/php/IncludedFilesDetail.vue'),
+          component: () => import('@/views/php/IncludedFilesDetail.vue'),
           meta: {
             title: 'Included Files Content',
-            hidden: true
+            hidden: true,
+            activeMenu: '/includedfiles'
           }
         },
         {
@@ -99,12 +110,13 @@ export default new Router({
           component: () => import('@/views/php/Classes.vue'),
           meta: {
             title: 'Classes',
-            icon: 'hamburger'
+            icon: 'hamburger',
+            activeMenu: '/classes'
           }
         },
         {
           path: '/class_info',
-          component: () => import(/* webpackChunkName: "workers" */ '@/views/php/ClassInfo.vue'),
+          component: () => import('@/views/php/ClassInfo.vue'),
           meta: {
             title: 'Class Info',
             hidden: true
@@ -128,7 +140,7 @@ export default new Router({
         },
         {
           path: '/defined_constants',
-          component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/DefinedConstants.vue'),
+          component: () => import('@/views/php/DefinedConstants.vue'),
           meta: {
             title: 'Constants',
             icon: 'hamburger'
@@ -136,10 +148,10 @@ export default new Router({
         },
         {
           path: '/defined_interfaces',
-          component: () => import(/* webpackChunkName: "serverstats" */ '@/views/php/DefinedInterfaces.vue'),
+          component: () => import('@/views/php/DefinedInterfaces.vue'),
           meta: {
             title: 'Interfaces',
-            icon: 'hamburger'
+            icon: 'comment-lines'
           }
         },
         {
@@ -225,7 +237,7 @@ export default new Router({
         },
         {
           path: '/memory_info/:worker',
-          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/MemoryInfo.vue'),
+          component: () => import('@/views/swoole/MemoryInfo.vue'),
           meta: {
             title: 'Memory Info',
             hidden: true
@@ -233,7 +245,7 @@ export default new Router({
         },
         {
           path: '/socket_info/',
-          component: () => import(/* webpackChunkName: "workers" */ '@/views/swoole/SocketInfo.vue'),
+          component: () => import('@/views/swoole/SocketInfo.vue'),
           meta: {
             title: 'Socket Info',
             hidden: true

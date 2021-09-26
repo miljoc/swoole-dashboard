@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <el-select
-      v-model="ConstantsNameFieldValue"
+      v-model="ExtensionNameFieldValue"
       multiple
       filterable
       collapse-tags
-      placeholder="Constants Name"
+      placeholder="Extension Name"
       style="margin: 0 10px 10px 0;width: 300px;"
       @change="filterHandler"
     >
       <el-option
-        v-for="item in ConstantsNameOptions"
+        v-for="item in ExtensionNameOptions"
         :label="item"
         :key="item"
         :value="item">
@@ -35,7 +35,7 @@
         sortable="id"
       >
         <template slot-scope="{row}">
-          <span>{{ row.id + 1}}</span>
+          <span>{{ row.id }}</span>
         </template>
       </el-table-column>
 
@@ -45,21 +45,13 @@
       >
         <template slot-scope="{row}">
           <el-link type="primary">
-            {{ row.name }}
+            <router-link class="link-type"
+                         :to="{path: `/extension_detail/?extension_name=${row.name}`}">{{ row.name }}
+            </router-link>
           </el-link>
         </template>
       </el-table-column>
 
-      <el-table-column
-        align="center"
-        label="Value"
-        width="200"
-        sortable="value"
-      >
-        <template slot-scope="{row}">
-          <span>{{ row.values }}</span>
-        </template>
-      </el-table-column>
     </el-table>
 
     <pagination
@@ -74,10 +66,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getDefinedConstants } from '@/api/phpinfos'
-import { IDeclaredConstants } from '@/api/types'
+import { getLoadedExtensions } from '@/api/phpinfos'
+import { IDeclaredInterfaces } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { getSortFun } from '@/utils/index'
+import { getSortFun } from '@/utils'
 
 @Component({
   name: 'InlineEditTable',
@@ -86,21 +78,20 @@ import { getSortFun } from '@/utils/index'
   }
 })
 export default class extends Vue {
-  private ConstantsNameFieldValue: Array<string> = []
-  private ConstantsNameOptions: any = []
+  private ExtensionNameFieldValue: Array<string> = []
+  private ExtensionNameOptions: any = []
 
-  private list: IDeclaredConstants[] = []
+  private list: IDeclaredInterfaces[] = []
   private tmpData: any = []
-  private handleAllList: Array<any> = []
   private listLoading = true
   private total = 0
+  private field = ''
+  private order = ''
+  private column = ''
   private listQuery = {
     page: 1,
     limit: 10
   }
-  private field = ''
-  private order = ''
-  private column = ''
 
   created() {
     this.getList()
@@ -115,11 +106,11 @@ export default class extends Vue {
 
     const tmpList = []
 
-    if (this.ConstantsNameFieldValue.length > 0) {
-      for (let i = 0; i < this.ConstantsNameFieldValue.length; i++) {
+    if (this.ExtensionNameFieldValue.length > 0) {
+      for (let i = 0; i < this.ExtensionNameFieldValue.length; i++) {
         tmpList.push(this.handleAllList.filter((item) => {
           let mark = true
-          if (item.name !== this.ConstantsNameFieldValue[i]) {
+          if (item.name !== this.ExtensionNameFieldValue[i]) {
             mark = false
           }
           return mark
@@ -128,9 +119,9 @@ export default class extends Vue {
       this.handleAllList = tmpList
     }
 
-    let index = this.ConstantsNameFieldValue.length
-    if (index > this.listQuery.limit ) {
-      this.listQuery.limit = (Math.ceil( index/this.listQuery.limit ))  * 10
+    let index = this.ExtensionNameFieldValue.length
+    if (index > this.listQuery.limit) {
+      this.listQuery.limit = (Math.ceil(index / this.listQuery.limit)) * 10
     }
 
     this.listQuery.page = 1
@@ -139,47 +130,40 @@ export default class extends Vue {
   }
 
   private clearFilter(): void {
-    if ( this.ConstantsNameFieldValue.length > 0) {
-      this.ConstantsNameFieldValue = []
+    if (this.ExtensionNameFieldValue.length > 0) {
+      this.ExtensionNameFieldValue = []
       this.handleAllList = JSON.parse(JSON.stringify(this.list))
       this.total = this.handleAllList.length
       this.tmpData = this.list.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
     }
   }
 
-  /**
-   * 点击排序
-   * @param column
-   */
-  // private sortChange(column:any, prop:any, order:any) {
   private sortChange(column:any) {
     const field: string = column.column.sortable // 排序字段
     this.field = column.column.sortable
     this.column = column
     if (column.order !== null) {
-      this.order = column.order
+      this.order = column.column.order
       const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
+      this.order = sortType
       this.handleAllList = JSON.parse(JSON.stringify(this.list)) // 备份初始数据
       this.handleAllList = getSortFun(field, sortType, this.handleAllList) // 处理使用数据
       this.tmpData = this.handleAllList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit) // 当前页显示数据
     } else {
-      console.log(field + '取消排序')
-      // this.list = this.allList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+      this.tmpData = this.list.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
     }
   }
 
   private async getData() {
-    const { data } = await getDefinedConstants()
+    const { data } = await getLoadedExtensions()
     let index = 0
     for (const name in data) {
       const id = index++
       this.list.push({
-        name: name,
-        id: id,
-        value: data[name], // 不转化千分位做排序
-        values:data[name].toLocaleString() // 千分位展示
+        id: id + 1,
+        name: data[name]
       })
-      this.ConstantsNameOptions.push(name)
+      this.ExtensionNameOptions.push(data[name])
     }
     this.total = this.list.length
   }
@@ -191,7 +175,7 @@ export default class extends Vue {
       await this.getData()
     }
 
-    if (this.field != '' && this.order != '') {
+    if (this.field !== '' && this.order !== '') {
       this.sortChange(this.column)
     } else {
       this.tmpData = []

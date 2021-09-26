@@ -6,69 +6,77 @@ export const getVersionInfo = () =>
     method: 'get'
   })
 
-export const getLoadedExtensions = () =>
+export const getLoadedExtensions = (worker = 'master') =>
   request({
-    url: '/api/get_loaded_extensions/worker-0',
+    url: `/api/get_loaded_extensions/${worker}`,
     method: 'get'
   })
 
-export const getClasses = () =>
+export const getClasses = (worker = 'master') =>
   request({
-    url: '/api/get_declared_classes/worker-0',
+    url: `/api/get_declared_classes/${worker}`,
     method: 'get'
   })
 
-export const getGCStatus = () =>
+export const getGCStatus = (worker = 'master') =>
   request({
-    url: '/api/gc_status/worker-0',
+    url: `/api/gc_status/${worker}`,
     method: 'get'
   })
 
-export const getIncludedFiles = () =>
+export const getIncludedFiles = (worker = 'master') =>
   request({
-    url: '/api/get_included_files/worker-0',
+    url: `/api/get_included_files/${worker}`,
     method: 'get'
   })
 
-export const getIncludedFilesContent = (filename = '') =>
+export const getIncludedFilesContent = (filename = '', worker = 'master') =>
   request({
-    url: `/api/get_included_file_contents/worker-0?filename=${filename}`,
+    url: `/api/get_included_file_contents/${worker}`,
+    method: 'get',
+    params: { filename }
+  })
+
+export const getDeclaredClasses = (worker = 'master') =>
+  request({
+    url: `/api/get_declared_classes/${worker}`,
     method: 'get'
   })
 
-export const getDeclaredClasses = () =>
+export const getClassesInfo = (class_name: string, worker = 'master') =>
   request({
-    url: '/api/get_declared_classes/worker-0',
-    method: 'get'
-  })
-
-export const getClassesInfo = (class_name: string) =>
-  request({
-    url: '/api/get_class_info/worker-0',
+    url: `/api/get_class_info/${worker}`,
     method: 'get',
     params: { class_name }
   })
 
-export const getDefinedFunctions = () =>
+export const getDefinedFunctions = (worker = 'master') =>
   request({
-    url: '/api/get_defined_functions/worker-0',
+    url: `/api/get_defined_functions/${worker}`,
     method: 'get'
   })
 
 export const getResources = (worker = 'master') =>
   request({
-    url: '/api/get_resources/' + worker,
+    url: `/api/get_resources/${worker}`,
     method: 'get'
   })
 
-export const getDefinedConstants = () =>
+export const getDefinedConstants = (worker = 'master') =>
   request({
-    url: '/api/get_defined_constants/worker-0',
+    url: `/api/get_defined_constants/${worker}`,
     method: 'get'
   })
 
-export const getDeclaredInterfaces = () =>
+export const getDeclaredInterfaces = (worker = 'master') =>
   request({
-    url: '/api/get_declared_interfaces/worker-0',
+    url: `/api/get_declared_interfaces/${worker}`,
     method: 'get'
+  })
+
+export const getExtensionDetail = (extension_name: string, worker = 'master') =>
+  request({
+    url: `/api/get_extension_info/${worker}`,
+    method: 'get',
+    params: { extension_name }
   })

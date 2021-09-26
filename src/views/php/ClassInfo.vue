@@ -17,7 +17,6 @@
           <el-table
             :data="constants"
             :show-header="false"
-            border
             style="width: 100%"
           >
             <el-table-column label="Name">
@@ -40,7 +39,6 @@
               <el-table
                 :data="staticProperties"
                 :show-header="false"
-                border
                 style="width: 100%"
               >
                 <el-table-column label="Name">
@@ -54,7 +52,6 @@
               <el-table
                 :data="properties"
                 :show-header="false"
-                border
                 style="width: 100%"
               >
                 <el-table-column label="Name">
@@ -73,7 +70,6 @@
               <el-table
                 :data="staticMethods"
                 :show-header="false"
-                border
                 style="width: 100%"
               >
                 <el-table-column label="Name">
@@ -87,7 +83,6 @@
               <el-table
                 :data="methods"
                 :show-header="false"
-                border
                 style="width: 100%"
               >
                 <el-table-column label="Name">
@@ -104,7 +99,6 @@
           <el-table
             :data="parentClass"
             :show-header="false"
-            border
             style="width: 100%"
           >
             <el-table-column label="Name">
@@ -119,7 +113,6 @@
           <el-table
             :data="interface"
             :show-header="false"
-            border
             style="width: 100%"
           >
             <el-table-column label="Name">

@@ -1,17 +1,39 @@
 <template>
   <div class="app-container">
+
+    <el-select
+      v-model="InterfaceNameFieldValue"
+      multiple
+      filterable
+      collapse-tags
+      placeholder="Extension Name"
+      style="margin: 0 10px 10px 0;width: 300px;"
+      @change="filterHandler"
+    >
+      <el-option
+        v-for="item in InterfaceNameOptions"
+        :label="item"
+        :key="item"
+        :value="item">
+      </el-option>
+    </el-select>
+
+    <el-button type="default" style="color:#909399;" @click="clearFilter">clear filter</el-button>
+
     <el-table
       v-loading="listLoading"
-      :data="list"
+      :data="tmpData"
       border
       fit
       highlight-current-row
       width="100%"
+      @sort-change="sortChange"
     >
       <el-table-column
         align="center"
         label="ID"
         width="200"
+        sortable="id"
       >
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
@@ -24,14 +46,10 @@
       >
         <template slot-scope="{row}">
           <el-link type="primary">
-<!--            <router-link class="link-type"-->
-<!--                         :to="{path: `/class_info/?class=${row.name}`}">{{ row.name }}-->
-<!--            </router-link>-->
             {{ row.name }}
           </el-link>
         </template>
       </el-table-column>
-
     </el-table>
 
     <pagination
@@ -49,6 +67,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getDeclaredInterfaces } from '@/api/phpinfos'
 import { IDeclaredInterfaces } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
+import {getSortFun} from "@/utils";
 
 @Component({
   name: 'InlineEditTable',
@@ -56,41 +75,116 @@ import Pagination from '@/components/Pagination/index.vue'
     Pagination
   }
 })
-
 export default class extends Vue {
+  private InterfaceNameFieldValue: Array<string> = []
+  private InterfaceNameOptions: any = []
+
   private list: IDeclaredInterfaces[] = []
+  private tmpData: IDeclaredInterfaces[] = []
   private listLoading = true
   private total = 0
   private listQuery = {
     page: 1,
     limit: 10
   }
+  private field = ''
+  private order = ''
+  private column = ''
 
   created() {
     this.getList()
   }
 
-  private async getList() {
-    this.listLoading = true
+  private filterHandler() {
+    this.handleAllList = JSON.parse(JSON.stringify(this.list))
+
+    const tmpList = []
+
+    if (this.InterfaceNameFieldValue.length > 0) {
+      for (let i = 0; i < this.InterfaceNameFieldValue.length; i++) {
+        tmpList.push(this.handleAllList.filter((item) => {
+          let mark = true
+          if (item.name !== this.InterfaceNameFieldValue[i]) {
+            mark = false
+          }
+          return mark
+        })[0])
+      }
+      this.handleAllList = tmpList
+    }
+
+    let index = this.InterfaceNameFieldValue.length
+    if (index > this.listQuery.limit ) {
+      this.listQuery.limit = (Math.ceil( index/this.listQuery.limit ))  * 10
+    }
+
+    this.listQuery.page = 1
+    this.total = this.handleAllList.length
+    this.tmpData = this.handleAllList
+  }
+
+  private clearFilter(): void {
+    if ( this.InterfaceNameFieldValue.length > 0) {
+      this.InterfaceNameFieldValue = []
+      this.handleAllList = JSON.parse(JSON.stringify(this.list))
+      this.total = this.handleAllList.length
+      this.tmpData = this.list.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+    }
+  }
+
+  private sortChange(column:any) {
+    const field: string = column.column.sortable // 排序字段
+    this.field = column.column.sortable
+    this.column = column
+    if (column.order !== null) {
+      this.order = column.column.order
+      const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
+      this.order = sortType
+      this.handleAllList = JSON.parse(JSON.stringify(this.list)) // 备份初始数据
+      this.handleAllList = getSortFun(field, sortType, this.handleAllList) // 处理使用数据
+      this.tmpData = this.handleAllList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit) // 当前页显示数据
+    } else {
+      this.tmpData = this.list.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+    }
+  }
+
+  private async getData() {
     const { data } = await getDeclaredInterfaces()
     let index = 0
-    this.list = []
-    console.log(data,'data')
-    for (const name of data) {
+    for (const name in data) {
       const id = index++
-      if (id >= (this.listQuery.page - 1) * this.listQuery.limit && id < this.listQuery.page * this.listQuery.limit) {
-        this.list.push({
-          name: name,
-          id: id
-        })
+      this.list.push({
+        name: data[name],
+        id: id + 1
+      })
+      this.InterfaceNameOptions.push(data[name])
+    }
+    this.total = this.list.length
+  }
+
+  private async getList() {
+    this.listLoading = true
+
+    if (this.list.length === 0) {
+      await this.getData()
+    }
+
+
+    if (this.field != '' && this.order != '') {
+      this.sortChange(this.column)
+    } else {
+      this.tmpData = []
+      for (const item of this.list) {
+        if (item.id >= (this.listQuery.page - 1) * this.listQuery.limit && item.id < this.listQuery.page * this.listQuery.limit) {
+          this.tmpData.push(item)
+        }
       }
     }
-    this.total = data.length
 
     // Just to simulate the time of the request
     setTimeout(() => {
       this.listLoading = false
-    }, 0.5 * 1000)
+    }, 0.3 * 1000)
   }
 }
 </script>

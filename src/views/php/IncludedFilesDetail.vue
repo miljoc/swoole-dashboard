@@ -14,7 +14,7 @@ import 'codemirror/mode/css/css.js'
 import 'codemirror/mode/javascript/javascript.js'
 import 'codemirror/mode/htmlmixed/htmlmixed.js'
 import 'codemirror/mode/clike/clike.js'
-import { getIncludedFilesContent } from "@/api/phpinfos";
+import { getIncludedFilesContent } from '@/api/phpinfos'
 
 export default {
   name: 'SwooleEditor',
@@ -33,12 +33,12 @@ export default {
       matchBrackets: true,
       indentUnit: 4,
       indentWithTabs: true,
-      readOnly:"nocursor"
+      readOnly: 'nocursor'
     })
-    this.swooleEditor.setSize('auto','auto')
+    this.swooleEditor.setSize('auto', 'auto')
   },
   created() {
-    this.getIncludedFilesContent();
+    this.getIncludedFilesContent()
   },
   methods: {
     async getIncludedFilesContent() {
@@ -46,7 +46,7 @@ export default {
       const { file_name } = this.$route.query
       const { data } = await getIncludedFilesContent(file_name)
       this.swooleEditor.setValue(data)
-    },
+    }
   }
 }
 </script>

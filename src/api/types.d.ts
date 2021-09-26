@@ -24,7 +24,7 @@ export interface IDeclaredClass {
 export interface IDeclaredConstants {
   id: number
   name: string
-  index: number
+  value: any
 }
 
 export interface IDeclaredInterfaces {
@@ -102,6 +102,21 @@ export interface IServerStats {
 
 export interface IUnixSocket {
   fd: number
+}
+
+export interface IExtensionDetail {
+  id: number
+  name: string
+}
+
+export interface IExtensionInfo {
+  class_name: string[]
+  constants: object
+  dependencies: string[]
+  functions: string[]
+  info: string
+  ini_entries: object
+  version: string
 }
 
 export interface IVersionInfo {

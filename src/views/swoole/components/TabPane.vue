@@ -203,7 +203,7 @@
         :total="total"
         :page.sync="listQuery.page"
         :limit.sync="listQuery.limit"
-        @pagination="getWorkers"
+        @pagination="jumpPage"
     />
   </div>
 </template>
@@ -256,7 +256,7 @@ export default class extends Vue {
   private listLoading = true
   private listQuery = {
     page: 1,
-    limit: 20,
+    limit: 10,
     type: this.type
   }
 
@@ -286,24 +286,25 @@ export default class extends Vue {
     this.listLoading = true
     const { data } = await getServerStats()
 
-    const total = data.worker_num
-
-    const start = (this.listQuery.page - 1) * this.listQuery.limit
-    let end = this.listQuery.page * this.listQuery.limit
-
-    end = Math.min(total, end)
+    // const total = data.worker_num
+    //
+    // const start = (this.listQuery.page - 1) * this.listQuery.limit
+    // let end = this.listQuery.page * this.listQuery.limit
+    //
+    // end = Math.min(total, end)
 
     const workers: IWorkerData[] = []
 
-    for (let index = start; index < end; index++) {
+    for (let index = 0; index < data.worker_num; index++) {
       const { data } = await getWorkerInfo(index)
       workers[index] = data
-      console.dir(data)
+      // console.dir(data)
     }
 
     this.allWorkers = JSON.parse(JSON.stringify(workers))
     this.workers = workers
-    this.total = total
+    this.showList(this.allWorkers)
+    this.total = this.allWorkers.length
     this.listLoading = false
   }
 
@@ -424,7 +425,6 @@ export default class extends Vue {
       this.threads = getSortFun(field, sortType, this.threads) // 处理使用数据
     } else {
       console.log(field + '取消排序')
-      console.log(this.allThreads)
       this.threads = JSON.parse(JSON.stringify(this.allThreads))
     }
   }
@@ -440,10 +440,11 @@ export default class extends Vue {
       console.log('选择' + field + '-' + sortType + '排序')
       console.log(this.workers)
       this.workers = getSortFun(field, sortType, this.workers) // 处理使用数据
+      console.log(this.workers)
     } else {
       console.log(field + '取消排序')
+      this.workers = JSON.parse(JSON.stringify(this.allWorkers))
     }
-    this.workers = JSON.parse(JSON.stringify(this.allWorkers))
   }
 
   /**
@@ -452,7 +453,7 @@ export default class extends Vue {
    * @private
    */
   private showList(data: Array<any>) {
-    this.list = data.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+    this.workers = data.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
   }
 
   /**
@@ -460,7 +461,8 @@ export default class extends Vue {
    * @private
    */
   private jumpPage() {
-    this.showList(this.handleAllList)
+    console.log(this.workers)
+    this.showList(this.workers)
   }
 }
 </script>

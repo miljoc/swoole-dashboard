@@ -70,7 +70,7 @@
         <template slot-scope="{row}">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/socket_info?fd=${row.fd}`}">
+                         :to="{path: `/socket_info?fd=${row.fd}&worker=${serverSetting.mode === 2 ? 'reactor-' + row.reactor_id : 'worker-' + row.reactor_id}`}">
               {{ row.fd }}
             </router-link>
           </el-link>
@@ -191,14 +191,14 @@
         :limit.sync="listQuery.limit"
         @pagination="jumpPage"
     />
-  </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getServerSetting, getConnections, closeConnection } from '@/api/server'
-import { IServerSetting, IConnectionInfo } from '@/api/types'
+import { getServerSetting, getConnections, closeConnection, getSocketInfo, getObjects } from '@/api/server'
+import { IServerSetting, IConnectionInfo, IObjectsData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { bytesFormat, eventsFitler, getSortFun, inArray, parseTime } from '@/utils/index'
 
@@ -297,7 +297,7 @@ export default class extends Vue {
    * 发送请求
    * @private
    */
-  private async sendApi() {
+  private async getServerSetting() {
     const { data } = await getServerSetting()
     return data
   }
@@ -308,7 +308,7 @@ export default class extends Vue {
    */
   private async getData() {
     this.listLoading = true
-    this.serverSetting = await this.sendApi()
+    this.serverSetting = await this.getServerSetting()
 
     // eslint-disable-next-line camelcase
     let list: { session_id: 0 }[] = []

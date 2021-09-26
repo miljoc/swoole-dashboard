@@ -225,12 +225,16 @@ export default class extends Vue {
     if (this.search.length > 0) {
       this.handleAllList = this.handleAllList.filter((item) => {
         const tmpStr = this.search.toLowerCase()
-        return (
-          item.backTrace[0].class.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
-          item.backTrace[0].function.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
-          item.backTrace[0].file.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
-          item.backTrace[0].line.toString().toLowerCase().indexOf(tmpStr) !== -1
-        )
+        if (item.backTrace[0] === undefined) {
+          return false
+        } else {
+          return (
+            item.backTrace[0].class.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
+            item.backTrace[0].function.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
+            item.backTrace[0].file.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
+            item.backTrace[0].line.toString().toLowerCase().indexOf(tmpStr) !== -1
+          )
+        }
       })
     }
 

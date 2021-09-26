@@ -54,7 +54,7 @@
         <template slot-scope="{row}">
           <el-link type="primary" v-if="row.backTrace.length > 0">
             <router-link class="link-type"
-                         :to="{path: `/includedfiles_detail?file_name=${row.backTrace[0].file}`}">
+                         :to="{path: `/includedfiles_detail?file_name=${row.backTrace[0].file}&line=${row.backTrace[0].line}`}">
               {{ row.backTrace| parseBackTraceSource }}
             </router-link>
           </el-link>

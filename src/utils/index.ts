@@ -182,11 +182,6 @@ export const toggleClass = (ele: HTMLElement, className: string) => {
   ele.className = classString
 }
 
-/**
- * 获取排序后数据
- * @param field
- * @param sortType
- */
 export const getSortFun = (field: string, sortType: string, data: Array<any>) => {
   return data.sort((a, b) => {
     const value1 = a[field]
@@ -206,10 +201,21 @@ export const parseResourceInfo = (row: any) => {
   return row.info.stream_type
 }
 
-/**
- * 格式化数值 千位逗号分隔
- * @param num
- */
-export const formatNumber = (num: Number) => {
-  return num.toLocaleString()
+export const amountRule = (num: String) => {
+  const defaultAmount = ' '
+  const setAmount = num + ' '
+  if (setAmount !== 'null' && setAmount !== '' && setAmount !== 'undefined' && setAmount !== '--') {
+    const defaultAmount = Number(setAmount).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+    return defaultAmount.replace('.00', '')
+  } else {
+    return defaultAmount
+  }
+}
+
+export const inArray = (search: any, arr: Array<any>) => {
+  if (arr.indexOf(search) === -1) {
+    return false
+  } else {
+    return true
+  }
 }

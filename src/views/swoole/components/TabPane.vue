@@ -17,38 +17,39 @@
         border
         v-if="type === 'master'"
         style="width: 100%; margin-bottom: 20px"
+        @sort-change="reactorSortChange"
     >
-      <el-table-column label="ID" align="center">
+      <el-table-column label="ID" align="center" sortable="id">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="TID" align="center">
+      <el-table-column label="TID" align="center" sortable="tid">
         <template slot-scope="scope">
           <span>{{ scope.row.tid }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Events" align="center">
+      <el-table-column label="Events" align="center" sortable="event_num">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/events/?worker=reactor-${scope.row.id}`}">{{ scope.row.event_num }}
+                         :to="{path: `/events/?worker=reactor-${scope.row.id}`}">{{ scope.row.event_num | amountRule }}
             </router-link>
           </el-link>
         </template>
       </el-table-column>
 
-      <el-table-column label="Timers" align="center">
+      <el-table-column label="Timers" align="center" sortable="timer_num">
         <template slot-scope="scope">
-          <span>{{ scope.row.timer_num }}</span>
+          <span>{{ scope.row.timer_num | amountRule }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Dispatch Count" align="center">
+      <el-table-column label="Dispatch Count" align="center" sortable="dispatch_count">
         <template slot-scope="scope">
-          <span>{{ scope.row.dispatch_count }}</span>
+          <span>{{ scope.row.dispatch_count | amountRule }}</span>
         </template>
       </el-table-column>
 
@@ -72,88 +73,88 @@
         style="width: 100%"
         @sort-change="sortChange"
     >
-      <el-table-column label="ID" align="center" v-if="type === 'worker' || type === 'task_worker'">
+      <el-table-column label="ID" align="center" v-if="type === 'worker' || type === 'task_worker'" sortable="id">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="PID" align="center">
+      <el-table-column label="PID" align="center" sortable="pid">
         <template slot-scope="scope">
           <span>{{ scope.row.pid }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Coroutines" align="center"  v-if="type !== 'manager'">
+      <el-table-column label="Coroutines" align="center"  v-if="type !== 'manager'" sortable="coroutine_stats.coroutine_num">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/coroutines/?worker=${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.coroutine_num }}
+                         :to="{path: `/coroutines/?worker=${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.coroutine_num | amountRule }}
             </router-link>
           </el-link>
         </template>
       </el-table-column>
 
-      <el-table-column label="Events" align="center" v-if="type !== 'manager'">
+      <el-table-column label="Events" align="center" v-if="type !== 'manager'" sortable="coroutine_stats.event_num">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/events/?worker=${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.event_num }}
+                         :to="{path: `/events/?worker=${type}-${scope.$index}`}">{{ scope.row.coroutine_stats.event_num | amountRule }}
             </router-link>
           </el-link>
         </template>
       </el-table-column>
 
-      <el-table-column label="Reload Count" align="center" v-if="type === 'manager'">
+      <el-table-column label="Reload Count" align="center" v-if="type === 'manager'" sortable="reload_count">
         <template slot-scope="scope">
-          <span>{{ scope.row.reload_count }}</span>
+          <span>{{ scope.row.reload_count | amountRule }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Time of last reload" align="center" v-if="type === 'manager'">
+      <el-table-column label="Time of last reload" align="center" v-if="type === 'manager'" sortable="reload_last_time">
         <template slot-scope="scope">
           <span>{{ scope.row.reload_last_time | parseTime }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Timers" align="center">
+      <el-table-column label="Timers" align="center" sortable="timer_stats.num">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/timers/?worker=${type}-${scope.$index}`}">{{ scope.row.timer_stats.num }}
+                         :to="{path: `/timers/?worker=${type}-${scope.$index}`}">{{ scope.row.timer_stats.num | amountRule }}
             </router-link>
           </el-link>
         </template>
       </el-table-column>
 
-      <el-table-column label="Objects" align="center">
+      <el-table-column label="Objects" align="center" sortable="vm_status.object_num">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/objects/?worker=${type}-${scope.$index}`}"> {{ scope.row.vm_status.object_num }}
+                         :to="{path: `/objects/?worker=${type}-${scope.$index}`}"> {{ scope.row.vm_status.object_num | amountRule }}
             </router-link>
           </el-link>
         </template>
       </el-table-column>
 
-      <el-table-column label="Resources" align="center">
+      <el-table-column label="Resources" align="center" sortable="vm_status.resource_num">
         <template slot-scope="scope">
 
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/resources/?worker=${type}-${scope.$index}`}">{{ scope.row.vm_status.resource_num }}
+                         :to="{path: `/resources/?worker=${type}-${scope.$index}`}">{{ scope.row.vm_status.resource_num | amountRule }}
             </router-link>
           </el-link>
         </template>
       </el-table-column>
 
-      <el-table-column label="Memory Usage" align="center">
+      <el-table-column label="Memory Usage" align="center" sortable="memory_usage">
         <template slot-scope="scope">
           <span>{{ scope.row.memory_usage | bytesFormat }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="VmSize" align="center">
+      <el-table-column label="VmSize" align="center" sortable="process_status.VmSize">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
@@ -174,15 +175,15 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="V-CS" align="center">
+      <el-table-column label="V-CS" align="center" sortable="process_status.voluntary_ctxt_switches">
         <template slot-scope="scope">
-          <span>{{ scope.row.process_status.voluntary_ctxt_switches }}</span>
+          <span>{{ scope.row.process_status.voluntary_ctxt_switches | amountRule }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="NV-CS" align="center">
+      <el-table-column label="NV-CS" align="center" sortable="process_status.nonvoluntary_ctxt_switches">
         <template slot-scope="scope">
-          <span>{{ scope.row.process_status.nonvoluntary_ctxt_switches }}</span>
+          <span>{{ scope.row.process_status.nonvoluntary_ctxt_switches | amountRule }}</span>
         </template>
       </el-table-column>
 
@@ -202,7 +203,7 @@
         :total="total"
         :page.sync="listQuery.page"
         :limit.sync="listQuery.limit"
-        @pagination="getWorkers"
+        @pagination="jumpPage"
     />
   </div>
 </template>
@@ -213,7 +214,7 @@ import { getServerStats, getWorkerInfo, getTaskWorkerInfo, getThreadInfo, getSer
 import { IServerSetting, IThreadData, IWorkerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import request from '@/utils/request'
-import { bytesFormat, parseTime, getSortFun } from '@/utils'
+import { bytesFormat, parseTime, getSortFun, amountRule } from '@/utils'
 
 @Component({
   name: 'Workers',
@@ -223,6 +224,7 @@ import { bytesFormat, parseTime, getSortFun } from '@/utils'
   filters: {
     bytesFormat: bytesFormat,
     parseTime: parseTime,
+    amountRule: amountRule,
     toBytes: (bytes: string) => {
       if (bytes.substring(bytes.length - 2, bytes.length) === 'kB') {
         return parseInt(bytes.substring(0, bytes.length - 3), 10) * 1024
@@ -235,8 +237,13 @@ import { bytesFormat, parseTime, getSortFun } from '@/utils'
 
 export default class extends Vue {
   @Prop({ default: 'master' }) private type!: string
+  private allWorkers: IWorkerData[] = []
+  private handleAllWorkers: IWorkerData[] = []
   private workers: IWorkerData[] = []
+
+  private allThreads: IThreadData[] = []
   private threads: IThreadData[] = []
+
   private serverSetting: IServerSetting = {
     mode: 0,
     reactor_num: 0,
@@ -250,7 +257,7 @@ export default class extends Vue {
   private listLoading = true
   private listQuery = {
     page: 1,
-    limit: 20,
+    limit: 10,
     type: this.type
   }
 
@@ -272,27 +279,6 @@ export default class extends Vue {
     }
   }
 
-  /**
-   * 点击排序
-   * @param column
-   * @param prop
-   * @param order
-   */
-  private sortChange(column: any, prop: any, order: any) {
-    console.log(column)
-    if (column.order !== null) {
-      const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
-      const field: string = column.column.sortable // 排序字段
-      console.log(sortType)
-      console.log(field)
-      console.log(this.type)
-      this.workers = getSortFun(field, sortType, this.workers) // 处理使用数据
-      // this.workers.sort(getSortFun(sortType, field))
-    } else {
-      console.log(12312312)
-    }
-  }
-
   private viewWorkerDetail(row: any, index: number) {
     this.$router.push({ path: `/worker/${this.type}-${index}` })
   }
@@ -301,23 +287,24 @@ export default class extends Vue {
     this.listLoading = true
     const { data } = await getServerStats()
 
-    const total = data.worker_num
-
-    const start = (this.listQuery.page - 1) * this.listQuery.limit
-    let end = this.listQuery.page * this.listQuery.limit
-
-    end = Math.min(total, end)
+    // const total = data.worker_num
+    //
+    // const start = (this.listQuery.page - 1) * this.listQuery.limit
+    // let end = this.listQuery.page * this.listQuery.limit
+    //
+    // end = Math.min(total, end)
 
     const workers: IWorkerData[] = []
 
-    for (let index = start; index < end; index++) {
+    for (let index = 0; index < data.worker_num; index++) {
       const { data } = await getWorkerInfo(index)
       workers[index] = data
-      console.dir(data)
     }
 
-    this.workers = workers
-    this.total = total
+    this.allWorkers = JSON.parse(JSON.stringify(workers))
+    this.handleAllWorkers = workers
+    this.showList(this.handleAllWorkers)
+    this.total = this.allWorkers.length
     this.listLoading = false
   }
 
@@ -357,9 +344,11 @@ export default class extends Vue {
       data.id = 0
       data.pid = master_pid
       workers[0] = data
+      this.allWorkers = JSON.parse(JSON.stringify(workers))
       this.workers = workers
     } while (0)
 
+    this.allThreads = JSON.parse(JSON.stringify(threads))
     this.threads = threads
     this.total = total
     this.listLoading = false
@@ -394,6 +383,7 @@ export default class extends Vue {
 
     console.dir(workers[0])
 
+    this.allWorkers = JSON.parse(JSON.stringify(workers))
     this.workers = workers
     this.total = 1
     this.listLoading = false
@@ -403,23 +393,75 @@ export default class extends Vue {
     this.listLoading = true
     const { data } = await getServerStats()
 
-    const total = data.task_worker_num
-
-    const start = (this.listQuery.page - 1) * this.listQuery.limit
-    let end = this.listQuery.page * this.listQuery.limit
-
-    end = Math.min(total, end)
+    // const total = data.task_worker_num
+    //
+    // const start = (this.listQuery.page - 1) * this.listQuery.limit
+    // let end = this.listQuery.page * this.listQuery.limit
+    //
+    // end = Math.min(total, end)
 
     const workers: IWorkerData[] = []
 
-    for (let index = start; index < end; index++) {
+    for (let index = 0; index < data.task_worker_num; index++) {
       const { data } = await getTaskWorkerInfo(index)
       workers[index] = data
     }
 
-    this.workers = workers
-    this.total = total
+    this.allWorkers = JSON.parse(JSON.stringify(workers))
+    this.handleAllWorkers = workers
+    this.showList(this.handleAllWorkers)
+    this.total = this.allWorkers.length
     this.listLoading = false
+  }
+
+  /**
+   * reactor 点击排序
+   * @param column
+   */
+  private reactorSortChange(column:any) {
+    const field: string = column.column.sortable // 排序字段
+    if (column.order !== null) {
+      const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
+      console.log('选择' + field + '-' + sortType + '排序')
+      this.threads = getSortFun(field, sortType, this.threads) // 处理使用数据
+    } else {
+      console.log(field + '取消排序')
+      this.threads = JSON.parse(JSON.stringify(this.allThreads))
+    }
+  }
+
+  /**
+   * 点击排序
+   * @param column
+   */
+  private sortChange(column:any) {
+    const field: string = column.column.sortable // 排序字段
+    if (column.order !== null) {
+      const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
+      console.log('选择' + field + '-' + sortType + '排序')
+      this.workers = getSortFun(field, sortType, this.handleAllWorkers) // 处理使用数据
+    } else {
+      console.log(field + '取消排序')
+      // this.workers = JSON.parse(JSON.stringify(this.allWorkers))
+    }
+    this.showList(this.handleAllWorkers)
+  }
+
+  /**
+   * 当前显示页数据
+   * @param data
+   * @private
+   */
+  private showList(data: Array<any>) {
+    this.workers = data.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+  }
+
+  /**
+   * 数据翻页显示数据
+   * @private
+   */
+  private jumpPage() {
+    this.showList(this.handleAllWorkers)
   }
 }
 </script>

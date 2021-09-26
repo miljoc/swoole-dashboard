@@ -2,14 +2,14 @@
     <div class="app-container">
         <el-row>
             <el-descriptions class="margin-top" border>
-                <el-descriptions-item label="runs">{{ runs }}</el-descriptions-item>
+                <el-descriptions-item label="runs">{{ runs | amountRule}}</el-descriptions-item>
                 <el-descriptions-item label="collected">{{
-                    collected
+                    collected | amountRule
                 }}</el-descriptions-item>
                 <el-descriptions-item label="threshold">{{
-                    threshold
+                    threshold | amountRule
                 }}</el-descriptions-item>
-                <el-descriptions-item label="roots">{{ roots }}</el-descriptions-item>
+                <el-descriptions-item label="roots">{{ roots | amountRule}}</el-descriptions-item>
             </el-descriptions>
         </el-row>
     </div>
@@ -17,6 +17,7 @@
 
 <script>
 import { getGCStatus } from '@/api/phpinfos'
+import { amountRule } from '@/utils'
 
 export default {
   data() {
@@ -27,6 +28,9 @@ export default {
       roots: -1,
       extensions: []
     }
+  },
+  filters: {
+    amountRule: amountRule
   },
   created() {
     this.getGCStatus()

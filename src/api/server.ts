@@ -63,7 +63,7 @@ export const getObjects = (worker: any) =>
 
 export const getObjectByHandle = (object_id: number, object_hash: string) =>
   request({
-    url: '/api/get_object_by_handle',
+    url: '/api/get_object_by_handle/worker-0',
     method: 'get',
     params: { object_id, object_hash }
   })
@@ -82,14 +82,14 @@ export const getConnections = (worker: any) =>
 
 export const closeConnection = (session_id: number) =>
   request({
-    url: '/api/close_session',
+    url: '/api/close_session/worker-0',
     method: 'get',
     params: { session_id }
   })
 
 export const getSocketInfo = (fd: string) =>
   request({
-    url: '/api/get_socket_info',
+    url: '/api/get_socket_info/worker-0',
     method: 'get',
     params: { fd }
   })

@@ -161,6 +161,14 @@ export default new Router({
             title: 'Objects',
             icon: 'object'
           }
+        },
+        {
+          path: '/object_var_dump',
+          component: () => import('@/views/php/ObjectVarDump.vue'),
+          meta: {
+            title: 'ObjectVarDump',
+            hidden: true
+          }
         }
       ]
     },
@@ -224,14 +232,6 @@ export default new Router({
           component: () => import('@/views/chart/NetworkTraffic.vue'),
           meta: {
             title: 'Network Traffic',
-            hidden: true
-          }
-        },
-        {
-          path: '/object_var_dump',
-          component: () => import('@/views/php/ObjectVarDump.vue'),
-          meta: {
-            title: 'ObjectVarDump',
             hidden: true
           }
         },

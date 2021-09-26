@@ -1,5 +1,15 @@
 <template>
   <div class="app-container">
+    <!---------------------------查询------开始----------------------->
+    <el-input
+      v-model="search"
+      placeholder="Called Function / Source File"
+      @input="filterHandler"
+      style="margin: 0 10px 10px 0;"
+    ></el-input>
+    <el-button type="default" style="color:#909399;" @click="clearFilter">clear filter</el-button>
+    <!---------------------------查询------结束----------------------->
+
     <el-table
         v-loading="listLoading"
         :data="list"
@@ -7,11 +17,13 @@
         fit
         highlight-current-row
         width="100%"
+        @sort-change="sortChange"
     >
       <el-table-column
           align="center"
           label="ID"
           width="150"
+          sortable="id"
       >
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
@@ -22,9 +34,10 @@
           align="center"
           label="Elapsed"
           width="150"
+          sortable="elapsed"
       >
         <template slot-scope="{row}">
-          <span>{{ row.elapsed }}</span>
+          <span>{{ row.elapsed | amountRule }}</span>
         </template>
       </el-table-column>
 
@@ -32,9 +45,10 @@
           align="center"
           label="Stack Usage"
           width="150"
+          sortable="stack_usage"
       >
         <template slot-scope="{row}">
-          <span>{{ row.stack_usage }}</span>
+          <span>{{ row.stack_usage | amountRule }}</span>
         </template>
       </el-table-column>
 
@@ -54,7 +68,7 @@
         <template slot-scope="{row}">
           <el-link type="primary" v-if="row.backTrace.length > 0">
             <router-link class="link-type"
-                         :to="{path: `/includedfiles_detail?file_name=${row.backTrace[0].file}&line=${row.backTrace[0].line}`}">
+                         :to="{path: `/includedfiles_detail?file_name=${row.backTrace[0].file}`}">
               {{ row.backTrace| parseBackTraceSource }}
             </router-link>
           </el-link>
@@ -75,7 +89,7 @@
         :total="total"
         :page.sync="listQuery.page"
         :limit.sync="listQuery.limit"
-        @pagination="getData"
+        @pagination="jumpPage"
     />
 
     <el-dialog title="BackTrace" :visible.sync="dialogTableVisible">
@@ -93,6 +107,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getCoroutineList, getCoroutineBackTrace } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
+import { amountRule, getSortFun, inArray } from '@/utils'
 
 const parseBackTraceSource = (_frame_list: any) => {
   if (_frame_list.length === 0) {
@@ -123,12 +138,14 @@ const parseBackTraceCaller = (_frame_list: any) => {
   },
   filters: {
     parseBackTraceCaller: parseBackTraceCaller,
-    parseBackTraceSource: parseBackTraceSource
+    parseBackTraceSource: parseBackTraceSource,
+    amountRule: amountRule
   }
 })
 export default class extends Vue {
-  private list: IWorkerCoroutineData[] = []
-  private data: IWorkerCoroutineData[] = []
+  private allList: IWorkerCoroutineData[] = [] // 接口返回原始数据
+  private handleAllList: IWorkerCoroutineData[] = [] // 处理处理后所有数据
+  private list: IWorkerCoroutineData[] = [] // 当前页显示数据
   private listLoading = true
   private total = 0
   private dialogTableVisible = false
@@ -138,6 +155,9 @@ export default class extends Vue {
   }
 
   private backTrace = [{}]
+
+  // 搜索
+  private search = ''
 
   created() {
     this.getData()
@@ -171,30 +191,110 @@ export default class extends Vue {
     console.log(this.backTrace)
   }
 
+  /**
+   * 发送请求
+   * @private
+   */
+  private async sendApi() {
+    const worker = this.$route.query.worker ?? 'master'
+    const { data } = await getCoroutineList(worker)
+    return data
+  }
+
+  /**
+   * 获取数据
+   * @private
+   */
   private async getData() {
     this.listLoading = true
-    if (this.data.length === 0) {
-      const worker = this.$route.query.worker ?? 'master'
-      const { data } = await getCoroutineList(worker)
-      this.data = data
-    }
+    const data = await this.sendApi()
 
-    const total = this.data.length
-
-    const start = (this.listQuery.page - 1) * this.listQuery.limit
-    let end = this.listQuery.page * this.listQuery.limit
-
-    end = Math.min(total, end)
-
-    const list: IWorkerCoroutineData[] = []
-
-    for (let index = start; index < end; index++) {
-      list[index] = this.data[index]
-    }
-
-    this.list = list
-    this.total = total
+    this.allList = JSON.parse(JSON.stringify(data))
+    this.handleAllList = data
+    this.showList(this.handleAllList)
+    this.total = this.handleAllList.length
     this.listLoading = false
+  }
+
+  /**
+   * 点击搜索过滤数据
+   * @private
+   */
+  private filterHandler() {
+    this.handleAllList = JSON.parse(JSON.stringify(this.allList))
+    if (this.search.length > 0) {
+      this.handleAllList = this.handleAllList.filter((item) => {
+        const tmpStr = this.search.toLowerCase()
+        return (
+          item.backTrace[0].class.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
+          item.backTrace[0].function.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
+          item.backTrace[0].file.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
+          item.backTrace[0].line.toString().toLowerCase().indexOf(tmpStr) !== -1
+        )
+      })
+    }
+
+    this.listQuery.page = 1
+    this.total = this.handleAllList.length
+    this.showList(this.handleAllList)
+  }
+
+  /**
+   * 清除筛选
+   * @private
+   */
+  private clearFilter(): void {
+    if (this.search.length > 0) {
+      console.log('清除筛选项')
+      this.search = ''
+      this.handleAllList = JSON.parse(JSON.stringify(this.allList))
+      this.showList(this.handleAllList)
+      this.total = this.handleAllList.length
+    }
+  }
+
+  /**
+   * 点击排序
+   * @param column
+   */
+  private sortChange(column:any) {
+    const field: string = column.column.sortable // 排序字段
+    if (this.search.length === 0) {
+      this.handleAllList = JSON.parse(JSON.stringify(this.allList)) // 备份初始数据
+    }
+    if (column.order !== null) {
+      const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
+      console.log('选择' + field + '-' + sortType + '排序')
+      this.handleAllList = getSortFun(field, sortType, this.handleAllList) // 处理使用数据
+    } else {
+      console.log(field + '取消排序')
+    }
+    this.showList(this.handleAllList)
+  }
+
+  /**
+   * 当前显示页数据
+   * @param data
+   * @private
+   */
+  private showList(data: Array<any>) {
+    this.list = data.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+  }
+
+  /**
+   * 数据翻页显示数据
+   * @private
+   */
+  private jumpPage() {
+    this.showList(this.handleAllList)
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.app-container {
+  .el-input {
+    width: 20%;
+  }
+}
+</style>

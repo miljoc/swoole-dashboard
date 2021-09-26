@@ -14,47 +14,114 @@
         :value="tabs_active"
       >
         <el-tab-pane label="Constants" name="Constants">
-          <el-descriptions
-            border
-            :column=1
+          <el-table
+            :data="constants"
+            :show-header="false"
+            style="width: 100%"
           >
-            <el-descriptions-item :label="item.name" v-for="(item, index) in constants" :key="index">
-              <el-link type="primary" v-if="item.type === 'array'" @click="showArray(index)">Detail</el-link>
-              <span v-else>{{ item.value }}</span>
-            </el-descriptions-item>
-          </el-descriptions>
+            <el-table-column label="Name">
+              <template slot-scope="scope">
+                <span style="margin-left: 10px">{{ scope.row.name }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="value">
+              <template slot-scope="scope">
+                <el-link style="margin-left: 10px" type="primary" v-if="scope.row.type === 'array'" @click="showArray(scope.row)">Detail</el-link>
+                <span style="margin-left: 10px" v-else>{{ scope.row.value }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
 
         <el-tab-pane label="Properties" name="Properties">
           <el-collapse v-model="collapse_active">
             <el-collapse-item title="Static Properties" name="1">
-              <el-descriptions
-                border
-                :column=1
-                v-if="staticProperties"
+              <el-table
+                :data="staticProperties"
+                :show-header="false"
+                style="width: 100%"
               >
-                <el-descriptions-item :label="item.name" v-for="(item, index) in staticProperties" :key="index">
-                  <el-link type="primary" v-if="item.type === 'array'" @click="showArray(index)">Detail</el-link>
-                  <span v-else>{{ item.value }}</span>
-                </el-descriptions-item>
-              </el-descriptions>
+                <el-table-column label="Name">
+                  <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.name }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
             </el-collapse-item>
             <el-collapse-item title="Properties" name="2">
-              <el-descriptions
-                border
-                :column=1
+              <el-table
+                :data="properties"
+                :show-header="false"
+                style="width: 100%"
               >
-                <el-descriptions-item :label="item.name" v-for="(item, index) in properties" :key="index">
-                  <el-link type="primary" v-if="item.type === 'array'" @click="showArray(index)">Detail</el-link>
-                  <span v-else>{{ item.value }}</span>
-                </el-descriptions-item>
-              </el-descriptions>
+                <el-table-column label="Name">
+                  <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.name }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
             </el-collapse-item>
           </el-collapse>
         </el-tab-pane>
-        <el-tab-pane label="Methods" name="Methods">Methods</el-tab-pane>
-        <el-tab-pane label="ParentClass" name="ParentClass">ParentClass</el-tab-pane>
-        <el-tab-pane label="Interface" name="Interface">Interface</el-tab-pane>
+
+        <el-tab-pane label="Methods" name="Methods">
+          <el-collapse v-model="collapse_active">
+            <el-collapse-item title="Static Methods" name="1">
+              <el-table
+                :data="staticMethods"
+                :show-header="false"
+                style="width: 100%"
+              >
+                <el-table-column label="Name">
+                  <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.name }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-collapse-item>
+            <el-collapse-item title="Methods" name="2">
+              <el-table
+                :data="methods"
+                :show-header="false"
+                style="width: 100%"
+              >
+                <el-table-column label="Name">
+                  <template slot-scope="scope">
+                    <span style="margin-left: 10px">{{ scope.row.name }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-collapse-item>
+          </el-collapse>
+        </el-tab-pane>
+
+        <el-tab-pane label="ParentClass" name="ParentClass">
+          <el-table
+            :data="parentClass"
+            :show-header="false"
+            style="width: 100%"
+          >
+            <el-table-column label="Name">
+              <template slot-scope="scope">
+                <span style="margin-left: 10px">{{ scope.row.name }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+
+        <el-tab-pane label="Interface" name="Interface">
+          <el-table
+            :data="interface"
+            :show-header="false"
+            style="width: 100%"
+          >
+            <el-table-column label="Name">
+              <template slot-scope="scope">
+                <span style="margin-left: 10px">{{ scope.row.name }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
       </el-tabs>
     </div>
     <div>
@@ -77,16 +144,16 @@ export default {
   name: "ClassInfo",
   data() {
     return {
-      tabs_active: 'Properties',
+      tabs_active: 'Constants',
       class_name: '',
 
-      constants: {},
-      staticProperties: {},
-      properties: {},
-      staticMethods: {},
-      methods: {},
-      parentClass: '',
-      interface: {},
+      constants: [],
+      staticProperties: [],
+      properties: [],
+      staticMethods: [],
+      methods: [],
+      parentClass: [],
+      interface: [],
 
       collapse_active: ['1', '2'],
       dialogTableTitle: '',
@@ -128,18 +195,58 @@ export default {
     async getData(class_name) {
       const data = await getClassesInfo(class_name)
       this.constants = data.data.constants
-      this.staticProperties = data.data.staticProperties
-      this.properties = data.data.properties
-      this.staticMethods = data.data.staticMethods
-      this.methods = data.data.methods
-      this.parentClass = data.data.parentClass
-      this.interface = data.data.interface
+
+      let index1 = 0
+      const tmpStaticProperties = []
+      for (const item of data.data.staticProperties) {
+        tmpStaticProperties.push({ name: data.data.staticProperties[index1].name })
+        index1++
+      }
+      this.staticProperties = tmpStaticProperties
+
+      let index2 = 0
+      const tmpProperties = []
+      for (const item of data.data.properties) {
+        tmpProperties.push({ name: data.data.properties[index2].name })
+        index2++
+      }
+      this.properties = tmpProperties
+
+      let index3 = 0
+      const tmpStaticMethods = []
+      for (const item of data.data.staticMethods) {
+        tmpStaticMethods.push({ name: data.data.staticMethods[index3].name })
+        index3++
+      }
+      this.staticMethods = tmpStaticMethods
+
+      let index4 = 0
+      const tmpMethods = []
+      for (const item of data.data.methods) {
+        tmpProperties.push({ name: data.data.methods[index4].name })
+        index4++
+      }
+      this.methods = tmpMethods
+
+      const tmpParentClass = []
+      if (data.data.parentClass.length > 0) {
+        tmpParentClass.push({ name: data.data.parentClass })
+      }
+      this.parentClass = tmpParentClass
+
+      let index5 = 0
+      const tmpInterface = []
+      for (const item of data.data.interface) {
+        tmpInterface.push({ name: data.data.interface[index5] })
+        index5++
+      }
+      this.interface = tmpInterface
     },
-    showArray(index) {
+    showArray(row) {
       this.dialogTableVisible = true
       // console.log(this.constants[index].value)
-      this.dialogTableTitle = this.constants[index].name
-      this.code = this.constants[index].value
+      this.dialogTableTitle = row.name
+      this.code = row.value
       this.$nextTick(function() {
         this.initCode()
       })

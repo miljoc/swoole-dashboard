@@ -7,7 +7,7 @@
       @input="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear filter</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter">Clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table
@@ -68,8 +68,8 @@
         <template slot-scope="{row}">
           <el-link type="primary" v-if="row.backTrace.length > 0">
             <router-link class="link-type"
-                         :to="{path: `/includedfiles_detail?file_name=${row.backTrace[0].file}`}">
-              {{ row.backTrace| parseBackTraceSource }}
+                         :to="{path: `/includedfiles_detail?file_name=${row.backTrace[0].file}&line=${row.backTrace[0].line}`}">
+              {{ row.backTrace | parseBackTraceSource }}
             </router-link>
           </el-link>
           <span v-else> - </span>

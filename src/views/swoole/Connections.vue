@@ -317,6 +317,11 @@ export default class extends Vue {
         const { data } = await getConnections('reactor-' + i)
         list = list.concat(data)
       }
+    } else {
+      for (let i = 0; i < this.serverSetting.worker_num; i++) {
+        const { data } = await getConnections('worker-' + i)
+        list = list.concat(data)
+      }
     }
 
     list.sort((a: { session_id: number }, b: { session_id: number }) => {

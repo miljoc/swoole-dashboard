@@ -61,9 +61,9 @@ export const getObjects = (worker: any) =>
     method: 'get'
   })
 
-export const getObjectByHandle = (object_id: number, object_hash: string) =>
+export const getObjectByHandle = (object_id: number, object_hash: string, worker = 'master') =>
   request({
-    url: '/api/get_object_by_handle/worker-0',
+    url: `/api/get_object_by_handle/${worker}`,
     method: 'get',
     params: { object_id, object_hash }
   })

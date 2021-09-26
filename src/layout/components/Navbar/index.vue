@@ -81,9 +81,9 @@ import { IVersionInfo } from '@/api/types'
 export default class extends Vue {
   private versionInfo: IVersionInfo = {
     os: '',
-    swooleVersion: '',
-    phpVersion: '',
-    host: '',
+    swoole: '',
+    php: '',
+    ip: '',
   }
 
   get sidebar() {

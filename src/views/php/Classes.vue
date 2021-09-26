@@ -54,33 +54,6 @@
           </el-link>
         </template>
       </el-table-column>
-
-      <el-table-column
-          align="center"
-          label="Actions"
-          width="200"
-      >
-        <template slot-scope="{row}">
-          <el-button
-              v-if="row.edit"
-              type="success"
-              size="small"
-              icon="el-icon-circle-check-outline"
-              @click="confirmEdit(row)"
-          >
-            Ok
-          </el-button>
-          <el-button
-              v-else
-              type="primary"
-              size="small"
-              icon="el-icon-edit"
-              @click="row.edit=!row.edit"
-          >
-            Edit
-          </el-button>
-        </template>
-      </el-table-column>
     </el-table>
 
     <pagination
@@ -148,7 +121,8 @@ export default class extends Vue {
    * @private
    */
   private async sendApi() {
-    const { data } = await getDeclaredClasses()
+    const worker = this.$route.query.worker ?? 'master'
+    const { data } = await getDeclaredClasses(worker)
     return data
   }
 

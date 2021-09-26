@@ -5,7 +5,7 @@
         slot="header"
         class="clearfix"
       >
-        <span>Object Var Dump</span>
+        <span>{{ class_name }}</span>
       </div>
       <textarea ref="textarea" v-show="false"></textarea>
     </el-card>
@@ -23,6 +23,7 @@ export default {
   name: 'ObjectVarDump',
   data() {
     return {
+      class_name: '',
       code: '',
       // 编辑器实例
       coder: null,
@@ -43,6 +44,7 @@ export default {
     }
   },
   mounted() {
+    this.class_name = this.$route.query.class
     this.getData()
   },
   methods: {
@@ -56,9 +58,10 @@ export default {
       })
     },
     async getData() {
+      const worker = this.$route.query.worker ?? 'master'
       const object_id = this.$route.query.object_id
       const object_hash = this.$route.query.object_hash
-      const data = await getObjectByHandle(object_id, object_hash)
+      const data = await getObjectByHandle(object_id, object_hash, worker)
       this.code = data.data
       this.initCode()
     }

@@ -127,7 +127,8 @@ export default new Router({
           component: () => import('@/views/php/Functions.vue'),
           meta: {
             title: 'Functions',
-            icon: 'function'
+            icon: 'function',
+            activeMenu: '/functions'
           }
         },
         {
@@ -135,7 +136,8 @@ export default new Router({
           component: () => import('@/views/php/Resources.vue'),
           meta: {
             title: 'Resources',
-            icon: 'resource'
+            icon: 'resource',
+            activeMenu: '/resources'
           }
         },
         {
@@ -143,7 +145,8 @@ export default new Router({
           component: () => import('@/views/php/DefinedConstants.vue'),
           meta: {
             title: 'Constants',
-            icon: 'hamburger'
+            icon: 'hamburger',
+            activeMenu: '/defined_constants'
           }
         },
         {
@@ -151,7 +154,8 @@ export default new Router({
           component: () => import('@/views/php/DefinedInterfaces.vue'),
           meta: {
             title: 'Interfaces',
-            icon: 'comment-lines'
+            icon: 'comment-lines',
+            activeMenu: '/defined_interfaces'
           }
         },
         {
@@ -159,7 +163,8 @@ export default new Router({
           component: () => import('@/views/php/Objects.vue'),
           meta: {
             title: 'Objects',
-            icon: 'object'
+            icon: 'object',
+            activeMenu: '/objects'
           }
         },
         {
@@ -186,21 +191,24 @@ export default new Router({
           component: () => import('@/views/swoole/Processes.vue'),
           meta: {
             title: 'Processes',
-            icon: 'gallery-view'
+            icon: 'gallery-view',
+            activeMenu: '/processes'
           }
         }, {
           path: '/coroutines',
           component: () => import('@/views/swoole/Coroutines.vue'),
           meta: {
             title: 'Coroutines',
-            icon: 'terminal'
+            icon: 'terminal',
+            activeMenu: '/coroutines'
           }
         }, {
           path: '/connections',
           component: () => import('@/views/swoole/Connections.vue'),
           meta: {
             title: 'Connections',
-            icon: 'tree-table'
+            icon: 'tree-table',
+            activeMenu: '/connections'
           }
         },
         {
@@ -208,7 +216,8 @@ export default new Router({
           component: () => import('@/views/swoole/Events.vue'),
           meta: {
             title: 'Events',
-            icon: 'email'
+            icon: 'email',
+            activeMenu: '/events'
           }
         },
         {
@@ -224,7 +233,8 @@ export default new Router({
           component: () => import('@/views/swoole/Timers.vue'),
           meta: {
             title: 'Timers',
-            icon: 'clock-fill'
+            icon: 'clock-fill',
+            activeMenu: '/timers'
           }
         },
         {
@@ -248,7 +258,8 @@ export default new Router({
           component: () => import('@/views/swoole/SocketInfo.vue'),
           meta: {
             title: 'Socket Info',
-            hidden: true
+            hidden: true,
+            activeMenu: '/events'
           }
         }
       ]

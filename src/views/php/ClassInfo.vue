@@ -21,15 +21,19 @@
           >
             <el-table-column label="Name">
               <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.name }}</span>
+                <el-link type="primary" style="margin-left: 10px">
+                  <router-link class="link-type"
+                               :to="{path: `/includedfiles_detail?file_name=${filename}`}">{{scope.row.name }}
+                  </router-link>
+                </el-link>
               </template>
             </el-table-column>
-            <el-table-column label="value">
-              <template slot-scope="scope">
-                <el-link style="margin-left: 10px" type="primary" v-if="scope.row.type === 'array'" @click="showArray(scope.row)">Detail</el-link>
-                <span style="margin-left: 10px" v-else>{{ scope.row.value }}</span>
-              </template>
-            </el-table-column>
+<!--            <el-table-column label="value">-->
+<!--              <template slot-scope="scope">-->
+<!--                <el-link style="margin-left: 10px" type="primary" v-if="scope.row.type === 'array'" @click="showArray(scope.row)">Detail</el-link>-->
+<!--                <span style="margin-left: 10px" v-else>{{ scope.row.value }}</span>-->
+<!--              </template>-->
+<!--            </el-table-column>-->
           </el-table>
         </el-tab-pane>
 
@@ -147,6 +151,8 @@ export default {
       tabs_active: 'Constants',
       class_name: '',
 
+      filename: '',
+
       constants: [],
       staticProperties: [],
       properties: [],
@@ -194,6 +200,7 @@ export default {
     },
     async getData(class_name) {
       const data = await getClassesInfo(class_name)
+      this.filename = data.data.filename
       this.constants = data.data.constants
 
       let index1 = 0

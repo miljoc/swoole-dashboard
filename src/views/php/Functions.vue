@@ -78,33 +78,6 @@
           <span>{{ row.type }}</span>
         </template>
       </el-table-column>
-
-      <el-table-column
-          align="center"
-          label="Actions"
-          width="200"
-      >
-        <template slot-scope="{row}">
-          <el-button
-              v-if="row.edit"
-              type="success"
-              size="small"
-              icon="el-icon-circle-check-outline"
-              @click="confirmEdit(row)"
-          >
-            Ok
-          </el-button>
-          <el-button
-              v-else
-              type="primary"
-              size="small"
-              icon="el-icon-edit"
-              @click="row.edit=!row.edit"
-          >
-            Edit
-          </el-button>
-        </template>
-      </el-table-column>
     </el-table>
 
     <pagination

@@ -1,24 +1,12 @@
 <template>
   <div class="app-container">
     <!---------------------------查询------开始----------------------->
-    <!---------------------------class------开始----------------------->
-    <el-select
-      v-model="classFieldValue"
-      multiple
-      collapse-tags
-      placeholder="Class"
+    <el-input
+      v-model="search"
+      placeholder="Filename"
+      @input="filterHandler"
       style="margin: 0 10px 10px 0;"
-      filterable
-      @change="filterHandler"
-    >
-      <el-option
-        v-for="item in classOptions"
-        :label="item"
-        :key="item"
-        :value="item">
-      </el-option>
-    </el-select>
-    <!---------------------------class------结束----------------------->
+    ></el-input>
     <el-button type="default" style="color:#909399;" @click="clearFilter">clear filter</el-button>
     <!---------------------------查询------结束----------------------->
 
@@ -111,16 +99,17 @@ export default class extends Vue {
   private list: IObjectsData[] = [] // 当前页显示数据
   private listLoading = true
   private total = 0
+  private worker = ''
   private listQuery = {
     page: 1,
     limit: 10
   }
 
-  // 筛选项数据
-  private classFieldValue: Array<string> = []
-  private classOptions: any = []
+  // 搜索
+  private search = ''
 
   created() {
+    this.worker = this.$route.query.worker ?? 'master'
     this.getData()
   }
 
@@ -130,7 +119,7 @@ export default class extends Vue {
    * @private
    */
   private handleVarDump(row: any) {
-    this.$router.push({ path: '/object_var_dump?object_id=' + row.id + '&object_hash=' + row.hash })
+    this.$router.push({ path: '/object_var_dump/?worker=' + this.worker + '&object_id=' + row.id + '&object_hash=' + row.hash + '&class=' + row.class })
   }
 
   /**
@@ -138,8 +127,7 @@ export default class extends Vue {
    * @private
    */
   private async sendApi() {
-    const worker = this.$route.query.worker ?? 'master'
-    const { data } = await getObjects(worker)
+    const { data } = await getObjects(this.worker)
     return data
   }
 
@@ -150,20 +138,6 @@ export default class extends Vue {
   private async getData() {
     this.listLoading = true
     const data = await this.sendApi()
-
-    // 筛选项数据
-    const tmpClass: Array<any> = []
-    for (let index = 0; index < data.length; index++) {
-      // 处理 class 选项数据
-      tmpClass[index] = data[index].class
-    }
-
-    // 去除重复值
-    for (let i = 0; i < tmpClass.length; i++) {
-      if (tmpClass.indexOf(tmpClass[i]) === i) {
-        this.classOptions.push(tmpClass[i])
-      }
-    }
 
     this.allList = JSON.parse(JSON.stringify(data))
     this.handleAllList = data
@@ -178,10 +152,14 @@ export default class extends Vue {
    */
   private filterHandler() {
     this.handleAllList = JSON.parse(JSON.stringify(this.allList))
-
-    if (this.classFieldValue.length > 0) {
+    if (this.search.length > 0) {
       this.handleAllList = this.handleAllList.filter((item) => {
-        return inArray(item.class, this.classFieldValue)
+        const tmpStr = this.search.toLowerCase()
+        if (item.class.toLowerCase().indexOf(tmpStr) !== -1) {
+          return true
+        } else {
+          return false
+        }
       })
     }
 
@@ -195,9 +173,9 @@ export default class extends Vue {
    * @private
    */
   private clearFilter(): void {
-    if (this.classFieldValue.length > 0) {
+    if (this.search.length > 0) {
       console.log('清除筛选项')
-      this.classFieldValue = []
+      this.search = ''
       this.handleAllList = JSON.parse(JSON.stringify(this.allList))
       this.showList(this.handleAllList)
       this.total = this.handleAllList.length
@@ -210,7 +188,7 @@ export default class extends Vue {
    */
   private sortChange(column:any) {
     const field: string = column.column.sortable // 排序字段
-    if (this.classFieldValue.length === 0) {
+    if (this.search.length === 0) {
       this.handleAllList = JSON.parse(JSON.stringify(this.allList)) // 备份初始数据
     }
     if (column.order !== null) {
@@ -241,3 +219,11 @@ export default class extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.app-container {
+  .el-input {
+    width: 20%;
+  }
+}
+</style>

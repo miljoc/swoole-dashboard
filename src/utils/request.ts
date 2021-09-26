@@ -31,7 +31,8 @@ service.interceptors.response.use(
         type: 'error',
         duration: 5 * 1000
       })
-      return Promise.reject(new Error(res.data.error || 'Error'))
+      history.go(-1)
+      // return Promise.reject(new Error(res.data.error || 'Error'))
     } else {
       return response.data
     }

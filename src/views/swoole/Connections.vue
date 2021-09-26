@@ -197,10 +197,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import {getServerSetting, getConnections, closeConnection, getSocketInfo, getObjects} from '@/api/server'
-import {IServerSetting, IConnectionInfo, IObjectsData} from '@/api/types'
+import { getServerSetting, getConnections, closeConnection } from '@/api/server'
+import { IServerSetting, IConnectionInfo } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import {bytesFormat, eventsFitler, getSortFun, inArray, parseTime} from '@/utils/index'
+import { bytesFormat, eventsFitler, getSortFun, inArray, parseTime } from '@/utils/index'
 
 @Component({
   name: 'EventList',

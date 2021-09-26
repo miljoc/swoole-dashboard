@@ -19,7 +19,7 @@
       </el-option>
     </el-select>
     <!---------------------------class------结束----------------------->
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear filter</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter">clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table

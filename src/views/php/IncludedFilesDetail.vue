@@ -52,7 +52,7 @@ export default {
       if (line) {
         this.swooleEditor.addLineClass(parseInt(line) - 1, 'wrap', 'CodeMirror-activeline-background')
         this.swooleEditor.addLineClass(parseInt(line) - 1, 'gutter', 'CodeMirror-activeline-background')
-        this.swooleEditor.scrollIntoView({line: line, ch: 0}, 500)
+        this.swooleEditor.scrollIntoView({ line: line, ch: 0 }, 500)
       }
     }
   }

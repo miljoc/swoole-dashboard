@@ -74,9 +74,15 @@ export const getDeclaredInterfaces = (worker = 'master') =>
     method: 'get'
   })
 
-export const getExtensionDetail = (extension_name: string, worker = 'master') =>
+export const getExtensionDetail = (extension_name: any, worker = 'master') =>
   request({
     url: `/api/get_extension_info/${worker}`,
     method: 'get',
     params: { extension_name }
+  })
+
+export const getGlobals = (worker = 'master') =>
+  request({
+    url: `/api/get_globals/${worker}`,
+    method: 'get'
   })

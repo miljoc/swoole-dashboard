@@ -138,5 +138,3 @@ export const getServerMemoryUsage = () =>
     url: '/api/get_server_memory_usage/master',
     method: 'get'
   })
-
-

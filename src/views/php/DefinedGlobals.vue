@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
 
-    <el-input v-model="input" id="search" style="margin: 0 10px 10px 0;width: 300px;" @keyup.enter.native="searchFilter" placeholder="请输入内容"></el-input>
+    <el-input v-model="input" style="margin: 0 10px 10px 0;width: 300px;" placeholder="请输入内容" @keyup.enter.native="searchFilter"></el-input>
 
     <el-button type="default" style="color:#909399;" @click="searchFilter">Search</el-button>
 
@@ -23,7 +23,7 @@
         sortable="id"
       >
         <template slot-scope="{row}">
-          <span>{{ row.id }}</span>
+          <span>{{ row.id + 1}}</span>
         </template>
       </el-table-column>
 
@@ -37,6 +37,26 @@
           </el-link>
         </template>
       </el-table-column>
+
+      <el-table-column
+        align="center"
+        label="Value"
+        width="200"
+        style="text-overflow:ellipsis;overflow:hidden;"
+      >
+        <template slot-scope="{row}">
+          <span v-if="row.name == '__composer_autoload_files' || row.name == 'server'  || row.name == '_SERVER' ">
+             <el-button
+               type="primary"
+               size="small"
+               icon="el-icon-circle-check-outline"
+               @click="dialogVisibleDiv(row)"
+             > Detail
+          </el-button>
+          </span>
+          <span v-else>{{ row.values }}</span>
+        </template>
+      </el-table-column>
     </el-table>
 
     <pagination
@@ -46,27 +66,39 @@
       :limit.sync="listQuery.limit"
       @pagination="getList"
     />
+    <el-dialog
+      title="Detail"
+      :visible.sync="dialogVisible"
+      width="50%"
+      :before-close="handleClose">
+      <json-viewer style="padding: 0px 0px; !important;" :value="value_content" :expand-depth=1 copyable></json-viewer>
+      <span slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="dialogVisible = false">OK</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getDeclaredInterfaces } from '@/api/phpinfos'
-import {IDeclaredClass, IDeclaredInterfaces} from '@/api/types'
+import { getGlobals } from '@/api/phpinfos'
 import Pagination from '@/components/Pagination/index.vue'
 import { getSortFun } from '@/utils'
+import JsonViewer from 'vue-json-viewer'
 
 @Component({
   name: 'InlineEditTable',
   components: {
-    Pagination
+    Pagination,
+    JsonViewer
   }
 })
 export default class extends Vue {
+  private list: any = []
   private input: any = ''
-  private list: IDeclaredInterfaces[] = []
-  private tmpData: IDeclaredInterfaces[] = []
-  private handleAllList: IDeclaredInterfaces[] = [] // 处理处理后所有数据
+  private value_content: any = ''
+  private tmpData: any = []
+  private handleAllList: Array<any> = []
   private listLoading = true
   private total = 0
   private listQuery = {
@@ -77,9 +109,19 @@ export default class extends Vue {
   private field = ''
   private order = ''
   private column = ''
+  private dialogVisible = false
 
   created() {
     this.getList()
+  }
+
+  private dialogVisibleDiv(row: any) {
+    this.dialogVisible = true
+    this.value_content = row.value
+  }
+
+  private handleClose(done: any) {
+    done()
   }
 
   private clearFilter(): void {
@@ -94,30 +136,37 @@ export default class extends Vue {
     this.getList()
   }
 
+  /**
+   * 点击排序
+   * @param column
+   */
+  // private sortChange(column:any, prop:any, order:any) {
   private sortChange(column:any) {
     const field: string = column.column.sortable // 排序字段
     this.field = column.column.sortable
     this.column = column
     if (column.order !== null) {
-      this.order = column.column.order
+      this.order = column.order
       const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
-      this.order = sortType
       this.handleAllList = JSON.parse(JSON.stringify(this.list)) // 备份初始数据
       this.handleAllList = getSortFun(field, sortType, this.handleAllList) // 处理使用数据
       this.tmpData = this.handleAllList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit) // 当前页显示数据
     } else {
-      this.tmpData = this.list.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+      console.log(field + '取消排序')
+      // this.list = this.allList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
     }
   }
 
   private async getData() {
-    const { data } = await getDeclaredInterfaces()
+    const { data } = await getGlobals()
     let index = 0
     for (const name in data) {
       const id = index++
       this.list.push({
-        name: data[name],
-        id: id + 1
+        name: name,
+        id: id,
+        value: data[name], // 不转化千分位做排序
+        values: data[name].toLocaleString() // 千分位展示
       })
     }
     this.total = this.list.length
@@ -130,20 +179,17 @@ export default class extends Vue {
       await this.getData()
     }
 
-    const input = this.input
+    const input = this.input.toUpperCase()
     this.handleAllList = JSON.parse(JSON.stringify(this.list))
 
     if (input.length > 0) {
       const arr:any = []
-
       for (let i = 0; i < this.list.length; i++) {
-        let name = this.list[i].name.toLowerCase()
-        if (name.indexOf(input.toLowerCase()) >= 0) {
+        if (this.list[i].name.indexOf(input) >= 0) {
           arr.push(this.list[i].name)
         }
       }
-
-      const tmpList:any = []
+      const tmpList = []
       if (arr.length > 0) {
         for (let i = 0; i < arr.length; i++) {
           tmpList.push(this.handleAllList.filter((item) => {
@@ -159,14 +205,13 @@ export default class extends Vue {
         for (let i = 0; i < tmpList.length; i++) {
           list_s.push({
             name: tmpList[i].name,
-            id: i + 1
+            id: i + 1,
+            value: tmpList[i].value, // 不转化千分位做排序
+            values: tmpList[i].value.toLocaleString() // 千分位展示
           })
         }
         this.list = list_s
         this.total = this.list.length
-      } else {
-        this.total = 0
-        this.list = []
       }
     }
 

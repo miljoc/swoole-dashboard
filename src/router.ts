@@ -64,8 +64,7 @@ export default new Router({
       children: [
         {
           path: '/extensions',
-          // component: () => import('@/views/php/Extensions.vue'),
-          component: () => import('@/views/php/ExtensionsNew.vue'),
+          component: () => import('@/views/php/Extensions.vue'),
           meta: {
             title: 'Extensions',
             icon: 'component',
@@ -76,7 +75,7 @@ export default new Router({
           path: '/extension_detail',
           component: () => import('@/views/php/ExtensionsDetail.vue'),
           meta: {
-            title: 'Extensions Detail',
+            title: 'Extension Detail',
             hidden: true,
             activeMenu: '/extensions'
           }
@@ -149,7 +148,7 @@ export default new Router({
           component: () => import('@/views/php/DefinedConstants.vue'),
           meta: {
             title: 'Constants',
-            icon: 'hamburger',
+            icon: 'skill',
             activeMenu: '/defined_constants'
           }
         },
@@ -160,6 +159,14 @@ export default new Router({
             title: 'Interfaces',
             icon: 'comment-lines',
             activeMenu: '/defined_interfaces'
+          }
+        },
+        {
+          path: '/defined_globals',
+          component: () => import('@/views/php/DefinedGlobals.vue'),
+          meta: {
+            title: 'Globals',
+            icon: 'global_var'
           }
         },
         {

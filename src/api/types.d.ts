@@ -32,6 +32,13 @@ export interface IDeclaredInterfaces {
   name: string
 }
 
+export interface IExtensions {
+  id: number
+  name: string
+  version: string
+}
+
+
 export interface IDefinedFunction {
   id: number
   name: string

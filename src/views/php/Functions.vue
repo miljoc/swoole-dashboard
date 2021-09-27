@@ -61,11 +61,11 @@
       </el-table-column>
 
       <el-table-column
-          align="center"
-          label="Name"
+        align="center"
+        label="Name"
       >
         <template slot-scope="{row}">
-          {{ row.name }}
+          <span>{{ row.name }}</span>
         </template>
       </el-table-column>
 
@@ -74,13 +74,13 @@
           label="Source File"
       >
         <template slot-scope="{row}">
-          <el-link type="primary" v-if="row.filename.length > 0">
+          <el-link type="primary" v-if="row.type === 'user'">
             <router-link class="link-type"
-                         :to="{path: `/includedfiles_detail?file_name=${row.filename}`}">
-              {{ row.filename }}
+                         :to="{path: `/includedfiles_detail?file_name=${row.filename}&line=${row.line}`}">
+              {{ row.filename + ':' + row.line }}
             </router-link>
           </el-link>
-          <span v-else> - </span>
+          <span v-else>{{ row.name }}</span>
         </template>
       </el-table-column>
 
@@ -162,6 +162,7 @@ export default class extends Vue {
     for (const item of data.user) {
       const id = index++
       tmpList.push({
+        line: item.line,
         filename: item.filename,
         name: item.function,
         id: id,
@@ -172,6 +173,7 @@ export default class extends Vue {
     for (const name of data.internal) {
       const id = index++
       tmpList.push({
+        line: '',
         filename: '',
         name: name,
         id: id,

@@ -44,17 +44,26 @@
         label="Class"
       >
         <template slot-scope="{row}">
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/class_info?class_name=${row.class}`}">{{ row.class }}
+            </router-link>
+          </el-link>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        align="center"
+        label="Source File"
+      >
+        <template slot-scope="{row}">
           <el-link type="primary" v-if="row.filename.length > 0">
             <router-link class="link-type"
-                         :to="{path: `/includedfiles_detail?file_name=${row.filename}`}">
-              {{ row.class }}
+                         :to="{path: `/includedfiles_detail?file_name=${row.filename}&line=${row.line}`}">
+              {{ row.filename + ':' + row.line }}
             </router-link>
           </el-link>
-          <el-link type="primary" v-else>
-            <router-link class="link-type"
-                         :to="{path: `/class_info/?class_name=${row.class}`}">{{ row.class }}
-            </router-link>
-          </el-link>
+          <span v-else>-</span>
         </template>
       </el-table-column>
 

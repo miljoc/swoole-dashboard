@@ -27,12 +27,11 @@ service.interceptors.response.use(
     const res = response.data
     if (res.code !== 0) {
       Message({
-        message: res.data.error || 'Error',
+        message: res.data || 'Error',
         type: 'error',
         duration: 5 * 1000
       })
-      history.go(-1)
-      // return Promise.reject(new Error(res.data.error || 'Error'))
+      return Promise.reject(new Error(res.data.error || 'Error'))
     } else {
       return response.data
     }

@@ -86,3 +86,10 @@ export const getGlobals = (worker = 'master') =>
     url: `/api/get_globals/${worker}`,
     method: 'get'
   })
+
+export const getStaticPropertyValue = (class_name: string, property_name: string, worker = 'master') =>
+  request({
+    url: `/api/get_static_property_value/${worker}`,
+    method: 'get',
+    params: { class_name, property_name }
+  })

@@ -19,7 +19,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/class_info/?class_name=${scope.row.name}`}">{{ scope.row.name }}
+                         :to="{path: `/class_info?class_name=${scope.row.name}`}">{{ scope.row.name }}
             </router-link>
           </el-link>
         </template>

@@ -11,19 +11,19 @@
     <!---------------------------查询------结束----------------------->
 
     <el-table
-        v-loading="listLoading"
-        :data="list"
-        border
-        fit
-        highlight-current-row
-        width="100%"
-        @sort-change="sortChange"
+      v-loading="listLoading"
+      :data="list"
+      border
+      fit
+      highlight-current-row
+      width="100%"
+      @sort-change="sortChange"
     >
       <el-table-column
-          align="center"
-          label="ID"
-          width="150"
-          sortable="id"
+        align="center"
+        label="ID"
+        width="150"
+        sortable="id"
       >
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
@@ -31,10 +31,10 @@
       </el-table-column>
 
       <el-table-column
-          align="center"
-          label="Elapsed"
-          width="150"
-          sortable="elapsed"
+        align="center"
+        label="Elapsed"
+        width="150"
+        sortable="elapsed"
       >
         <template slot-scope="{row}">
           <span>{{ row.elapsed | amountRule }}</span>
@@ -42,10 +42,10 @@
       </el-table-column>
 
       <el-table-column
-          align="center"
-          label="Stack Usage"
-          width="150"
-          sortable="stack_usage"
+        align="center"
+        label="Stack Usage"
+        width="150"
+        sortable="stack_usage"
       >
         <template slot-scope="{row}">
           <span>{{ row.stack_usage | amountRule }}</span>
@@ -53,8 +53,8 @@
       </el-table-column>
 
       <el-table-column
-          align="center"
-          label="Called Function"
+        align="center"
+        label="Called Function"
       >
         <template slot-scope="{row}">
           <span>{{ row.backTrace | parseBackTraceCaller }}</span>
@@ -62,8 +62,8 @@
       </el-table-column>
 
       <el-table-column
-          align="center"
-          label="Source File"
+        align="center"
+        label="Source File"
       >
         <template slot-scope="{row}">
           <el-link type="primary" v-if="row.backTrace.length > 0">
@@ -85,27 +85,18 @@
     </el-table>
 
     <pagination
-        v-show="total>0"
-        :total="total"
-        :page.sync="listQuery.page"
-        :limit.sync="listQuery.limit"
-        @pagination="jumpPage"
+      v-show="total>0"
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      @pagination="jumpPage"
     />
 
     <el-dialog title="BackTrace" :visible.sync="dialogTableVisible">
       <el-table :data="backTrace">
         <el-table-column property="id" label="ID" width="50"></el-table-column>
-        <el-table-column property="function" label="Function"></el-table-column>
-        <el-table-column property="file" label="File">
-          <template slot-scope="{row}">
-            <el-link type="primary" v-if="row.filename.length > 0 && row.line.length > 0">
-              <router-link class="link-type"
-                           :to="{path: `/includedfiles_detail?file_name=${row.filename}&line=${row.line}`}">
-                {{ row.file }}
-              </router-link>
-            </el-link>
-          </template>
-        </el-table-column>
+        <el-table-column property="name" label="Function"></el-table-column>
+        <el-table-column property="file" label="File"></el-table-column>
       </el-table>
     </el-dialog>
   </div>
@@ -190,10 +181,8 @@ export default class extends Vue {
       }
       this.backTrace[index] = {
         id: `#${index}`,
-        line: `${trace.line || '' ? trace.line : ''}`,
-        filename: `${trace.file || '' ? trace.file : ''}`,
         file: `${trace.file || ''}${trace.line || '' ? ':' + trace.line : ''}`,
-        function: `${trace.class}${trace.type}${trace.function}()`
+        name: `${trace.class}${trace.type}${trace.function}()`
       }
     }
 

@@ -44,7 +44,18 @@
         label="Class"
       >
         <template slot-scope="{row}">
-          <span>{{ row.class }}</span>
+          <el-link type="primary" v-if="row.filename.length > 0">
+            <router-link class="link-type"
+                         :to="{path: `/includedfiles_detail?file_name=${row.filename}`}">
+              {{ row.class }}
+            </router-link>
+          </el-link>
+          <el-link type="primary" v-else-if="row.extension.length > 0">
+            <router-link class="link-type"
+                         :to="{path: `/extension_detail/?extension_name=${row.extension}`}">{{ row.class }}
+            </router-link>
+          </el-link>
+          <span v-else>{{ row.class }}</span>
         </template>
       </el-table-column>
 

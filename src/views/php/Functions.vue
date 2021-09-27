@@ -65,7 +65,13 @@
           label="Name"
       >
         <template slot-scope="{row}">
-          <span>{{ row.name }}</span>
+          <el-link type="primary" v-if="row.filename.length > 0">
+            <router-link class="link-type"
+                         :to="{path: `/includedfiles_detail?file_name=${row.filename}`}">
+              {{ row.name }}
+            </router-link>
+          </el-link>
+          <span v-else>{{ row.name }}</span>
         </template>
       </el-table-column>
 
@@ -143,21 +149,26 @@ export default class extends Vue {
 
     let index = 0
     const tmpList = []
-    for (const name of data.internal) {
+
+    for (const item of data.user) {
       const id = index++
+      console.log(item.name)
+      console.log(item.filename)
       tmpList.push({
-        name: name,
+        filename: item.filename,
+        name: item.function,
         id: id,
-        type: 'internal'
+        type: 'user'
       })
     }
 
-    for (const name of data.user) {
+    for (const name of data.internal) {
       const id = index++
       tmpList.push({
+        filename: '',
         name: name,
         id: id,
-        type: 'user'
+        type: 'internal'
       })
     }
 

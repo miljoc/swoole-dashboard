@@ -37,7 +37,7 @@
         sortable="elapsed"
       >
         <template slot-scope="{row}">
-          <span>{{ row.elapsed | amountRule }}</span>
+          <span>{{ row.elapsed | division(1000) | timeFormat }}</span>
         </template>
       </el-table-column>
 
@@ -116,7 +116,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getCoroutineList, getCoroutineBackTrace } from '@/api/server'
 import { IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { amountRule, getSortFun, inArray } from '@/utils'
+import { amountRule, division, getSortFun, inArray, timeFormat } from '@/utils'
 
 const parseBackTraceSource = (_frame_list: any) => {
   if (_frame_list.length === 0) {
@@ -148,7 +148,9 @@ const parseBackTraceCaller = (_frame_list: any) => {
   filters: {
     parseBackTraceCaller: parseBackTraceCaller,
     parseBackTraceSource: parseBackTraceSource,
-    amountRule: amountRule
+    amountRule: amountRule,
+    timeFormat: timeFormat,
+    division: division
   }
 })
 export default class extends Vue {

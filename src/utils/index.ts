@@ -47,24 +47,30 @@ export const parseTime = (
   return timeStr
 }
 
-export const parseUptime = (started_time: number) => {
-  const date = new Date()
-  const diff = date.getTime() / 1000 - started_time
+export const division = (value1: number, value2: number) => {
+  return value1 / value2
+}
 
+export const timeFormat = (seconds: number) => {
   const _DAY = 60 * 60 * 24
   const _HOUR = 60 * 60
   const _MINUTE = 60
+  if (seconds > _DAY) {
+    return `${parseInt(String(seconds / _DAY), 10)} days`
+  }
+  if (seconds > _HOUR) {
+    return `${parseInt(String(seconds / _HOUR), 10)} hours`
+  }
+  if (seconds > _MINUTE) {
+    return `${parseInt(String(seconds / _MINUTE), 10)} minutes`
+  }
+  return `${parseInt(String(seconds), 10)} seconds`
+}
 
-  if (diff > _DAY) {
-    return `${parseInt(String(diff / _DAY), 10)} days`
-  }
-  if (diff > _HOUR) {
-    return `${parseInt(String(diff / _HOUR), 10)} hours`
-  }
-  if (diff > _MINUTE) {
-    return `${parseInt(String(diff / _MINUTE), 10)} minutes`
-  }
-  return `${parseInt(String(diff), 10)} seconds`
+export const parseUptime = (started_time: number) => {
+  const date = new Date()
+  const diff = date.getTime() / 1000 - started_time
+  return timeFormat(diff)
 }
 
 export const numberFormat = (n: number, step = 1000, width = 3, max_index = 4, map = ['', 'K', 'M', 'B', 'T']) => {

@@ -40,21 +40,31 @@
 
       <el-table-column
         align="center"
+        label="Type"
+      >
+        <template slot-scope="{row}">
+          <span>
+             <el-link type="primary">
+            {{ row.type }}
+          </el-link>
+          </span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        align="center"
         label="Value"
-        width="200"
+        width="300"
         style="text-overflow:ellipsis;overflow:hidden;"
       >
         <template slot-scope="{row}">
-          <span v-if="row.name == '__composer_autoload_files' || row.name == 'server'  || row.name == '_SERVER' ">
-             <el-button
-               type="primary"
-               size="small"
-               icon="el-icon-circle-check-outline"
-               @click="dialogVisibleDiv(row)"
-             > Detail
+          <el-button v-if="(row.type == 'array' || row.type == 'object') && row.type.length > 0 " type="info" size="mini" @click="dialogVisibleDiv(row)" style="float: left;">
+            <svg-icon name="detail" /> Detail
           </el-button>
-          </span>
-          <span v-else>{{ row.values }}</span>
+          <span v-else style="float: left;"> {{ row.value }}</span>
+          <el-button style="float: left;" v-if="row.type == 'object'" type="primary" size="mini" @click="handleVarDump(row)">
+            <svg-icon name="print" /> Var Dump
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -96,6 +106,7 @@ import JsonViewer from 'vue-json-viewer'
 export default class extends Vue {
   private list: any = []
   private input: any = ''
+  private worker = ''
   private value_content: any = ''
   private tmpData: any = []
   private handleAllList: Array<any> = []
@@ -112,7 +123,12 @@ export default class extends Vue {
   private dialogVisible = false
 
   created() {
+    this.worker = this.$route.query.worker ?? 'master'
     this.getList()
+  }
+
+  private handleVarDump(row: any) {
+    this.$router.push({ path: '/object_var_dump/?worker=' + this.worker + '&object_id=' + row.other.object_id + '&object_hash=' + row.other.object_hash + '&class=' + row.other.class_name })
   }
 
   private dialogVisibleDiv(row: any) {
@@ -160,13 +176,14 @@ export default class extends Vue {
   private async getData() {
     const { data } = await getGlobals()
     let index = 0
-    for (const name in data) {
+    for (const name of data) {
       const id = index++
       this.list.push({
-        name: name,
-        id: id,
-        value: data[name], // 不转化千分位做排序
-        values: data[name].toLocaleString() // 千分位展示
+        id:id,
+        name: name.key,
+        value: name.value,
+        type: name.type,
+        other:name.other
       })
     }
     this.total = this.list.length
@@ -185,7 +202,8 @@ export default class extends Vue {
     if (input.length > 0) {
       const arr:any = []
       for (let i = 0; i < this.list.length; i++) {
-        if (this.list[i].name.indexOf(input) >= 0) {
+        let name = this.list[i].name.toLowerCase()
+        if (name.indexOf(input.toLowerCase()) >= 0) {
           arr.push(this.list[i].name)
         }
       }

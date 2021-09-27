@@ -185,7 +185,8 @@ export default class extends Vue {
     if (input.length > 0) {
       const arr:any = []
       for (let i = 0; i < this.list.length; i++) {
-        if (this.list[i].name.indexOf(input) >= 0) {
+        let name = this.list[i].name.toLowerCase()
+        if (name.indexOf(input.toLowerCase()) >= 0) {
           arr.push(this.list[i].name)
         }
       }

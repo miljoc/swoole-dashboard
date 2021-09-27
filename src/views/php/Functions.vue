@@ -152,8 +152,6 @@ export default class extends Vue {
 
     for (const item of data.user) {
       const id = index++
-      console.log(item.name)
-      console.log(item.filename)
       tmpList.push({
         filename: item.filename,
         name: item.function,

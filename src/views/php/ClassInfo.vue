@@ -66,6 +66,13 @@
                   </el-link>
                 </template>
               </el-table-column>
+              <el-table-column label="Actions" align="center">
+                <template slot-scope="scope">
+                  <el-button type="success" size="mini" @click="handleVarDump(scope.row)">
+                    Var Dump
+                  </el-button>
+                </template>
+              </el-table-column>
             </el-table>
 
             <el-divider content-position="left">Properties</el-divider>
@@ -87,6 +94,13 @@
                                  :to="{path: `/includedfiles_detail?file_name=${filename}`}">{{scope.row.name }}
                     </router-link>
                   </el-link>
+                </template>
+              </el-table-column>
+              <el-table-column label="Actions" align="center">
+                <template slot-scope="scope">
+                  <el-button type="success" size="mini" @click="handleVarDump(scope.row)">
+                    Var Dump
+                  </el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -290,7 +304,7 @@ export default {
       let index4 = 0
       const tmpMethods = []
       for (const item of data.data.methods) {
-        tmpProperties.push({ id: index4 + 1, name: data.data.methods[index4].name })
+        tmpMethods.push({ id: index4 + 1, name: data.data.methods[index4].name })
         index4++
       }
       this.methods = tmpMethods

@@ -7,7 +7,7 @@
       @input="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear filter</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter">clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table
@@ -44,7 +44,17 @@
         label="Class"
       >
         <template slot-scope="{row}">
-          <span>{{ row.class }}</span>
+          <el-link type="primary" v-if="row.filename.length > 0">
+            <router-link class="link-type"
+                         :to="{path: `/includedfiles_detail?file_name=${row.filename}`}">
+              {{ row.class }}
+            </router-link>
+          </el-link>
+          <el-link type="primary" v-else>
+            <router-link class="link-type"
+                         :to="{path: `/class_info/?class_name=${row.class}`}">{{ row.class }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 

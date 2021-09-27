@@ -16,12 +16,18 @@
         <el-tab-pane label="Constants" name="Constants">
           <el-table
             :data="constants"
-            :show-header="false"
+            border
+            :show-header="constants.length > 0 ? true : false"
             style="width: 100%"
           >
-            <el-table-column label="Name">
+            <el-table-column label="ID" align="center">
               <template slot-scope="scope">
-                <el-link type="primary" style="margin-left: 10px">
+                <span>{{ scope.row.id }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="Name" align="center">
+              <template slot-scope="scope">
+                <el-link type="primary">
                   <router-link class="link-type"
                                :to="{path: `/includedfiles_detail?file_name=${filename}`}">{{scope.row.name }}
                   </router-link>
@@ -39,75 +45,113 @@
 
         <el-tab-pane label="Properties" name="Properties">
           <el-collapse v-model="collapse_active">
-            <el-collapse-item title="Static Properties" name="1">
-              <el-table
-                :data="staticProperties"
-                :show-header="false"
-                style="width: 100%"
-              >
-                <el-table-column label="Name">
-                  <template slot-scope="scope">
-                    <span style="margin-left: 10px">{{ scope.row.name }}</span>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </el-collapse-item>
-            <el-collapse-item title="Properties" name="2">
-              <el-table
-                :data="properties"
-                :show-header="false"
-                style="width: 100%"
-              >
-                <el-table-column label="Name">
-                  <template slot-scope="scope">
-                    <span style="margin-left: 10px">{{ scope.row.name }}</span>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </el-collapse-item>
+            <el-divider content-position="left">Static Properties</el-divider>
+            <el-table
+              :data="staticProperties"
+              border
+              :show-header="staticProperties.length > 0 ? true : false"
+              style="width: 100%"
+            >
+              <el-table-column label="ID" align="center">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.id }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="Name" align="center">
+                <template slot-scope="scope">
+                  <el-link type="primary">
+                    <router-link class="link-type"
+                                 :to="{path: `/includedfiles_detail?file_name=${filename}`}">{{scope.row.name }}
+                    </router-link>
+                  </el-link>
+                </template>
+              </el-table-column>
+            </el-table>
+
+            <el-divider content-position="left">Properties</el-divider>
+            <el-table
+              :data="properties"
+              border
+              :show-header="properties.length > 0 ? true : false"
+              style="width: 100%"
+            >
+              <el-table-column label="ID" align="center">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.id }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="Name" align="center">
+                <template slot-scope="scope">
+                  <el-link type="primary">
+                    <router-link class="link-type"
+                                 :to="{path: `/includedfiles_detail?file_name=${filename}`}">{{scope.row.name }}
+                    </router-link>
+                  </el-link>
+                </template>
+              </el-table-column>
+            </el-table>
           </el-collapse>
         </el-tab-pane>
 
         <el-tab-pane label="Methods" name="Methods">
           <el-collapse v-model="collapse_active">
-            <el-collapse-item title="Static Methods" name="1">
-              <el-table
-                :data="staticMethods"
-                :show-header="false"
-                style="width: 100%"
-              >
-                <el-table-column label="Name">
-                  <template slot-scope="scope">
-                    <span style="margin-left: 10px">{{ scope.row.name }}</span>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </el-collapse-item>
-            <el-collapse-item title="Methods" name="2">
-              <el-table
-                :data="methods"
-                :show-header="false"
-                style="width: 100%"
-              >
-                <el-table-column label="Name">
-                  <template slot-scope="scope">
-                    <span style="margin-left: 10px">{{ scope.row.name }}</span>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </el-collapse-item>
+            <el-divider content-position="left">Static Methods</el-divider>
+            <el-table
+              :data="staticMethods"
+              border
+              :show-header="staticMethods.length > 0 ? true : false"
+              style="width: 100%"
+            >
+              <el-table-column label="ID" align="center">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.id }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="Name" align="center">
+                <template slot-scope="scope">
+                  <el-link type="primary">
+                    <router-link class="link-type"
+                                 :to="{path: `/includedfiles_detail?file_name=${filename}`}">{{scope.row.name }}
+                    </router-link>
+                  </el-link>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-divider content-position="left">Methods</el-divider>
+            <el-table
+              :data="methods"
+              border
+              :show-header="methods.length > 0 ? true : false"
+              style="width: 100%"
+            >
+              <el-table-column label="ID" align="center">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.id }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="Name" align="center">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.name }}</span>
+                </template>
+              </el-table-column>
+            </el-table>
           </el-collapse>
         </el-tab-pane>
 
         <el-tab-pane label="ParentClass" name="ParentClass">
           <el-table
             :data="parentClass"
-            :show-header="false"
+            border
+            :show-header="parentClass.length > 0 ? true : false"
             style="width: 100%"
           >
-            <el-table-column label="Name">
+            <el-table-column label="Name" align="center">
               <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.name }}</span>
+                <el-link type="primary">
+                  <router-link class="link-type"
+                               :to="{path: `/class_info?class_name=${scope.row.name}`}">{{ scope.row.name }}
+                  </router-link>
+                </el-link>
               </template>
             </el-table-column>
           </el-table>
@@ -116,12 +160,22 @@
         <el-tab-pane label="Interface" name="Interface">
           <el-table
             :data="interface"
-            :show-header="false"
+            border
+            :show-header="interface.length > 0 ? true : false"
             style="width: 100%"
           >
-            <el-table-column label="Name">
+            <el-table-column label="ID" align="center">
               <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.name }}</span>
+                <span>{{ scope.row.id }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="Name" align="center">
+              <template slot-scope="scope">
+                <el-link type="primary">
+                  <router-link class="link-type"
+                               :to="{path: `/class_info?class_name=${scope.row.name}`}">{{ scope.row.name }}
+                  </router-link>
+                </el-link>
               </template>
             </el-table-column>
           </el-table>
@@ -201,12 +255,18 @@ export default {
     async getData(class_name) {
       const data = await getClassesInfo(class_name)
       this.filename = data.data.filename
-      this.constants = data.data.constants
+      let index = 0
+      const tmpConstants = []
+      for (const item of data.data.constants) {
+        tmpConstants.push({ id: index + 1, name: data.data.constants[index].name })
+        index++
+      }
+      this.constants = tmpConstants
 
       let index1 = 0
       const tmpStaticProperties = []
       for (const item of data.data.staticProperties) {
-        tmpStaticProperties.push({ name: data.data.staticProperties[index1].name })
+        tmpStaticProperties.push({ id: index1 + 1, name: data.data.staticProperties[index1].name })
         index1++
       }
       this.staticProperties = tmpStaticProperties
@@ -214,7 +274,7 @@ export default {
       let index2 = 0
       const tmpProperties = []
       for (const item of data.data.properties) {
-        tmpProperties.push({ name: data.data.properties[index2].name })
+        tmpProperties.push({ id: index2 + 1, name: data.data.properties[index2].name })
         index2++
       }
       this.properties = tmpProperties
@@ -222,7 +282,7 @@ export default {
       let index3 = 0
       const tmpStaticMethods = []
       for (const item of data.data.staticMethods) {
-        tmpStaticMethods.push({ name: data.data.staticMethods[index3].name })
+        tmpStaticMethods.push({ id: index3 + 1, name: data.data.staticMethods[index3].name })
         index3++
       }
       this.staticMethods = tmpStaticMethods
@@ -230,7 +290,7 @@ export default {
       let index4 = 0
       const tmpMethods = []
       for (const item of data.data.methods) {
-        tmpProperties.push({ name: data.data.methods[index4].name })
+        tmpProperties.push({ id: index4 + 1, name: data.data.methods[index4].name })
         index4++
       }
       this.methods = tmpMethods
@@ -244,7 +304,7 @@ export default {
       let index5 = 0
       const tmpInterface = []
       for (const item of data.data.interface) {
-        tmpInterface.push({ name: data.data.interface[index5] })
+        tmpInterface.push({ id: index5 + 1, name: data.data.interface[index5] })
         index5++
       }
       this.interface = tmpInterface

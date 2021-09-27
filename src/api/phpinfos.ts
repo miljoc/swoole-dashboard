@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export const getVersionInfo = () =>
   request({
-    url: '/api/get_version_info/worker-0',
+    url: '/api/get_version_info/master',
     method: 'get'
   })
 

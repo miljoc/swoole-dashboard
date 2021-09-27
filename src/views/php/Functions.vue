@@ -65,13 +65,22 @@
           label="Name"
       >
         <template slot-scope="{row}">
+          {{ row.name }}
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          align="center"
+          label="Source File"
+      >
+        <template slot-scope="{row}">
           <el-link type="primary" v-if="row.filename.length > 0">
             <router-link class="link-type"
                          :to="{path: `/includedfiles_detail?file_name=${row.filename}`}">
-              {{ row.name }}
+              {{ row.filename }}
             </router-link>
           </el-link>
-          <span v-else>{{ row.name }}</span>
+          <span v-else> - </span>
         </template>
       </el-table-column>
 

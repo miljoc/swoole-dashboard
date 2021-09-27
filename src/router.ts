@@ -242,7 +242,8 @@ export default new Router({
           component: () => import('@/views/chart/NetworkTraffic.vue'),
           meta: {
             title: 'Network Traffic',
-            hidden: true
+            hidden: true,
+            activeMenu: '/connections'
           }
         },
         {

@@ -61,11 +61,14 @@ export default {
       const tmpList = []
       for (const name in data) {
         const id = index
+        let value = data[name];
+        if (name === 'params') {
+          value = JSON.parse(data['params']).join(', ')
+        }
         tmpList.push({
           name: name,
           id: id+1,
-          value: data[name]
-          // value: JSON.stringify(data[name])
+          value: value
         })
         index++
       }

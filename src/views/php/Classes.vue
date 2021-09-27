@@ -48,10 +48,24 @@
       >
         <template slot-scope="{row}">
           <el-link type="primary">
-          <router-link class="link-type"
-                       :to="{path: `/class_info?class_name=${row.name}`}">{{ row.name }}
-          </router-link>
+            <router-link class="link-type"
+                         :to="{path: `/class_info?class_name=${row.name}`}">{{ row.name }}
+            </router-link>
           </el-link>
+        </template>
+      </el-table-column>
+      <el-table-column
+        align="center"
+        label="Source File"
+      >
+        <template slot-scope="{row}">
+          <el-link type="primary" v-if="row.filename.length > 0">
+            <router-link class="link-type"
+                         :to="{path: `/includedfiles_detail?file_name=${row.filename}&line=${row.line}`}">
+              {{ row.filename + ':' + row.line }}
+            </router-link>
+          </el-link>
+          <span v-else>-</span>
         </template>
       </el-table-column>
     </el-table>
@@ -132,14 +146,17 @@ export default class extends Vue {
    */
   private async getData() {
     this.listLoading = true
-    const data = await this.sendApi()
+    let data = await this.sendApi()
+    data = data.reverse()
 
     let index = 0
     const tmpList = []
-    for (const name of data) {
+    for (const key of data) {
       const id = index++
       tmpList.push({
-        name: name,
+        line: key.line,
+        filename: key.filename,
+        name: key.class,
         id: id
       })
     }

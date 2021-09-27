@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
 
-    <el-input v-model="input" id="search" style="margin: 0 10px 10px 0;width: 300px;" @keyup.enter.native="searchFilter" placeholder="请输入内容"></el-input>
+    <el-input v-model="input" id="search" style="margin: 0 10px 10px 0;width: 300px;" @keyup.enter.native="searchFilter" :placeholder="$t('extensions.name')"></el-input>
 
-    <el-button type="primary" @click="searchFilter" icon="el-icon-search">Search</el-button>
+    <el-button type="primary" @click="searchFilter" icon="el-icon-search">{{ $t('common.search') }}</el-button>
 
     <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> Clear</el-button>
 

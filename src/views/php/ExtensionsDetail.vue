@@ -36,27 +36,27 @@ import ExtensionInfo from '@/views/php/components/ExtensionInfo.vue'
 export default class extends Vue {
   private tabMapOptions = [
     {
-      label: 'Classes',
+      label: this.$t('extensions.classes'),
       key: 'classes'
     },
     {
-      label: 'Constants',
+      label: this.$t('extensions.constants'),
       key: 'constants'
     },
     {
-      label: 'IniEntries',
+      label: this.$t('extensions.iniEntries'),
       key: 'iniEntries'
     },
     {
-      label: 'Dependencies',
+      label: this.$t('extensions.dependencies'),
       key: 'dependencies'
     },
     {
-      label: 'Functions',
+      label: this.$t('extensions.functions'),
       key: 'functions'
     },
     {
-      label: 'Info',
+      label: this.$t('extensions.info'),
       key: 'info'
     }
   ]

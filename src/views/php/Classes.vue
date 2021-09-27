@@ -7,8 +7,8 @@
       @keyup.enter.native="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
-    <el-button type="primary" @click="filterHandler" icon="el-icon-search">Search</el-button>
-    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> Clear</el-button>
+    <el-button type="primary" @click="filterHandler" icon="el-icon-search">{{ $t('common.search') }}</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> {{ $t('common.clear') }}</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table

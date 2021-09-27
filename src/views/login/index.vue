@@ -10,8 +10,9 @@
     >
       <div class="title-container">
         <h3 class="title">
-          Login Form
+          {{ $t('login.title') }}
         </h3>
+        <lang-select class="set-language" />
       </div>
 
       <el-form-item prop="username">
@@ -24,7 +25,7 @@
           name="username"
           type="text"
           autocomplete="on"
-          placeholder="username"
+          :placeholder="$t('login.username')"
         />
       </el-form-item>
 
@@ -37,7 +38,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="password"
+          :placeholder="$t('login.password')"
           name="password"
           autocomplete="on"
           @keyup.enter.native="handleLogin"
@@ -56,15 +57,9 @@
         style="width:100%; margin-bottom:30px;"
         @click.native.prevent="handleLogin"
       >
-        Sign in
+        {{ $t('login.logIn') }}
       </el-button>
 
-      <div style="position:relative">
-        <div class="tips">
-          <span> username: admin </span>
-          <span> password: any </span>
-        </div>
-      </div>
     </el-form>
   </div>
 </template>
@@ -76,17 +71,21 @@ import { Dictionary } from 'vue-router/types/router'
 import { Form as ElForm, Input } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
 import { isValidUsername } from '@/utils/validate'
+import LangSelect from '@/components/LangSelect/index.vue'
 
 @Component({
-  name: 'Login'
+  name: 'Login',
+  components: {
+    LangSelect
+  }
 })
 export default class extends Vue {
   private validateUsername = (rule: any, value: string, callback: Function) => {
-    if (!isValidUsername(value)) {
-      callback(new Error('Please enter the correct user name'))
-    } else {
+    // if (!isValidUsername(value)) {
+    //   callback(new Error('Please enter the correct user name'))
+    // } else {
       callback()
-    }
+    // }
   }
 
   private validatePassword = (rule: any, value: string, callback: Function) => {
@@ -98,8 +97,8 @@ export default class extends Vue {
   }
 
   private loginForm = {
-    username: 'admin',
-    password: '111111'
+    username: '',
+    password: ''
   }
 
   private loginRules = {
@@ -259,6 +258,15 @@ export default class extends Vue {
       margin: 0px auto 40px auto;
       text-align: center;
       font-weight: bold;
+    }
+
+    .set-language {
+      color: #fff;
+      position: absolute;
+      top: 3px;
+      font-size: 18px;
+      right: 0px;
+      cursor: pointer;
     }
   }
 

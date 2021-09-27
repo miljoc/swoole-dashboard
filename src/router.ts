@@ -157,7 +157,7 @@ export default new Router({
           component: () => import('@/views/php/DefinedConstants.vue'),
           meta: {
             title: 'Constants',
-            icon: 'skill',
+            icon: 'hamburger',
             activeMenu: '/defined_constants'
           }
         },

@@ -17,6 +17,9 @@
         <span>PHP: <b>{{ versionInfo.php }}</b></span>
         <span>IP: <b>{{ versionInfo.ip }}</b></span>
       </div>
+
+      <lang-select class="right-menu-item hover-effect" />
+
       <el-dropdown
         class="avatar-container right-menu-item hover-effect"
         trigger="click"
@@ -36,7 +39,7 @@
           </router-link>
           <a
             target="_blank"
-            href="https://github.com/armour/vue-typescript-admin-template/"
+            href="https://github.com/swoole/swoole-src"
           >
             <el-dropdown-item>
               Github
@@ -44,7 +47,7 @@
           </a>
           <a
             target="_blank"
-            href="https://armour.github.io/vue-typescript-admin-docs/"
+            href="https://wiki.swoole.com/"
           >
             <el-dropdown-item>
               Docs
@@ -68,6 +71,7 @@ import { AppModule } from '@/store/modules/app'
 import { UserModule } from '@/store/modules/user'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import Hamburger from '@/components/Hamburger/index.vue'
+import LangSelect from '@/components/LangSelect/index.vue'
 import { getVersionInfo } from '@/api/phpinfos'
 import { IVersionInfo } from '@/api/types'
 
@@ -75,7 +79,8 @@ import { IVersionInfo } from '@/api/types'
   name: 'Navbar',
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    LangSelect
   }
 })
 export default class extends Vue {

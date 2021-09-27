@@ -27,19 +27,15 @@
             </el-table-column>
             <el-table-column label="Name" align="center">
               <template slot-scope="scope">
-                <el-link type="primary">
-                  <router-link class="link-type"
-                               :to="{path: `/includedfiles_detail?file_name=${filename}`}">{{scope.row.name }}
-                  </router-link>
-                </el-link>
+                {{scope.row.name }}
               </template>
             </el-table-column>
-<!--            <el-table-column label="value">-->
-<!--              <template slot-scope="scope">-->
-<!--                <el-link style="margin-left: 10px" type="primary" v-if="scope.row.type === 'array'" @click="showArray(scope.row)">Detail</el-link>-->
-<!--                <span style="margin-left: 10px" v-else>{{ scope.row.value }}</span>-->
-<!--              </template>-->
-<!--            </el-table-column>-->
+            <el-table-column label="Value" align="center">
+              <template slot-scope="scope">
+                <el-link style="margin-left: 10px" type="primary" v-if="scope.row.type === 'detail'" @click="showArray(scope.row)">Detail</el-link>
+                <span style="margin-left: 10px" v-else>{{ scope.row.value }}</span>
+              </template>
+            </el-table-column>
           </el-table>
         </el-tab-pane>
 
@@ -57,13 +53,17 @@
                   <span>{{ scope.row.id }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Name" align="center">
+              <el-table-column label="Modifiers" align="center">
                 <template slot-scope="scope">
-                  <el-link type="primary">
-                    <router-link class="link-type"
-                                 :to="{path: `/includedfiles_detail?file_name=${filename}`}">{{scope.row.name }}
-                    </router-link>
-                  </el-link>
+                  <span>{{ scope.row.modifiers }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="Name" align="center">
+                <template slot-scope="scope">{{scope.row.name }}</template>
+              </el-table-column>
+              <el-table-column label="Value" align="center">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.default }}</span>
                 </template>
               </el-table-column>
               <el-table-column label="Actions" align="center">
@@ -87,20 +87,17 @@
                   <span>{{ scope.row.id }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Name" align="center">
+              <el-table-column label="Modifiers" align="center">
                 <template slot-scope="scope">
-                  <el-link type="primary">
-                    <router-link class="link-type"
-                                 :to="{path: `/includedfiles_detail?file_name=${filename}`}">{{scope.row.name }}
-                    </router-link>
-                  </el-link>
+                  <span>{{ scope.row.modifiers }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Actions" align="center">
+              <el-table-column label="Name" align="center">
+                <template slot-scope="scope">{{scope.row.name }}</template>
+              </el-table-column>
+              <el-table-column label="Value" align="center">
                 <template slot-scope="scope">
-                  <el-button type="success" size="mini" @click="handleVarDump(scope.row)">
-                    Var Dump
-                  </el-button>
+                  <span>{{ scope.row.default }}</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -121,11 +118,19 @@
                   <span>{{ scope.row.id }}</span>
                 </template>
               </el-table-column>
+              <el-table-column label="Modifiers" align="center">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.modifiers }}</span>
+                </template>
+              </el-table-column>
               <el-table-column label="Name" align="center">
+                <template slot-scope="scope">{{scope.row.name }}</template>
+              </el-table-column>
+              <el-table-column label="Source File" align="center" v-if="filename.length > 0">
                 <template slot-scope="scope">
                   <el-link type="primary">
                     <router-link class="link-type"
-                                 :to="{path: `/includedfiles_detail?file_name=${filename}`}">{{scope.row.name }}
+                                 :to="{path: `/includedfiles_detail?file_name=${filename}&line=${scope.row.line}`}">{{ filename + ':' + scope.row.line }}
                     </router-link>
                   </el-link>
                 </template>
@@ -143,9 +148,21 @@
                   <span>{{ scope.row.id }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Name" align="center">
+              <el-table-column label="Modifiers" align="center">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.name }}</span>
+                  <span>{{ scope.row.modifiers }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="Name" align="center">
+                <template slot-scope="scope">{{scope.row.name }}</template>
+              </el-table-column>
+              <el-table-column label="Source File" align="center" v-if="filename.length > 0">
+                <template slot-scope="scope">
+                  <el-link type="primary">
+                    <router-link class="link-type"
+                                 :to="{path: `/includedfiles_detail?file_name=${filename}&line=${scope.row.line}`}">{{ filename + ':' + scope.row.line }}
+                    </router-link>
+                  </el-link>
                 </template>
               </el-table-column>
             </el-table>
@@ -161,10 +178,8 @@
           >
             <el-table-column label="Name" align="center">
               <template slot-scope="scope">
-                <el-link type="primary">
-                  <router-link class="link-type"
-                               :to="{path: `/class_info?class_name=${scope.row.name}`}">{{ scope.row.name }}
-                  </router-link>
+                <el-link type="primary" @click="jump(scope.row.name)">
+                  {{ scope.row.name }}
                 </el-link>
               </template>
             </el-table-column>
@@ -185,10 +200,8 @@
             </el-table-column>
             <el-table-column label="Name" align="center">
               <template slot-scope="scope">
-                <el-link type="primary">
-                  <router-link class="link-type"
-                               :to="{path: `/class_info?class_name=${scope.row.name}`}">{{ scope.row.name }}
-                  </router-link>
+                <el-link type="primary" @click="jump(scope.row.name)">
+                  {{ scope.row.name }}
                 </el-link>
               </template>
             </el-table-column>
@@ -210,7 +223,7 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/monokai.css'
 import 'codemirror/mode/php/php.js'
 import 'codemirror/mode/javascript/javascript.js'
-import { getClassesInfo } from '@/api/phpinfos'
+import { getClassesInfo, getStaticPropertyValue } from '@/api/phpinfos'
 
 export default {
   name: "ClassInfo",
@@ -257,6 +270,22 @@ export default {
     this.getData(this.class_name)
   },
   methods: {
+    jump(class_name) {
+      this.class_name = class_name
+      this.getData(this.class_name)
+    },
+    async handleVarDump(row) {
+      console.log(row)
+      this.dialogTableVisible = true
+      // console.log(this.constants[index].value)
+      this.dialogTableTitle = row.name
+      const worker = this.$route.query.worker ?? 'master'
+      const data = await getStaticPropertyValue(this.class_name, row.name, worker)
+      this.code = data.data.value
+      this.$nextTick(function() {
+        this.initCode()
+      })
+    },
     /**
      * 初始化代码显示框
      */
@@ -272,7 +301,12 @@ export default {
       let index = 0
       const tmpConstants = []
       for (const item of data.data.constants) {
-        tmpConstants.push({ id: index + 1, name: data.data.constants[index].name })
+        tmpConstants.push({
+          id: index + 1,
+          name: data.data.constants[index].name,
+          value: data.data.constants[index].value,
+          type: data.data.constants[index].type
+        })
         index++
       }
       this.constants = tmpConstants
@@ -280,7 +314,12 @@ export default {
       let index1 = 0
       const tmpStaticProperties = []
       for (const item of data.data.staticProperties) {
-        tmpStaticProperties.push({ id: index1 + 1, name: data.data.staticProperties[index1].name })
+        tmpStaticProperties.push({
+          id: index1 + 1,
+          name: data.data.staticProperties[index1].name,
+          modifiers: data.data.staticProperties[index1].modifiers,
+          default: data.data.staticProperties[index1].value
+        })
         index1++
       }
       this.staticProperties = tmpStaticProperties
@@ -288,7 +327,12 @@ export default {
       let index2 = 0
       const tmpProperties = []
       for (const item of data.data.properties) {
-        tmpProperties.push({ id: index2 + 1, name: data.data.properties[index2].name })
+        tmpProperties.push({
+          id: index2 + 1,
+          name: data.data.properties[index2].name,
+          modifiers: data.data.properties[index2].modifiers,
+          default: data.data.properties[index2].value
+        })
         index2++
       }
       this.properties = tmpProperties
@@ -296,7 +340,12 @@ export default {
       let index3 = 0
       const tmpStaticMethods = []
       for (const item of data.data.staticMethods) {
-        tmpStaticMethods.push({ id: index3 + 1, name: data.data.staticMethods[index3].name })
+        tmpStaticMethods.push({
+          id: index3 + 1,
+          name: data.data.staticMethods[index3].name,
+          line: data.data.staticMethods[index3].line,
+          modifiers: data.data.staticMethods[index3].modifiers
+        })
         index3++
       }
       this.staticMethods = tmpStaticMethods
@@ -304,7 +353,12 @@ export default {
       let index4 = 0
       const tmpMethods = []
       for (const item of data.data.methods) {
-        tmpMethods.push({ id: index4 + 1, name: data.data.methods[index4].name })
+        tmpMethods.push({
+          id: index4 + 1,
+          name: data.data.methods[index4].name,
+          line: data.data.methods[index4].line,
+          modifiers: data.data.methods[index4].modifiers
+        })
         index4++
       }
       this.methods = tmpMethods

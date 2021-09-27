@@ -80,3 +80,10 @@ export const getExtensionDetail = (extension_name: string, worker = 'master') =>
     method: 'get',
     params: { extension_name }
   })
+
+export const getStaticPropertyValue = (class_name: string, property_name: string, worker = 'master') =>
+  request({
+    url: `/api/get_static_property_value/${worker}`,
+    method: 'get',
+    params: { class_name, property_name }
+  })

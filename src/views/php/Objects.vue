@@ -50,12 +50,11 @@
               {{ row.class }}
             </router-link>
           </el-link>
-          <el-link type="primary" v-else-if="row.extension.length > 0">
+          <el-link type="primary" v-else>
             <router-link class="link-type"
-                         :to="{path: `/extension_detail/?extension_name=${row.extension}`}">{{ row.class }}
+                         :to="{path: `/class_info/?class_name=${row.class}`}">{{ row.class }}
             </router-link>
           </el-link>
-          <span v-else>{{ row.class }}</span>
         </template>
       </el-table-column>
 

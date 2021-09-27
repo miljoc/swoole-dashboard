@@ -26,9 +26,6 @@
       </el-table-column>
     </el-table>
 
-    <!--    version-->
-    <p v-if="type === 'version'">Version : {{ version }}</p>
-    <!--    constants-->
     <el-table
       v-if="type === 'constants'"
       v-loading="listLoading"

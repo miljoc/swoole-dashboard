@@ -40,10 +40,6 @@ export default class extends Vue {
       key: 'classes'
     },
     {
-      label: 'Versions',
-      key: 'version'
-    },
-    {
       label: 'Constants',
       key: 'constants'
     },

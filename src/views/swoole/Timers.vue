@@ -105,8 +105,8 @@ export default class extends Vue {
    * 发送请求
    * @private
    */
-  private async sendApi() {
-    const worker = this.$route.query.worker ?? 'master'
+  private async getTimerList() {
+    const worker: string = (this.$route.query.worker ?? 'master') as string
     const { data } = await getTimerList(worker)
     return data
   }
@@ -117,7 +117,7 @@ export default class extends Vue {
    */
   private async getData() {
     this.listLoading = true
-    const data = await this.sendApi()
+    const data = await this.getTimerList()
 
     this.allList = JSON.parse(JSON.stringify(data))
     this.handleAllList = data

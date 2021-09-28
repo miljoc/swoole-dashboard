@@ -215,9 +215,45 @@ import { bytesFormat, eventsFitler, getSortFun, inArray, parseTime } from '@/uti
 })
 
 export default class extends Vue {
-  private allList: IConnectionInfo[] = [] // 接口返回原始数据
-  private handleAllList: IConnectionInfo[] = [] // 处理处理后所有数据
-  private list: IConnectionInfo[] = [] // 当前页显示数据
+  private allList: IConnectionInfo[] = [{
+    total_recv_bytes: 0,
+    total_send_bytes: 0,
+    recv_queued_bytes: 0,
+    send_queued_bytes: 0,
+    server_port: 0,
+    session_id: 0,
+    reactor_id: 0,
+    connect_time: 0,
+    last_recv_time: 0,
+    last_send_time: 0
+  }] // 接口返回原始数据
+
+  private handleAllList: IConnectionInfo[] = [{
+    total_recv_bytes: 0,
+    total_send_bytes: 0,
+    recv_queued_bytes: 0,
+    send_queued_bytes: 0,
+    server_port: 0,
+    session_id: 0,
+    reactor_id: 0,
+    connect_time: 0,
+    last_recv_time: 0,
+    last_send_time: 0
+  }] // 处理处理后所有数据
+
+  private list: IConnectionInfo[] = [{
+    total_recv_bytes: 0,
+    total_send_bytes: 0,
+    recv_queued_bytes: 0,
+    send_queued_bytes: 0,
+    server_port: 0,
+    session_id: 0,
+    reactor_id: 0,
+    connect_time: 0,
+    last_recv_time: 0,
+    last_send_time: 0
+  }] // 当前页显示数据
+
   private listLoading = true
   private total = 0
   // private _timer: any

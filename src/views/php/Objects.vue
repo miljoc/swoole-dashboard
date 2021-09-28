@@ -24,6 +24,7 @@
         align="center"
         label="Object ID"
         sortable="id"
+        width="150"
       >
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
@@ -34,6 +35,7 @@
         align="center"
         label="Object Hash"
         sortable="hash"
+        width="350"
       >
         <template slot-scope="{row}">
           <span>{{ row.hash }}</span>
@@ -72,16 +74,22 @@
           align="center"
           label="Memory Size"
           sortable="memory_size"
+          width="150"
       >
         <template slot-scope="{row}">
           <span>{{ row.memory_size | bytesFormat }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Actions" align="center">
+      <el-table-column
+          label="Actions"
+          align="center"
+          width="250"
+      >
         <template slot-scope="scope">
           <el-button type="success" size="mini" @click="handleVarDump(scope.row)">
-            <svg-icon name="print" /> Var Dump
+            <svg-icon name="print"/>
+            Var Dump
           </el-button>
         </template>
       </el-table-column>

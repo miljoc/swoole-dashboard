@@ -88,7 +88,7 @@ export default class extends Vue {
     os: '',
     swoole: '',
     php: '',
-    ip: '',
+    ip: ''
   }
 
   get sidebar() {

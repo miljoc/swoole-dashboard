@@ -243,8 +243,8 @@ export default class extends Vue {
    * 发送请求
    * @private
    */
-  private async sendApi() {
-    const worker = this.$route.query.worker ?? 'master'
+  private async getAllSockets() {
+    const worker = (this.$route.query.worker ?? 'master') as string
     const { data } = await getAllSockets(worker)
     return data
   }
@@ -255,7 +255,7 @@ export default class extends Vue {
    */
   private async getData() {
     this.listLoading = true
-    const data = await this.sendApi()
+    const data = await this.getAllSockets()
 
     // 筛选项数据
     const tmpEvents: Array<number> = []

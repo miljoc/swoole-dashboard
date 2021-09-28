@@ -315,7 +315,7 @@ function getRandomInt(min: number, max: number) {
 }
 
 @Component({
-  name: 'DashboardAdmin',
+  name: 'SwooleDashboard',
   components: {
     WorkerBarChart,
     MemoryUsageChart,
@@ -329,7 +329,6 @@ function getRandomInt(min: number, max: number) {
     PieChart,
     RadarChart,
     TodoList,
-    TransactionTable,
     ClientsLineChart
   },
   filters: {

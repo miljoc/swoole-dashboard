@@ -113,6 +113,8 @@ export interface IServerStats {
   worker_num: number
   user_worker_num: number
   task_worker_num: number
+  total_recv_bytes: number
+  total_send_bytes: number
 }
 
 export interface IUnixSocket {
@@ -136,9 +138,9 @@ export interface IExtensionInfo {
 
 export interface IVersionInfo {
   os: string
-  swooleVersion: string
-  phpVersion: string
-  host: string
+  swoole: string
+  php: string
+  ip: string
 }
 
 export interface IObjectsData {

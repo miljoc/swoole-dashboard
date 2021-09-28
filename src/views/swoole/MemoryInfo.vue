@@ -101,8 +101,9 @@ export default {
       return total
     },
     async getData() {
+      const worker = this.$route.query.worker ?? 'master'
       do {
-        const { data } = await getMemoryInfo(this.$route.params.worker)
+        const { data } = await getMemoryInfo(worker)
         this.info = data
       } while (0)
 
@@ -113,7 +114,7 @@ export default {
         this.serverSetting = data
       } while (0)
 
-      if (this.serverSetting.mode === 2 && this.$route.params.worker.substring(0, 6) === 'master') {
+      if (this.serverSetting.mode === 2 && worker.substring(0, 6) === 'master') {
         for (let i = 0; i < this.serverSetting.reactor_num; i++) {
           const { data } = await getMemoryInfo('reactor-' + i)
           const thread_memory_info = {

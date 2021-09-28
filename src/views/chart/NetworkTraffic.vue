@@ -37,7 +37,14 @@ export default class extends Vue {
   private connectionInfo: IConnectionInfo = {
     total_recv_bytes: 0,
     total_send_bytes: 0,
-    session_id: 0
+    recv_queued_bytes: 0,
+    send_queued_bytes: 0,
+    server_port: 0,
+    session_id: 0,
+    reactor_id: 0,
+    connect_time: 0,
+    last_recv_time: 0,
+    last_send_time: 0
   }
 
   private dataRecvTraffic: number[] = []

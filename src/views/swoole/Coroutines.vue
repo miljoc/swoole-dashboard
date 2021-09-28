@@ -178,7 +178,7 @@ export default class extends Vue {
     this.backTrace = [{}]
 
     const cid = row.id
-    const worker = this.$route.query.worker ?? 'master'
+    const worker = (this.$route.query.worker ?? 'master') as string
     const { data } = await getCoroutineBackTrace(worker, cid)
 
     let trace

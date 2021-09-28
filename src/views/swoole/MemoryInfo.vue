@@ -15,14 +15,20 @@
             <el-descriptions-item label="Struct Server">{{ info.server | bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="Struct Workers">{{ info.workers| bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="Global Memory">{{ info.global_memory | bytesFormat }}</el-descriptions-item>
-            <el-descriptions-item label="Connection List">{{ info.connection_list | bytesFormat }}</el-descriptions-item>
+            <el-descriptions-item label="Connection List">{{
+                info.connection_list | bytesFormat
+              }}
+            </el-descriptions-item>
             <el-descriptions-item label="Session List">{{ info.session_list| bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="Socket List">{{ info.socket_list | bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="Message Bus">{{ info.message_bus | bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="All of Socket Out Buffer">{{ info.socket_out_buffer | bytesFormat }}
             </el-descriptions-item>
-            <el-descriptions-item label="Thread Global Memory">{{ info.thread_global_memory| bytesFormat }}</el-descriptions-item>
-            <el-descriptions-item label="ZendVM Memory">{{ info.php_memory }}</el-descriptions-item>
+            <el-descriptions-item label="Thread Global Memory">{{
+                info.thread_global_memory| bytesFormat
+              }}
+            </el-descriptions-item>
+            <el-descriptions-item label="ZendVM Memory">{{ info.php_memory  | bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="HTTP Form Data Buffer"> {{
                 info.http_form_data_buffer| bytesFormat
               }}

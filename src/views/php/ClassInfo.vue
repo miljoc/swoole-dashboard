@@ -13,7 +13,7 @@
         type="border-card"
         :value="tabs_active"
       >
-        <el-tab-pane label="Constants" name="Constants">
+        <el-tab-pane :label="$t('classes.constants')" name="Constants">
           <el-table
             :data="constants"
             border
@@ -25,23 +25,25 @@
                 <span>{{ scope.row.id }}</span>
               </template>
             </el-table-column>
-            <el-table-column label="Name" align="center">
+            <el-table-column :label="$t('classes.constantName')" align="center">
               <template slot-scope="scope">
                 {{scope.row.name }}
               </template>
             </el-table-column>
-            <el-table-column label="Value" align="center">
+            <el-table-column :label="$t('classes.constantValue')" align="center">
               <template slot-scope="scope">
-                <el-link style="margin-left: 10px" type="primary" v-if="scope.row.type === 'detail'" @click="showArray(scope.row)">Detail</el-link>
+                <el-button type="primary" size="mini" v-if="scope.row.type === 'detail'" @click="showArray(scope.row)" svg-icon="print">
+                  <svg-icon name="print" /> {{ $t('common.detail') }}
+                </el-button>
                 <span style="margin-left: 10px" v-else>{{ scope.row.value }}</span>
               </template>
             </el-table-column>
           </el-table>
         </el-tab-pane>
 
-        <el-tab-pane label="Properties" name="Properties">
+        <el-tab-pane :label="$t('classes.properties')" name="Properties">
           <el-collapse v-model="collapse_active">
-            <el-divider content-position="left">Static Properties</el-divider>
+            <el-divider content-position="left">{{ $t('classes.staticProperties') }}</el-divider>
             <el-table
               :data="staticProperties"
               border
@@ -53,29 +55,30 @@
                   <span>{{ scope.row.id }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Modifiers" align="center">
+              <el-table-column :label="$t('classes.modifiers')" align="center">
                 <template slot-scope="scope">
                   <span>{{ scope.row.modifiers }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Name" align="center">
+              <el-table-column :label="$t('classes.propertiesName')" align="center">
                 <template slot-scope="scope">{{scope.row.name }}</template>
               </el-table-column>
-              <el-table-column label="Value" align="center">
+              <el-table-column :label="$t('classes.propertiesValue')" align="center">
                 <template slot-scope="scope">
                   <span>{{ scope.row.default }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Actions" align="center">
+              <el-table-column :label="$t('common.actions')" align="center">
                 <template slot-scope="scope">
                   <el-button type="success" size="mini" @click="handleVarDump(scope.row)" svg-icon="print">
-                    <svg-icon name="print" /> Var Dump
+                    <svg-icon name="print" />
+                    {{ $t('common.varDump') }}
                   </el-button>
                 </template>
               </el-table-column>
             </el-table>
 
-            <el-divider content-position="left">Properties</el-divider>
+            <el-divider content-position="left">{{ $t('classes.properties') }}</el-divider>
             <el-table
               :data="properties"
               border
@@ -87,15 +90,15 @@
                   <span>{{ scope.row.id }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Modifiers" align="center">
+              <el-table-column :label="$t('classes.modifiers')" align="center">
                 <template slot-scope="scope">
                   <span>{{ scope.row.modifiers }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Name" align="center">
+              <el-table-column :label="$t('classes.propertiesName')" align="center">
                 <template slot-scope="scope">{{scope.row.name }}</template>
               </el-table-column>
-              <el-table-column label="Value" align="center">
+              <el-table-column :label="$t('classes.propertiesValue')" align="center">
                 <template slot-scope="scope">
                   <span>{{ scope.row.default }}</span>
                 </template>
@@ -104,9 +107,9 @@
           </el-collapse>
         </el-tab-pane>
 
-        <el-tab-pane label="Methods" name="Methods">
+        <el-tab-pane :label="$t('classes.methods')" name="Methods">
           <el-collapse v-model="collapse_active">
-            <el-divider content-position="left">Static Methods</el-divider>
+            <el-divider content-position="left">{{ $t('classes.staticMethods') }}</el-divider>
             <el-table
               :data="staticMethods"
               border
@@ -118,15 +121,15 @@
                   <span>{{ scope.row.id }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Modifiers" align="center">
+              <el-table-column :label="$t('classes.modifiers')" align="center">
                 <template slot-scope="scope">
                   <span>{{ scope.row.modifiers }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Name" align="center">
+              <el-table-column :label="$t('classes.methodName')" align="center">
                 <template slot-scope="scope">{{scope.row.name }}</template>
               </el-table-column>
-              <el-table-column label="Source File" align="center" v-if="filename.length > 0">
+              <el-table-column :label="$t('common.sourceFile')" align="center" v-if="filename.length > 0">
                 <template slot-scope="scope">
                   <el-link type="primary">
                     <router-link class="link-type"
@@ -148,15 +151,15 @@
                   <span>{{ scope.row.id }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Modifiers" align="center">
+              <el-table-column :label="$t('classes.modifiers')" align="center">
                 <template slot-scope="scope">
                   <span>{{ scope.row.modifiers }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="Name" align="center">
+              <el-table-column :label="$t('classes.methodName')" align="center">
                 <template slot-scope="scope">{{scope.row.name }}</template>
               </el-table-column>
-              <el-table-column label="Source File" align="center" v-if="filename.length > 0">
+              <el-table-column :label="$t('common.sourceFile')" align="center" v-if="filename.length > 0">
                 <template slot-scope="scope">
                   <el-link type="primary">
                     <router-link class="link-type"
@@ -169,7 +172,7 @@
           </el-collapse>
         </el-tab-pane>
 
-        <el-tab-pane label="ParentClass" name="ParentClass">
+        <el-tab-pane :label="$t('classes.parentClass')" name="ParentClass">
           <el-table
             :data="parentClass"
             border
@@ -186,7 +189,7 @@
           </el-table>
         </el-tab-pane>
 
-        <el-tab-pane label="Interface" name="Interface">
+        <el-tab-pane :label="$t('classes.interface')" name="Interface">
           <el-table
             :data="interface"
             border

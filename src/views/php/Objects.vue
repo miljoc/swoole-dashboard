@@ -3,7 +3,7 @@
     <!---------------------------查询------开始----------------------->
     <el-input
       v-model="search"
-      placeholder="Class / Source File"
+      :placeholder="$t('objects.placeholder')"
       @keyup.enter.native="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
@@ -22,7 +22,7 @@
     >
       <el-table-column
         align="center"
-        label="Object ID"
+        :label="$t('objects.objectID')"
         sortable="id"
         width="150"
       >
@@ -33,7 +33,7 @@
 
       <el-table-column
         align="center"
-        label="Object Hash"
+        :label="$t('objects.objectHASH')"
         sortable="hash"
         width="350"
       >
@@ -44,7 +44,7 @@
 
       <el-table-column
         align="center"
-        label="Class"
+        :label="$t('objects.className')"
       >
         <template slot-scope="{row}">
           <el-link type="primary">
@@ -57,7 +57,7 @@
 
       <el-table-column
         align="center"
-        label="Source File"
+        :label="$t('common.sourceFile')"
       >
         <template slot-scope="{row}">
           <el-link type="primary" v-if="row.filename.length > 0">
@@ -72,7 +72,7 @@
 
       <el-table-column
           align="center"
-          label="Memory Size"
+          :label="$t('objects.memorySize')"
           sortable="memory_size"
           width="150"
       >
@@ -81,15 +81,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-          label="Actions"
-          align="center"
-          width="250"
-      >
+      <el-table-column :label="$t('common.actions')" align="center" width="250">
         <template slot-scope="scope">
           <el-button type="success" size="mini" @click="handleVarDump(scope.row)">
-            <svg-icon name="print"/>
-            Var Dump
+            <svg-icon name="print" />
+            {{ $t('common.varDump') }}
           </el-button>
         </template>
       </el-table-column>

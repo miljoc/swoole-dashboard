@@ -31,7 +31,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Events" align="center" sortable="event_num">
+      <el-table-column :label="$t('processes.events')" align="center" sortable="event_num">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
@@ -41,7 +41,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Timers" align="center" sortable="timer_num">
+      <el-table-column :label="$t('processes.timers')" align="center" sortable="timer_num">
         <template slot-scope="scope">
           <span>{{ scope.row.timer_num | amountRule }}</span>
         </template>
@@ -85,7 +85,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Coroutines" align="center"  v-if="type !== 'manager'" sortable="coroutine_stats.coroutine_num">
+      <el-table-column :label="$t('processes.coroutines')" align="center"  v-if="type !== 'manager'" sortable="coroutine_stats.coroutine_num">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
@@ -95,7 +95,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Events" align="center" v-if="type !== 'manager'" sortable="coroutine_stats.event_num">
+      <el-table-column :label="$t('processes.events')" align="center" v-if="type !== 'manager'" sortable="coroutine_stats.event_num">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
@@ -117,7 +117,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Timers" align="center" sortable="timer_stats.num">
+      <el-table-column :label="$t('processes.timers')" align="center" sortable="timer_stats.num">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
@@ -127,7 +127,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Objects" align="center" sortable="vm_status.object_num">
+      <el-table-column :label="$t('processes.objects')" align="center" sortable="vm_status.object_num">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
@@ -137,7 +137,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Resources" align="center" sortable="vm_status.resource_num">
+      <el-table-column :label="$t('processes.resources')" align="center" sortable="vm_status.resource_num">
         <template slot-scope="scope">
 
           <el-link type="primary">
@@ -148,7 +148,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Memory Usage" align="center" sortable="memory_usage">
+      <el-table-column :label="$t('processes.memoryUsage')" align="center" sortable="memory_usage">
         <template slot-scope="scope">
           <span>{{ scope.row.memory_usage | bytesFormat }}</span>
         </template>
@@ -187,10 +187,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Actions" align="center">
+      <el-table-column :label="$t('common.actions')" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="viewWorkerDetail(scope.row, scope.$index)">
-            <svg-icon name="detail" /> View Details
+            <svg-icon name="detail" />
+            {{ $t('common.detail') }}
           </el-button
           >
         </template>
@@ -435,6 +436,10 @@ export default class extends Vue {
    * @param column
    */
   private sortChange(column:any) {
+    if (this.type === 'master' || this.type === 'manager') {
+      return false
+    }
+
     const field: string = column.column.sortable // 排序字段
     if (column.order !== null) {
       const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序

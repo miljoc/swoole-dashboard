@@ -3,7 +3,7 @@
     <!---------------------------查询------开始----------------------->
     <el-input
       v-model="search"
-      placeholder="Name / Source File"
+      :placeholder="$t('classes.placeholder')"
       @keyup.enter.native="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
@@ -33,7 +33,7 @@
 
       <el-table-column
           align="center"
-          label="Name"
+          :label="$t('classes.name')"
       >
         <template slot-scope="{row}">
           <el-link type="primary">
@@ -45,7 +45,7 @@
       </el-table-column>
       <el-table-column
         align="center"
-        label="Source File"
+        :label="$t('common.sourceFile')"
       >
         <template slot-scope="{row}">
           <el-link type="primary" v-if="row.filename.length > 0">

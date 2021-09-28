@@ -8,11 +8,14 @@ export default {
     'Included Files Content': '文件内容',
     'GC Status': '垃圾回收状态',
     Classes: '类',
+    'Class Info': '类详情',
     Functions: '函数',
+    'Function Content': '函数详情',
     Resources: '资源',
     Constants: '常量',
     Interfaces: '接口',
     Objects: '对象',
+    'Object Var Dump': '对象信息',
     Swoole: 'Swoole',
     Processes: '进程',
     Coroutines: '协程',
@@ -199,7 +202,11 @@ export default {
   },
   common: {
     search: '搜索',
-    clear: '清空'
+    clear: '清空',
+    sourceFile: '文件信息',
+    actions: '操作',
+    varDump: '打印',
+    detail: '查看详情'
   },
   extensions: {
     classes: '类',
@@ -211,7 +218,26 @@ export default {
     name: '扩展名称'
   },
   classes: {
-      name: '类名'
+    placeholder: '类名 或 文件信息',
+    name: '类名',
+    constants: '常量',
+    constantName: '常量名',
+    constantValue: '常量值',
+    properties: '属性',
+    staticProperties: '静态属性',
+    modifiers: '修饰符',
+    propertiesName: '属性名',
+    propertiesValue: '属性值',
+    methods: '方法',
+    staticMethods: '静态方法',
+    methodName: '方法名',
+    parentClass: '父类',
+    interface: '接口'
+  },
+  functions: {
+    placeholder: '函数名 或 文件信息',
+    type: '类型',
+    name: '函数名'
   },
   interfaces: {
     name: '接口名'
@@ -221,5 +247,20 @@ export default {
   },
   globals: {
     name: '变量名'
+  },
+  objects: {
+    placeholder: '类名 或 文件信息',
+    objectID: '对象ID',
+    objectHASH: '对象HASH',
+    className: '类名',
+    memorySize: '占用内存'
+  },
+  processes: {
+    coroutines: '协程',
+    events: '事件',
+    timers: '定时器',
+    objects: '对象',
+    resources: '资源',
+    memoryUsage: '内存占用'
   }
 }

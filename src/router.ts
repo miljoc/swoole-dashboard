@@ -191,7 +191,7 @@ export default new Router({
           path: '/object_var_dump',
           component: () => import('@/views/php/ObjectVarDump.vue'),
           meta: {
-            title: 'ObjectVarDump',
+            title: 'Object Var Dump',
             hidden: true,
             activeMenu: '/objects'
           }

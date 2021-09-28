@@ -1,4 +1,6 @@
 // Parse the time to string
+import { IConnectionInfo } from '@/api/types'
+
 export const parseTime = (
   time?: object | string | number | null,
   cFormat?: string
@@ -128,6 +130,10 @@ export const eventsFitler = (events: number) => {
     array.push('Writable')
   }
   return array.join(' | ')
+}
+
+export const getWorker = (reactor_id: number, server_mode: number) => {
+  return server_mode === 2 ? 'reactor-' + reactor_id : 'worker-' + reactor_id
 }
 
 export const fdTypeFilter = (type: number) => {

@@ -87,6 +87,7 @@ export default class extends Vue {
   private allList: IDeclaredClass[] = [] // 接口返回原始数据
   private handleAllList: IDeclaredClass[] = [] // 处理处理后所有数据
   private list: IDeclaredClass[] = [] // 当前页显示数据  private listLoading = true
+  private listLoading = true
   private total = 0
   private listQuery = {
     page: 1,
@@ -104,8 +105,8 @@ export default class extends Vue {
    * 发送请求
    * @private
    */
-  private async sendApi() {
-    const worker = this.$route.query.worker ?? 'master'
+  private async getDeclaredClasses() {
+    const worker: string = (this.$route.query.worker ?? 'master') as string
     const { data } = await getDeclaredClasses(worker)
     return data
   }
@@ -116,7 +117,7 @@ export default class extends Vue {
    */
   private async getData() {
     this.listLoading = true
-    let data = await this.sendApi()
+    let data = await this.getDeclaredClasses()
     data = data.reverse()
 
     let index = 0

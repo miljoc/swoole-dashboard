@@ -80,7 +80,7 @@ export const getConnections = (worker: any) =>
     method: 'get'
   })
 
-export const closeConnection = (session_id: number, worker: string) =>
+export const closeConnection = (session_id: number, worker = 'master') =>
   request({
     url: `/api/close_session/${worker}`,
     method: 'get',

@@ -198,9 +198,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getServerSetting, getConnections, closeConnection, getSocketInfo, getObjects } from '@/api/server'
-import { IServerSetting, IConnectionInfo, IObjectsData } from '@/api/types'
+import { IServerSetting, IConnectionInfo } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { bytesFormat, eventsFitler, getSortFun, inArray, parseTime } from '@/utils/index'
+import { bytesFormat, eventsFitler, getSortFun, inArray, parseTime, getWorker } from '@/utils/index'
 
 @Component({
   name: 'EventList',
@@ -215,44 +215,9 @@ import { bytesFormat, eventsFitler, getSortFun, inArray, parseTime } from '@/uti
 })
 
 export default class extends Vue {
-  private allList: IConnectionInfo[] = [{
-    total_recv_bytes: 0,
-    total_send_bytes: 0,
-    recv_queued_bytes: 0,
-    send_queued_bytes: 0,
-    server_port: 0,
-    session_id: 0,
-    reactor_id: 0,
-    connect_time: 0,
-    last_recv_time: 0,
-    last_send_time: 0
-  }] // 接口返回原始数据
-
-  private handleAllList: IConnectionInfo[] = [{
-    total_recv_bytes: 0,
-    total_send_bytes: 0,
-    recv_queued_bytes: 0,
-    send_queued_bytes: 0,
-    server_port: 0,
-    session_id: 0,
-    reactor_id: 0,
-    connect_time: 0,
-    last_recv_time: 0,
-    last_send_time: 0
-  }] // 处理处理后所有数据
-
-  private list: IConnectionInfo[] = [{
-    total_recv_bytes: 0,
-    total_send_bytes: 0,
-    recv_queued_bytes: 0,
-    send_queued_bytes: 0,
-    server_port: 0,
-    session_id: 0,
-    reactor_id: 0,
-    connect_time: 0,
-    last_recv_time: 0,
-    last_send_time: 0
-  }] // 当前页显示数据
+  private allList: IConnectionInfo[] = [] // 接口返回原始数据
+  private handleAllList: IConnectionInfo[] = [] // 处理处理后所有数据
+  private list: IConnectionInfo[] = [] // 当前页显示数据
 
   private listLoading = true
   private total = 0
@@ -290,7 +255,7 @@ export default class extends Vue {
    * @param res
    * @private
    */
-  private handleCloseSession(res: any) {
+  private handleCloseSession(res: IConnectionInfo) {
     this.$confirm('Confirm whether to close the connection？', {
       confirmButtonText: 'close',
       cancelButtonText: 'cancel',
@@ -347,7 +312,7 @@ export default class extends Vue {
     this.serverSetting = await this.getServerSetting()
 
     // eslint-disable-next-line camelcase
-    let list: { session_id: 0 }[] = []
+    let list: IConnectionInfo[] = []
     if (this.serverSetting.mode === 2) {
       for (let i = 0; i < this.serverSetting.reactor_num; i++) {
         const { data } = await getConnections('reactor-' + i)

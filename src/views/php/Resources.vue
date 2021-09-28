@@ -93,7 +93,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getResources } from '@/api/phpinfos'
-import { IDefinedFunction } from '@/api/types'
+import { IDefinedFunction, IResource } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { getSortFun, inArray, parseResourceInfo } from '@/utils'
 
@@ -107,9 +107,9 @@ import { getSortFun, inArray, parseResourceInfo } from '@/utils'
   }
 })
 export default class extends Vue {
-  private allList: IDefinedFunction[] = [] // 接口返回原始数据
-  private handleAllList: IDefinedFunction[] = [] // 处理处理后所有数据
-  private list: IDefinedFunction[] = [] // 当前页显示数据
+  private allList: IResource[] = [] // 接口返回原始数据
+  private handleAllList: IResource[] = [] // 处理处理后所有数据
+  private list: IResource[] = [] // 当前页显示数据
   private listLoading = true
   private total = 0
   private listQuery = {
@@ -131,8 +131,8 @@ export default class extends Vue {
    * 发送请求
    * @private
    */
-  private async sendApi() {
-    const worker: string = this.$route.query.worker ?? 'master'
+  private async getResources() {
+    const worker: string = (this.$route.query.worker ?? 'master') as string
     const { data } = await getResources(worker)
     return data
   }
@@ -143,7 +143,7 @@ export default class extends Vue {
    */
   private async getData() {
     this.listLoading = true
-    const data = await this.sendApi()
+    const data = await this.getResources()
 
     // 筛选项数据
     const tmpType: Array<any> = []

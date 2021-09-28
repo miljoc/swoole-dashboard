@@ -114,7 +114,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getCoroutineList, getCoroutineBackTrace } from '@/api/server'
-import { IWorkerCoroutineData } from '@/api/types'
+import { IBackTraceFrame, IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { amountRule, division, getSortFun, inArray, timeFormat } from '@/utils'
 
@@ -239,11 +239,12 @@ export default class extends Vue {
         if (item.backTrace[0] === undefined) {
           return false
         } else {
+          const bt: IBackTraceFrame = item.backTrace[0]
           return (
-            item.backTrace[0].class.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
-            item.backTrace[0].function.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
-            item.backTrace[0].file.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
-            item.backTrace[0].line.toString().toLowerCase().indexOf(tmpStr) !== -1
+            bt.class.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
+            bt.function.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
+            bt.file.toString().toLowerCase().indexOf(tmpStr) !== -1 ||
+            bt.line.toString().toLowerCase().indexOf(tmpStr) !== -1
           )
         }
       })

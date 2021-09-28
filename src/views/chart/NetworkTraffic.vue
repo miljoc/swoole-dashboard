@@ -44,7 +44,9 @@ export default class extends Vue {
     reactor_id: 0,
     connect_time: 0,
     last_recv_time: 0,
-    last_send_time: 0
+    last_send_time: 0,
+    address: '',
+    port: 0
   }
 
   private dataRecvTraffic: number[] = []

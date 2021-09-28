@@ -137,7 +137,7 @@ export default class extends Vue {
   private search = ''
 
   created() {
-    this.worker = this.$route.query.worker ?? 'master'
+    this.worker = (this.$route.query.worker ?? 'master') as string
     this.getData()
   }
 

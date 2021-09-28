@@ -109,6 +109,7 @@ export interface IServerStats {
   tasking_num: number
   worker_dispatch_count: number
   worker_request_count: number
+  worker_response_count: number
   worker_num: number
   user_worker_num: number
   task_worker_num: number

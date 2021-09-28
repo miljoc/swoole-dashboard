@@ -1,33 +1,19 @@
 <template>
   <div class="app-container">
     <!---------------------------查询------开始----------------------->
-    <!---------------------------Name------开始----------------------->
-    <el-select
-      v-model="nameFieldValue"
-      multiple
-      collapse-tags
-      placeholder="Name"
+    <el-input
+      v-model="search"
+      placeholder="Name / Source File"
+      @keyup.enter.native="filterHandler"
       style="margin: 0 10px 10px 0;"
-      filterable
-      @change="filterHandler"
-    >
-      <el-option
-        v-for="item in nameOptions"
-        :label="item"
-        :key="item"
-        :value="item">
-      </el-option>
-    </el-select>
-    <!---------------------------Name------结束----------------------->
-    <!---------------------------Type------开始----------------------->
+    ></el-input>
     <el-select
       v-model="typeFieldValue"
       multiple
       collapse-tags
       placeholder="Type"
-      style="margin: 0 10px 10px 0;"
-      filterable
       @change="filterHandler"
+      style="margin: 0 10px 10px 0;"
     >
       <el-option
         v-for="item in typeOptions"
@@ -36,8 +22,8 @@
         :value="item">
       </el-option>
     </el-select>
-    <!---------------------------Type------结束----------------------->
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear</el-button>
+    <el-button type="primary" @click="filterHandler" icon="el-icon-search">Search</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> Clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table
@@ -97,7 +83,8 @@
           width="200"
       >
         <template slot-scope="{row}">
-          <span>{{ row.type }}</span>
+          <el-tag type="success" v-if="row.type === 'user'">{{ row.type }}</el-tag>
+          <el-tag type="primary" v-if="row.type === 'internal'">{{ row.type }}</el-tag>
         </template>
       </el-table-column>
     </el-table>
@@ -136,9 +123,8 @@ export default class extends Vue {
     limit: 10
   }
 
-  // 筛选项数据
-  private nameFieldValue: Array<string> = []
-  private nameOptions: any = []
+  // 搜索
+  private search = ''
   private typeFieldValue: Array<string> = []
   private typeOptions: any = []
 
@@ -189,22 +175,13 @@ export default class extends Vue {
     }
 
     // 筛选项数据
-    const tmpName: Array<any> = []
-    const tmpType: Array<any> = []
+    const tmpType: Array<number> = []
     for (let index = 0; index < tmpList.length; index++) {
-      // 处理 name 选项数据
-      tmpName[index] = tmpList[index].name
       // 处理 type 选项数据
       tmpType[index] = tmpList[index].type
     }
 
     // 去除重复值
-    for (let i = 0; i < tmpName.length; i++) {
-      if (tmpName.indexOf(tmpName[i]) === i) {
-        this.nameOptions.push(tmpName[i])
-      }
-    }
-
     for (let i = 0; i < tmpType.length; i++) {
       if (tmpType.indexOf(tmpType[i]) === i) {
         this.typeOptions.push(tmpType[i])
@@ -225,9 +202,14 @@ export default class extends Vue {
   private filterHandler() {
     this.handleAllList = JSON.parse(JSON.stringify(this.allList))
 
-    if (this.nameFieldValue.length > 0) {
+    if (this.search.length > 0) {
       this.handleAllList = this.handleAllList.filter((item) => {
-        return inArray(item.name, this.nameFieldValue)
+        const tmpStr = this.search.toLowerCase()
+        if (item.name.toLowerCase().indexOf(tmpStr) !== -1 || item.filename.toLowerCase().indexOf(tmpStr) !== -1 || item.line.toString().toLowerCase().indexOf(tmpStr) !== -1) {
+          return true
+        } else {
+          return false
+        }
       })
     }
 
@@ -247,9 +229,9 @@ export default class extends Vue {
    * @private
    */
   private clearFilter(): void {
-    if (this.typeFieldValue.length > 0 || this.nameFieldValue.length > 0) {
+    if (this.search.length > 0 || this.typeFieldValue.length > 0) {
       console.log('清除筛选项')
-      this.nameFieldValue = []
+      this.search = ''
       this.typeFieldValue = []
       this.handleAllList = JSON.parse(JSON.stringify(this.allList))
       this.showList(this.handleAllList)
@@ -263,7 +245,7 @@ export default class extends Vue {
    */
   private sortChange(column:any) {
     const field: string = column.column.sortable // 排序字段
-    if (this.typeFieldValue.length === 0 && this.nameFieldValue.length === 0) {
+    if (this.search.length === 0 && this.typeFieldValue.length === 0) {
       this.handleAllList = JSON.parse(JSON.stringify(this.allList)) // 备份初始数据
     }
     if (column.order !== null) {
@@ -296,6 +278,12 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.app-container {
+  .el-input {
+    width: 20%;
+  }
+}
+
 .edit-input {
   padding-right: 100px;
 }

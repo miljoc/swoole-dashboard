@@ -88,13 +88,13 @@
           <el-descriptions
               border
           >
-            <el-descriptions-item label="Current Session ID">{{ serverStats.session_round }}</el-descriptions-item>
-            <el-descriptions-item label="Current Packet ID">{{ serverStats.pipe_packet_msg_id }}</el-descriptions-item>
-            <el-descriptions-item label="Max FD">{{ serverStats.max_fd }}</el-descriptions-item>
+            <el-descriptions-item label="Current Session ID">{{ serverStats.session_round | amountRule }}</el-descriptions-item>
+            <el-descriptions-item label="Current Packet ID">{{ serverStats.pipe_packet_msg_id | amountRule }}</el-descriptions-item>
+            <el-descriptions-item label="Max FD">{{ serverStats.max_fd | amountRule }}</el-descriptions-item>
 
             <el-descriptions-item label="Idle Event Worker Num">{{ serverStats.idle_worker_num }}</el-descriptions-item>
             <el-descriptions-item label="Idle Task Worker Num">{{ serverStats.task_idle_worker_num }}</el-descriptions-item>
-            <el-descriptions-item label="Tasking Num"> {{ serverStats.tasking_num }}</el-descriptions-item>
+            <el-descriptions-item label="Tasking Num"> {{ serverStats.tasking_num | amountRule }}</el-descriptions-item>
 
             <el-descriptions-item label="Event Worker Num">
               <el-link type="primary">
@@ -152,21 +152,31 @@
             </template>
           </el-table-column>
 
-          <el-table-column
-              align="center"
-              label="Dispatch Count"
-          >
-            <template slot-scope="{row}">
-              <span>{{ row.worker_request_count }}</span>
-            </template>
-          </el-table-column>
 
           <el-table-column
               align="center"
               label="Request Count"
           >
             <template slot-scope="{row}">
-              <span>{{ row.worker_dispatch_count }}</span>
+              <span>{{ row.worker_dispatch_count | amountRule }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              align="center"
+              label="Dispatch Count"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.worker_request_count | amountRule }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              align="center"
+              label="Response Count"
+          >
+            <template slot-scope="{row}">
+              <span>{{ row.worker_response_count | amountRule }}</span>
             </template>
           </el-table-column>
 
@@ -178,7 +188,7 @@
 
               <el-link type="primary">
                 <router-link class="link-type"
-                             :to="{path: `/coroutines/worker-${row.worker_id}`}">{{ row.coroutine_num }}
+                             :to="{path: `/coroutines/?worker=worker-${row.worker_id}`}">{{ row.coroutine_num }}
                 </router-link>
               </el-link>
             </template>
@@ -293,7 +303,7 @@ import GaugeChart from './components/GaugeChart.vue'
 import TransactionTable from './components/TransactionTable.vue'
 import ClientsLineChart, { IClientsLineChartData } from '@/views/chart/ClientsLineChart.vue'
 import { getServerStats, getAllPorts, getServerCpuUsage, getServerMemoryUsage, getWorkerInfo2 } from '@/api/server'
-import { parseTime, bytesFormat, socketTypeFilter } from '@/utils'
+import { parseTime, bytesFormat, socketTypeFilter, amountRule } from '@/utils'
 import { IServerStats } from '@/api/types'
 import ServerTrafficLineChart, { IServerTrafficLineChart } from '@/views/chart/ServerTrafficLineChart.vue'
 import WorkerPieChart, { IWorkerPieChartData } from '@/views/chart/WorkerPieChart.vue'
@@ -325,7 +335,8 @@ function getRandomInt(min: number, max: number) {
   filters: {
     parseTime: parseTime,
     bytesFormat: bytesFormat,
-    socketTypeFilter: socketTypeFilter
+    socketTypeFilter: socketTypeFilter,
+    amountRule: amountRule
   }
 })
 export default class extends Vue {
@@ -481,6 +492,7 @@ export default class extends Vue {
       workerStats.push({
         worker_id: i,
         worker_request_count: data.worker_request_count,
+        worker_response_count: data.worker_response_count,
         worker_dispatch_count: data.worker_dispatch_count,
         coroutine_num: data.coroutine_num,
         coroutine_peek_num: data.coroutine_peek_num

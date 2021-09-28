@@ -3,11 +3,12 @@
     <!---------------------------查询------开始----------------------->
     <el-input
       v-model="search"
-      placeholder="Filename"
-      @input="filterHandler"
+      placeholder="Class / Source File"
+      @keyup.enter.native="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear</el-button>
+    <el-button type="primary" @click="filterHandler" icon="el-icon-search">Search</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> Clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table
@@ -31,7 +32,7 @@
 
       <el-table-column
         align="center"
-        label="Objectc Hash"
+        label="Object Hash"
         sortable="hash"
       >
         <template slot-scope="{row}">
@@ -44,17 +45,26 @@
         label="Class"
       >
         <template slot-scope="{row}">
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/class_info?class_name=${row.class}`}">{{ row.class }}
+            </router-link>
+          </el-link>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        align="center"
+        label="Source File"
+      >
+        <template slot-scope="{row}">
           <el-link type="primary" v-if="row.filename.length > 0">
             <router-link class="link-type"
-                         :to="{path: `/includedfiles_detail?file_name=${row.filename}`}">
-              {{ row.class }}
+                         :to="{path: `/includedfiles_detail?file_name=${row.filename}&line=${row.line}`}">
+              {{ row.filename + ':' + row.line }}
             </router-link>
           </el-link>
-          <el-link type="primary" v-else>
-            <router-link class="link-type"
-                         :to="{path: `/class_info/?class_name=${row.class}`}">{{ row.class }}
-            </router-link>
-          </el-link>
+          <span v-else>-</span>
         </template>
       </el-table-column>
 
@@ -71,7 +81,7 @@
       <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
           <el-button type="success" size="mini" @click="handleVarDump(scope.row)">
-            Var Dump
+            <svg-icon name="print" /> Var Dump
           </el-button>
         </template>
       </el-table-column>
@@ -162,10 +172,11 @@ export default class extends Vue {
    */
   private filterHandler() {
     this.handleAllList = JSON.parse(JSON.stringify(this.allList))
+
     if (this.search.length > 0) {
       this.handleAllList = this.handleAllList.filter((item) => {
         const tmpStr = this.search.toLowerCase()
-        if (item.class.toLowerCase().indexOf(tmpStr) !== -1) {
+        if (item.class.toLowerCase().indexOf(tmpStr) !== -1 || item.filename.toLowerCase().indexOf(tmpStr) !== -1 || item.line.toString().toLowerCase().indexOf(tmpStr) !== -1) {
           return true
         } else {
           return false

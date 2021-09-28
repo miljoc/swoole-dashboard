@@ -1,25 +1,14 @@
 <template>
   <div class="app-container">
     <!---------------------------查询------开始----------------------->
-    <!---------------------------Name------开始----------------------->
-    <el-select
-      v-model="nameFieldValue"
-      multiple
-      collapse-tags
-      placeholder="Name"
+    <el-input
+      v-model="search"
+      placeholder="Name / Source File"
+      @keyup.enter.native="filterHandler"
       style="margin: 0 10px 10px 0;"
-      filterable
-      @change="filterHandler"
-    >
-      <el-option
-        v-for="item in nameOptions"
-        :label="item"
-        :key="item"
-        :value="item">
-      </el-option>
-    </el-select>
-    <!---------------------------Name------结束----------------------->
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear</el-button>
+    ></el-input>
+    <el-button type="primary" @click="filterHandler" icon="el-icon-search">Search</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> Clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table
@@ -104,30 +93,11 @@ export default class extends Vue {
     limit: 10
   }
 
-  // 筛选项数据
-  private nameFieldValue: Array<string> = []
-  private nameOptions: any = []
+  // 搜索
+  private search = ''
 
   created() {
     this.getData()
-  }
-
-  private cancelEdit(row: any) {
-    row.title = row.originalTitle
-    row.edit = false
-    this.$message({
-      message: 'The title has been restored to the original value',
-      type: 'warning'
-    })
-  }
-
-  private confirmEdit(row: any) {
-    row.edit = false
-    row.originalTitle = row.title
-    this.$message({
-      message: 'The title has been edited',
-      type: 'success'
-    })
   }
 
   /**
@@ -161,20 +131,6 @@ export default class extends Vue {
       })
     }
 
-    // 筛选项数据
-    const tmpName: Array<any> = []
-    for (let index = 0; index < tmpList.length; index++) {
-      // 处理 name 选项数据
-      tmpName[index] = tmpList[index].name
-    }
-
-    // 去除重复值
-    for (let i = 0; i < tmpName.length; i++) {
-      if (tmpName.indexOf(tmpName[i]) === i) {
-        this.nameOptions.push(tmpName[i])
-      }
-    }
-
     this.allList = JSON.parse(JSON.stringify(tmpList))
     this.handleAllList = tmpList
     this.showList(this.handleAllList)
@@ -189,9 +145,14 @@ export default class extends Vue {
   private filterHandler() {
     this.handleAllList = JSON.parse(JSON.stringify(this.allList))
 
-    if (this.nameFieldValue.length > 0) {
+    if (this.search.length > 0) {
       this.handleAllList = this.handleAllList.filter((item) => {
-        return inArray(item.name, this.nameFieldValue)
+        const tmpStr = this.search.toLowerCase()
+        if (item.name.toLowerCase().indexOf(tmpStr) !== -1 || item.filename.toLowerCase().indexOf(tmpStr) !== -1 || item.line.toString().toLowerCase().indexOf(tmpStr) !== -1) {
+          return true
+        } else {
+          return false
+        }
       })
     }
 
@@ -205,9 +166,9 @@ export default class extends Vue {
    * @private
    */
   private clearFilter(): void {
-    if (this.nameFieldValue.length > 0) {
+    if (this.search.length > 0) {
       console.log('清除筛选项')
-      this.nameFieldValue = []
+      this.search = ''
       this.handleAllList = JSON.parse(JSON.stringify(this.allList))
       this.showList(this.handleAllList)
       this.total = this.handleAllList.length
@@ -220,7 +181,7 @@ export default class extends Vue {
    */
   private sortChange(column:any) {
     const field: string = column.column.sortable // 排序字段
-    if (this.nameFieldValue.length === 0) {
+    if (this.search.length === 0) {
       this.handleAllList = JSON.parse(JSON.stringify(this.allList)) // 备份初始数据
     }
     if (column.order !== null) {
@@ -253,6 +214,12 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.app-container {
+ .el-input {
+   width: 20%;
+ }
+}
+
 .edit-input {
   padding-right: 100px;
 }

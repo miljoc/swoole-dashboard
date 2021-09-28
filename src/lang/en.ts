@@ -8,11 +8,14 @@ export default {
     ZendVM: 'ZendVM',
     'GC Status': 'GC Status',
     Classes: 'Classes',
+    'Class Info': 'Class Info',
     Functions: 'Functions',
+    'Function Content': 'Function Content',
     Resources: 'Resources',
     Constants: 'Constants',
     Interfaces: 'Interfaces',
     Objects: 'Objects',
+    'Object Var Dump': 'ObjectVarDump',
     Swoole: 'Swoole',
     Processes: 'Processes',
     Coroutines: 'Coroutines',
@@ -199,9 +202,13 @@ export default {
   },
   common: {
     search: 'Search',
-    clear: 'Clear'
+    clear: 'Clear',
+    sourceFile: 'Source File',
+    actions: 'Actions',
+    varDump: 'Var Dump',
+    detail: 'Detail',
   },
-  extensions:{
+  extensions: {
     classes: 'Classes',
     constants: 'Constants',
     iniEntries: 'IniEntries',
@@ -211,7 +218,26 @@ export default {
     name: 'Extension Name'
   },
   classes: {
-    name: 'Class Name'
+    placeholder: 'Class Name or Source File',
+    name: 'Class Name',
+    constants: 'Constants',
+    constantName: 'Constant Name',
+    constantValue: 'Constant Value',
+    properties: 'Properties',
+    staticProperties: 'Static Properties',
+    propertiesModifiers: 'Modifiers',
+    propertiesName: 'Property Name',
+    propertiesValue: 'Property Value',
+    methods: 'Methods',
+    staticMethods: 'Static Methods',
+    methodName: 'Method Name',
+    parentClass: 'ParentClass',
+    interface: 'Interface'
+  },
+  functions: {
+    placeholder: 'FunctionName or Source File',
+    type: 'Type',
+    name: 'Function Name'
   },
   interfaces: {
     name: 'Interfaces Name'
@@ -221,5 +247,20 @@ export default {
   },
   globals: {
     name: 'Globals Name'
+  },
+  objects: {
+    placeholder: 'Class Name or Source File',
+    objectID: 'Object ID',
+    objectHASH: 'Object HASH',
+    className: 'Class Name',
+    memorySize: 'Memory Size'
+  },
+  processes: {
+    coroutines: 'Coroutines',
+    events: 'Events',
+    timers: 'Timers',
+    objects: 'Objects',
+    resources: 'Resources',
+    memoryUsage: 'Memory Usage'
   }
 }

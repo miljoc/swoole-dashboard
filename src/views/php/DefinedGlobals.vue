@@ -61,7 +61,7 @@
           <el-button v-if="(row.type == 'array' || row.type == 'object') && row.type.length > 0 " type="info" size="mini" @click="dialogVisibleDiv(row)" style="float: left;">
             <svg-icon name="detail" /> Detail
           </el-button>
-          <span v-else> {{ row.value }}</span>
+          <span v-else style="float: left;"> {{ row.value }}</span>
           <el-button style="float: left;" v-if="row.type == 'object'" type="primary" size="mini" @click="handleVarDump(row)">
             <svg-icon name="print" /> Var Dump
           </el-button>

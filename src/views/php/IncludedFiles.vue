@@ -119,7 +119,6 @@ export default class extends Vue {
    * @private
    */
   private filterHandler() {
-    console.log(111)
     this.handleAllList = JSON.parse(JSON.stringify(this.allList))
     if (this.search.length > 0) {
       this.handleAllList = this.handleAllList.filter((item) => {

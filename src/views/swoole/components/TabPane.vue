@@ -300,6 +300,19 @@ export default class extends Vue {
     for (let index = 0; index < data.worker_num; index++) {
       const { data } = await getWorkerInfo(index)
       workers[index] = data
+      // 兼容排序使用
+      let n = 0
+      workers[index]['coroutine_stats.coroutine_num'] = data.coroutine_stats.coroutine_num
+      workers[index]['coroutine_stats.event_num'] = data.coroutine_stats.event_num
+      workers[index]['timer_stats.num'] = data.timer_stats.num
+      workers[index]['vm_status.object_num'] = data.vm_status.object_num
+      workers[index]['vm_status.resource_num'] = data.vm_status.resource_num
+      n = data.process_status.VmSize.indexOf(' ')
+      workers[index]['process_status.VmSize'] = data.process_status.VmSize.substr(0, n)
+      n = data.process_status.VmRSS.indexOf(' ')
+      workers[index]['process_status.VmRSS'] = data.process_status.VmRSS.substr(0, n)
+      workers[index]['process_status.voluntary_ctxt_switches'] = data.process_status.voluntary_ctxt_switches
+      workers[index]['process_status.nonvoluntary_ctxt_switches'] = data.process_status.nonvoluntary_ctxt_switches
     }
 
     this.allWorkers = JSON.parse(JSON.stringify(workers))
@@ -406,6 +419,19 @@ export default class extends Vue {
     for (let index = 0; index < data.task_worker_num; index++) {
       const { data } = await getTaskWorkerInfo(index)
       workers[index] = data
+      // 排序使用
+      let n = 0
+      workers[index]['coroutine_stats.coroutine_num'] = data.coroutine_stats.coroutine_num
+      workers[index]['coroutine_stats.event_num'] = data.coroutine_stats.event_num
+      workers[index]['timer_stats.num'] = data.timer_stats.num
+      workers[index]['vm_status.object_num'] = data.vm_status.object_num
+      workers[index]['vm_status.resource_num'] = data.vm_status.resource_num
+      n = data.process_status.VmSize.indexOf(' ')
+      workers[index]['process_status.VmSize'] = data.process_status.VmSize.substr(0, n)
+      n = data.process_status.VmRSS.indexOf(' ')
+      workers[index]['process_status.VmRSS'] = data.process_status.VmRSS.substr(0, n)
+      workers[index]['process_status.voluntary_ctxt_switches'] = data.process_status.voluntary_ctxt_switches
+      workers[index]['process_status.nonvoluntary_ctxt_switches'] = data.process_status.nonvoluntary_ctxt_switches
     }
 
     this.allWorkers = JSON.parse(JSON.stringify(workers))

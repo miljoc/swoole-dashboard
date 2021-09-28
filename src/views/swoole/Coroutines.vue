@@ -195,7 +195,7 @@ export default class extends Vue {
         file: `${trace.file || ''}${trace.line || '' ? ':' + trace.line : ''}`,
         name: `${trace.class}${trace.type}${trace.function}()`,
         filename: trace.file,
-        line: trace.line,
+        line: trace.line
       }
     }
 

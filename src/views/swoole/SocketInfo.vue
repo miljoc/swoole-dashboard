@@ -19,7 +19,7 @@ export default {
   name: 'SocketInfo',
   components: {},
   filters: {
-    bytesFormat: bytesFormat,
+    bytesFormat: bytesFormat
   },
   data() {
     return {

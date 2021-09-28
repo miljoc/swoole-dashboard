@@ -84,7 +84,7 @@ export default class extends Vue {
     // if (!isValidUsername(value)) {
     //   callback(new Error('Please enter the correct user name'))
     // } else {
-      callback()
+    callback()
     // }
   }
 

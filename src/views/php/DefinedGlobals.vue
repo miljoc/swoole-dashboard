@@ -174,11 +174,11 @@ export default class extends Vue {
     for (const name of data) {
       const id = index++
       this.list.push({
-        id:id,
+        id: id,
         name: name.key,
         value: name.value,
         type: name.type,
-        other:name.other
+        other: name.other
       })
     }
     this.total = this.list.length
@@ -197,7 +197,7 @@ export default class extends Vue {
     if (input.length > 0) {
       const arr:any = []
       for (let i = 0; i < this.list.length; i++) {
-        let name = this.list[i].name.toLowerCase()
+        const name = this.list[i].name.toLowerCase()
         if (name.indexOf(input.toLowerCase()) >= 0) {
           arr.push(this.list[i].name)
         }
@@ -221,7 +221,7 @@ export default class extends Vue {
             name: tmpList[i].name,
             value: tmpList[i].value,
             type: tmpList[i].type,
-            other:tmpList[i].other
+            other: tmpList[i].other
           })
         }
         this.list = list_s

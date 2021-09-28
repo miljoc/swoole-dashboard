@@ -66,7 +66,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getLoadedExtensions } from '@/api/phpinfos'
-import {IExtensions} from '@/api/types'
+import { IExtensions } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { getSortFun } from '@/utils'
 

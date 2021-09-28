@@ -1,6 +1,4 @@
 // Parse the time to string
-import { IConnectionInfo } from '@/api/types'
-
 export const parseTime = (
   time?: object | string | number | null,
   cFormat?: string
@@ -196,10 +194,8 @@ export const toggleClass = (ele: HTMLElement, className: string) => {
 
 export const getSortFun = (field: string, sortType: string, data: Array<any>) => {
   return data.sort((a, b) => {
-    const value1 = eval('a.' + field)
-    const value2 = eval('b.' + field)
-    // const value1 = a[field]
-    // const value2 = b[field]
+    const value1 = a[field]
+    const value2 = b[field]
     if (sortType === 'desc') {
       return value2 - value1
     } else {

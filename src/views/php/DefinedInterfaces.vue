@@ -54,7 +54,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getDeclaredInterfaces } from '@/api/phpinfos'
 import { IDeclaredInterfaces } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import {getSortFun} from "@/utils";
+import { getSortFun } from '@/utils'
 
 @Component({
   name: 'InlineEditTable',
@@ -137,7 +137,7 @@ export default class extends Vue {
       const arr:any = []
 
       for (let i = 0; i < this.list.length; i++) {
-        let name = this.list[i].name.toLowerCase()
+        const name = this.list[i].name.toLowerCase()
         if (name.indexOf(input.toLowerCase()) >= 0) {
           arr.push(this.list[i].name)
         }

@@ -136,7 +136,7 @@ export default class extends Vue {
    * 发送请求
    * @private
    */
-  private async sendApi() {
+  private async getDefinedFunctions() {
     const { data } = await getDefinedFunctions()
     return data
   }
@@ -147,10 +147,10 @@ export default class extends Vue {
    */
   private async getData() {
     this.listLoading = true
-    const data = await this.sendApi()
+    const data = await this.getDefinedFunctions()
 
     let index = 0
-    const tmpList = []
+    const tmpList: IDefinedFunction[] = []
 
     for (const item of data.user) {
       const id = index++
@@ -166,7 +166,7 @@ export default class extends Vue {
     for (const name of data.internal) {
       const id = index++
       tmpList.push({
-        line: '',
+        line: 0,
         filename: '',
         name: name,
         id: id,
@@ -175,7 +175,7 @@ export default class extends Vue {
     }
 
     // 筛选项数据
-    const tmpType: Array<number> = []
+    const tmpType: string[] = []
     for (let index = 0; index < tmpList.length; index++) {
       // 处理 type 选项数据
       tmpType[index] = tmpList[index].type

@@ -206,7 +206,7 @@ export default {
     sourceFile: 'Source File',
     actions: 'Actions',
     varDump: 'Var Dump',
-    detail: 'Detail',
+    detail: 'Detail'
   },
   extensions: {
     classes: 'Classes',

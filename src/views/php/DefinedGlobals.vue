@@ -44,9 +44,7 @@
       >
         <template slot-scope="{row}">
           <span>
-             <el-link type="primary">
             {{ row.type }}
-          </el-link>
           </span>
         </template>
       </el-table-column>
@@ -222,10 +220,11 @@ export default class extends Vue {
         const list_s = []
         for (let i = 0; i < tmpList.length; i++) {
           list_s.push({
-            name: tmpList[i].name,
             id: i + 1,
-            value: tmpList[i].value, // 不转化千分位做排序
-            values: tmpList[i].value.toLocaleString() // 千分位展示
+            name: tmpList[i].name,
+            value: tmpList[i].value,
+            type: tmpList[i].type,
+            other:tmpList[i].other
           })
         }
         this.list = list_s

@@ -4,10 +4,26 @@
     <el-input
       v-model="search"
       placeholder="Name / Source File"
-      @input="filterHandler"
+      @keyup.enter.native="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
-    <el-button type="default" style="color:#909399;" @click="clearFilter">Clear</el-button>
+    <el-select
+      v-model="typeFieldValue"
+      multiple
+      collapse-tags
+      placeholder="Type"
+      @change="filterHandler"
+      style="margin: 0 10px 10px 0;"
+    >
+      <el-option
+        v-for="item in typeOptions"
+        :label="item"
+        :key="item"
+        :value="item">
+      </el-option>
+    </el-select>
+    <el-button type="primary" @click="filterHandler" icon="el-icon-search">Search</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> Clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table
@@ -60,7 +76,8 @@
           width="200"
       >
         <template slot-scope="{row}">
-          <span>{{ row.type }}</span>
+          <el-tag type="success" v-if="row.type === 'user'">{{ row.type }}</el-tag>
+          <el-tag type="primary" v-if="row.type === 'internal'">{{ row.type }}</el-tag>
         </template>
       </el-table-column>
     </el-table>
@@ -101,6 +118,8 @@ export default class extends Vue {
 
   // 搜索
   private search = ''
+  private typeFieldValue: Array<string> = []
+  private typeOptions: any = []
 
   created() {
     this.getData()
@@ -148,6 +167,20 @@ export default class extends Vue {
       })
     }
 
+    // 筛选项数据
+    const tmpType: Array<number> = []
+    for (let index = 0; index < tmpList.length; index++) {
+      // 处理 type 选项数据
+      tmpType[index] = tmpList[index].type
+    }
+
+    // 去除重复值
+    for (let i = 0; i < tmpType.length; i++) {
+      if (tmpType.indexOf(tmpType[i]) === i) {
+        this.typeOptions.push(tmpType[i])
+      }
+    }
+
     this.allList = JSON.parse(JSON.stringify(tmpList))
     this.handleAllList = tmpList
     this.showList(this.handleAllList)
@@ -173,6 +206,12 @@ export default class extends Vue {
       })
     }
 
+    if (this.typeFieldValue.length > 0) {
+      this.handleAllList = this.handleAllList.filter((item) => {
+        return inArray(item.type, this.typeFieldValue)
+      })
+    }
+
     this.listQuery.page = 1
     this.total = this.handleAllList.length
     this.showList(this.handleAllList)
@@ -183,9 +222,10 @@ export default class extends Vue {
    * @private
    */
   private clearFilter(): void {
-    if (this.search.length > 0) {
+    if (this.search.length > 0 || this.typeFieldValue.length > 0) {
       console.log('清除筛选项')
       this.search = ''
+      this.typeFieldValue = []
       this.handleAllList = JSON.parse(JSON.stringify(this.allList))
       this.showList(this.handleAllList)
       this.total = this.handleAllList.length
@@ -198,7 +238,7 @@ export default class extends Vue {
    */
   private sortChange(column:any) {
     const field: string = column.column.sortable // 排序字段
-    if (this.search.length === 0) {
+    if (this.search.length === 0 && this.typeFieldValue.length === 0) {
       this.handleAllList = JSON.parse(JSON.stringify(this.allList)) // 备份初始数据
     }
     if (column.order !== null) {

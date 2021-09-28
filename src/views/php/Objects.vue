@@ -4,10 +4,11 @@
     <el-input
       v-model="search"
       placeholder="Class / Source File"
-      @input="filterHandler"
+      @keyup.enter.native="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
-    <el-button type="default" style="color:#909399;" @click="clearFilter">Clear</el-button>
+    <el-button type="primary" @click="filterHandler" icon="el-icon-search">Search</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> Clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table
@@ -31,7 +32,7 @@
 
       <el-table-column
         align="center"
-        label="Objectc Hash"
+        label="Object Hash"
         sortable="hash"
       >
         <template slot-scope="{row}">
@@ -80,7 +81,7 @@
       <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
           <el-button type="success" size="mini" @click="handleVarDump(scope.row)">
-            Var Dump
+            <svg-icon name="print" /> Var Dump
           </el-button>
         </template>
       </el-table-column>

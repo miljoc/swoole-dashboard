@@ -69,7 +69,7 @@
       </el-option>
     </el-select>
     <!---------------------------port------结束----------------------->
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> Clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <!---------------------------表格数据------开始----------------------->

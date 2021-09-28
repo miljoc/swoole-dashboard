@@ -37,7 +37,7 @@
       </el-option>
     </el-select>
     <!---------------------------port------结束----------------------->
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> Clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <div class="filter-container">
@@ -177,7 +177,7 @@
 
       <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
-          <el-button type="warning" size="mini" @click="handleCloseSession(scope.row, scope.$index)">
+          <el-button type="danger" size="mini" @click="handleCloseSession(scope.row, scope.$index)" icon="el-icon-close">
             Close Session
           </el-button>
         </template>

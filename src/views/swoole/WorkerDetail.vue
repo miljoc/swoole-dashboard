@@ -25,35 +25,35 @@
                 workerInfo.id
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="Memory Usage">{{ workerInfo.memory_usage }}</el-descriptions-item>
-            <el-descriptions-item label="Memory Real Usage">{{ workerInfo.memory_real_usage }}</el-descriptions-item>
-            <el-descriptions-item label="Timer Num">{{ workerInfo.memory_usage }}</el-descriptions-item>
+            <el-descriptions-item label="Memory Usage">{{ workerInfo.memory_usage | amountRule }}</el-descriptions-item>
+            <el-descriptions-item label="Memory Real Usage">{{ workerInfo.memory_real_usage | amountRule }}</el-descriptions-item>
+            <el-descriptions-item label="Timer Num">{{ workerInfo.memory_usage | amountRule }}</el-descriptions-item>
             <el-descriptions-item label="Coroutine Num">{{
-                workerInfo.coroutine_stats.coroutine_num
+                workerInfo.coroutine_stats.coroutine_num | amountRule
               }}
             </el-descriptions-item>
             <el-descriptions-item label="Coroutine Peak Num">{{
-                workerInfo.coroutine_stats.coroutine_peak_num
+                workerInfo.coroutine_stats.coroutine_peak_num | amountRule
               }}
             </el-descriptions-item>
             <el-descriptions-item label="AIO Task Num">{{
-                workerInfo.coroutine_stats.aio_task_num
+                workerInfo.coroutine_stats.aio_task_num | amountRule
               }}
             </el-descriptions-item>
             <el-descriptions-item label="AIO Thread Num">{{
-                workerInfo.coroutine_stats.aio_worker_num
+                workerInfo.coroutine_stats.aio_worker_num | amountRule
               }}
             </el-descriptions-item>
             <el-descriptions-item label="Event Num">{{
-                workerInfo.coroutine_stats.event_num
+                workerInfo.coroutine_stats.event_num | amountRule
               }}
             </el-descriptions-item>
             <el-descriptions-item label="Timer Num">{{
-                workerInfo.timer_stats.num
+                workerInfo.timer_stats.num | amountRule
               }}
             </el-descriptions-item>
             <el-descriptions-item label="Signal Listener Num">{{
-                workerInfo.coroutine_stats.signal_listener_num
+                workerInfo.coroutine_stats.signal_listener_num | amountRule
               }}
             </el-descriptions-item>
           </el-descriptions>
@@ -75,12 +75,16 @@
 
 <script>
 import { getWorkerInfo2 } from '@/api/server'
+import { amountRule } from '@/utils/index'
 
 export default {
   data() {
     return {
       workerInfo: {}
     }
+  },
+  filters: {
+    amountRule: amountRule
   },
   created() {
     this.getWorkerInfo()

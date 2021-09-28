@@ -4,10 +4,11 @@
     <el-input
       v-model="search"
       placeholder="Filename"
-      @input="filterHandler"
+      @keyup.enter.native="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear</el-button>
+    <el-button type="primary" @click="filterHandler" icon="el-icon-search">Search</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> Clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table
@@ -118,6 +119,7 @@ export default class extends Vue {
    * @private
    */
   private filterHandler() {
+    console.log(111)
     this.handleAllList = JSON.parse(JSON.stringify(this.allList))
     if (this.search.length > 0) {
       this.handleAllList = this.handleAllList.filter((item) => {

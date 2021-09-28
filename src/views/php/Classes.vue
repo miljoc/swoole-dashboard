@@ -4,10 +4,11 @@
     <el-input
       v-model="search"
       placeholder="Name / Source File"
-      @input="filterHandler"
+      @keyup.enter.native="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
-    <el-button type="default" style="color:#909399;" @click="clearFilter">Clear</el-button>
+    <el-button type="primary" @click="filterHandler" icon="el-icon-search">Search</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> Clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table

@@ -186,24 +186,7 @@ export default class extends Vue {
         other:name.other
       })
     }
-    console.log(this.list,'this.list')
     this.total = this.list.length
-  }
-
-  private async gettype(obj) {
-    let type = typeof obj
-    // console.log(type,'typetypetype')
-    if (type !== 'object') {
-      console.log(type,'1111')
-      return type;
-    } else {
-        const str = Object.prototype.toString.call(obj)
-      console.log(/^\[object (.*)\]$/.exec(str)[1],'22222')
-        return /^\[object (.*)\]$/.exec(str)[1]
-      // return Object.prototype.toString.call(obj).replace(/^\[object (\S+)\]$/, '$1');
-    }
-    // console.log( JSON.parse(JSON.stringify(abd)),'12')
-    // return JSON.parse(JSON.stringify(abd))
   }
 
   private async getList() {

@@ -3,11 +3,11 @@
     <!---------------------------查询------开始----------------------->
     <el-input
       v-model="search"
-      placeholder="Filename"
+      placeholder="Class / Source File"
       @input="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter">Clear</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table
@@ -171,10 +171,11 @@ export default class extends Vue {
    */
   private filterHandler() {
     this.handleAllList = JSON.parse(JSON.stringify(this.allList))
+
     if (this.search.length > 0) {
       this.handleAllList = this.handleAllList.filter((item) => {
         const tmpStr = this.search.toLowerCase()
-        if (item.class.toLowerCase().indexOf(tmpStr) !== -1) {
+        if (item.class.toLowerCase().indexOf(tmpStr) !== -1 || item.filename.toLowerCase().indexOf(tmpStr) !== -1 || item.line.toString().toLowerCase().indexOf(tmpStr) !== -1) {
           return true
         } else {
           return false

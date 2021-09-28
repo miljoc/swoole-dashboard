@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
 
-    <el-input v-model="input" style="margin: 0 10px 10px 0;width: 300px;" placeholder="请输入内容" @keyup.enter.native="searchFilter"></el-input>
+    <el-input v-model="input" style="margin: 0 10px 10px 0;width: 300px;" :placeholder="$t('constants.name')" @keyup.enter.native="searchFilter"></el-input>
 
-    <el-button type="default" style="color:#909399;" @click="searchFilter">Search</el-button>
+    <el-button type="primary" @click="searchFilter" icon="el-icon-search">{{ $t('common.search') }}</el-button>
 
-    <el-button type="default" style="color:#909399;" @click="clearFilter">Clear</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> {{ $t('common.clear') }}</el-button>
 
     <el-table
       v-loading="listLoading"
@@ -189,7 +189,6 @@ export default class extends Vue {
     if (this.field != '' && this.order != '') {
       this.sortChange(this.column)
     } else {
-      console.log(this.total)
       this.tmpData = []
       for (const item of this.list) {
         if (item.id >= (this.listQuery.page - 1) * this.listQuery.limit && item.id < this.listQuery.page * this.listQuery.limit) {

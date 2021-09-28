@@ -135,6 +135,15 @@ export default new Router({
           }
         },
         {
+          path: '/functions_detail',
+          component: () => import('@/views/php/FunctionsDetail.vue'),
+          meta: {
+            title: 'Function Content',
+            hidden: true,
+            activeMenu: '/functions'
+          }
+        },
+        {
           path: '/resources',
           component: () => import('@/views/php/Resources.vue'),
           meta: {
@@ -148,7 +157,7 @@ export default new Router({
           component: () => import('@/views/php/DefinedConstants.vue'),
           meta: {
             title: 'Constants',
-            icon: 'skill',
+            icon: 'hamburger',
             activeMenu: '/defined_constants'
           }
         },

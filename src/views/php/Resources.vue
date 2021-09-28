@@ -37,7 +37,7 @@
       </el-option>
     </el-select>
     <!---------------------------info------结束----------------------->
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> {{ $t('common.clear') }}</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table

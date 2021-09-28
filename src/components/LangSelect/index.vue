@@ -23,30 +23,6 @@
       >
         English
       </el-dropdown-item>
-      <el-dropdown-item
-        :disabled="language==='es'"
-        command="es"
-      >
-        Español
-      </el-dropdown-item>
-      <el-dropdown-item
-        :disabled="language==='ja'"
-        command="ja"
-      >
-        日本語
-      </el-dropdown-item>
-      <el-dropdown-item
-        :disabled="language==='ko'"
-        command="ko"
-      >
-        한국어
-      </el-dropdown-item>
-      <el-dropdown-item
-        :disabled="language==='it'"
-        command="it"
-      >
-        Italiano
-      </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
@@ -54,7 +30,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { AppModule } from '@/store/modules/app'
-import settings from '../../settings'
+import settings from "@/settings";
+
 @Component({
   name: 'Login'
 })

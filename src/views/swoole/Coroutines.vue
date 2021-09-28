@@ -7,7 +7,7 @@
       @input="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
-    <el-button type="default" style="color:#909399;" @click="clearFilter">Clear</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> {{ $t('common.clear') }}</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table
@@ -78,7 +78,7 @@
 
       <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleBackTrace(scope.row)">BackTrace</el-button>
+          <el-button type="primary" size="mini" @click="handleBackTrace(scope.row)"><svg-icon name="detail" /> BackTrace</el-button>
         </template>
       </el-table-column>
 

@@ -68,8 +68,8 @@
               </el-table-column>
               <el-table-column label="Actions" align="center">
                 <template slot-scope="scope">
-                  <el-button type="success" size="mini" @click="handleVarDump(scope.row)">
-                    Var Dump
+                  <el-button type="success" size="mini" @click="handleVarDump(scope.row)" svg-icon="print">
+                    <svg-icon name="print" /> Var Dump
                   </el-button>
                 </template>
               </el-table-column>

@@ -3,11 +3,13 @@
     <!---------------------------查询------开始----------------------->
     <el-input
       v-model="search"
-      placeholder="Filename"
+      @keyup.enter.native="filterHandler"
+      :placeholder="$t('includedfiles.filename')"
       @input="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
-    <el-button type="default" style="color:#909399;" @click="clearFilter">clear</el-button>
+    <el-button type="primary" @click="filterHandler" icon="el-icon-search">{{ $t('common.search') }}</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> {{ $t('common.clear') }}</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table
@@ -24,7 +26,7 @@
           <span style="margin-left: 10px">{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Filename">
+      <el-table-column :label="$t('includedfiles.filename')">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"

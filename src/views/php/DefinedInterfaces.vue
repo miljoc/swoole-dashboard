@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
 
-    <el-input v-model="input" id="search" style="margin: 0 10px 10px 0;width: 300px;" @keyup.enter.native="searchFilter" placeholder="请输入内容"></el-input>
+    <el-input v-model="input" id="search" style="margin: 0 10px 10px 0;width: 300px;" @keyup.enter.native="searchFilter" :placeholder="$t('interfaces.name')"></el-input>
 
-    <el-button type="default" style="color:#909399;" @click="searchFilter">Search</el-button>
+    <el-button type="primary" @click="searchFilter" icon="el-icon-search">{{ $t('common.search') }}</el-button>
 
-    <el-button type="default" style="color:#909399;" @click="clearFilter">Clear</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> {{ $t('common.clear') }}</el-button>
 
     <el-table
       v-loading="listLoading"
@@ -52,9 +52,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getDeclaredInterfaces } from '@/api/phpinfos'
-import {IDeclaredClass, IDeclaredInterfaces} from '@/api/types'
+import { IDeclaredInterfaces } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { getSortFun } from '@/utils'
+import {getSortFun} from "@/utils";
 
 @Component({
   name: 'InlineEditTable',

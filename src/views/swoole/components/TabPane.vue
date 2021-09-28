@@ -189,8 +189,8 @@
 
       <el-table-column label="Actions" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="viewWorkerDetail(scope.row, scope.$index)">
-              View Details
+          <el-button type="primary" size="mini" @click="viewWorkerDetail(scope.row, scope.$index)">
+            <svg-icon name="detail" /> View Details
           </el-button
           >
         </template>

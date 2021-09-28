@@ -435,6 +435,10 @@ export default class extends Vue {
    * @param column
    */
   private sortChange(column:any) {
+    if (this.type === 'master' || this.type === 'manager') {
+      return false
+    }
+
     const field: string = column.column.sortable // 排序字段
     if (column.order !== null) {
       const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序

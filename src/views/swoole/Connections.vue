@@ -197,10 +197,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getServerSetting, getConnections, closeConnection, getSocketInfo, getObjects } from '@/api/server'
+import { getServerSetting, getConnections, closeConnection } from '@/api/server'
 import { IServerSetting, IConnectionInfo } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { bytesFormat, eventsFitler, getSortFun, inArray, parseTime, getWorker } from '@/utils/index'
+import { bytesFormat, eventsFitler, getSortFun, inArray, parseTime } from '@/utils/index'
 
 @Component({
   name: 'EventList',
@@ -256,10 +256,12 @@ export default class extends Vue {
    * @private
    */
   private handleCloseSession(res: IConnectionInfo) {
-    console.log(res)
-    this.$confirm(this.$t('connections.closeWarning'), {
-      confirmButtonText: this.$t('connections.close'),
-      cancelButtonText: this.$t('common.cancel'),
+    const str = this.$t('connections.closeWarning').toString()
+    const confirmButtonText = this.$t('connections.close').toString()
+    const cancelButtonText = this.$t('connections.cancel').toString()
+    this.$confirm(str, {
+      confirmButtonText: confirmButtonText,
+      cancelButtonText: cancelButtonText,
       type: 'warning'
     })
       .then(() => {
@@ -277,9 +279,10 @@ export default class extends Vue {
   private async closeSession(session_id: number) {
     const worker = this.$route.query.worker ?? 'master'
     await closeConnection(session_id, worker)
+    const str = this.$t('connections.closeSuccess').toString()
     this.$message({
       type: 'success',
-      message: this.$t('connections.closeSuccess')
+      message: str
     })
     // 删除记录
     for (let i = 0; i < this.allList.length; i++) {

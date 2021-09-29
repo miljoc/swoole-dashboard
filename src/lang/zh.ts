@@ -306,7 +306,7 @@ export default {
     'Ip:Port': 'Ip:端口',
     sendBuffSize: '发送缓冲区间大小',
     numberOfBytesReceived: '已接收的字节数',
-    numberOfBytesSend: '已发送的字节数',
+    numberOfBytesSend: '已发送的字节数'
   },
   timers: {
     interval: '时间间隔',

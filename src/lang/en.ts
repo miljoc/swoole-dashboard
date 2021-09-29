@@ -230,6 +230,7 @@ export default {
     properties: 'Properties',
     staticProperties: 'Static Properties',
     propertiesModifiers: 'Modifiers',
+    modifiers: 'Modifiers',
     propertiesName: 'Property Name',
     propertiesValue: 'Property Value',
     methods: 'Methods',

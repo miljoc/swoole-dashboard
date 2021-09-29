@@ -63,11 +63,6 @@
               <el-table-column :label="$t('classes.propertiesName')" align="center">
                 <template slot-scope="scope">{{scope.row.name }}</template>
               </el-table-column>
-              <el-table-column :label="$t('classes.propertiesValue')" align="center">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.default }}</span>
-                </template>
-              </el-table-column>
               <el-table-column :label="$t('common.actions')" align="center">
                 <template slot-scope="scope">
                   <el-button type="success" size="mini" @click="handleVarDump(scope.row)" svg-icon="print">

@@ -89,7 +89,12 @@
           sortable="fd"
       >
         <template slot-scope="{row}">
-          <span>{{ row.fd }}</span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/socket_info?fd=${row.fd}&worker=${worker}`}">
+              {{ row.fd }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 
@@ -217,8 +222,10 @@ export default class extends Vue {
   private fdTypeOptions: any = []
   private portFieldValue: Array<string> = []
   private portOptions: any = []
+  private worker:string | (string | null)[] = ''
 
   created() {
+    this.worker = this.$route.query.worker ?? 'master-0'
     this.getData()
   }
 

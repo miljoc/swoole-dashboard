@@ -29,7 +29,7 @@
 
       <el-table-column
         align="center"
-        label="Name"
+        :label="$t('interfaces.name')"
       >
         <template slot-scope="{row}">
           <el-link type="primary">

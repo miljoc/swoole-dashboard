@@ -29,7 +29,7 @@
 
       <el-table-column
         align="center"
-        label="Name"
+        :label="$t('constants.name')"
       >
         <template slot-scope="{row}">
           <el-link type="primary">
@@ -40,7 +40,7 @@
 
       <el-table-column
         align="center"
-        label="Value"
+        :label="$t('constants.value')"
         width="200"
         sortable="value"
       >

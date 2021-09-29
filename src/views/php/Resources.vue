@@ -6,7 +6,7 @@
       v-model="typeFieldValue"
       multiple
       collapse-tags
-      placeholder="Type"
+      :placeholder="$t('resources.type')"
       style="margin: 0 10px 10px 0;"
       filterable
       @change="filterHandler"
@@ -24,7 +24,7 @@
       v-model="infoFieldValue"
       multiple
       collapse-tags
-      placeholder="Info"
+      :placeholder="$t('resources.info')"
       style="margin: 0 10px 10px 0;"
       filterable
       @change="filterHandler"
@@ -62,7 +62,7 @@
 
       <el-table-column
           align="center"
-          label="Type"
+          :label="$t('resources.type')"
       >
         <template slot-scope="{row}">
           <span>{{ row.type }}</span>
@@ -71,7 +71,7 @@
 
       <el-table-column
           align="center"
-          label="Info"
+          :label="$t('resources.info')"
       >
         <template slot-scope="{row}">
           <span>{{ row | parseResourceInfo }}</span>
@@ -93,7 +93,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getResources } from '@/api/phpinfos'
-import { IDefinedFunction, IResource } from '@/api/types'
+import { IResource } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { getSortFun, inArray, parseResourceInfo } from '@/utils'
 

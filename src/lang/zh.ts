@@ -21,6 +21,7 @@ export default {
     'Worker Detail': '进程详情',
     Coroutines: '协程',
     Connections: '连接',
+    'Socket Info': 'Socket详情',
     Events: '事件',
     Timers: '定时器',
     Globals: '全局变量',
@@ -206,7 +207,7 @@ export default {
     clear: '清空',
     sourceFile: '文件信息',
     actions: '操作',
-    varDump: '打印',
+    varDump: '输出打印',
     detail: '查看详情',
     close: '关闭',
     cancel: '取消'
@@ -242,14 +243,22 @@ export default {
     type: '类型',
     name: '函数名'
   },
+  resources: {
+    name: '资源名',
+    type: '资源类型',
+    info: '资源信息'
+  },
+  constants: {
+    name: '常量名',
+    value: '常量值'
+  },
   interfaces: {
     name: '接口名'
   },
-  constants: {
-    name: '常量名'
-  },
   globals: {
-    name: '变量名'
+    name: '变量名',
+    type: '变量类型',
+    value: '变量值'
   },
   objects: {
     placeholder: '类名 或 文件信息',
@@ -304,7 +313,7 @@ export default {
     fdType: 'Fd类型',
     port: '端口',
     'Ip:Port': 'Ip:端口',
-    sendBuffSize: '发送缓冲区间大小',
+    sendBufferSize: '发送缓冲区大小',
     numberOfBytesReceived: '已接收的字节数',
     numberOfBytesSend: '已发送的字节数'
   },

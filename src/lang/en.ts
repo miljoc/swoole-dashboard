@@ -207,7 +207,9 @@ export default {
     sourceFile: 'Source File',
     actions: 'Actions',
     varDump: 'Var Dump',
-    detail: 'Detail'
+    detail: 'Detail',
+    close: 'Close',
+    cancel: 'Cancel'
   },
   extensions: {
     classes: 'Classes',
@@ -273,5 +275,43 @@ export default {
     nvcs: 'NV-CS',
     timerNum: 'Timer Num',
     coroutineNum: 'Coroutine Num'
+  },
+  coroutines: {
+    placeholder: 'Called Function or Source File',
+    elapsed: 'Elapsed',
+    stackUsage: 'Stack Usage',
+    calledFunction: 'Called Function',
+    backTrace: 'Back Trace'
+  },
+  connections: {
+    socketName: 'Socket Name',
+    serverPort: 'Server Port',
+    connectTime: 'Connect Time',
+    lastReceivedTime: 'Last Received Time',
+    lastSendTime: 'Last Send Time',
+    recvQueuedBytes: 'Recv Queued Bytes',
+    sendQueuedBytes: 'Send Queued Bytes',
+    numberOfBytesReceived: 'Number Of Bytes Received',
+    numberOfBytesSend: 'Number Of Bytes Send',
+    closeSession: 'Close Session',
+    closeWarning: 'Confirm whether to close the connection？',
+    close: 'Close Session',
+    closeSuccess: 'Session Closed'
+  },
+  events: {
+    eventType: 'Events',
+    socketType: 'Socket Type',
+    fdType: 'Fd Type',
+    port: 'Port',
+    'Ip:Port': 'Ip:Port',
+    sendBuffSize: 'Send Buffer Size',
+    numberOfBytesReceived: 'Number Of Bytes Received',
+    numberOfBytesSend: 'Number Of Bytes Send'
+  },
+  timers: {
+    interval: 'Interval',
+    execMsec: 'Exec Msec',
+    execCount: 'Exec Count',
+    round: 'Round'
   }
 }

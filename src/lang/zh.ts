@@ -207,7 +207,9 @@ export default {
     sourceFile: '文件信息',
     actions: '操作',
     varDump: '打印',
-    detail: '查看详情'
+    detail: '查看详情',
+    close: '关闭',
+    cancel: '取消'
   },
   extensions: {
     classes: '类',
@@ -258,7 +260,7 @@ export default {
   },
   processes: {
     reloadCount: '重载次数',
-    timeOfLastReload: '上次重载时间',
+    timeOfLastReload: '最后重载时间',
     coroutines: '协程',
     events: '事件',
     timers: '定时器',
@@ -269,9 +271,47 @@ export default {
     dispatchCount: '处理数量',
     vmSize: '虚拟内存',
     vmRSS: '虚拟内存驻留集合',
-    vcs: '自愿上下分切换',
-    nvcs: '非自愿上下分切换',
+    vcs: '自愿上下文切换',
+    nvcs: '非自愿上下文切换',
     timerNum: '定时器数量',
     coroutineNum: '协程数量'
+  },
+  coroutines: {
+    placeholder: '调用函数 或 文件信息',
+    elapsed: '时长',
+    stackUsage: '已用堆栈',
+    calledFunction: '调用函数',
+    backTrace: '查看回溯'
+  },
+  connections: {
+    socketName: 'Socket名称',
+    serverPort: '服务端口',
+    connectTime: '发起连接时间',
+    lastReceivedTime: '最后接收时间',
+    lastSendTime: '最后发送时间',
+    recvQueuedBytes: '接收队列大小',
+    sendQueuedBytes: '发送队列大小',
+    numberOfBytesReceived: '已接收的字节数',
+    numberOfBytesSend: '已发送的字节数',
+    closeSession: '断开连接',
+    closeWarning: '是否确认断开连接',
+    close: '断开',
+    closeSuccess: '连接已断开'
+  },
+  events: {
+    eventType: '事件类型',
+    socketType: 'Socket类型',
+    fdType: 'Fd类型',
+    port: '端口',
+    'Ip:Port': 'Ip:端口',
+    sendBuffSize: '发送缓冲区间大小',
+    numberOfBytesReceived: '已接收的字节数',
+    numberOfBytesSend: '已发送的字节数',
+  },
+  timers: {
+    interval: '时间间隔',
+    execMsec: '执行毫秒数',
+    execCount: '执行次数',
+    round: 'round'
   }
 }

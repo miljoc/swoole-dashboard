@@ -3,7 +3,7 @@
     <!---------------------------查询------开始----------------------->
     <el-input
       v-model="search"
-      placeholder="Called Function / Source File"
+      :placeholder="$t('coroutines.placeholder')"
       @input="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
@@ -32,7 +32,7 @@
 
       <el-table-column
         align="center"
-        label="Elapsed"
+        :label="$t('coroutines.elapsed')"
         width="150"
         sortable="elapsed"
       >
@@ -43,7 +43,7 @@
 
       <el-table-column
         align="center"
-        label="Stack Usage"
+        :label="$t('coroutines.stackUsage')"
         width="150"
         sortable="stack_usage"
       >
@@ -54,7 +54,7 @@
 
       <el-table-column
         align="center"
-        label="Called Function"
+        :label="$t('coroutines.calledFunction')"
       >
         <template slot-scope="{row}">
           <span>{{ row.backTrace | parseBackTraceCaller }}</span>
@@ -63,7 +63,7 @@
 
       <el-table-column
         align="center"
-        label="Source File"
+        :label="$t('common.sourceFile')"
       >
         <template slot-scope="{row}">
           <el-link type="primary" v-if="row.backTrace.length > 0">
@@ -76,9 +76,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Actions" align="center">
+      <el-table-column :label="$t('common.actions')" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleBackTrace(scope.row)"><svg-icon name="detail" /> BackTrace</el-button>
+          <el-button type="primary" size="mini" @click="handleBackTrace(scope.row)"><svg-icon name="detail" />
+            {{ $t('coroutines.backTrace') }}
+          </el-button>
         </template>
       </el-table-column>
 
@@ -92,11 +94,11 @@
       @pagination="jumpPage"
     />
 
-    <el-dialog title="BackTrace" :visible.sync="dialogTableVisible">
+    <el-dialog :title="$t('coroutines.backTrace')" :visible.sync="dialogTableVisible">
       <el-table :data="backTrace">
         <el-table-column property="id" label="ID" width="50"></el-table-column>
-        <el-table-column property="name" label="Function"></el-table-column>
-        <el-table-column label="File">
+        <el-table-column property="name" :label="$t('coroutines.calledFunction')"></el-table-column>
+        <el-table-column :label="$t('common.sourceFile')">
           <template slot-scope="scope">
             <el-link type="primary">
               <router-link class="link-type"
@@ -116,7 +118,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getCoroutineList, getCoroutineBackTrace } from '@/api/server'
 import { IBackTraceFrame, IWorkerCoroutineData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { amountRule, division, getSortFun, inArray, timeFormat } from '@/utils'
+import { amountRule, division, getSortFun, timeFormat } from '@/utils'
 
 const parseBackTraceSource = (_frame_list: any) => {
   if (_frame_list.length === 0) {

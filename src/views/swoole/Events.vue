@@ -176,9 +176,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { getAllSockets } from '@/api/server'
-import { IEventsData, IObjectsData } from '@/api/types'
+import { IEventsData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
 import { bytesFormat, getSortFun, eventsFitler, fdTypeFilter, socketTypeFilter, amountRule, inArray } from '@/utils/index'
 

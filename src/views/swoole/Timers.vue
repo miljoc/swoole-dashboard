@@ -75,7 +75,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getTimerList } from '@/api/server'
 import { IWorkerTimerData } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { amountRule, getSortFun, inArray } from '@/utils'
+import { amountRule, getSortFun } from '@/utils'
 
 @Component({
   name: 'InlineEditTable',

@@ -154,6 +154,15 @@
 
           <el-table-column
               align="center"
+              label="CPU Usage"
+          >
+            <template slot-scope="{row}">
+              <span>{{ workerCpuUsage[row.worker_id] }}%</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+              align="center"
               label="Request Count"
           >
             <template slot-scope="{row}">
@@ -369,6 +378,8 @@ export default class extends Vue {
 
   private lastCpuUsage = 0
   private cpuUsage = 0
+  private workerCpuUsage: number[] = []
+  private lastWorkerCpuUsage: number[] = []
   private cpuUsageMax = 100
 
   private memoryUsage = 0
@@ -445,12 +456,12 @@ export default class extends Vue {
       this.clientsChartData.dispatch_count.shift()
       this.clientsChartData.response_count.shift()
       this.clientsChartData.close_count.shift()
-    }
 
-    this.serverTrafficChartData.recvData.push(this.serverStats.total_recv_bytes - lastServerStats.total_recv_bytes)
-    this.serverTrafficChartData.sendData.push(this.serverStats.total_send_bytes - lastServerStats.total_send_bytes)
-    this.serverTrafficChartData.recvData.shift()
-    this.serverTrafficChartData.sendData.shift()
+      this.serverTrafficChartData.recvData.push(this.serverStats.total_recv_bytes - lastServerStats.total_recv_bytes)
+      this.serverTrafficChartData.sendData.push(this.serverStats.total_send_bytes - lastServerStats.total_send_bytes)
+      this.serverTrafficChartData.recvData.shift()
+      this.serverTrafficChartData.sendData.shift()
+    }
   }
 
   private async getCpuUsage() {
@@ -459,6 +470,20 @@ export default class extends Vue {
     this.lastCpuUsage = data.total
     this.cpuUsage = this.lastCpuUsage - lastCpuUsage
     this.cpuUsageMax = data.cpu_num * 100
+
+    const lastWorkerCpuUsage = this.lastWorkerCpuUsage
+    for (let i = 0; i < this.serverStats.worker_num; i++) {
+      lastWorkerCpuUsage.push(0)
+    }
+
+    const workerCpuUsage = []
+    for (let i = 0; i < this.serverStats.worker_num; i++) {
+      const worker = 'worker-' + i
+      workerCpuUsage.push(data[worker] - lastWorkerCpuUsage[i])
+      lastWorkerCpuUsage[i] = data[worker]
+    }
+    this.lastWorkerCpuUsage = lastWorkerCpuUsage
+    this.workerCpuUsage = workerCpuUsage
   }
 
   private async getMemoryUsage() {

@@ -263,7 +263,7 @@ export default {
   objects: {
     placeholder: 'Class Name or Source File',
     objectID: 'Object ID',
-    objectHASH: 'Object HASH',
+    objectHASH: 'Object Hash',
     className: 'Class Name',
     memorySize: 'Memory Size'
   },

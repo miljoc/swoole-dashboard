@@ -170,7 +170,7 @@ export default class extends Vue {
       }
     }
 
-    if (this.field != '' && this.order != '') {
+    if (this.field !== '' && this.order !== '') {
       this.sortChange(this.column)
     } else {
       this.tmpData = []

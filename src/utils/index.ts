@@ -142,6 +142,12 @@ export const fdTypeFilter = (type: number) => {
       return 'pipe'
     case 0:
       return 'session'
+    case 6:
+      return 'co_socket'
+    case 1:
+      return 'stream_server'
+    case 2:
+      return 'dgram_server'
     default:
       return 'php_stream'
   }

@@ -3,7 +3,10 @@
     <div>
       <el-descriptions
         border
-        :column=1
+        :column=2
+        :label-style="{
+          'width': '10%'
+        }"
       >
         <el-descriptions-item :label="index" v-for="(item, index) in socketInfo" :key="index">{{ handleData(index, item) }}</el-descriptions-item>
       </el-descriptions>

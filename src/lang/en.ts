@@ -303,8 +303,8 @@ export default {
     socketType: 'Socket Type',
     fdType: 'Fd Type',
     port: 'Port',
-    'Ip:Port': 'Ip:Port',
-    sendBuffSize: 'Send Buffer Size',
+    'Ip:Port': 'IP:Port',
+    sendBufferSize: 'Send Buffer Size',
     numberOfBytesReceived: 'Number Of Bytes Received',
     numberOfBytesSend: 'Number Of Bytes Send'
   },

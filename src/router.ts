@@ -81,15 +81,6 @@ export default new Router({
           }
         },
         {
-          path: '/gcstatus',
-          component: () => import('@/views/php/GCStatus.vue'),
-          meta: {
-            title: 'GC Status',
-            icon: 'gc',
-            activeMenu: '/gcstatus'
-          }
-        },
-        {
           path: '/includedfiles',
           component: () => import('@/views/php/IncludedFiles.vue'),
           meta: {

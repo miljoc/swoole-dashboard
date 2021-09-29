@@ -26,7 +26,7 @@
 
       <el-table-column
         align="center"
-        label="Name"
+        :label="$t('globals.name')"
       >
         <template slot-scope="{row}">
           <el-link type="primary">
@@ -37,7 +37,7 @@
 
       <el-table-column
         align="center"
-        label="Type"
+        :label="$t('globals.type')"
       >
         <template slot-scope="{row}">
           <span>
@@ -48,17 +48,17 @@
 
       <el-table-column
         align="center"
-        label="Value"
+        :label="$t('globals.value')"
         width="300"
         style="text-overflow:ellipsis;overflow:hidden;"
       >
         <template slot-scope="{row}">
-          <el-button v-if="(row.type == 'array' || row.type == 'object') && row.type.length > 0 " type="info" size="mini" @click="dialogVisibleDiv(row)" style="float: left;">
-            <svg-icon name="detail" /> Detail
+          <el-button v-if="(row.type === 'array' || row.type === 'object') && row.type.length > 0 " type="info" size="mini" @click="dialogVisibleDiv(row)" style="float: left;">
+            <svg-icon name="detail" /> {{ $t('common.detail') }}
           </el-button>
           <span v-else style="float: left;"> {{ row.value }}</span>
-          <el-button style="float: left;" v-if="row.type == 'object'" type="primary" size="mini" @click="handleVarDump(row)">
-            <svg-icon name="print" /> Var Dump
+          <el-button style="float: left;" v-if="row.type === 'object'" type="primary" size="mini" @click="handleVarDump(row)">
+            <svg-icon name="print" /> {{ $t('common.varDump') }}
           </el-button>
         </template>
       </el-table-column>
@@ -72,13 +72,13 @@
         @pagination="getList"
     />
     <el-dialog
-        title="Detail"
+        :title="$t('common.detail')"
         :visible.sync="dialogVisible"
         width="50%"
         :before-close="handleClose">
       <json-viewer style="padding: 0px 0px; !important;" :value="value_content" :expand-depth=1 copyable></json-viewer>
       <span slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="dialogVisible = false">OK</el-button>
+      <el-button type="primary" @click="dialogVisible = false">{{ $t('common.close') }}</el-button>
   </span>
     </el-dialog>
   </div>
@@ -229,7 +229,7 @@ export default class extends Vue {
       }
     }
 
-    if (this.field != '' && this.order != '') {
+    if (this.field !== '' && this.order !== '') {
       this.sortChange(this.column)
     } else {
       this.tmpData = []

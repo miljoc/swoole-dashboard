@@ -21,6 +21,7 @@ export default {
     'Worker Detail': 'Worker Detail',
     Coroutines: 'Coroutines',
     Connections: 'Connections',
+    'Socket Info': 'Socket Info',
     Events: 'Events',
     Timers: 'Timers',
     Globals: 'Globals',
@@ -242,14 +243,22 @@ export default {
     type: 'Type',
     name: 'Function Name'
   },
+  resources: {
+    name: 'Resources',
+    type: 'Type',
+    info: 'Info'
+  },
+  constants: {
+    name: 'Constants Name',
+    value: 'Constants Value'
+  },
   interfaces: {
     name: 'Interfaces Name'
   },
-  constants: {
-    name: 'Constants Name'
-  },
   globals: {
-    name: 'Globals Name'
+    name: 'Globals Name',
+    type: 'Type',
+    value: 'Value'
   },
   objects: {
     placeholder: 'Class Name or Source File',

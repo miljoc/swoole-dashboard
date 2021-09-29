@@ -29,7 +29,7 @@
 
       <el-table-column
         align="center"
-        label="Name"
+        :label="$t('interfaces.name')"
       >
         <template slot-scope="{row}">
           <el-link type="primary">
@@ -170,7 +170,7 @@ export default class extends Vue {
       }
     }
 
-    if (this.field != '' && this.order != '') {
+    if (this.field !== '' && this.order !== '') {
       this.sortChange(this.column)
     } else {
       this.tmpData = []

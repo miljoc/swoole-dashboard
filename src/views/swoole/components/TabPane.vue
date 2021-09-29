@@ -47,7 +47,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Dispatch Count" align="center" sortable="dispatch_count">
+      <el-table-column :label="$t('processes.dispatchCount')" align="center" sortable="dispatch_count">
         <template slot-scope="scope">
           <span>{{ scope.row.dispatch_count | amountRule }}</span>
         </template>
@@ -105,13 +105,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Reload Count" align="center" v-if="type === 'manager'" sortable="reload_count">
+      <el-table-column :label="$t('processes.reloadCount')" align="center" v-if="type === 'manager'" sortable="reload_count">
         <template slot-scope="scope">
           <span>{{ scope.row.reload_count | amountRule }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="Time of last reload" align="center" v-if="type === 'manager'" sortable="reload_last_time">
+      <el-table-column :label="$t('processes.timeOfLastReload')" align="center" v-if="type === 'manager'" sortable="reload_last_time">
         <template slot-scope="scope">
           <span>{{ scope.row.reload_last_time | parseTime }}</span>
         </template>
@@ -154,7 +154,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="VmSize" align="center" sortable="process_status.VmSize">
+      <el-table-column :label="$t('processes.vmSize')" align="center" sortable="process_status.VmSize">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
@@ -164,7 +164,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="VmRSS" align="center" sortable="process_status.VmRSS">
+      <el-table-column :label="$t('processes.vmRSS')" align="center" sortable="process_status.VmRSS">
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
@@ -175,13 +175,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="V-CS" align="center" sortable="process_status.voluntary_ctxt_switches">
+      <el-table-column :label="$t('processes.vcs')" align="center" sortable="process_status.voluntary_ctxt_switches">
         <template slot-scope="scope">
           <span>{{ scope.row.process_status.voluntary_ctxt_switches | amountRule }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="NV-CS" align="center" sortable="process_status.nonvoluntary_ctxt_switches">
+      <el-table-column :label="$t('processes.nvcs')" align="center" sortable="process_status.nonvoluntary_ctxt_switches">
         <template slot-scope="scope">
           <span>{{ scope.row.process_status.nonvoluntary_ctxt_switches | amountRule }}</span>
         </template>

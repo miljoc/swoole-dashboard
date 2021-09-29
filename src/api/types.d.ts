@@ -38,7 +38,6 @@ export interface IExtensions {
   version: string
 }
 
-
 export interface IDefinedFunction {
   id: number
   name: string
@@ -79,6 +78,8 @@ export interface IConnectionInfo {
   connect_time: number
   last_recv_time: number
   last_send_time: number
+  port?: number
+  address?: number
 }
 
 export interface IWorkerTimerData {

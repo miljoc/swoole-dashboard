@@ -18,6 +18,7 @@ export default {
     'Object Var Dump': '对象信息',
     Swoole: 'Swoole',
     Processes: '进程',
+    'Worker Detail': '进程详情',
     Coroutines: '协程',
     Connections: '连接',
     Events: '事件',
@@ -256,11 +257,21 @@ export default {
     memorySize: '占用内存'
   },
   processes: {
+    reloadCount: '重载次数',
+    timeOfLastReload: '上次重载时间',
     coroutines: '协程',
     events: '事件',
     timers: '定时器',
     objects: '对象',
     resources: '资源',
-    memoryUsage: '内存占用'
+    memoryUsage: '内存占用',
+    memoryRealUsage: '内存实际占用',
+    dispatchCount: '处理数量',
+    vmSize: '虚拟内存',
+    vmRSS: '虚拟内存驻留集合',
+    vcs: '自愿上下分切换',
+    nvcs: '非自愿上下分切换',
+    timerNum: '定时器数量',
+    coroutineNum: '协程数量'
   }
 }

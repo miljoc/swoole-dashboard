@@ -15,9 +15,10 @@ export default {
     Constants: 'Constants',
     Interfaces: 'Interfaces',
     Objects: 'Objects',
-    'Object Var Dump': 'ObjectVarDump',
+    'Object Var Dump': 'Object VarDump',
     Swoole: 'Swoole',
     Processes: 'Processes',
+    'Worker Detail': 'Worker Detail',
     Coroutines: 'Coroutines',
     Connections: 'Connections',
     Events: 'Events',
@@ -206,7 +207,7 @@ export default {
     sourceFile: 'Source File',
     actions: 'Actions',
     varDump: 'Var Dump',
-    detail: 'Detail',
+    detail: 'Detail'
   },
   extensions: {
     classes: 'Classes',
@@ -256,11 +257,21 @@ export default {
     memorySize: 'Memory Size'
   },
   processes: {
+    reloadCount: 'Reload Count',
+    timeOfLastReload: 'Time Of Last Reload',
     coroutines: 'Coroutines',
     events: 'Events',
     timers: 'Timers',
     objects: 'Objects',
     resources: 'Resources',
-    memoryUsage: 'Memory Usage'
+    memoryUsage: 'Memory Usage',
+    memoryRealUsage: 'Memory Real Usage',
+    dispatchCount: 'Dispatch Count',
+    vmSize: 'VM-Size',
+    vmRSS: 'VM-RSS',
+    vcs: 'V-CS',
+    nvcs: 'NV-CS',
+    timerNum: 'Timer Num',
+    coroutineNum: 'Coroutine Num'
   }
 }

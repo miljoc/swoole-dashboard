@@ -42,14 +42,14 @@ export const getCoroutineList = (worker: any) =>
     method: 'get'
   })
 
-export const getCoroutineBackTrace = (worker: string, cid: number) =>
+export const getCoroutineBackTrace = (worker: string | (string | null)[], cid: number) =>
   request({
     url: `/api/coroutine_bt/${worker}`,
     method: 'get',
     params: { cid: cid }
   })
 
-export const getTimerList = (worker: string) =>
+export const getTimerList = (worker: string | (string | null)[]) =>
   request({
     url: `/api/get_timer_list/${worker}`,
     method: 'get'
@@ -68,7 +68,7 @@ export const getObjectByHandle = (object_id: number, object_hash: string, worker
     params: { object_id, object_hash }
   })
 
-export const getAllSockets = (worker: string) =>
+export const getAllSockets = (worker: string | (string | null)[]) =>
   request({
     url: `/api/get_all_sockets/${worker}`,
     method: 'get'
@@ -80,7 +80,7 @@ export const getConnections = (worker: any) =>
     method: 'get'
   })
 
-export const closeConnection = (session_id: number, worker: string) =>
+export const closeConnection = (session_id: number, worker: string | (string | null)[]) =>
   request({
     url: `/api/close_session/${worker}`,
     method: 'get',

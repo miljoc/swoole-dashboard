@@ -14,9 +14,6 @@
               border
               :column=2
           >
-            <el-descriptions-item v-for="(item, index) in process_status" :label="index" :key="index">
-              {{ item }}
-            </el-descriptions-item>
             <el-descriptions-item label="PID" v-if="!this.$route.params.id.startsWith('master')">{{
                 workerInfo.pid
               }}
@@ -25,9 +22,8 @@
                 workerInfo.id
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="Memory Usage">{{ workerInfo.memory_usage | amountRule }}</el-descriptions-item>
-            <el-descriptions-item label="Memory Real Usage">{{ workerInfo.memory_real_usage | amountRule }}</el-descriptions-item>
-            <el-descriptions-item label="Timer Num">{{ workerInfo.memory_usage | amountRule }}</el-descriptions-item>
+            <el-descriptions-item label="Memory Usage">{{ workerInfo.memory_usage | bytesFormat }}</el-descriptions-item>
+            <el-descriptions-item label="Memory Real Usage">{{ workerInfo.memory_real_usage | bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="Coroutine Num">{{
                 workerInfo.coroutine_stats.coroutine_num | amountRule
               }}
@@ -60,7 +56,7 @@
           <el-divider content-position="left">Process Status</el-divider>
           <el-descriptions
               border
-              contentStyle="max-width: 500px; word-break: break-all;"
+              :contentStyle="{'max-width': '500px', 'word-break': 'break-all'}"
               :column=2
           >
             <el-descriptions-item v-for="(item, index) in workerInfo.process_status" :label="index" :key="index">
@@ -75,7 +71,7 @@
 
 <script>
 import { getWorkerInfo2 } from '@/api/server'
-import { amountRule } from '@/utils/index'
+import { amountRule, bytesFormat } from '@/utils/index'
 
 export default {
   data() {
@@ -84,6 +80,7 @@ export default {
     }
   },
   filters: {
+    bytesFormat: bytesFormat,
     amountRule: amountRule
   },
   created() {

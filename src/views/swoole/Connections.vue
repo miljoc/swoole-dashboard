@@ -273,7 +273,8 @@ export default class extends Vue {
    * @private
    */
   private async closeSession(session_id: number) {
-    const { data } = await closeConnection(session_id)
+    const worker = this.$route.query.worker ?? 'master'
+    await closeConnection(session_id, worker)
     this.$message({
       type: 'success',
       message: 'close success!'
@@ -311,7 +312,7 @@ export default class extends Vue {
     this.serverSetting = await this.getServerSetting()
 
     // eslint-disable-next-line camelcase
-    let list: { session_id: 0 }[] = []
+    let list: any = []
     if (this.serverSetting.mode === 2) {
       for (let i = 0; i < this.serverSetting.reactor_num; i++) {
         const { data } = await getConnections('reactor-' + i)
@@ -324,7 +325,7 @@ export default class extends Vue {
       }
     }
 
-    list.sort((a: { session_id: number }, b: { session_id: number }) => {
+    list.sort((a: any, b: any) => {
       return a.session_id - b.session_id
     })
 

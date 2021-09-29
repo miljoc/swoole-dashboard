@@ -14,9 +14,6 @@
               border
               :column=2
           >
-            <el-descriptions-item v-for="(item, index) in process_status" :label="index" :key="index">
-              {{ item }}
-            </el-descriptions-item>
             <el-descriptions-item label="PID" v-if="!this.$route.params.id.startsWith('master')">{{
                 workerInfo.pid
               }}
@@ -60,8 +57,11 @@
           <el-divider content-position="left">Process Status</el-divider>
           <el-descriptions
               border
-              contentStyle="max-width: 500px; word-break: break-all;"
-              :column=2
+              :contentStyle="{
+                'max-width': '500px',
+                'word-break': 'break-all'
+            }"
+          :column=2
           >
             <el-descriptions-item v-for="(item, index) in workerInfo.process_status" :label="index" :key="index">
               {{ item }}
@@ -80,7 +80,10 @@ import { amountRule } from '@/utils/index'
 export default {
   data() {
     return {
-      workerInfo: {}
+      workerInfo: {
+        coroutine_stats: {},
+        timer_stats: {}
+      }
     }
   },
   filters: {

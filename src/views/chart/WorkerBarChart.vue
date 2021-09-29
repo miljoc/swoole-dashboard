@@ -30,7 +30,7 @@ export default class extends mixins(ResizeMixin) {
 
   @Watch('chartData', { deep: true })
   private onChartDataChange(value: IWorkerBarChartData) {
-    this.setOptions(value)
+    this.setOptions()
   }
 
   mounted() {

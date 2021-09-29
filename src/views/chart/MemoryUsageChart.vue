@@ -87,7 +87,7 @@ export default class extends mixins(ResizeMixin) {
               distance: 15,
               color: '#999',
               fontSize: 12,
-              formatter: function(value) {
+              formatter: function(value: number) {
                 return numberFormat(value, 1024, 0, 4, ['', 'K', 'M', 'G', 'T'])
               }
             },
@@ -109,7 +109,7 @@ export default class extends mixins(ResizeMixin) {
               fontSize: 24,
               borderRadius: 8,
               fontWeight: 'bolder',
-              formatter: function(value) {
+              formatter: function(value: number) {
                 return numberFormat(value, 1024, 0, 4, ['', 'K', 'M', 'G', 'T'])
               },
               color: 'auto'

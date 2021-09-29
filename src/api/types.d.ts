@@ -19,6 +19,8 @@ export interface IArticleData {
 export interface IDeclaredClass {
   id: number
   name: string
+  filename: string
+  line: number
 }
 
 export interface IDeclaredConstants {
@@ -42,6 +44,22 @@ export interface IDefinedFunction {
   id: number
   name: string
   type: string
+  filename: string
+  line: number
+}
+
+export interface IResource {
+  id: number
+  name: string
+  type: string
+  info: any
+}
+
+export interface IBackTraceFrame {
+  class: string
+  function: string
+  file: string
+  line: number
 }
 
 export interface IWorkerData {
@@ -64,7 +82,7 @@ export interface IIncludedFilesData {
 export interface IWorkerCoroutineData {
   id: number
   elapsed: number
-  backTrace: string[]
+  backTrace: IBackTraceFrame[]
 }
 
 export interface IConnectionInfo {
@@ -78,8 +96,8 @@ export interface IConnectionInfo {
   connect_time: number
   last_recv_time: number
   last_send_time: number
-  port?: number
-  address?: number
+  address: string
+  port: number
 }
 
 export interface IWorkerTimerData {
@@ -114,6 +132,8 @@ export interface IServerStats {
   worker_num: number
   user_worker_num: number
   task_worker_num: number
+  total_recv_bytes: number
+  total_send_bytes: number
 }
 
 export interface IUnixSocket {
@@ -137,9 +157,9 @@ export interface IExtensionInfo {
 
 export interface IVersionInfo {
   os: string
-  swooleVersion: string
-  phpVersion: string
-  host: string
+  swoole: string
+  php: string
+  ip: string
 }
 
 export interface IObjectsData {
@@ -147,6 +167,8 @@ export interface IObjectsData {
   hash: string
   class: string
   memory_size: number
+  filename: string
+  line: number
 }
 
 export interface IEventsData {

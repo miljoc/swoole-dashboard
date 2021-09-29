@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import {getDefinedFunctionsContent} from '@/api/phpinfos'
+import { getDefinedFunctionsContent } from '@/api/phpinfos'
 
 export default {
   name: 'SwooleEditor',
@@ -43,7 +43,7 @@ export default {
   props: ['value'],
   data() {
     return {
-      list : []
+      list: []
     }
   },
   mounted() {
@@ -61,20 +61,19 @@ export default {
       const tmpList = []
       for (const name in data) {
         const id = index
-        let value = data[name];
+        let value = data[name]
         if (name === 'params') {
-          value = JSON.parse(data['params']).join(', ')
+          value = JSON.parse(data.params).join(', ')
         }
         tmpList.push({
           name: name,
-          id: id+1,
+          id: id + 1,
           value: value
         })
         index++
       }
       this.list = tmpList
       this.listLoading = false
-
     }
   }
 }

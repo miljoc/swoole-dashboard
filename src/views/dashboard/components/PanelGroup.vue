@@ -185,22 +185,18 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-import CountTo from 'vue-count-to'
 import { numberFormat, parseUptime } from '@/utils'
 import { IServerSetting, IServerStats } from '@/api/types'
 
 @Component({
   name: 'PanelGroup',
-  components: {
-    CountTo
-  },
   filters: {
     parseUptime: parseUptime,
     numberFormat: numberFormat
   }
 })
 export default class extends Vue {
-  @Prop({ required: true }) private serverStats: IServerStats
+  @Prop({ required: true }) private serverStats?: IServerStats
 
   private handleSetLineChartData(type: string) {
     this.$emit('handle-set-line-chart-data', type)

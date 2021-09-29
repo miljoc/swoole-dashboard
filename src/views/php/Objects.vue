@@ -24,6 +24,7 @@
         align="center"
         :label="$t('objects.objectID')"
         sortable="id"
+        width="150"
       >
         <template slot-scope="{row}">
           <span>{{ row.id }}</span>
@@ -34,6 +35,7 @@
         align="center"
         :label="$t('objects.objectHASH')"
         sortable="hash"
+        width="350"
       >
         <template slot-scope="{row}">
           <span>{{ row.hash }}</span>
@@ -72,13 +74,14 @@
           align="center"
           :label="$t('objects.memorySize')"
           sortable="memory_size"
+          width="150"
       >
         <template slot-scope="{row}">
           <span>{{ row.memory_size | bytesFormat }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column :label="$t('common.actions')" align="center">
+      <el-table-column :label="$t('common.actions')" align="center" width="250">
         <template slot-scope="scope">
           <el-button type="success" size="mini" @click="handleVarDump(scope.row)">
             <svg-icon name="print" />
@@ -130,7 +133,7 @@ export default class extends Vue {
   private search = ''
 
   created() {
-    this.worker = this.$route.query.worker ?? 'master'
+    this.worker = (this.$route.query.worker ?? 'master') as string
     this.getData()
   }
 

@@ -15,14 +15,20 @@
             <el-descriptions-item label="Struct Server">{{ info.server | bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="Struct Workers">{{ info.workers| bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="Global Memory">{{ info.global_memory | bytesFormat }}</el-descriptions-item>
-            <el-descriptions-item label="Connection List">{{ info.connection_list | bytesFormat }}</el-descriptions-item>
+            <el-descriptions-item label="Connection List">{{
+                info.connection_list | bytesFormat
+              }}
+            </el-descriptions-item>
             <el-descriptions-item label="Session List">{{ info.session_list| bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="Socket List">{{ info.socket_list | bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="Message Bus">{{ info.message_bus | bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="All of Socket Out Buffer">{{ info.socket_out_buffer | bytesFormat }}
             </el-descriptions-item>
-            <el-descriptions-item label="Thread Global Memory">{{ info.thread_global_memory| bytesFormat }}</el-descriptions-item>
-            <el-descriptions-item label="ZendVM Memory">{{ info.php_memory }}</el-descriptions-item>
+            <el-descriptions-item label="Thread Global Memory">{{
+                info.thread_global_memory| bytesFormat
+              }}
+            </el-descriptions-item>
+            <el-descriptions-item label="ZendVM Memory">{{ info.php_memory  | bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="HTTP Form Data Buffer"> {{
                 info.http_form_data_buffer| bytesFormat
               }}
@@ -95,8 +101,9 @@ export default {
       return total
     },
     async getData() {
+      const worker = this.$route.query.worker ?? 'master'
       do {
-        const { data } = await getMemoryInfo(this.$route.params.worker)
+        const { data } = await getMemoryInfo(worker)
         this.info = data
       } while (0)
 
@@ -107,7 +114,7 @@ export default {
         this.serverSetting = data
       } while (0)
 
-      if (this.serverSetting.mode === 2 && this.$route.params.worker.substring(0, 6) === 'master') {
+      if (this.serverSetting.mode === 2 && worker.substring(0, 6) === 'master') {
         for (let i = 0; i < this.serverSetting.reactor_num; i++) {
           const { data } = await getMemoryInfo('reactor-' + i)
           const thread_memory_info = {

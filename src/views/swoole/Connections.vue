@@ -198,9 +198,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getServerSetting, getConnections, closeConnection, getSocketInfo, getObjects } from '@/api/server'
-import { IServerSetting, IConnectionInfo, IObjectsData } from '@/api/types'
+import { IServerSetting, IConnectionInfo } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { bytesFormat, eventsFitler, getSortFun, inArray, parseTime } from '@/utils/index'
+import { bytesFormat, eventsFitler, getSortFun, inArray, parseTime, getWorker } from '@/utils/index'
 
 @Component({
   name: 'EventList',
@@ -218,6 +218,7 @@ export default class extends Vue {
   private allList: IConnectionInfo[] = [] // 接口返回原始数据
   private handleAllList: IConnectionInfo[] = [] // 处理处理后所有数据
   private list: IConnectionInfo[] = [] // 当前页显示数据
+
   private listLoading = true
   private total = 0
   // private _timer: any
@@ -254,7 +255,7 @@ export default class extends Vue {
    * @param res
    * @private
    */
-  private handleCloseSession(res: any) {
+  private handleCloseSession(res: IConnectionInfo) {
     this.$confirm('Confirm whether to close the connection？', {
       confirmButtonText: 'close',
       cancelButtonText: 'cancel',
@@ -312,7 +313,7 @@ export default class extends Vue {
     this.serverSetting = await this.getServerSetting()
 
     // eslint-disable-next-line camelcase
-    let list: any = []
+    let list: IConnectionInfo[] = []
     if (this.serverSetting.mode === 2) {
       for (let i = 0; i < this.serverSetting.reactor_num; i++) {
         const { data } = await getConnections('reactor-' + i)
@@ -325,7 +326,7 @@ export default class extends Vue {
       }
     }
 
-    list.sort((a: any, b: any) => {
+    list.sort((a: { session_id: number }, b: { session_id: number }) => {
       return a.session_id - b.session_id
     })
 

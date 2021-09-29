@@ -14,7 +14,7 @@ import ResizeMixin from '@/components/Charts/mixins/resize'
 export interface IWorkerPieChartData {
   name: string
   labels: string[]
-  data: number[]
+  data: { value: number, name: string }[]
 }
 
 @Component({

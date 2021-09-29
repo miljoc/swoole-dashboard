@@ -239,10 +239,11 @@ export default class extends Vue {
           })
         }
         break
-      case 'info':
+      case 'info': {
         const info = data.info.replace(/(\r\n)|(\n)/g, '<br>')
         this.info = info.trim('<br>')
         break
+      }
       default:
         break
     }

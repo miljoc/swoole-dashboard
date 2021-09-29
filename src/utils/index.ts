@@ -130,6 +130,10 @@ export const eventsFitler = (events: number) => {
   return array.join(' | ')
 }
 
+export const getWorker = (reactor_id: number, server_mode: number) => {
+  return server_mode === 2 ? 'reactor-' + reactor_id : 'worker-' + reactor_id
+}
+
 export const fdTypeFilter = (type: number) => {
   switch (type) {
     case 9:

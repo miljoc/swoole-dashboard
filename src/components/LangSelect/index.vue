@@ -30,7 +30,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { AppModule } from '@/store/modules/app'
-import settings from "@/settings";
+import settings from '@/settings'
 
 @Component({
   name: 'Login'

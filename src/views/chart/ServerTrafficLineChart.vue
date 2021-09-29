@@ -78,7 +78,7 @@ export default class extends mixins(ResizeMixin) {
           },
           axisLabel: {
             show: true,
-            formatter: function(value: number, index) {
+            formatter: function(value: number, index: any) {
               return bytesFormat(value)
             }
           }

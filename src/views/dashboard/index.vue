@@ -152,7 +152,6 @@
             </template>
           </el-table-column>
 
-
           <el-table-column
               align="center"
               label="Request Count"
@@ -300,7 +299,6 @@ import PieChart from './components/PieChart.vue'
 import RadarChart from './components/RadarChart.vue'
 import TodoList from './components/TodoList/index.vue'
 import GaugeChart from './components/GaugeChart.vue'
-import TransactionTable from './components/TransactionTable.vue'
 import ClientsLineChart, { IClientsLineChartData } from '@/views/chart/ClientsLineChart.vue'
 import { getServerStats, getAllPorts, getServerCpuUsage, getServerMemoryUsage, getWorkerInfo2 } from '@/api/server'
 import { parseTime, bytesFormat, socketTypeFilter, amountRule } from '@/utils'
@@ -315,7 +313,7 @@ function getRandomInt(min: number, max: number) {
 }
 
 @Component({
-  name: 'DashboardAdmin',
+  name: 'SwooleDashboard',
   components: {
     WorkerBarChart,
     MemoryUsageChart,
@@ -329,7 +327,6 @@ function getRandomInt(min: number, max: number) {
     PieChart,
     RadarChart,
     TodoList,
-    TransactionTable,
     ClientsLineChart
   },
   filters: {
@@ -365,6 +362,7 @@ export default class extends Vue {
   private workerBarChartData: IWorkerBarChartData = {
     labels: [],
     coroutine_data: [],
+    event_data: [],
     timer_data: [],
     object_data: []
   }
@@ -391,7 +389,11 @@ export default class extends Vue {
     tasking_num: -1,
     worker_dispatch_count: -1,
     worker_num: -1,
-    worker_request_count: -1
+    worker_request_count: -1,
+    worker_response_count: -1,
+    user_worker_num: -1,
+    total_recv_bytes: -1,
+    total_send_bytes: -1
   }
 
   private workerStats = []
@@ -478,8 +480,8 @@ export default class extends Vue {
       this.serverStats = data
     }
 
-    let workerStats = []
-    let workerPieChartData = {
+    const workerStats: any = []
+    const workerPieChartData: IWorkerPieChartData = {
       name: this.workerPieChartData.name,
       data: [],
       labels: []
@@ -507,7 +509,7 @@ export default class extends Vue {
     this.workerStats = workerStats
     this.workerPieChartData = workerPieChartData
 
-    let workerBarChartData = {
+    const workerBarChartData: IWorkerBarChartData = {
       labels: [],
       coroutine_data: [],
       event_data: [],

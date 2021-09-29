@@ -229,7 +229,7 @@ import 'codemirror/mode/javascript/javascript.js'
 import { getClassesInfo, getStaticPropertyValue } from '@/api/phpinfos'
 
 export default {
-  name: "ClassInfo",
+  name: 'ClassInfo',
   data() {
     return {
       tabs_active: 'Constants',

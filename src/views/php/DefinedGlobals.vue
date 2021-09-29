@@ -1,10 +1,7 @@
 <template>
   <div class="app-container">
-
     <el-input v-model="input" style="margin: 0 10px 10px 0;width: 300px;" :placeholder="$t('globals.name')" @keyup.enter.native="searchFilter"></el-input>
-
     <el-button type="primary" @click="searchFilter" icon="el-icon-search">{{ $t('common.search') }}</el-button>
-
     <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> {{ $t('common.clear') }}</el-button>
 
     <el-table
@@ -68,17 +65,17 @@
     </el-table>
 
     <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="listQuery.page"
-      :limit.sync="listQuery.limit"
-      @pagination="getList"
+        v-show="total>0"
+        :total="total"
+        :page.sync="listQuery.page"
+        :limit.sync="listQuery.limit"
+        @pagination="getList"
     />
     <el-dialog
-      title="Detail"
-      :visible.sync="dialogVisible"
-      width="50%"
-      :before-close="handleClose">
+        title="Detail"
+        :visible.sync="dialogVisible"
+        width="50%"
+        :before-close="handleClose">
       <json-viewer style="padding: 0px 0px; !important;" :value="value_content" :expand-depth=1 copyable></json-viewer>
       <span slot="footer" class="dialog-footer">
       <el-button type="primary" @click="dialogVisible = false">OK</el-button>
@@ -121,7 +118,7 @@ export default class extends Vue {
   private dialogVisible = false
 
   created() {
-    this.worker = this.$route.query.worker ?? 'master'
+    this.worker = (this.$route.query.worker ?? 'master') as string
     this.getList()
   }
 
@@ -177,11 +174,11 @@ export default class extends Vue {
     for (const name of data) {
       const id = index++
       this.list.push({
-        id:id,
+        id: id,
         name: name.key,
         value: name.value,
         type: name.type,
-        other:name.other
+        other: name.other
       })
     }
     this.total = this.list.length
@@ -200,7 +197,7 @@ export default class extends Vue {
     if (input.length > 0) {
       const arr:any = []
       for (let i = 0; i < this.list.length; i++) {
-        let name = this.list[i].name.toLowerCase()
+        const name = this.list[i].name.toLowerCase()
         if (name.indexOf(input.toLowerCase()) >= 0) {
           arr.push(this.list[i].name)
         }
@@ -224,7 +221,7 @@ export default class extends Vue {
             name: tmpList[i].name,
             value: tmpList[i].value,
             type: tmpList[i].type,
-            other:tmpList[i].other
+            other: tmpList[i].other
           })
         }
         this.list = list_s

@@ -6,7 +6,7 @@
         v-model="eventFieldValue"
         multiple
         collapse-tags
-        placeholder="Events"
+        :placeholder="$t('events.eventType')"
         style="margin: 0 10px 10px 0;"
         @change="filterHandler"
     >
@@ -23,7 +23,7 @@
         v-model="socketTypeFieldValue"
         multiple
         collapse-tags
-        placeholder="Socket Type"
+        :placeholder="$t('events.socketType')"
         style="margin: 0 10px 10px 0;"
         @change="filterHandler"
     >
@@ -40,7 +40,7 @@
         v-model="fdTypeFieldValue"
         multiple
         collapse-tags
-        placeholder="FD Type"
+        :placeholder="$t('events.fdType')"
         style="margin: 0 10px 10px 0;"
         @change="filterHandler"
     >
@@ -57,7 +57,7 @@
         v-model="portFieldValue"
         multiple
         collapse-tags
-        placeholder="Ports"
+        :placeholder="$t('events.port')"
         style="margin: 0 10px 10px 0;"
         @change="filterHandler"
     >
@@ -95,7 +95,7 @@
 
       <el-table-column
           align="center"
-          label="Events"
+          :label="$t('events.eventType')"
       >
         <template slot-scope="{row}">
           <el-tag v-if="row.events & 512"> Readable</el-tag>
@@ -105,7 +105,7 @@
 
       <el-table-column
           align="center"
-          label="Socket Type"
+          :label="$t('events.socketType')"
       >
         <template slot-scope="{row}">
           <span>{{ row.socket_type | socketTypeFilter }}</span>
@@ -114,7 +114,7 @@
 
       <el-table-column
           align="center"
-          label="FD Type"
+          :label="$t('events.fdType')"
       >
         <template slot-scope="{row}">
           <span>{{ row.fd_type | fdTypeFilter }}</span>
@@ -123,7 +123,7 @@
 
       <el-table-column
           align="center"
-          label="Name"
+          :label="$t('events.Ip:Port')"
       >
         <template slot-scope="{row}">
           <el-tag type="success">{{ row.address }}:{{ row.port }}</el-tag>
@@ -132,7 +132,7 @@
 
       <el-table-column
           align="center"
-          label="Send Buffer Size"
+          :label="$t('events.sendBufferSize')"
           sortable="out_buffer_size"
       >
         <template slot-scope="{row}">
@@ -142,7 +142,7 @@
 
       <el-table-column
           align="center"
-          label="Number of bytes sent"
+          :label="$t('events.numberOfBytesSend')"
           sortable="total_send_bytes"
       >
         <template slot-scope="{row}">
@@ -152,7 +152,7 @@
 
       <el-table-column
           align="center"
-          label="Number of bytes received"
+          :label="$t('events.numberOfBytesReceived')"
           sortable="total_recv_bytes"
       >
         <template slot-scope="{row}">

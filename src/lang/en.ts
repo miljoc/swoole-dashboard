@@ -15,9 +15,10 @@ export default {
     Constants: 'Constants',
     Interfaces: 'Interfaces',
     Objects: 'Objects',
-    'Object Var Dump': 'ObjectVarDump',
+    'Object Var Dump': 'Object VarDump',
     Swoole: 'Swoole',
     Processes: 'Processes',
+    'Worker Detail': 'Worker Detail',
     Coroutines: 'Coroutines',
     Connections: 'Connections',
     Events: 'Events',
@@ -206,7 +207,9 @@ export default {
     sourceFile: 'Source File',
     actions: 'Actions',
     varDump: 'Var Dump',
-    detail: 'Detail'
+    detail: 'Detail',
+    close: 'Close',
+    cancel: 'Cancel'
   },
   extensions: {
     classes: 'Classes',
@@ -256,11 +259,59 @@ export default {
     memorySize: 'Memory Size'
   },
   processes: {
+    reloadCount: 'Reload Count',
+    timeOfLastReload: 'Time Of Last Reload',
     coroutines: 'Coroutines',
     events: 'Events',
     timers: 'Timers',
     objects: 'Objects',
     resources: 'Resources',
-    memoryUsage: 'Memory Usage'
+    memoryUsage: 'Memory Usage',
+    memoryRealUsage: 'Memory Real Usage',
+    dispatchCount: 'Dispatch Count',
+    vmSize: 'VM-Size',
+    vmRSS: 'VM-RSS',
+    vcs: 'V-CS',
+    nvcs: 'NV-CS',
+    timerNum: 'Timer Num',
+    coroutineNum: 'Coroutine Num'
+  },
+  coroutines: {
+    placeholder: 'Called Function or Source File',
+    elapsed: 'Elapsed',
+    stackUsage: 'Stack Usage',
+    calledFunction: 'Called Function',
+    backTrace: 'Back Trace'
+  },
+  connections: {
+    socketName: 'Socket Name',
+    serverPort: 'Server Port',
+    connectTime: 'Connect Time',
+    lastReceivedTime: 'Last Received Time',
+    lastSendTime: 'Last Send Time',
+    recvQueuedBytes: 'Recv Queued Bytes',
+    sendQueuedBytes: 'Send Queued Bytes',
+    numberOfBytesReceived: 'Number Of Bytes Received',
+    numberOfBytesSend: 'Number Of Bytes Send',
+    closeSession: 'Close Session',
+    closeWarning: 'Confirm whether to close the connection？',
+    close: 'Close Session',
+    closeSuccess: 'Session Closed'
+  },
+  events: {
+    eventType: 'Events',
+    socketType: 'Socket Type',
+    fdType: 'Fd Type',
+    port: 'Port',
+    'Ip:Port': 'Ip:Port',
+    sendBuffSize: 'Send Buffer Size',
+    numberOfBytesReceived: 'Number Of Bytes Received',
+    numberOfBytesSend: 'Number Of Bytes Send'
+  },
+  timers: {
+    interval: 'Interval',
+    execMsec: 'Exec Msec',
+    execCount: 'Exec Count',
+    round: 'Round'
   }
 }

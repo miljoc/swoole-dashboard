@@ -22,9 +22,8 @@
                 workerInfo.id
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="Memory Usage">{{ workerInfo.memory_usage | amountRule }}</el-descriptions-item>
-            <el-descriptions-item label="Memory Real Usage">{{ workerInfo.memory_real_usage | amountRule }}</el-descriptions-item>
-            <el-descriptions-item label="Timer Num">{{ workerInfo.memory_usage | amountRule }}</el-descriptions-item>
+            <el-descriptions-item label="Memory Usage">{{ workerInfo.memory_usage | bytesFormat }}</el-descriptions-item>
+            <el-descriptions-item label="Memory Real Usage">{{ workerInfo.memory_real_usage | bytesFormat }}</el-descriptions-item>
             <el-descriptions-item label="Coroutine Num">{{
                 workerInfo.coroutine_stats.coroutine_num | amountRule
               }}
@@ -75,7 +74,7 @@
 
 <script>
 import { getWorkerInfo2 } from '@/api/server'
-import { amountRule } from '@/utils/index'
+import { amountRule, bytesFormat } from '@/utils/index'
 
 export default {
   data() {
@@ -87,6 +86,7 @@ export default {
     }
   },
   filters: {
+    bytesFormat: bytesFormat,
     amountRule: amountRule
   },
   created() {

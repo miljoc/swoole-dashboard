@@ -67,6 +67,15 @@ export interface IWorkerData {
   pid: number
   reload_count: number
   reload_last_time: number
+  'process_status.VmRSS'?: string
+  'process_status.voluntary_ctxt_switches'?: string
+  'process_status.nonvoluntary_ctxt_switches'?: string
+  'process_status.VmSize'?: string
+  'vm_status.resource_num'?: number
+  'vm_status.object_num'?: number
+  'timer_stats.num'?: number
+  'coroutine_stats.event_num'?: number
+  'coroutine_stats.coroutine_num'?: number
 }
 
 export interface IThreadData {

@@ -7,7 +7,7 @@
       multiple
       filterable
       collapse-tags
-      placeholder="Socket Name"
+      :placeholder="$t('connections.socketName')"
       style="margin: 0 10px 10px 0;"
       @change="filterHandler"
     >
@@ -25,7 +25,7 @@
       multiple
       filterable
       collapse-tags
-      placeholder="Server Ports"
+      :placeholder="$t('connections.serverPort')"
       style="margin: 0 10px 10px 0;"
       @change="filterHandler"
     >
@@ -79,7 +79,7 @@
 
       <el-table-column
           align="center"
-          label="Socket Name"
+          :label="$t('connections.socketName')"
       >
         <template slot-scope="{row}">
           <el-tag type="success">{{ row.address }}:{{ row.port }}</el-tag>
@@ -88,7 +88,7 @@
 
       <el-table-column
           align="center"
-          label="Server Port"
+          :label="$t('connections.serverPort')"
       >
         <template slot-scope="{row}">
           <span>{{ row.server_port }}</span>
@@ -97,7 +97,7 @@
 
       <el-table-column
           align="center"
-          label="Connect Time"
+          :label="$t('connections.connectTime')"
           sortable="connect_time"
       >
         <template slot-scope="{row}">
@@ -106,19 +106,9 @@
       </el-table-column>
 
       <el-table-column
-          align="center"
-          label="Last Received Time"
-          sortable="last_recv_time"
-      >
-        <template slot-scope="{row}">
-          <span>{{ row.last_recv_time | parseTime('{h}:{i}:{s}.{M}') }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-          align="center"
-          label="Last Sent Time"
-          sortable="last_send_time"
+        align="center"
+        :label="$t('connections.lastSendTime')"
+        sortable="last_send_time"
       >
         <template slot-scope="{row}">
           <span>{{ row.last_send_time | parseTime('{h}:{i}:{s}.{M}') }}</span>
@@ -127,7 +117,27 @@
 
       <el-table-column
           align="center"
-          label="Recv Queued Bytes"
+          :label="$t('connections.lastReceivedTime')"
+          sortable="last_recv_time"
+      >
+        <template slot-scope="{row}">
+          <span>{{ row.last_recv_time | parseTime('{h}:{i}:{s}.{M}') }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        align="center"
+        :label="$t('connections.sendQueuedBytes')"
+        sortable="send_queued_bytes"
+      >
+        <template slot-scope="{row}">
+          <span>{{ row.send_queued_bytes | bytesFormat }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+          align="center"
+          :label="$t('connections.recvQueuedBytes')"
           sortable="recv_queued_bytes"
       >
         <template slot-scope="{row}">
@@ -137,17 +147,7 @@
 
       <el-table-column
           align="center"
-          label="Send Queued Bytes"
-          sortable="send_queued_bytes"
-      >
-        <template slot-scope="{row}">
-          <span>{{ row.send_queued_bytes | bytesFormat }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-          align="center"
-          label="Number Of Bytes Send"
+          :label="$t('connections.numberOfBytesSend')"
           sortable="total_send_bytes"
       >
         <template slot-scope="{row}">
@@ -162,7 +162,7 @@
 
       <el-table-column
           align="center"
-          label="Number of Bytes Received"
+          :label="$t('connections.numberOfBytesReceived')"
           sortable="total_recv_bytes"
       >
         <template slot-scope="{row}">
@@ -175,10 +175,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Actions" align="center">
+      <el-table-column :label="$t('common.actions')" align="center">
         <template slot-scope="scope">
-          <el-button type="warning" size="mini" @click="handleCloseSession(scope.row, scope.$index)">
-            Close Session
+          <el-button type="warning" size="mini" @click="handleCloseSession(scope.row)" icon="el-icon-close">
+            {{ $t('connections.closeSession') }}
           </el-button>
         </template>
       </el-table-column>
@@ -256,9 +256,10 @@ export default class extends Vue {
    * @private
    */
   private handleCloseSession(res: IConnectionInfo) {
-    this.$confirm('Confirm whether to close the connection？', {
-      confirmButtonText: 'close',
-      cancelButtonText: 'cancel',
+    console.log(res)
+    this.$confirm(this.$t('connections.closeWarning'), {
+      confirmButtonText: this.$t('connections.close'),
+      cancelButtonText: this.$t('common.cancel'),
       type: 'warning'
     })
       .then(() => {
@@ -274,10 +275,11 @@ export default class extends Vue {
    * @private
    */
   private async closeSession(session_id: number) {
-    const { data } = await closeConnection(session_id)
+    const worker = this.$route.query.worker ?? 'master'
+    await closeConnection(session_id, worker)
     this.$message({
       type: 'success',
-      message: 'close success!'
+      message: this.$t('connections.closeSuccess')
     })
     // 删除记录
     for (let i = 0; i < this.allList.length; i++) {

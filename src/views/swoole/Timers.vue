@@ -21,7 +21,7 @@
 
       <el-table-column
         align="center"
-        label="Interval"
+        :label="$t('timers.interval')"
         sortable="info.interval"
       >
         <template slot-scope="{row}">
@@ -31,7 +31,7 @@
 
       <el-table-column
         align="center"
-        label="Exec Msec"
+        :label="$t('timers.execMsec')"
         sortable="info.exec_msec"
       >
         <template slot-scope="{row}">
@@ -41,7 +41,7 @@
 
       <el-table-column
           align="center"
-          label="Exec Count"
+          :label="$t('timers.execCount')"
           sortable="info.exec_count"
       >
         <template slot-scope="{row}">

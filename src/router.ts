@@ -103,7 +103,7 @@ export default new Router({
           component: () => import('@/views/php/Classes.vue'),
           meta: {
             title: 'Classes',
-            icon: 'hamburger',
+            icon: 'news',
             activeMenu: '/classes'
           }
         },

@@ -89,7 +89,7 @@
           sortable="fd"
       >
         <template slot-scope="{row}">
-          <el-link type="primary" v-if="row.fd_type !== 9 && row.fd_type !== 3">
+          <el-link type="primary" v-if="row.socket_type === 1 || row.socket_type === 3">
             <router-link class="link-type"
                          :to="{path: `/socket_info?fd=${row.fd}&worker=${worker}`}">
               {{ row.fd }}
@@ -132,7 +132,11 @@
           :label="$t('events.Ip:Port')"
       >
         <template slot-scope="{row}">
-          <el-tag type="success">{{ row.address }}:{{ row.port }}</el-tag>
+          <el-tag type="success" v-if="row.socket_type > 0 && row.socket_type <= 6">{{ row.address }}:{{
+              row.port
+            }}
+          </el-tag>
+          <span v-else> - </span>
         </template>
       </el-table-column>
 

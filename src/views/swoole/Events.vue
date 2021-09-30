@@ -89,12 +89,13 @@
           sortable="fd"
       >
         <template slot-scope="{row}">
-          <el-link type="primary">
+          <el-link type="primary" v-if="row.fd_type !== 9 && row.fd_type !== 3">
             <router-link class="link-type"
                          :to="{path: `/socket_info?fd=${row.fd}&worker=${worker}`}">
               {{ row.fd }}
             </router-link>
           </el-link>
+          <span v-else>{{ row.fd }}</span>
         </template>
       </el-table-column>
 

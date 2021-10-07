@@ -123,7 +123,11 @@
       </el-table-column>
       <el-table-column label="Name" align="center" v-if="type === 'functions'">
         <template slot-scope="scope">
-          <span>{{ scope.row.name }}</span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/functions_detail?function_name=${scope.row.name}`}">{{ scope.row.name }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
     </el-table>

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
 
-    <el-input v-model="input" style="margin: 0 10px 10px 0;width: 300px;" :placeholder="$t('constants.name')" @keyup.enter.native="searchFilter"></el-input>
+    <el-input v-model="input" id="search" style="margin: 0 10px 10px 0;width: 300px;" @keyup.enter.native="searchFilter" :placeholder="$t('interfaces.name')"></el-input>
 
     <el-button type="primary" @click="searchFilter" icon="el-icon-search">{{ $t('common.search') }}</el-button>
 
@@ -23,29 +23,16 @@
         sortable="id"
       >
         <template slot-scope="{row}">
-          <span>{{ row.id + 1}}</span>
+          <span>{{ row.id }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
         align="center"
-        :label="$t('constants.name')"
+        :label="$t('interfaces.name')"
       >
         <template slot-scope="{row}">
-          <el-link type="primary">
-            {{ row.name }}
-          </el-link>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        align="center"
-        :label="$t('constants.value')"
-        width="200"
-        sortable="value"
-      >
-        <template slot-scope="{row}">
-          <span>{{ row.value }}</span>
+          {{ row.name }}
         </template>
       </el-table-column>
     </el-table>
@@ -62,10 +49,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getDefinedConstants } from '@/api/phpinfos'
-import { IDeclaredConstants } from '@/api/types'
+import { getDeclaredInterfaces } from '@/api/phpinfos'
+import { IDeclaredInterfaces } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { getSortFun } from '@/utils/index'
+import { getSortFun } from '@/utils'
 
 @Component({
   name: 'InlineEditTable',
@@ -74,10 +61,10 @@ import { getSortFun } from '@/utils/index'
   }
 })
 export default class extends Vue {
-  private list: IDeclaredConstants[] = []
   private input: any = ''
-  private tmpData: any = []
-  private handleAllList: Array<any> = []
+  private list: IDeclaredInterfaces[] = []
+  private tmpData: IDeclaredInterfaces[] = []
+  private handleAllList: IDeclaredInterfaces[] = [] // 处理处理后所有数据
   private listLoading = true
   private total = 0
   private listQuery = {
@@ -105,36 +92,30 @@ export default class extends Vue {
     this.getList()
   }
 
-  /**
-   * 点击排序
-   * @param column
-   */
-  // private sortChange(column:any, prop:any, order:any) {
   private sortChange(column:any) {
     const field: string = column.column.sortable // 排序字段
     this.field = column.column.sortable
     this.column = column
     if (column.order !== null) {
-      this.order = column.order
+      this.order = column.column.order
       const sortType: string = column.order === 'descending' ? 'desc' : 'asc' // 排序方式  desc-降序  asc-升序
+      this.order = sortType
       this.handleAllList = JSON.parse(JSON.stringify(this.list)) // 备份初始数据
       this.handleAllList = getSortFun(field, sortType, this.handleAllList) // 处理使用数据
       this.tmpData = this.handleAllList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit) // 当前页显示数据
     } else {
-      console.log(field + '取消排序')
-      // this.list = this.allList.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
+      this.tmpData = this.list.slice((this.listQuery.page - 1) * this.listQuery.limit, (this.listQuery.page - 1) * this.listQuery.limit + this.listQuery.limit)
     }
   }
 
   private async getData() {
-    const { data } = await getDefinedConstants()
+    const { data } = await getDeclaredInterfaces()
     let index = 0
     for (const name in data) {
       const id = index++
       this.list.push({
-        name: name,
-        id: id,
-        value: data[name]
+        name: data[name],
+        id: id + 1
       })
     }
     this.total = this.list.length
@@ -147,17 +128,20 @@ export default class extends Vue {
       await this.getData()
     }
 
-    const input = this.input.toUpperCase()
+    const input = this.input
     this.handleAllList = JSON.parse(JSON.stringify(this.list))
 
     if (input.length > 0) {
       const arr:any = []
+
       for (let i = 0; i < this.list.length; i++) {
-        if (this.list[i].name.indexOf(input) >= 0) {
+        const name = this.list[i].name.toLowerCase()
+        if (name.indexOf(input.toLowerCase()) >= 0) {
           arr.push(this.list[i].name)
         }
       }
-      const tmpList = []
+
+      const tmpList:any = []
       if (arr.length > 0) {
         for (let i = 0; i < arr.length; i++) {
           tmpList.push(this.handleAllList.filter((item) => {
@@ -173,9 +157,7 @@ export default class extends Vue {
         for (let i = 0; i < tmpList.length; i++) {
           list_s.push({
             name: tmpList[i].name,
-            id: i + 1,
-            value: tmpList[i].value, // 不转化千分位做排序
-            values: tmpList[i].value.toLocaleString() // 千分位展示
+            id: i + 1
           })
         }
         this.list = list_s

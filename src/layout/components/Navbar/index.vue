@@ -11,7 +11,7 @@
       class="breadcrumb-container"
     />
     <div class="right-menu">
-      <div class="right-menu-item vsesion" style="font-size: 14px">
+      <div class="right-menu-item version" style="font-size: 14px">
         <span>OS: <b>{{ versionInfo.os }}</b></span>
         <span>Swoole: <b>{{ versionInfo.swoole }}</b></span>
         <span>PHP: <b>{{ versionInfo.php }}</b></span>
@@ -26,39 +26,26 @@
       >
         <div class="avatar-wrapper">
           <img
-            src="/img/icons/favicon-32x32.png"
+            :src="avatar"
             class="user-avatar"
           >
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
-          </router-link>
           <a
             target="_blank"
-            href="https://github.com/swoole/swoole-src"
+            href="https://wenda.swoole.com/my-info"
           >
             <el-dropdown-item>
-              Github
+              {{ $t('navbar.profile') }}
             </el-dropdown-item>
           </a>
-          <a
-            target="_blank"
-            href="https://wiki.swoole.com/"
-          >
-            <el-dropdown-item>
-              Docs
-            </el-dropdown-item>
-          </a>
-          <!-- <el-dropdown-item divided>
+          <el-dropdown-item divided>
             <span
               style="display:block;"
               @click="logout"
-            >LogOut</span>
-          </el-dropdown-item> -->
+            >{{ $t('navbar.logOut') }}</span>
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -202,7 +189,7 @@ export default class extends Vue {
       }
     }
   }
-  .vsesion {
+  .version {
     span {
       margin-right: 20px;
       b {

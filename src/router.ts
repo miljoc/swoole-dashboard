@@ -144,21 +144,21 @@ export default new Router({
           }
         },
         {
-          path: '/defined_constants',
-          component: () => import('@/views/php/DefinedConstants.vue'),
+          path: '/constants',
+          component: () => import('@/views/php/Constants.vue'),
           meta: {
             title: 'Constants',
             icon: 'hamburger',
-            activeMenu: '/defined_constants'
+            activeMenu: '/constants'
           }
         },
         {
-          path: '/defined_interfaces',
-          component: () => import('@/views/php/DefinedInterfaces.vue'),
+          path: '/interfaces',
+          component: () => import('@/views/php/Interfaces.vue'),
           meta: {
             title: 'Interfaces',
             icon: 'comment-lines',
-            activeMenu: '/defined_interfaces'
+            activeMenu: '/interfaces'
           }
         },
         {

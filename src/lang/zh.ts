@@ -102,6 +102,7 @@ export default {
   login: {
     title: '系统登录',
     logIn: '登录',
+    register: '还没账号？前往注册',
     username: '账号',
     password: '密码',
     any: '随便填',

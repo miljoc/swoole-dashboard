@@ -51,9 +51,6 @@ router.beforeEach(async(to: Route, _: Route, next: any) => {
       }
     }
   } else {
-    // FIXME: 跳过白名单检测，直接允许访问
-    return next()
-
     // Has no token
     if (whiteList.indexOf(to.path) !== -1) {
       // In the free login whitelist, go directly

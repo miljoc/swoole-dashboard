@@ -1,21 +1,20 @@
 import request from '@/utils/request'
 
-export const getUserInfo = (data: any) =>
+export const getUserInfo = () =>
   request({
-    url: '/users/info',
-    method: 'post',
-    data
+    url: 'https://business.swoole.com/dashboardLogin/info',
+    method: 'post'
   })
 
 export const login = (data: any) =>
   request({
-    url: '/users/login',
+    url: 'https://business.swoole.com/dashboardLogin/login',
     method: 'post',
     data
   })
 
 export const logout = () =>
   request({
-    url: '/users/logout',
+    url: 'https://business.swoole.com/dashboardLogin/logout',
     method: 'post'
   })

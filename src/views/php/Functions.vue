@@ -73,7 +73,7 @@
               {{ row.filename + ':' + row.line }}
             </router-link>
           </el-link>
-          <span v-else>{{ row.name }}</span>
+          <span v-else> - </span>
         </template>
       </el-table-column>
 

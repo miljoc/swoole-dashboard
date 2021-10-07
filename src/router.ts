@@ -50,6 +50,15 @@ export default new Router({
             title: 'Swoole Dashboard',
             icon: 'dashboard'
           }
+        },
+        {
+          path: '/worker_states',
+          component: () => import('@/views/dashboard/WorkerStats.vue'),
+          meta: {
+            title: 'Worker Stats',
+            hidden: true,
+            activeMenu: '/dashboard'
+          }
         }
       ]
     },

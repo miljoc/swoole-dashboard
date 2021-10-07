@@ -1,6 +1,7 @@
 export default {
   route: {
     'Swoole Dashboard': 'Swoole Dashboard',
+    'Worker Stats': 'Worker Stats',
     Extensions: 'Extensions',
     'Extension Detail': 'Extension Detail',
     'Included Files': 'Included Files',
@@ -228,7 +229,6 @@ export default {
     constantName: 'Constant Name',
     constantValue: 'Constant Value',
     properties: 'Properties',
-    staticProperties: 'Static Properties',
     propertiesModifiers: 'Modifiers',
     modifiers: 'Modifiers',
     propertiesName: 'Property Name',

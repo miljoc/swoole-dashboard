@@ -301,9 +301,9 @@ export default {
       for (const item of data.data.constants) {
         tmpConstants.push({
           id: index + 1,
-          name: data.data.constants[index].name,
-          value: data.data.constants[index].value,
-          type: data.data.constants[index].type
+          name: item.name,
+          value: item.value,
+          type: item.type
         })
         index++
       }
@@ -314,9 +314,9 @@ export default {
       for (const item of data.data.staticProperties) {
         tmpStaticProperties.push({
           id: index1 + 1,
-          name: data.data.staticProperties[index1].name,
-          modifiers: data.data.staticProperties[index1].modifiers,
-          default: data.data.staticProperties[index1].value
+          name: item.name,
+          modifiers: item.modifiers,
+          default: item.value
         })
         index1++
       }
@@ -327,9 +327,9 @@ export default {
       for (const item of data.data.properties) {
         tmpProperties.push({
           id: index2 + 1,
-          name: data.data.properties[index2].name,
-          modifiers: data.data.properties[index2].modifiers,
-          default: data.data.properties[index2].value
+          name: item.name,
+          modifiers: item.modifiers,
+          default: item.value
         })
         index2++
       }
@@ -340,9 +340,9 @@ export default {
       for (const item of data.data.staticMethods) {
         tmpStaticMethods.push({
           id: index3 + 1,
-          name: data.data.staticMethods[index3].name,
-          line: data.data.staticMethods[index3].line,
-          modifiers: data.data.staticMethods[index3].modifiers
+          name: item.name,
+          line: item.line,
+          modifiers: item.modifiers
         })
         index3++
       }
@@ -353,9 +353,9 @@ export default {
       for (const item of data.data.methods) {
         tmpMethods.push({
           id: index4 + 1,
-          name: data.data.methods[index4].name,
-          line: data.data.methods[index4].line,
-          modifiers: data.data.methods[index4].modifiers
+          name: item.name,
+          line: item.line,
+          modifiers: item.modifiers
         })
         index4++
       }
@@ -370,7 +370,7 @@ export default {
       let index5 = 0
       const tmpInterface = []
       for (const item of data.data.interface) {
-        tmpInterface.push({ id: index5 + 1, name: data.data.interface[index5] })
+        tmpInterface.push({ id: index5 + 1, name: item })
         index5++
       }
       this.interface = tmpInterface

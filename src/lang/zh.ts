@@ -1,6 +1,7 @@
 export default {
   route: {
     'Swoole Dashboard': '首页',
+    'Worker Stats': '进程状态',
     ZendVM: 'ZendVM',
     Extensions: '扩展',
     'Extension Detail': '扩展详情',
@@ -310,9 +311,9 @@ export default {
   events: {
     eventType: '事件类型',
     socketType: 'Socket类型',
-    fdType: 'Fd类型',
+    fdType: 'FD类型',
     port: '端口',
-    'Ip:Port': 'Ip:端口',
+    'Ip:Port': 'IP:端口',
     sendBufferSize: '发送缓冲区大小',
     numberOfBytesReceived: '已接收的字节数',
     numberOfBytesSend: '已发送的字节数'

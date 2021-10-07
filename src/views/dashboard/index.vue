@@ -154,8 +154,14 @@
 
           <el-table-column
               align="center"
-              label="CPU Usage"
           >
+            <template slot="header">
+              <el-link type="primary">
+                <router-link class="link-type"
+                             :to="{path: `/worker_states?type=CPU Usage`}">CPU Usage
+                </router-link>
+              </el-link>
+            </template>
             <template slot-scope="{row}">
               <span>{{ workerCpuUsage[row.worker_id] }}%</span>
             </template>
@@ -163,8 +169,14 @@
 
           <el-table-column
               align="center"
-              label="Request Count"
           >
+            <template slot="header">
+              <el-link type="primary">
+                <router-link class="link-type"
+                             :to="{path: `/worker_states?type=Request Count`}">Request Count
+                </router-link>
+              </el-link>
+            </template>
             <template slot-scope="{row}">
               <span>{{ row.worker_dispatch_count | amountRule }}</span>
             </template>
@@ -172,8 +184,14 @@
 
           <el-table-column
               align="center"
-              label="Dispatch Count"
           >
+            <template slot="header">
+              <el-link type="primary">
+                <router-link class="link-type"
+                             :to="{path: `/worker_states?type=Dispatch Count`}">Dispatch Count
+                </router-link>
+              </el-link>
+            </template>
             <template slot-scope="{row}">
               <span>{{ row.worker_request_count | amountRule }}</span>
             </template>
@@ -181,8 +199,14 @@
 
           <el-table-column
               align="center"
-              label="Response Count"
           >
+            <template slot="header">
+              <el-link type="primary">
+                <router-link class="link-type"
+                             :to="{path: `/worker_states?type=Response Count`}">Response Count
+                </router-link>
+              </el-link>
+            </template>
             <template slot-scope="{row}">
               <span>{{ row.worker_response_count | amountRule }}</span>
             </template>
@@ -193,7 +217,6 @@
               label="Coroutine Num"
           >
             <template slot-scope="{row}">
-
               <el-link type="primary">
                 <router-link class="link-type"
                              :to="{path: `/coroutines/?worker=worker-${row.worker_id}`}">{{ row.coroutine_num }}
@@ -299,7 +322,7 @@
 
 <script lang="ts">
 import 'echarts/theme/macarons.js' // Theme used in BarChart, LineChart, PieChart and RadarChart
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import GithubCorner from '@/components/GithubCorner/index.vue'
 import BarChart from './components/BarChart.vue'
 import BoxCard from './components/BoxCard.vue'
@@ -317,9 +340,9 @@ import WorkerPieChart, { IWorkerPieChartData } from '@/views/chart/WorkerPieChar
 import MemoryUsageChart from '@/views/chart/MemoryUsageChart.vue'
 import WorkerBarChart, { IWorkerBarChartData } from '@/views/chart/WorkerBarChart.vue'
 
-function getRandomInt(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
+// function getRandomInt(min: number, max: number) {
+//   return Math.floor(Math.random() * (max - min + 1)) + min
+// }
 
 @Component({
   name: 'SwooleDashboard',

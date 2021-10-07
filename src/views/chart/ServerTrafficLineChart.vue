@@ -27,8 +27,11 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: '100%' }) private width!: string
   @Prop({ default: '350px' }) private height!: string
 
+  private animation = true
+
   @Watch('chartData', { deep: true })
   private onChartDataChange(value: IServerTrafficLineChart) {
+    this.animation = false
     this.setOptions(value)
   }
 
@@ -54,6 +57,7 @@ export default class extends mixins(ResizeMixin) {
   private setOptions(chartData: IServerTrafficLineChart) {
     if (this.chart) {
       this.chart.setOption({
+        animation: this.animation,
         xAxis: {
           data: chartData.labels,
           boundaryGap: false,
@@ -78,7 +82,7 @@ export default class extends mixins(ResizeMixin) {
           },
           axisLabel: {
             show: true,
-            formatter: function(value: number, index: any) {
+            formatter: function(value: number) {
               return bytesFormat(value)
             }
           }
@@ -97,12 +101,18 @@ export default class extends mixins(ResizeMixin) {
           },
           smooth: true,
           type: 'line',
+          symbol: 'circle',
+          symbolSize: 5,
+          showSymbol: false,
           data: chartData.recvData
         },
         {
           name: 'send',
           smooth: true,
           type: 'line',
+          symbol: 'circle',
+          symbolSize: 5,
+          showSymbol: false,
           itemStyle: {
             color: '#3888fa',
             lineStyle: {

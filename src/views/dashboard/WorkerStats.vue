@@ -62,9 +62,12 @@ export default class extends mixins(ResizeMixin) {
         name: worker_name,
         type: 'line',
         smooth: true,
-        symbol: 'circle',
-        symbolSize: 5,
+        // symbol: 'circle',
+        // symbolSize: 5,
         showSymbol: false,
+        areaStyle: {
+          opacity: 0.5
+        },
         data: this.workerStats[worker_name]
       })
     }

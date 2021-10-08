@@ -30,7 +30,7 @@
       >
         <template slot-scope="{row}">
           <el-link type="primary">
-            {{ row.name }}
+            ${{ row.name }}
           </el-link>
         </template>
       </el-table-column>
@@ -92,7 +92,7 @@ import { getSortFun } from '@/utils'
 import JsonViewer from 'vue-json-viewer'
 
 @Component({
-  name: 'InlineEditTable',
+  name: 'Globals',
   components: {
     Pagination,
     JsonViewer

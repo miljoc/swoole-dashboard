@@ -112,7 +112,7 @@ export default new Router({
           component: () => import('@/views/php/Classes.vue'),
           meta: {
             title: 'Classes',
-            icon: 'hamburger',
+            icon: 'news',
             activeMenu: '/classes'
           }
         },
@@ -144,15 +144,6 @@ export default new Router({
           }
         },
         {
-          path: '/resources',
-          component: () => import('@/views/php/Resources.vue'),
-          meta: {
-            title: 'Resources',
-            icon: 'resource',
-            activeMenu: '/resources'
-          }
-        },
-        {
           path: '/defined_constants',
           component: () => import('@/views/php/DefinedConstants.vue'),
           meta: {
@@ -171,8 +162,8 @@ export default new Router({
           }
         },
         {
-          path: '/defined_globals',
-          component: () => import('@/views/php/DefinedGlobals.vue'),
+          path: '/globals',
+          component: () => import('@/views/php/Globals.vue'),
           meta: {
             title: 'Globals',
             icon: 'global_var'
@@ -185,6 +176,15 @@ export default new Router({
             title: 'Objects',
             icon: 'object',
             activeMenu: '/objects'
+          }
+        },
+        {
+          path: '/resources',
+          component: () => import('@/views/php/Resources.vue'),
+          meta: {
+            title: 'Resources',
+            icon: 'resource',
+            activeMenu: '/resources'
           }
         },
         {

@@ -5,7 +5,7 @@
 
     <el-button type="primary" @click="searchFilter" icon="el-icon-search">{{ $t('common.search') }}</el-button>
 
-    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> Clear</el-button>
+    <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> {{ $t('common.clear') }}</el-button>
 
     <el-table
       v-loading="listLoading"

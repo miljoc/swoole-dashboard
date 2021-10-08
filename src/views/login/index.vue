@@ -12,12 +12,12 @@
         <h3 class="title">
           {{ $t('login.title') }}
         </h3>
-        <lang-select class="set-language" />
+        <lang-select class="set-language"/>
       </div>
 
       <el-form-item prop="username">
         <span class="svg-container">
-          <svg-icon name="user" />
+          <svg-icon name="user"/>
         </span>
         <el-input
           ref="username"
@@ -31,7 +31,7 @@
 
       <el-form-item prop="password">
         <span class="svg-container">
-          <svg-icon name="password" />
+          <svg-icon name="password"/>
         </span>
         <el-input
           :key="passwordType"
@@ -47,7 +47,7 @@
           class="show-pwd"
           @click="showPwd"
         >
-          <svg-icon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'" />
+          <svg-icon :name="passwordType === 'password' ? 'eye-off' : 'eye-on'"/>
         </span>
       </el-form-item>
 
@@ -74,6 +74,7 @@ import { Dictionary } from 'vue-router/types/router'
 import { Form as ElForm, Input } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
 import LangSelect from '@/components/LangSelect/index.vue'
+import { isValidUsername } from '@/utils/validate'
 
 @Component({
   name: 'Login',
@@ -83,12 +84,16 @@ import LangSelect from '@/components/LangSelect/index.vue'
 })
 export default class extends Vue {
   private validateUsername = (rule: any, value: string, callback: Function) => {
-    callback()
+    if (!isValidUsername(value)) {
+      callback(new Error(this.$t('login.name') as string))
+    } else {
+      callback()
+    }
   }
 
   private validatePassword = (rule: any, value: string, callback: Function) => {
     if (value.length < 6) {
-      callback(new Error('The password can not be less than 6 digits'))
+      callback(new Error(this.$t('login.pwd') as string))
     } else {
       callback()
     }
@@ -152,15 +157,22 @@ export default class extends Vue {
     (this.$refs.loginForm as ElForm).validate(async(valid: boolean) => {
       if (valid) {
         this.loading = true
-        await UserModule.Login(this.loginForm)
-        this.$router.push({
-          path: this.redirect || '/',
-          query: this.otherQuery
-        })
-        // Just to simulate the time of the request
-        setTimeout(() => {
+        try {
+          await UserModule.Login(this.loginForm)
+          this.$router.push({
+            path: this.redirect || '/',
+            query: this.otherQuery
+          }).catch(() => {
+            this.loading = false
+          })
+          // Just to simulate the time of the request
+          setTimeout(() => {
+            this.loading = false
+          }, 0.5 * 1000)
+        } catch (e) {
           this.loading = false
-        }, 0.5 * 1000)
+          return false
+        }
       } else {
         return false
       }
@@ -182,8 +194,13 @@ export default class extends Vue {
 // References: https://www.zhangxinxu.com/wordpress/2018/01/css-caret-color-first-line/
 @supports (-webkit-mask: none) and (not (cater-color: $loginCursorColor)) {
   .login-container .el-input {
-    input { color: $loginCursorColor; }
-    input::first-line { color: $lightGray; }
+    input {
+      color: $loginCursorColor;
+    }
+
+    input::first-line {
+      color: $lightGray;
+    }
   }
 }
 

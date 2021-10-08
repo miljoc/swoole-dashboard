@@ -184,9 +184,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { numberFormat, parseUptime } from '@/utils'
-import { IServerSetting, IServerStats } from '@/api/types'
+import { IServerStats } from '@/api/types'
 
 @Component({
   name: 'PanelGroup',

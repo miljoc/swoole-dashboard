@@ -49,36 +49,7 @@ export default class extends Vue {
 
   private ctx: any
   private chart: any
-  private color = [
-    {
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)'
-    },
-    {
-      backgroundColor: 'rgb(75, 192, 192)',
-      borderColor: 'rgb(75, 192, 192)'
-    },
-    {
-      backgroundColor: '#80FFA5',
-      borderColor: '#80FFA5'
-    },
-    {
-      backgroundColor: '#00DDFF',
-      borderColor: '#00DDFF'
-    },
-    {
-      backgroundColor: '#37A2FF',
-      borderColor: '#37A2FF'
-    },
-    {
-      backgroundColor: '#FF0087',
-      borderColor: '#FF0087'
-    },
-    {
-      backgroundColor: '#FFBF00',
-      borderColor: '#FFBF00'
-    }
-  ]
+  private color = ['#f2385a', '#f5a503', '#4ad9d9', '#f7879c', '#c1d7a8', '#4dffd2', '#fccfd7', '#d5f6f6']
 
   async mounted() {
     // 获取每秒数据
@@ -100,11 +71,12 @@ export default class extends Vue {
         this.workerStats[worker_name].push(0)
       }
       // 初始化图表样式
+      const color = this.color[i % this.color.length]
       this.series.push({
         label: worker_name,
         data: this.workerStats[worker_name],
-        backgroundColor: this.color[i % 7].backgroundColor,
-        borderColor: this.color[i % 7].borderColor,
+        backgroundColor: color,
+        borderColor: color,
         fill: false
       })
     }

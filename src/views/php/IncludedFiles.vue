@@ -102,7 +102,7 @@ export default class extends Vue {
     for (const name of data) {
       const id = index
       tmpList.push({
-        filename: data[index],
+        filename: name,
         id: id
       })
       index++

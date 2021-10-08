@@ -74,7 +74,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getDeclaredClasses } from '@/api/phpinfos'
 import { IDeclaredClass } from '@/api/types'
 import Pagination from '@/components/Pagination/index.vue'
-import { getSortFun, inArray } from '@/utils'
+import { getSortFun } from '@/utils'
 
 @Component({
   name: 'InlineEditTable',

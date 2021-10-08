@@ -42,7 +42,7 @@
       </el-card>
     </el-row>
 
-    <el-row v-for="item in threadMemoryInfo" style="margin-top: 20px">
+    <el-row v-for="(item, index) in threadMemoryInfo" :key="index" style="margin-top: 20px">
       <el-card class="box-card">
         <div
             slot="header"

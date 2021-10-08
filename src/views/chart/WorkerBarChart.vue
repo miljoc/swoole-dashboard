@@ -29,7 +29,7 @@ export default class extends mixins(ResizeMixin) {
   @Prop({ default: '300px' }) private height!: string
 
   @Watch('chartData', { deep: true })
-  private onChartDataChange(value: IWorkerBarChartData) {
+  private onChartDataChange() {
     this.setOptions()
   }
 

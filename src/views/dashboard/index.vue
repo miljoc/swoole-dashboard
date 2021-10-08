@@ -154,61 +154,53 @@
 
           <el-table-column
               align="center"
+              label="CPU Usage"
           >
-            <template slot="header">
+            <template slot-scope="{row}">
               <el-link type="primary">
                 <router-link class="link-type"
-                             :to="{path: `/worker_states?type=CPU Usage`}">CPU Usage
+                             :to="{path: `/worker_states?type=CPU Usage`}">{{ workerCpuUsage[row.worker_id] }}%
                 </router-link>
               </el-link>
-            </template>
-            <template slot-scope="{row}">
-              <span>{{ workerCpuUsage[row.worker_id] }}%</span>
             </template>
           </el-table-column>
 
           <el-table-column
               align="center"
+              label="Request Count"
           >
-            <template slot="header">
+            <template slot-scope="{row}">
               <el-link type="primary">
                 <router-link class="link-type"
-                             :to="{path: `/worker_states?type=Request Count`}">Request Count
+                             :to="{path: `/worker_states?type=Request Count`}">{{ row.worker_dispatch_count | amountRule }}
                 </router-link>
               </el-link>
-            </template>
-            <template slot-scope="{row}">
-              <span>{{ row.worker_dispatch_count | amountRule }}</span>
             </template>
           </el-table-column>
 
           <el-table-column
               align="center"
+              label="Dispatch Count"
           >
-            <template slot="header">
+            <template slot-scope="{row}">
               <el-link type="primary">
                 <router-link class="link-type"
-                             :to="{path: `/worker_states?type=Dispatch Count`}">Dispatch Count
+                             :to="{path: `/worker_states?type=Dispatch Count`}">{{ row.worker_request_count | amountRule }}
                 </router-link>
               </el-link>
-            </template>
-            <template slot-scope="{row}">
-              <span>{{ row.worker_request_count | amountRule }}</span>
             </template>
           </el-table-column>
 
           <el-table-column
               align="center"
+              label="Response Count"
           >
-            <template slot="header">
+            <template slot-scope="{row}">
               <el-link type="primary">
                 <router-link class="link-type"
-                             :to="{path: `/worker_states?type=Response Count`}">Response Count
+                             :to="{path: `/worker_states?type=Dispatch Count`}">{{ row.worker_response_count | amountRule }}
                 </router-link>
               </el-link>
-            </template>
-            <template slot-scope="{row}">
-              <span>{{ row.worker_response_count | amountRule }}</span>
             </template>
           </el-table-column>
 

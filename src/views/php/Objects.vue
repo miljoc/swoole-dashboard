@@ -7,6 +7,23 @@
       @keyup.enter.native="filterHandler"
       style="margin: 0 10px 10px 0;"
     ></el-input>
+    <!---------------------------type------开始----------------------->
+    <el-select
+      v-model="classNameFieldValue"
+      multiple
+      collapse-tags
+      :placeholder="$t('objects.className')"
+      style="margin: 0 10px 10px 0;"
+      filterable
+    >
+      <el-option
+        v-for="item in classNameOptions"
+        :label="item"
+        :key="item"
+        :value="item">
+      </el-option>
+    </el-select>
+    <!---------------------------type------结束----------------------->
     <el-button type="primary" @click="filterHandler" icon="el-icon-search">{{ $t('common.search') }}</el-button>
     <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> {{ $t('common.clear') }}</el-button>
     <!---------------------------查询------结束----------------------->
@@ -131,6 +148,8 @@ export default class extends Vue {
 
   // 搜索
   private search = ''
+  private classNameFieldValue: Array<string> = []
+  private classNameOptions: any = []
 
   created() {
     this.worker = (this.$route.query.worker ?? 'master') as string
@@ -163,6 +182,20 @@ export default class extends Vue {
     this.listLoading = true
     const data = await this.sendApi()
 
+    // 筛选项数据
+    const tmpClassName: Array<any> = []
+    for (let index = 0; index < data.length; index++) {
+      // 处理 Class Name 选项数据
+      tmpClassName[index] = data[index].class
+    }
+
+    // 去除重复值
+    for (let i = 0; i < tmpClassName.length; i++) {
+      if (tmpClassName.indexOf(tmpClassName[i]) === i) {
+        this.classNameOptions.push(tmpClassName[i])
+      }
+    }
+
     this.allList = JSON.parse(JSON.stringify(data))
     this.handleAllList = data
     this.showList(this.handleAllList)
@@ -176,6 +209,12 @@ export default class extends Vue {
    */
   private filterHandler() {
     this.handleAllList = JSON.parse(JSON.stringify(this.allList))
+
+    if (this.classNameFieldValue.length > 0) {
+      this.handleAllList = this.handleAllList.filter((item) => {
+        return inArray(item.class, this.classNameFieldValue)
+      })
+    }
 
     if (this.search.length > 0) {
       this.handleAllList = this.handleAllList.filter((item) => {
@@ -198,7 +237,7 @@ export default class extends Vue {
    * @private
    */
   private clearFilter(): void {
-    if (this.search.length > 0) {
+    if (this.search.length > 0 || this.classNameFieldValue.length > 0) {
       console.log('清除筛选项')
       this.search = ''
       this.handleAllList = JSON.parse(JSON.stringify(this.allList))
@@ -213,7 +252,7 @@ export default class extends Vue {
    */
   private sortChange(column:any) {
     const field: string = column.column.sortable // 排序字段
-    if (this.search.length === 0) {
+    if (this.search.length === 0 && this.classNameFieldValue.length === 0) {
       this.handleAllList = JSON.parse(JSON.stringify(this.allList)) // 备份初始数据
     }
     if (column.order !== null) {

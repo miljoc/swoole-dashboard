@@ -101,18 +101,12 @@ export default class extends mixins(ResizeMixin) {
           },
           smooth: true,
           type: 'line',
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
           data: chartData.recvData
         },
         {
           name: 'send',
           smooth: true,
           type: 'line',
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
           itemStyle: {
             color: '#3888fa',
             lineStyle: {

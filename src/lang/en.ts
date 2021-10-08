@@ -263,7 +263,7 @@ export default {
     value: 'Value'
   },
   objects: {
-    placeholder: 'Class Name or Source File',
+    placeholder: 'Source File',
     objectID: 'Object ID',
     objectHASH: 'Object Hash',
     className: 'Class Name',

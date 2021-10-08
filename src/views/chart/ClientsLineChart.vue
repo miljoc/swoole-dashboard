@@ -91,9 +91,6 @@ export default class extends mixins(ResizeMixin) {
           name: 'abort',
           smooth: true,
           type: 'line',
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
           itemStyle: {
             color: '#FF005A',
             lineStyle: {
@@ -107,9 +104,6 @@ export default class extends mixins(ResizeMixin) {
           name: 'accept',
           smooth: true,
           type: 'line',
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
           itemStyle: {
             color: '#3888fa',
             lineStyle: {
@@ -126,36 +120,24 @@ export default class extends mixins(ResizeMixin) {
           name: 'dispatch',
           smooth: true,
           type: 'line',
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
           data: chartData.dispatch_count
         },
         {
           name: 'request',
           smooth: true,
           type: 'line',
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
           data: chartData.request_count
         },
         {
           name: 'response',
           smooth: true,
           type: 'line',
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
           data: chartData.response_count
         },
         {
           name: 'close',
           smooth: true,
           type: 'line',
-          symbol: 'circle',
-          symbolSize: 5,
-          showSymbol: false,
           data: chartData.close_count
         }
         ]

@@ -263,7 +263,7 @@ export default {
     value: '变量值'
   },
   objects: {
-    placeholder: '类名 或 文件信息',
+    placeholder: '文件信息',
     objectID: '对象ID',
     objectHASH: '对象HASH',
     className: '类名',

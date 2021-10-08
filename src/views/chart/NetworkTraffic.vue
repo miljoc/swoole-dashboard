@@ -17,10 +17,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Watch } from 'vue-property-decorator'
+import { Component } from 'vue-property-decorator'
 import Vue from 'vue'
-import Chart, { ChartData, ChartOptions } from 'chart.js'
-import { IConnectionInfo, IServerSetting, IWorkerCoroutineData } from '@/api/types'
+import Chart from 'chart.js'
+import { IConnectionInfo, IServerSetting } from '@/api/types'
 import { getConnectionInfo, getServerSetting } from '@/api/server'
 import { bytesFormat } from '@/utils/index'
 
@@ -86,7 +86,7 @@ export default class extends Vue {
             stepSize: 1024,
             suggestedMin: 0,
             beginAtZero: true,
-            callback: function(value: number, index: number, values: any) {
+            callback: function(value: number) {
               return bytesFormat(value)
             }
           }

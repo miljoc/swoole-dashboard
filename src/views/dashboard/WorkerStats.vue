@@ -1,18 +1,25 @@
 <template>
-  <div class="app-container">
-    <div
-      :id="id"
-      :class="className"
-      style="width: 100%;height: 85vh"
-    />
+  <div class="mixin-components-container">
+    <el-row>
+      <el-card class="box-card">
+        <div
+          slot="header"
+          class="clearfix"
+        >
+          <span>Worker Stats</span>
+        </div>
+        <div class="small" style="width: 90%; height: 80%; margin: 0 auto">
+          <canvas ref="canvas"/>
+        </div>
+      </el-card>
+    </el-row>
   </div>
 </template>
 
 <script lang="ts">
-import * as echarts from 'echarts'
 import { Component, Prop } from 'vue-property-decorator'
-import { mixins } from 'vue-class-component'
-import ResizeMixin from '@/components/Charts/mixins/resize'
+import Vue from 'vue'
+import Chart from 'chart.js'
 import { getServerCpuUsage, getServerStats } from '@/api/server'
 
 interface IWorkerStats {
@@ -20,16 +27,18 @@ interface IWorkerStats {
 }
 
 @Component({
-  name: 'LineChart'
+  name: 'LineChart',
+  components: {}
 })
-export default class extends mixins(ResizeMixin) {
+
+export default class extends Vue {
   @Prop({ default: 'chart' }) private className!: string
   @Prop({ default: 'chart' }) private id!: string
 
   private serverStats = { worker_num: 0 }
   private workerStats: IWorkerStats[] = []
   private lastData: Array<any> = []
-  private text: string | (string | null)[] = ''
+  private text: any = ''
   private data_type = ''
   private title: Array<any> = []
   private labels: Array<any> = []
@@ -37,6 +46,39 @@ export default class extends mixins(ResizeMixin) {
   private timer: any = null
   private animation = true
   private yAxisName = ''
+
+  private ctx: any
+  private chart: any
+  private color = [
+    {
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)'
+    },
+    {
+      backgroundColor: 'rgb(75, 192, 192)',
+      borderColor: 'rgb(75, 192, 192)'
+    },
+    {
+      backgroundColor: '#80FFA5',
+      borderColor: '#80FFA5'
+    },
+    {
+      backgroundColor: '#00DDFF',
+      borderColor: '#00DDFF'
+    },
+    {
+      backgroundColor: '#37A2FF',
+      borderColor: '#37A2FF'
+    },
+    {
+      backgroundColor: '#FF0087',
+      borderColor: '#FF0087'
+    },
+    {
+      backgroundColor: '#FFBF00',
+      borderColor: '#FFBF00'
+    }
+  ]
 
   async mounted() {
     // 获取每秒数据
@@ -59,16 +101,11 @@ export default class extends mixins(ResizeMixin) {
       }
       // 初始化图表样式
       this.series.push({
-        name: worker_name,
-        type: 'line',
-        smooth: true,
-        // symbol: 'circle',
-        // symbolSize: 5,
-        showSymbol: false,
-        areaStyle: {
-          opacity: 0.5
-        },
-        data: this.workerStats[worker_name]
+        label: worker_name,
+        data: this.workerStats[worker_name],
+        backgroundColor: this.color[i % 7].backgroundColor,
+        borderColor: this.color[i % 7].borderColor,
+        fill: false
       })
     }
 
@@ -77,14 +114,10 @@ export default class extends mixins(ResizeMixin) {
     if (this.text === 'CPU Usage') {
       this.yAxisName = '%'
       await this.getServerCpuUsageData()
-      // 设置定时器 每秒更新数据
-      this.timer = setInterval(this.getServerCpuUsageData, 1000)
     } else {
       this.handleType(this.text)
       this.yAxisName = '(Count)'
       await this.getWorkerStateData()
-      // 设置定时器 每秒更新数据
-      this.timer = setInterval(this.getWorkerStateData, 1000)
     }
 
     this.$nextTick(() => {
@@ -118,9 +151,12 @@ export default class extends mixins(ResizeMixin) {
       // 记录上一次数据值
       this.lastData[worker_name] = data[this.data_type]
     }
+
     // 重新渲染图表
-    this.animation = false // 关闭重绘上下波动问题
-    this.setOptions()
+    this.labels.push(this.labels.shift())
+    if (this.chart !== undefined) {
+      this.chart.update()
+    }
   }
 
   private async getServerCpuUsageData() {
@@ -138,9 +174,12 @@ export default class extends mixins(ResizeMixin) {
       }
       // 记录上一次数据值
       this.lastData[worker_name] = data[worker_name]
-      // 重新渲染图表
-      this.animation = false // 关闭重绘上下波动问题
-      this.setOptions()
+    }
+
+    // 重新渲染图表
+    this.labels.push(this.labels.shift())
+    if (this.chart !== undefined) {
+      this.chart.update()
     }
   }
 
@@ -167,8 +206,41 @@ export default class extends mixins(ResizeMixin) {
    * @private
    */
   private initChart() {
-    this.chart = echarts.init(document.getElementById(this.id) as HTMLDivElement)
-    this.setOptions()
+    this.ctx = (this.$refs.canvas as any).getContext('2d')
+    this.chart = new Chart(this.ctx, {
+      type: 'line',
+      data: {
+        labels: this.labels,
+        datasets: this.series
+      },
+      options: {
+        // responsive: true,
+        title: {
+          display: true,
+          text: this.text
+        },
+        scales: {
+          yAxes: [{
+            display: true,
+            ticks: {
+              stepSize: 1,
+              suggestedMin: 0,
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    })
+
+    if (this.text === 'CPU Usage') {
+      // 设置定时器 每秒更新数据
+      this.timer = setInterval(this.getServerCpuUsageData, 1000)
+    } else {
+      // 设置定时器 每秒更新数据
+      this.timer = setInterval(this.getWorkerStateData, 1000)
+    }
+    // this.chart = echarts.init(document.getElementById(this.id) as HTMLDivElement)
+    // this.setOptions()
   }
 
   /**
@@ -179,70 +251,24 @@ export default class extends mixins(ResizeMixin) {
     if (this.chart != null) {
       this.chart.setOption({
         animation: this.animation,
-        backgroundColor: '#394056',
         title: {
-          top: 20,
+          left: 'center',
           text: this.text,
           textStyle: {
-            fontWeight: 'normal',
-            fontSize: 16,
-            color: '#F1F1F3'
-          },
-          left: '1%'
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          top: 20,
-          icon: 'rect',
-          itemWidth: 14,
-          itemHeight: 5,
-          itemGap: 13,
-          data: this.title,
-          right: '4%',
-          textStyle: {
-            fontSize: 12,
-            color: '#F1F1F3'
+            fontSize: 12
           }
         },
-        grid: {
-          top: 100,
-          left: '2%',
-          right: '2%',
-          bottom: '2%',
-          containLabel: true
+        legend: {
+          top: 35,
+          icon: 'rect',
+          itemWidth: 50,
+          itemHeight: 16
         },
         xAxis: [{
-          type: 'category',
-          boundaryGap: false,
-          axisLine: {
-            lineStyle: {
-              color: '#57617B'
-            }
-          },
           data: this.labels
         }],
         yAxis: [{
-          type: 'value',
-          name: this.yAxisName,
-          axisTick: {
-            show: false
-          },
-          axisLine: {
-            lineStyle: {
-              color: '#57617B'
-            }
-          },
-          axisLabel: {
-            margin: 10,
-            fontSize: 14
-          },
-          splitLine: {
-            lineStyle: {
-              color: '#57617B'
-            }
-          }
+
         }],
         series: this.series
       })
@@ -251,3 +277,95 @@ export default class extends mixins(ResizeMixin) {
 }
 
 </script>
+
+<style lang="scss" scoped>
+@mixin colorBtn($color) {
+  background: $color;
+  &:hover {
+    color: $color;
+
+    &:before,
+    &:after {
+      background: $color;
+    }
+  }
+}
+
+.blue-btn {
+  @include colorBtn($blue)
+}
+
+.light-blue-btn {
+  @include colorBtn($light-blue)
+}
+
+.red-btn {
+  @include colorBtn($red)
+}
+
+.pink-btn {
+  @include colorBtn($pink)
+}
+
+.green-btn {
+  @include colorBtn($green)
+}
+
+.tiffany-btn {
+  @include colorBtn($tiffany)
+}
+
+.yellow-btn {
+  @include colorBtn($yellow)
+}
+
+.pan-btn {
+  font-size: 14px;
+  color: #fff;
+  padding: 14px 36px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  transition: 600ms ease all;
+  position: relative;
+  display: inline-block;
+
+  &:hover {
+    background: #fff;
+
+    &:before,
+    &:after {
+      width: 100%;
+      transition: 600ms ease all;
+    }
+  }
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    transition: 400ms ease all;
+  }
+
+  &::after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+  }
+}
+
+.mixin-components-container {
+  background-color: #f0f2f5;
+  padding: 30px;
+  min-height: calc(100vh - 84px);
+}
+
+.component-item {
+  min-height: 100px;
+}
+</style>

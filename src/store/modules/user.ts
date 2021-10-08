@@ -1,6 +1,6 @@
 import { VuexModule, Module, Action, Mutation, getModule } from 'vuex-module-decorators'
 import { login, logout, getUserInfo } from '@/api/users'
-import { getToken, setToken, removeToken } from '@/utils/cookies'
+import { getToken, setToken, removeToken, getLanguage } from '@/utils/cookies'
 import store from '@/store'
 
 export interface IUserState {
@@ -43,6 +43,7 @@ class User extends VuexModule implements IUserState {
     const formData = new FormData()
     formData.append('name', username.trim())
     formData.append('password', password)
+    formData.append('lang', getLanguage() as string)
     const { data } = await login(formData)
     setToken(data.accessToken)
 

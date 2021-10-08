@@ -163,7 +163,7 @@ export default class extends Vue {
             path: this.redirect || '/',
             query: this.otherQuery
           }).catch(() => {
-            this.loading = false
+            this.loading = true
           })
           // Just to simulate the time of the request
           setTimeout(() => {

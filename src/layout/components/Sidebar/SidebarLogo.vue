@@ -25,9 +25,9 @@
           src="/img/logo.png"
           class="sidebar-logo"
         >
-        <h1 class="sidebar-title">
-          {{ title }}
-        </h1>
+<!--        <h1 class="sidebar-title">-->
+<!--          {{ title }}-->
+<!--        </h1>-->
       </router-link>
     </transition>
   </div>
@@ -71,7 +71,7 @@ export default class extends Vue {
     width: 100%;
 
     & .sidebar-logo {
-      width: 40px;
+      width: 80px;
       vertical-align: middle;
       margin-right: 12px;
     }

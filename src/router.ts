@@ -30,12 +30,12 @@ export default new Router({
   routes: [
     {
       path: '/login',
-      component: () => import('@/views/login/index.vue'),
+      component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
       meta: { hidden: true }
     },
     {
       path: '/404',
-      component: () => import('@/views/404.vue'),
+      component: () => import(/* webpackChunkName: "404" */ '@/views/404.vue'),
       meta: { hidden: true }
     },
     {
@@ -45,7 +45,7 @@ export default new Router({
       children: [
         {
           path: 'dashboard',
-          component: () => import('@/views/dashboard/index.vue'),
+          component: () => import(/* webpackChunkName: "index" */ '@/views/dashboard/index.vue'),
           meta: {
             title: 'Swoole Dashboard',
             icon: 'dashboard'
@@ -53,7 +53,7 @@ export default new Router({
         },
         {
           path: '/worker_states',
-          component: () => import('@/views/dashboard/WorkerStats.vue'),
+          component: () => import(/* webpackChunkName: "worker_states" */ '@/views/dashboard/WorkerStats.vue'),
           meta: {
             title: 'Worker Stats',
             hidden: true,
@@ -73,7 +73,7 @@ export default new Router({
       children: [
         {
           path: '/extensions',
-          component: () => import('@/views/php/Extensions.vue'),
+          component: () => import(/* webpackChunkName: "extensions" */ '@/views/php/Extensions.vue'),
           meta: {
             title: 'Extensions',
             icon: 'component',
@@ -82,7 +82,7 @@ export default new Router({
         },
         {
           path: '/extension_detail',
-          component: () => import('@/views/php/ExtensionsDetail.vue'),
+          component: () => import(/* webpackChunkName: "extension_detail" */ '@/views/php/ExtensionsDetail.vue'),
           meta: {
             title: 'Extension Detail',
             hidden: true,
@@ -91,7 +91,7 @@ export default new Router({
         },
         {
           path: '/includedfiles',
-          component: () => import('@/views/php/IncludedFiles.vue'),
+          component: () => import(/* webpackChunkName: "includedfiles" */ '@/views/php/IncludedFiles.vue'),
           meta: {
             title: 'Included Files',
             icon: 'documentation',
@@ -100,7 +100,7 @@ export default new Router({
         },
         {
           path: '/includedfiles_detail',
-          component: () => import('@/views/php/IncludedFilesDetail.vue'),
+          component: () => import(/* webpackChunkName: "includedfiles_detail" */ '@/views/php/IncludedFilesDetail.vue'),
           meta: {
             title: 'Included Files Content',
             hidden: true,
@@ -109,7 +109,7 @@ export default new Router({
         },
         {
           path: '/classes',
-          component: () => import('@/views/php/Classes.vue'),
+          component: () => import(/* webpackChunkName: "classes" */ '@/views/php/Classes.vue'),
           meta: {
             title: 'Classes',
             icon: 'news',
@@ -118,7 +118,7 @@ export default new Router({
         },
         {
           path: '/class_info',
-          component: () => import('@/views/php/ClassInfo.vue'),
+          component: () => import(/* webpackChunkName: "class_info" */ '@/views/php/ClassInfo.vue'),
           meta: {
             title: 'Class Info',
             hidden: true,
@@ -127,7 +127,7 @@ export default new Router({
         },
         {
           path: '/functions',
-          component: () => import('@/views/php/Functions.vue'),
+          component: () => import(/* webpackChunkName: "functions" */ '@/views/php/Functions.vue'),
           meta: {
             title: 'Functions',
             icon: 'function',
@@ -136,7 +136,7 @@ export default new Router({
         },
         {
           path: '/functions_detail',
-          component: () => import('@/views/php/FunctionsDetail.vue'),
+          component: () => import(/* webpackChunkName: "functions_detail" */'@/views/php/FunctionsDetail.vue'),
           meta: {
             title: 'Function Content',
             hidden: true,
@@ -145,7 +145,7 @@ export default new Router({
         },
         {
           path: '/constants',
-          component: () => import('@/views/php/Constants.vue'),
+          component: () => import(/* webpackChunkName: "constants" */'@/views/php/Constants.vue'),
           meta: {
             title: 'Constants',
             icon: 'hamburger',
@@ -154,7 +154,7 @@ export default new Router({
         },
         {
           path: '/interfaces',
-          component: () => import('@/views/php/Interfaces.vue'),
+          component: () => import(/* webpackChunkName: "interfaces" */'@/views/php/Interfaces.vue'),
           meta: {
             title: 'Interfaces',
             icon: 'comment-lines',
@@ -163,7 +163,7 @@ export default new Router({
         },
         {
           path: '/globals',
-          component: () => import('@/views/php/Globals.vue'),
+          component: () => import(/* webpackChunkName: "globals" */'@/views/php/Globals.vue'),
           meta: {
             title: 'Globals',
             icon: 'global_var'
@@ -171,7 +171,7 @@ export default new Router({
         },
         {
           path: '/objects',
-          component: () => import('@/views/php/Objects.vue'),
+          component: () => import(/* webpackChunkName: "objects" */'@/views/php/Objects.vue'),
           meta: {
             title: 'Objects',
             icon: 'object',
@@ -180,7 +180,7 @@ export default new Router({
         },
         {
           path: '/resources',
-          component: () => import('@/views/php/Resources.vue'),
+          component: () => import(/* webpackChunkName: "resources" */ '@/views/php/Resources.vue'),
           meta: {
             title: 'Resources',
             icon: 'resource',
@@ -189,7 +189,7 @@ export default new Router({
         },
         {
           path: '/object_var_dump',
-          component: () => import('@/views/php/ObjectVarDump.vue'),
+          component: () => import(/* webpackChunkName: "object_var_dump" */ '@/views/php/ObjectVarDump.vue'),
           meta: {
             title: 'Object Var Dump',
             hidden: true,
@@ -209,7 +209,7 @@ export default new Router({
       children: [
         {
           path: '/processes',
-          component: () => import('@/views/swoole/Processes.vue'),
+          component: () => import(/* webpackChunkName: "processes" */ '@/views/swoole/Processes.vue'),
           meta: {
             title: 'Processes',
             icon: 'gallery-view',
@@ -217,7 +217,7 @@ export default new Router({
           }
         }, {
           path: '/coroutines',
-          component: () => import('@/views/swoole/Coroutines.vue'),
+          component: () => import(/* webpackChunkName: "coroutines" */ '@/views/swoole/Coroutines.vue'),
           meta: {
             title: 'Coroutines',
             icon: 'terminal',
@@ -225,7 +225,7 @@ export default new Router({
           }
         }, {
           path: '/connections',
-          component: () => import('@/views/swoole/Connections.vue'),
+          component: () => import(/* webpackChunkName: "connections" */ '@/views/swoole/Connections.vue'),
           meta: {
             title: 'Connections',
             icon: 'tree-table',
@@ -234,7 +234,7 @@ export default new Router({
         },
         {
           path: '/events',
-          component: () => import('@/views/swoole/Events.vue'),
+          component: () => import(/* webpackChunkName: "events" */ '@/views/swoole/Events.vue'),
           meta: {
             title: 'Events',
             icon: 'email',
@@ -243,7 +243,7 @@ export default new Router({
         },
         {
           path: '/worker/:id',
-          component: () => import('@/views/swoole/WorkerDetail.vue'),
+          component: () => import(/* webpackChunkName: "worker" */ '@/views/swoole/WorkerDetail.vue'),
           meta: {
             title: 'Worker Detail',
             hidden: true,
@@ -252,7 +252,7 @@ export default new Router({
         },
         {
           path: '/timers/',
-          component: () => import('@/views/swoole/Timers.vue'),
+          component: () => import(/* webpackChunkName: "timers" */ '@/views/swoole/Timers.vue'),
           meta: {
             title: 'Timers',
             icon: 'clock-fill',
@@ -261,7 +261,7 @@ export default new Router({
         },
         {
           path: '/network_traffic/',
-          component: () => import('@/views/chart/NetworkTraffic.vue'),
+          component: () => import(/* webpackChunkName: "network_traffic" */ '@/views/chart/NetworkTraffic.vue'),
           meta: {
             title: 'Network Traffic',
             hidden: true,
@@ -270,7 +270,7 @@ export default new Router({
         },
         {
           path: '/memory_info/:worker',
-          component: () => import('@/views/swoole/MemoryInfo.vue'),
+          component: () => import(/* webpackChunkName: "memory_info" */ '@/views/swoole/MemoryInfo.vue'),
           meta: {
             title: 'Memory Info',
             hidden: true,
@@ -279,7 +279,7 @@ export default new Router({
         },
         {
           path: '/socket_info/',
-          component: () => import('@/views/swoole/SocketInfo.vue'),
+          component: () => import(/* webpackChunkName: "socket_info" */ '@/views/swoole/SocketInfo.vue'),
           meta: {
             title: 'Socket Info',
             hidden: true,

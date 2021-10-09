@@ -1,7 +1,7 @@
 <template>
   <el-dropdown trigger="click">
   <span class="el-dropdown-link">
-    <svg-icon name="server" style="font-size: 18px;"/>
+    <svg-icon name="server" />
   </span>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item>

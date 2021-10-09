@@ -20,6 +20,7 @@
       <el-dropdown-item
         :disabled="language==='en'"
         command="en"
+        divided
       >
         English
       </el-dropdown-item>

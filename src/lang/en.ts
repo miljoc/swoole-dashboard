@@ -213,7 +213,13 @@ export default {
     varDump: 'Var Dump',
     detail: 'Detail',
     close: 'Close',
-    cancel: 'Cancel'
+    cancel: 'Cancel',
+    reload: 'Reload',
+    shutDown: 'ShutDown',
+    reloadSuccess: 'Server Is Reload',
+    shutDownSuccess: 'Server Is ShutDown',
+    reloadWarning: 'Confirm whether to reload the server？',
+    shutDownWarning: 'Confirm whether to shutdown the server？'
   },
   extensions: {
     classes: 'Classes',

@@ -20,6 +20,8 @@
 
       <lang-select class="right-menu-item hover-effect" />
 
+      <server-action class="right-menu-item hover-effect" />
+
       <el-dropdown
         class="avatar-container right-menu-item hover-effect"
         trigger="click"
@@ -37,14 +39,16 @@
             href="https://wenda.swoole.com/my-info"
           >
             <el-dropdown-item>
-              {{ $t('navbar.profile') }}
+              <svg-icon name="user" /> {{ $t('navbar.profile') }}
             </el-dropdown-item>
           </a>
           <el-dropdown-item divided>
             <span
               style="display:block;"
               @click="logout"
-            >{{ $t('navbar.logOut') }}</span>
+            >
+              <svg-icon name="logout" /> {{ $t('navbar.logOut') }}
+            </span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -59,6 +63,7 @@ import { UserModule } from '@/store/modules/user'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import Hamburger from '@/components/Hamburger/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
+import ServerAction from '@/components/ServerActions/index.vue'
 import { getVersionInfo } from '@/api/phpinfos'
 import { IVersionInfo } from '@/api/types'
 
@@ -67,7 +72,8 @@ import { IVersionInfo } from '@/api/types'
   components: {
     Breadcrumb,
     Hamburger,
-    LangSelect
+    LangSelect,
+    ServerAction
   }
 })
 export default class extends Vue {

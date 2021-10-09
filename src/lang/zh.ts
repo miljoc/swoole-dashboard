@@ -213,7 +213,13 @@ export default {
     varDump: '输出打印',
     detail: '查看详情',
     close: '关闭',
-    cancel: '取消'
+    cancel: '取消',
+    reload: '重载服务',
+    shutDown: '关闭服务',
+    reloadSuccess: '服务已重载',
+    shutDownSuccess: '服务已关闭',
+    reloadWarning: '是否确认重载服务',
+    shutDownWarning: '是否确认关闭服务'
   },
   extensions: {
     classes: '类',

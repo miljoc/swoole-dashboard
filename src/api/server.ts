@@ -138,3 +138,15 @@ export const getServerMemoryUsage = () =>
     url: '/api/get_server_memory_usage/master',
     method: 'get'
   })
+
+export const serverReload = () =>
+  request({
+    url: '/api/server_reload/master',
+    method: 'get'
+  })
+
+export const serverShutDown = () =>
+  request({
+    url: '/api/server_shutdown/master',
+    method: 'get'
+  })

@@ -262,12 +262,14 @@ export default class extends Vue {
    */
   private handleCloseSession(res: IConnectionInfo, is_reset = 0) {
     let str = ''
+    let confirmButtonText = ''
     if (is_reset === 0) {
       str = this.$t('connections.closeWarning').toString()
+      confirmButtonText = this.$t('connections.close').toString()
     } else {
       str = this.$t('connections.resetWarning').toString()
+      confirmButtonText = this.$t('connections.reset').toString()
     }
-    const confirmButtonText = this.$t('connections.close').toString()
     const cancelButtonText = this.$t('common.cancel').toString()
     this.$confirm(str, {
       confirmButtonText: confirmButtonText,

@@ -309,6 +309,7 @@ export default {
     closeSession: 'Close Session',
     resetWarning: 'Confirm whether to reset the connection？',
     closeWarning: 'Confirm whether to close the connection？',
+    reset: 'Reset Session',
     close: 'Close Session',
     closeSuccess: 'Session Closed'
   },

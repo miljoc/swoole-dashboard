@@ -309,6 +309,7 @@ export default {
     closeSession: '断开连接',
     resetWarning: '是否确认重置连接',
     closeWarning: '是否确认断开连接',
+    reset: '重置',
     close: '断开',
     closeSuccess: '连接已断开'
   },

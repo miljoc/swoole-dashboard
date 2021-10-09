@@ -1,6 +1,6 @@
 export default {
   route: {
-    'Swoole Dashboard': 'Swoole Dashboard',
+    'Swoole Dashboard': 'Home',
     'Worker Stats': 'Worker Stats',
     Extensions: 'Extensions',
     'Extension Detail': 'Extension Detail',

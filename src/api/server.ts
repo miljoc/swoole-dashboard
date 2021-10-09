@@ -80,11 +80,11 @@ export const getConnections = (worker: any) =>
     method: 'get'
   })
 
-export const closeConnection = (session_id: number, worker: string | (string | null)[] = 'master') =>
+export const closeConnection = (session_id: number, is_reset: number, worker: string | (string | null)[] = 'master') =>
   request({
     url: `/api/close_session/${worker}`,
     method: 'get',
-    params: { session_id }
+    params: { session_id, force: is_reset }
   })
 
 export const getSocketInfo = (fd: string, worker: string) =>

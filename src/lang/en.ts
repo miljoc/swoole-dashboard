@@ -22,6 +22,7 @@ export default {
     'Worker Detail': 'Worker Detail',
     Coroutines: 'Coroutines',
     Connections: 'Connections',
+    'Network Traffic': 'Network Traffic',
     'Socket Info': 'Socket Info',
     Events: 'Events',
     Timers: 'Timers',
@@ -304,7 +305,9 @@ export default {
     sendQueuedBytes: 'Send Queued Bytes',
     numberOfBytesReceived: 'Number Of Bytes Received',
     numberOfBytesSend: 'Number Of Bytes Send',
+    resetSession: 'Reset Session',
     closeSession: 'Close Session',
+    resetWarning: 'Confirm whether to reset the connection？',
     closeWarning: 'Confirm whether to close the connection？',
     close: 'Close Session',
     closeSuccess: 'Session Closed'

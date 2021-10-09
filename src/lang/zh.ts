@@ -22,6 +22,7 @@ export default {
     'Worker Detail': '进程详情',
     Coroutines: '协程',
     Connections: '连接',
+    'Network Traffic': '网络传输信息',
     'Socket Info': 'Socket详情',
     Events: '事件',
     Timers: '定时器',
@@ -304,7 +305,9 @@ export default {
     sendQueuedBytes: '发送队列大小',
     numberOfBytesReceived: '已接收的字节数',
     numberOfBytesSend: '已发送的字节数',
+    resetSession: '重置连接',
     closeSession: '断开连接',
+    resetWarning: '是否确认重置连接',
     closeWarning: '是否确认断开连接',
     close: '断开',
     closeSuccess: '连接已断开'

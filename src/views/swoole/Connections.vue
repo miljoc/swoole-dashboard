@@ -177,9 +177,14 @@
 
       <el-table-column :label="$t('common.actions')" align="center">
         <template slot-scope="scope">
-          <el-button type="warning" size="mini" @click="handleCloseSession(scope.row)" icon="el-icon-close">
-            {{ $t('connections.closeSession') }}
-          </el-button>
+          <div style="display: flex; flex-direction: row; justify-content: center">
+            <el-button type="danger" size="mini" @click="handleCloseSession(scope.row, 1)">
+              <svg-icon name='reset' /> {{ $t('connections.resetSession') }}
+            </el-button>
+            <el-button type="warning" size="mini" @click="handleCloseSession(scope.row, 0)">
+              <svg-icon name='close' /> {{ $t('connections.closeSession') }}
+            </el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
@@ -255,8 +260,13 @@ export default class extends Vue {
    * @param res
    * @private
    */
-  private handleCloseSession(res: IConnectionInfo) {
-    const str = this.$t('connections.closeWarning').toString()
+  private handleCloseSession(res: IConnectionInfo, is_reset = 0) {
+    let str = ''
+    if (is_reset === 0) {
+      str = this.$t('connections.closeWarning').toString()
+    } else {
+      str = this.$t('connections.resetWarning').toString()
+    }
     const confirmButtonText = this.$t('connections.close').toString()
     const cancelButtonText = this.$t('common.cancel').toString()
     this.$confirm(str, {
@@ -265,7 +275,7 @@ export default class extends Vue {
       type: 'warning'
     })
       .then(() => {
-        this.closeSession(res.session_id)
+        this.closeSession(res.session_id, is_reset)
       }).catch(() => {
         // console.log(this.list)
       })
@@ -276,9 +286,9 @@ export default class extends Vue {
    * @param session_id
    * @private
    */
-  private async closeSession(session_id: number) {
+  private async closeSession(session_id: number, is_reset: number) {
     const worker = this.$route.query.worker ?? 'master'
-    await closeConnection(session_id, worker)
+    await closeConnection(session_id, is_reset, worker)
     const str = this.$t('connections.closeSuccess').toString()
     this.$message({
       type: 'success',

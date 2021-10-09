@@ -1,7 +1,7 @@
 <template>
   <el-dropdown trigger="click">
   <span class="el-dropdown-link">
-    <i class="el-icon-s-tools" />
+    <svg-icon name="server" style="font-size: 18px;"/>
   </span>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item>
@@ -68,6 +68,7 @@ export default class extends Vue {
       message: this.$t('common.reloadSuccess').toString(),
       type: 'success'
     })
+    setTimeout((this.$router.go(0) as any), 1000)
   }
 
   private shutdown() {
@@ -76,6 +77,7 @@ export default class extends Vue {
       message: this.$t('common.shutDownSuccess').toString(),
       type: 'success'
     })
+    setTimeout((this.$router.go(0) as any), 1000)
   }
 }
 </script>

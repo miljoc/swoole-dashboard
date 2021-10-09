@@ -72,7 +72,6 @@ export default class extends Vue {
 
     & .sidebar-logo {
       width: 40px;
-      height: 20px;
       vertical-align: middle;
       margin-right: 12px;
     }

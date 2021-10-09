@@ -178,11 +178,11 @@
       <el-table-column :label="$t('common.actions')" align="center">
         <template slot-scope="scope">
           <div style="display: flex; flex-direction: row; justify-content: center">
-            <el-button type="danger" size="mini" @click="handleCloseSession(scope.row, 1)">
-              <svg-icon name='reset' /> {{ $t('connections.resetSession') }}
-            </el-button>
             <el-button type="warning" size="mini" @click="handleCloseSession(scope.row, 0)">
               <svg-icon name='close' /> {{ $t('connections.closeSession') }}
+            </el-button>
+            <el-button type="danger" size="mini" @click="handleCloseSession(scope.row, 1)">
+              <svg-icon name='reset' /> {{ $t('connections.resetSession') }}
             </el-button>
           </div>
         </template>
@@ -258,6 +258,7 @@ export default class extends Vue {
   /**
    * 断开连接询问框
    * @param res
+   * @param is_reset
    * @private
    */
   private handleCloseSession(res: IConnectionInfo, is_reset = 0) {
@@ -286,6 +287,7 @@ export default class extends Vue {
   /**
    * 断开连接
    * @param session_id
+   * @param is_reset
    * @private
    */
   private async closeSession(session_id: number, is_reset: number) {

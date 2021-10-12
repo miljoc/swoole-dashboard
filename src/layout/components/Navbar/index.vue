@@ -36,9 +36,17 @@
         <el-dropdown-menu slot="dropdown">
           <a
             target="_blank"
-            href="https://wenda.swoole.com/my-info"
+            href="https://github.com/swoole/dashboard/issues"
           >
             <el-dropdown-item>
+              <svg-icon name="issue" /> {{ $t('navbar.issues') }}
+            </el-dropdown-item>
+          </a>
+          <a
+            target="_blank"
+            href="https://wenda.swoole.com/my-info"
+          >
+            <el-dropdown-item divided>
               <svg-icon name="user" /> {{ $t('navbar.profile') }}
             </el-dropdown-item>
           </a>

@@ -98,7 +98,8 @@ export default {
     github: 'Github',
     theme: 'Theme',
     size: 'Global Size',
-    profile: 'Profile'
+    profile: 'Profile',
+    issues: 'Issue'
   },
   login: {
     title: 'Login Form',

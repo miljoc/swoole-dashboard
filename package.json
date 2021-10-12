@@ -8,7 +8,9 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "svg": "vsvg -s ./src/icons/svg -t ./src/icons/components --ext ts --es6",
-    "test:unit": "jest --clearCache && vue-cli-service test:unit"
+    "test:unit": "jest --clearCache && vue-cli-service test:unit",
+    "pack": "vue-cli-service build && tar -zcf ./swoole-dashboard.tar.gz dist",
+    "tar": "tar -zcf ./swoole-dashboard.tar.gz dist"
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^3.2.6",

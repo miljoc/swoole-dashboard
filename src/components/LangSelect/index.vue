@@ -34,7 +34,7 @@ import { AppModule } from '@/store/modules/app'
 import settings from '@/settings'
 
 @Component({
-  name: 'Login'
+  name: 'LangSelect'
 })
 export default class extends Vue {
   get language() {

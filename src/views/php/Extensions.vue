@@ -29,7 +29,7 @@
 
       <el-table-column
         align="center"
-        label="Name"
+        :label="$t('extensions.name')"
       >
         <template slot-scope="{row}">
           <el-link type="primary">
@@ -42,7 +42,7 @@
 
       <el-table-column
         align="center"
-        label="Version"
+        :label="$t('extensions.version')"
       >
         <template slot-scope="{row}">
           <el-link type="primary">

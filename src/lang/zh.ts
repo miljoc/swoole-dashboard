@@ -230,7 +230,8 @@ export default {
     dependencies: '依赖扩展',
     functions: '函数',
     info: '信息',
-    name: '扩展名称'
+    name: '名称',
+    version: '版本'
   },
   classes: {
     placeholder: '类名 或 文件信息',

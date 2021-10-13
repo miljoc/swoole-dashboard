@@ -230,7 +230,8 @@ export default {
     dependencies: 'Dependencies',
     functions: 'Functions',
     info: 'Info',
-    name: 'Extension Name'
+    name: 'Extension Name',
+    version: 'Version'
   },
   classes: {
     placeholder: 'Class Name or Source File',

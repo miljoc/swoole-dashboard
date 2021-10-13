@@ -122,7 +122,16 @@
                 </template>
               </el-table-column>
               <el-table-column :label="$t('classes.methodName')" align="center">
-                <template slot-scope="scope">{{scope.row.name }}</template>
+                <template slot-scope="scope">
+                  <el-link type="primary">
+                    <router-link class="link-type"
+                                 :to="{path: `/functions_detail?function_name=${scope.row.name}`}">
+                      {{
+                        scope.row.name
+                      }}
+                    </router-link>
+                  </el-link>
+                </template>
               </el-table-column>
               <el-table-column :label="$t('common.sourceFile')" align="center" v-if="filename.length > 0">
                 <template slot-scope="scope">
@@ -134,7 +143,7 @@
                 </template>
               </el-table-column>
             </el-table>
-            <el-divider content-position="left">Methods</el-divider>
+            <el-divider content-position="left">{{ $t('classes.methods') }}</el-divider>
             <el-table
               :data="methods"
               border

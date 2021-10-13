@@ -231,6 +231,14 @@ export default new Router({
             icon: 'tree-table',
             activeMenu: '/connections'
           }
+        }, {
+          path: '/connection_info',
+          component: () => import(/* webpackChunkName: "connections" */ '@/views/swoole/ConnectionInfo.vue'),
+          meta: {
+            title: 'Connection Info',
+            hidden: true,
+            activeMenu: '/connections'
+          }
         },
         {
           path: '/events',

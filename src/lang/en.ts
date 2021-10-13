@@ -22,6 +22,7 @@ export default {
     'Worker Detail': 'Worker Detail',
     Coroutines: 'Coroutines',
     Connections: 'Connections',
+    'Connection Info': 'Connection Info',
     'Network Traffic': 'Network Traffic',
     'Socket Info': 'Socket Info',
     Events: 'Events',

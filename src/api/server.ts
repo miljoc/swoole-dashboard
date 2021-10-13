@@ -107,7 +107,7 @@ export const getAllPorts = () =>
     method: 'get'
   })
 
-export const getClientInfo = (worker: string, session_id: number) =>
+export const getClientInfo = (worker: string, session_id: string) =>
   request({
     url: `/api/get_client_info/${worker}`,
     method: 'get',

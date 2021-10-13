@@ -22,6 +22,7 @@ export default {
     'Worker Detail': '进程详情',
     Coroutines: '协程',
     Connections: '连接',
+    'Connection Info': '连接信息',
     'Network Traffic': '网络传输信息',
     'Socket Info': 'Socket详情',
     Events: '事件',

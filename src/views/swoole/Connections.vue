@@ -1,23 +1,21 @@
 <template>
   <div class="app-container">
     <!---------------------------查询------开始----------------------->
-    <!---------------------------Socket Name------开始----------------------->
-    <el-select
-      v-model="SocketNameFieldValue"
-      multiple
-      filterable
-      collapse-tags
-      :placeholder="$t('connections.socketName')"
+    <!---------------------------Session Id------开始----------------------->
+    <el-input
+      v-model="searchSessionID"
+      placeholder="Session ID"
+      @keyup.enter.native="filterHandler"
       style="margin: 0 10px 10px 0;"
-      @change="filterHandler"
-    >
-      <el-option
-        v-for="item in SocketNameOptions"
-        :label="item"
-        :key="item"
-        :value="item">
-      </el-option>
-    </el-select>
+    ></el-input>
+    <!---------------------------Session Id------结束----------------------->
+    <!---------------------------Socket Name------开始----------------------->
+    <el-input
+      v-model="searchSocketName"
+      :placeholder="$t('connections.socketName')"
+      @keyup.enter.native="filterHandler"
+      style="margin: 0 10px 10px 0;"
+    ></el-input>
     <!---------------------------Socket Name------结束----------------------->
     <!---------------------------port------开始----------------------->
     <el-select
@@ -37,6 +35,7 @@
       </el-option>
     </el-select>
     <!---------------------------port------结束----------------------->
+    <el-button type="primary" @click="filterHandler" icon="el-icon-search">{{ $t('common.search') }}</el-button>
     <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> {{ $t('common.clear') }}</el-button>
     <!---------------------------查询------结束----------------------->
 
@@ -57,7 +56,12 @@
           sortable="session_id"
       >
         <template slot-scope="{row}">
-          <span>{{ row.session_id }}</span>
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/connection_info?session_id=${row.session_id}&worker=${serverSetting.mode === 2 ? 'worker-' + row.reactor_id : 'master'}`}">
+              {{ row.session_id }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
 
@@ -233,8 +237,8 @@ export default class extends Vue {
   }
 
   // 选项参数
-  private SocketNameFieldValue: Array<string> = []
-  private SocketNameOptions: any = []
+  private searchSessionID = ''
+  private searchSocketName = ''
   private ServerPortFieldValue: Array<string> = []
   private ServerPortOptions: any = []
 
@@ -349,21 +353,13 @@ export default class extends Vue {
     })
 
     // 筛选项数据
-    const tmpSocketName: Array<any> = []
     const tmpPort: Array<any> = []
     for (let index = 0; index < list.length; index++) {
-      // 处理 socket name 选项数据
-      tmpSocketName[index] = list[index].address + ':' + list[index].port
       // 处理 port 选项数据
       tmpPort[index] = list[index].server_port
     }
 
     // 去除重复值
-    for (let i = 0; i < tmpSocketName.length; i++) {
-      if (tmpSocketName.indexOf(tmpSocketName[i]) === i) {
-        this.SocketNameOptions.push(tmpSocketName[i])
-      }
-    }
     for (let i = 0; i < tmpPort.length; i++) {
       if (tmpPort.indexOf(tmpPort[i]) === i) {
         this.ServerPortOptions.push(tmpPort[i])
@@ -384,9 +380,26 @@ export default class extends Vue {
   private filterHandler() {
     this.handleAllList = JSON.parse(JSON.stringify(this.allList))
 
-    if (this.SocketNameFieldValue.length > 0) {
+    if (this.searchSessionID.length > 0) {
       this.handleAllList = this.handleAllList.filter((item) => {
-        return inArray(item.address + ':' + item.port, this.SocketNameFieldValue)
+        const tmpStr = this.searchSessionID.toString()
+        if (item.session_id.toString() === tmpStr) {
+          return true
+        } else {
+          return false
+        }
+      })
+    }
+
+    if (this.searchSocketName.length > 0) {
+      this.handleAllList = this.handleAllList.filter((item) => {
+        const tmpStr = this.searchSocketName
+        const str = item.address + ':' + item.port
+        if (str === tmpStr || str.indexOf(tmpStr) !== -1) {
+          return true
+        } else {
+          return false
+        }
       })
     }
 
@@ -406,9 +419,10 @@ export default class extends Vue {
    * @private
    */
   private clearFilter(): void {
-    if (this.SocketNameFieldValue.length > 0 || this.ServerPortFieldValue.length > 0) {
+    if (this.searchSessionID.length > 0 || this.searchSocketName.length > 0 || this.ServerPortFieldValue.length > 0) {
       console.log('清除筛选项')
-      this.SocketNameFieldValue = []
+      this.searchSessionID = ''
+      this.searchSocketName = ''
       this.ServerPortFieldValue = []
       this.handleAllList = JSON.parse(JSON.stringify(this.allList))
       this.showList(this.handleAllList)
@@ -423,7 +437,8 @@ export default class extends Vue {
   private sortChange(column:any) {
     const field: string = column.column.sortable // 排序字段
     if (
-      this.SocketNameFieldValue.length === 0 &&
+      this.searchSessionID.length === 0 &&
+      this.searchSocketName.length === 0 &&
       this.ServerPortFieldValue.length === 0
     ) {
       this.handleAllList = JSON.parse(JSON.stringify(this.allList)) // 备份初始数据
@@ -457,3 +472,11 @@ export default class extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.app-container {
+  .el-input {
+    width: 20%;
+  }
+}
+</style>

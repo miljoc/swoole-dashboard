@@ -254,6 +254,19 @@ export default {
     type: 'Type',
     name: 'Function Name'
   },
+  function_detail: {
+    type: 'Type',
+    name: 'Name',
+    default: 'Default',
+    full: 'Full',
+    variadic: 'IsVariadic',
+    by_reference: 'IsPassedByReference',
+    optional: 'Optional',
+    num: 'Num',
+    user_defined: 'User Defined',
+    extension: 'Extension',
+    filename: 'Filename'
+  },
   resources: {
     name: 'Resources',
     type: 'Type',

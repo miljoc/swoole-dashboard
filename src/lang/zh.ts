@@ -254,6 +254,19 @@ export default {
     type: '类型',
     name: '函数名'
   },
+  function_detail: {
+    type: '类型',
+    name: '变量名',
+    default: '默认值',
+    full: '参数信息',
+    variadic: '可变参数',
+    by_reference: '引用参数',
+    optional: '可选参数',
+    num: '参数个数',
+    user_defined: '用户定义',
+    extension: '扩展',
+    filename: '文件名'
+  },
   resources: {
     name: '资源名',
     type: '资源类型',

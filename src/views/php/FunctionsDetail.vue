@@ -2,16 +2,16 @@
   <div class="app-container">
       <el-row>
         <el-descriptions class="margin-top" border>
-          <el-descriptions-item label="Num">{{ num }}</el-descriptions-item>
-          <el-descriptions-item label="User Defined" v-if="user_defined === true ">{{ user_defined }}</el-descriptions-item>
-          <el-descriptions-item label="Extension" v-if="user_defined === false ">
+          <el-descriptions-item :label="$t('function_detail.num')">{{ num }}</el-descriptions-item>
+          <el-descriptions-item :label="$t('function_detail.user_defined')" v-if="user_defined === true ">{{ user_defined }}</el-descriptions-item>
+          <el-descriptions-item :label="$t('function_detail.extension')" v-if="user_defined === false ">
             <el-link type="primary">
               <router-link class="link-type"
                            :to="{path: `/extension_detail/?extension_name=${extension}`}">{{ extension }}
               </router-link>
             </el-link>
           </el-descriptions-item>
-          <el-descriptions-item label="Filename" v-if="tmpFilename !== '-' ">
+          <el-descriptions-item :label="$t('function_detail.filename')" v-if="tmpFilename !== '-' ">
             <el-link type="primary">
               <router-link class="link-type"
                            :to="{path: `/includedfiles_detail?file_name=${filename}&line=${line}`}">
@@ -19,7 +19,7 @@
               </router-link>
             </el-link>
           </el-descriptions-item>
-          <el-descriptions-item label="filename" v-else>
+          <el-descriptions-item :label="$t('function_detail.filename')" v-else>
                 {{ tmpFilename }}
           </el-descriptions-item>
         </el-descriptions>
@@ -32,14 +32,51 @@
       border
       style="width: 100%; margin-top: 2%;"
     >
-      <el-table-column label="ParamsId" align="center" width="180" sortable="id">
+      <el-table-column label="Id" align="center" width="180" >
         <template slot-scope="scope">
           <span style="margin-left: 10px">{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="ParamsName">
+      <el-table-column :label="$t('function_detail.optional')">
         <template slot-scope="scope">
-          {{ scope.row.name }}
+          <span v-if="scope.row.data.optional === '?' ">true</span>
+          <span v-else>false</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('function_detail.type')">
+        <template slot-scope="scope">
+          <span v-if="scope.row.data.type === '' ">-</span>
+          <span v-else>{{ scope.row.data.type }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('function_detail.variadic')">
+        <template slot-scope="scope" >
+          <span v-if="scope.row.data.is_variadic === '...' ">true</span>
+          <span v-else>false</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('function_detail.by_reference')">
+        <template slot-scope="scope">
+          <span v-if="scope.row.data.is_passed_by_reference === '&' ">true</span>
+          <span v-else>false</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('function_detail.name')">
+        <template slot-scope="scope">
+          <span v-if="scope.row.data.name === '' ">-</span>
+          <span v-else>${{ scope.row.data.name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('function_detail.default')">
+        <template slot-scope="scope">
+          <span v-if="scope.row.data.default === '' ">-</span>
+          <span v-else>{{ scope.row.data.default | substr }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :label="$t('function_detail.full')">
+        <template slot-scope="scope">
+          <span v-if="scope.row.data.full === '' ">-</span>
+          <span v-else>{{ scope.row.data.full }}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -64,6 +101,11 @@ export default {
   },
   created() {
     this.getDefinedFunctionsContent()
+  },
+  filters: {
+    substr(val) {
+      return val.substr(2)
+    }
   },
   methods: {
     async getDefinedFunctionsContent() {
@@ -90,7 +132,7 @@ export default {
         const id = index + 1
         this.params.push({
           id: id,
-          name: this.tmpListParams[names]
+          data: this.tmpListParams[names]
         })
         index++
       }

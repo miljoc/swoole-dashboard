@@ -103,6 +103,7 @@ export default class extends Vue {
 
   // 搜索
   private searchFilter(): void {
+    this.listQuery.page = 1;
     this.list = []
     this.getList()
   }

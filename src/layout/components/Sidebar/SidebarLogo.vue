@@ -12,7 +12,7 @@
       >
         <img
           src="/img/logo.png"
-          class="sidebar-logo"
+          class="sidebar-logo-sm"
         >
       </router-link>
       <router-link
@@ -74,6 +74,11 @@ export default class extends Vue {
       width: 80px;
       vertical-align: middle;
       margin-right: 12px;
+    }
+
+    & .sidebar-logo-sm {
+      width: 40px;
+      vertical-align: middle;
     }
 
     & .sidebar-title {

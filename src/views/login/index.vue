@@ -84,7 +84,7 @@ import { isValidUsername } from '@/utils/validate'
 })
 export default class extends Vue {
   private validateUsername = (rule: any, value: string, callback: Function) => {
-    if (!isValidUsername(value)) {
+    if (!value || !isValidUsername(value)) {
       callback(new Error(this.$t('login.name') as string))
     } else {
       callback()

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
 
-    <el-input v-model="input" id="search" style="margin: 0 10px 10px 0;width: 300px;" @keyup.enter.native="searchFilter" :placeholder="$t('interfaces.name')"></el-input>
+    <el-input v-model="input" style="margin: 0 10px 10px 0;width: 300px;" :placeholder="$t('interfaces.name')" @keyup.enter.native="searchFilter"></el-input>
 
     <el-button type="primary" @click="searchFilter" icon="el-icon-search">{{ $t('common.search') }}</el-button>
 
@@ -88,6 +88,7 @@ export default class extends Vue {
 
   // 搜索
   private searchFilter(): void {
+    this.listQuery.page = 1
     this.list = []
     this.getList()
   }

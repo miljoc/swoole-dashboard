@@ -383,7 +383,7 @@ export default class extends Vue {
     if (this.searchSessionID.length > 0) {
       this.handleAllList = this.handleAllList.filter((item) => {
         const tmpStr = this.searchSessionID.toString()
-        if (item.session_id.toString() === tmpStr) {
+        if (item.session_id.toString().indexOf(tmpStr) !== -1) {
           return true
         } else {
           return false

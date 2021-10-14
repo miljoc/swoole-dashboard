@@ -18,6 +18,8 @@
         <span>IP: <b>{{ versionInfo.ip }}</b></span>
       </div>
 
+      <admin-server-select class="right-menu-item hover-effect" />
+
       <lang-select class="right-menu-item hover-effect" />
 
       <server-action class="right-menu-item hover-effect" />
@@ -36,7 +38,7 @@
         <el-dropdown-menu slot="dropdown">
           <a
             target="_blank"
-            href="https://github.com/swoole/dashboard/issues"
+            href="https://github.com/swoole/swoole-src/issues"
           >
             <el-dropdown-item>
               <svg-icon name="issue" /> {{ $t('navbar.issues') }}
@@ -68,6 +70,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { AppModule } from '@/store/modules/app'
 import { UserModule } from '@/store/modules/user'
+import AdminServerSelect from '@/components/AdminServerSelect/index.vue'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import Hamburger from '@/components/Hamburger/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
@@ -78,6 +81,7 @@ import { IVersionInfo } from '@/api/types'
 @Component({
   name: 'Navbar',
   components: {
+    AdminServerSelect,
     Breadcrumb,
     Hamburger,
     LangSelect,

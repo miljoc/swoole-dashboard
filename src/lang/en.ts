@@ -110,7 +110,9 @@ export default {
     password: 'Password',
     thirdparty: 'Or connect with',
     name: 'Please enter the correct user name. Only mobile phone numbers are supported',
-    pwd: 'The password can not be less than 6 digits'
+    pwd: 'The password can not be less than 6 digits',
+    address: 'admin-server address',
+    address_error: 'Please enter the correct admin-server address'
   },
   documentation: {
     documentation: 'Documentation',
@@ -137,7 +139,9 @@ export default {
     backToTopTips1: 'When the page is scrolled to the specified position, the Back to Top button appears in the lower right corner',
     backToTopTips2: 'You can customize the style of the button, show / hide, height of appearance, height of the return. If you need a text prompt, you can use element-ui el-tooltip elements externally',
     imageUploadTips: 'Since I was using only the vue@1 version, and it is not compatible with mockjs at the moment, I modified it myself, and if you are going to use it, it is better to use official version.',
-    changeLanguageTips: 'Switch Language Success'
+    changeLanguageTips: 'Switch Language Success',
+    changeAdminServerTips: 'Switch admin-server：',
+    deleteAdminServerTips: 'Delete admin-server：'
   },
   table: {
     dynamicTips1: 'Fixed header, sorted by header order',

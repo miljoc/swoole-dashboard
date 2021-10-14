@@ -1,9 +1,10 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
+import { getAdminServer } from '@/utils/cookies'
 
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API,
+  baseURL: getAdminServer(),
   timeout: 5000
 })
 

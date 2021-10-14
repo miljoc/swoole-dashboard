@@ -1,5 +1,5 @@
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators'
-import { getSidebarStatus, setSidebarStatus, setLanguage } from '@/utils/cookies'
+import { getSidebarStatus, setSidebarStatus, setLanguage, getAdminServer, setAdminServer } from '@/utils/cookies'
 import { getLocale } from '@/lang'
 import store from '@/store'
 
@@ -15,6 +15,7 @@ export interface IAppState {
     withoutAnimation: boolean
   }
   language: string
+  admin_server_address: string
 }
 
 @Module({ dynamic: true, store, name: 'app' })
@@ -26,11 +27,18 @@ class App extends VuexModule implements IAppState {
 
   public device = DeviceType.Desktop
   public language = getLocale()
+  public admin_server_address = getAdminServer()
 
   @Mutation
   private SET_LANGUAGE(language: string) {
     this.language = language
     setLanguage(this.language)
+  }
+
+  @Mutation
+  private SET_ADMIN_SERVER_ADDRESS(address: string) {
+    this.admin_server_address = address
+    setAdminServer(this.admin_server_address)
   }
 
   @Mutation
@@ -74,6 +82,11 @@ class App extends VuexModule implements IAppState {
   @Action
   public SetLanguage(language: string) {
     this.SET_LANGUAGE(language)
+  }
+
+  @Action
+  public SetAdminServerAddress(address: string) {
+    this.SET_ADMIN_SERVER_ADDRESS(address)
   }
 }
 

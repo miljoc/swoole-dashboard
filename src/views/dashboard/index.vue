@@ -36,7 +36,7 @@
           >
             <span>CPU Usage</span>
           </div>
-          <gauge-chart ref="cpu_usage" width="300px" :max="cpuUsageMax" name="CPU Usage" height="280px" :chart-data="cpuUsage"/>
+          <gauge-chart ref="cpu_usage" width="100%" :max="cpuUsageMax" name="CPU Usage" height="280px" :chart-data="cpuUsage"/>
         </div>
       </el-col>
 
@@ -52,7 +52,7 @@
           >
             <span>Memory Usage</span>
           </div>
-          <memory-usage-chart ref="qps" width="300px" height="280px" :max="memoryUsageMax" :chart-data="memoryUsage"/>
+          <memory-usage-chart ref="qps" width="100%" height="280px" :max="memoryUsageMax" :chart-data="memoryUsage"/>
         </div>
       </el-col>
 

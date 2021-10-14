@@ -44,6 +44,13 @@ export default class extends Vue {
       return false
     }
     const { data } = await getClientInfo(worker, session_id)
+    if (data === false) {
+      const str = this.$t('connections.closedWarning').toString()
+      this.$message({
+        type: 'error',
+        message: str
+      })
+    }
     this.connectionInfo = data
   }
 

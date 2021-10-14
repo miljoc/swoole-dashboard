@@ -333,7 +333,8 @@ export default {
     closeWarning: '是否确认断开连接',
     reset: '重置',
     close: '断开',
-    closeSuccess: '连接已断开'
+    closeSuccess: '连接已断开',
+    closedWarning: '连接已关闭'
   },
   events: {
     eventType: '事件类型',

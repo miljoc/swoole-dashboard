@@ -333,7 +333,8 @@ export default {
     closeWarning: 'Confirm whether to close the connection？',
     reset: 'Reset Session',
     close: 'Close Session',
-    closeSuccess: 'Session Closed'
+    closeSuccess: 'Session Closed',
+    closedWarning: 'Connection is closed'
   },
   events: {
     eventType: 'Events',

@@ -1,14 +1,15 @@
 <template>
   <el-row
-    :gutter="40"
+    :gutter="24"
     class="panel-group"
   >
     <el-col
-        :xs="12"
-        :sm="6"
-        :md="6"
-        :lg="3"
-        class="card-panel-col"
+      :xs="12"
+      :sm="12"
+      :md="12"
+      :lg="6"
+      :xl="3"
+      class="card-panel-col"
     >
       <div
           class="card-panel"
@@ -29,11 +30,12 @@
     </el-col>
 
     <el-col
-        :xs="12"
-        :sm="6"
-        :md="6"
-        :lg="3"
-        class="card-panel-col"
+      :xs="12"
+      :sm="12"
+      :md="12"
+      :lg="6"
+      :xl="3"
+      class="card-panel-col"
     >
       <div
           class="card-panel"
@@ -54,11 +56,12 @@
     </el-col>
 
     <el-col
-        :xs="12"
-        :sm="6"
-        :md="6"
-        :lg="3"
-        class="card-panel-col"
+      :xs="12"
+      :sm="12"
+      :md="12"
+      :lg="6"
+      :xl="3"
+      class="card-panel-col"
     >
       <div
           class="card-panel"
@@ -78,7 +81,14 @@
       </div>
     </el-col>
 
-    <el-col :xs="12" :sm="6" :lg="3" class="card-panel-col">
+    <el-col
+      :xs="12"
+      :sm="12"
+      :md="12"
+      :lg="6"
+      :xl="3"
+      class="card-panel-col"
+    >
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon
@@ -97,9 +107,10 @@
 
     <el-col
       :xs="12"
-      :sm="6"
-      :md="6"
-      :lg="3"
+      :sm="12"
+      :md="12"
+      :lg="6"
+      :xl="3"
       class="card-panel-col"
     >
       <div
@@ -121,11 +132,12 @@
     </el-col>
 
     <el-col
-        :xs="12"
-        :sm="6"
-        :md="6"
-        :lg="3"
-        class="card-panel-col"
+      :xs="12"
+      :sm="12"
+      :md="12"
+      :lg="6"
+      :xl="3"
+      class="card-panel-col"
     >
       <div
           class="card-panel"
@@ -146,11 +158,12 @@
     </el-col>
 
     <el-col
-        :xs="12"
-        :sm="6"
-        :md="6"
-        :lg="3"
-        class="card-panel-col"
+      :xs="12"
+      :sm="12"
+      :md="12"
+      :lg="6"
+      :xl="3"
+      class="card-panel-col"
     >
       <div
           class="card-panel"
@@ -170,7 +183,14 @@
       </div>
     </el-col>
 
-    <el-col :xs="12" :sm="6" :md="6" :lg="3" class="card-panel-col">
+    <el-col
+      :xs="12"
+      :sm="12"
+      :md="12"
+      :lg="6"
+      :xl="3"
+      class="card-panel-col"
+    >
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-close">
           <svg-icon

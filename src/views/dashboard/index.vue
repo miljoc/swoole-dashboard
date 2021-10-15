@@ -23,11 +23,13 @@
       </el-col>
     </el-row>
 
-    <el-row :gutter="32">
+    <el-row :gutter="24">
       <el-col
           :xs="12"
           :sm="12"
-          :lg="4"
+          :md="12"
+          :lg="12"
+          :xl="6"
       >
         <div class="chart-wrapper">
           <div
@@ -43,7 +45,9 @@
       <el-col
           :xs="12"
           :sm="12"
-          :lg="4"
+          :md="12"
+          :lg="12"
+          :xl="6"
       >
         <div class="chart-wrapper">
           <div
@@ -59,7 +63,9 @@
       <el-col
           :xs="24"
           :sm="24"
-          :lg="8"
+          :md="12"
+          :lg="12"
+          :xl="6"
       >
         <div class="chart-wrapper">
           <worker-pie-chart :chart-data="workerPieChartData"/>
@@ -68,7 +74,9 @@
       <el-col
           :xs="24"
           :sm="24"
-          :lg="8"
+          :md="12"
+          :lg="12"
+          :xl="6"
       >
         <div class="chart-wrapper">
           <worker-bar-chart :chart-data="workerBarChartData"/>

@@ -6,6 +6,7 @@ module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
   lintOnSave: process.env.NODE_ENV === 'development',
   filenameHashing: process.env.NODE_ENV !== 'production',
+  productionSourceMap: false,
   pwa: {
     name: name
   },

@@ -94,7 +94,7 @@
 
             <el-descriptions-item label="Idle Event Worker Num">{{ serverStats.idle_worker_num }}</el-descriptions-item>
             <el-descriptions-item label="Idle Task Worker Num">{{ serverStats.task_idle_worker_num }}</el-descriptions-item>
-            <el-descriptions-item label="Tasking Num"> {{ serverStats.tasking_num | amountRule }}</el-descriptions-item>
+            <el-descriptions-item label="Tasking Num"> {{ serverStats.tasking_num === undefined ? 0 : serverStats.tasking_num | amountRule }}</el-descriptions-item>
 
             <el-descriptions-item label="Event Worker Num">
               <el-link type="primary">
@@ -401,25 +401,25 @@ export default class extends Vue {
   private memoryUsageMax = 100
 
   private serverStats: IServerStats = {
-    abort_count: -1,
-    close_count: -1,
-    accept_count: -1,
-    connection_num: -1,
-    coroutine_num: -1,
-    dispatch_count: -1,
-    idle_worker_num: -1,
-    request_count: -1,
-    response_count: -1,
-    start_time: -1,
-    task_worker_num: -1,
-    tasking_num: -1,
-    worker_dispatch_count: -1,
-    worker_num: -1,
-    worker_request_count: -1,
-    worker_response_count: -1,
-    user_worker_num: -1,
-    total_recv_bytes: -1,
-    total_send_bytes: -1
+    abort_count: 0,
+    close_count: 0,
+    accept_count: 0,
+    connection_num: 0,
+    coroutine_num: 0,
+    dispatch_count: 0,
+    idle_worker_num: 0,
+    request_count: 0,
+    response_count: 0,
+    start_time: 0,
+    task_worker_num: 0,
+    tasking_num: 0,
+    worker_dispatch_count: 0,
+    worker_num: 0,
+    worker_request_count: 0,
+    worker_response_count: 0,
+    user_worker_num: 0,
+    total_recv_bytes: 0,
+    total_send_bytes: 0
   }
 
   private workerStats = []
@@ -559,6 +559,11 @@ export default class extends Vue {
 
     do {
       const { data } = await getWorkerInfo2('master')
+      if (data.vm_status === undefined) {
+        data.vm_status = {
+          object_num: 0
+        }
+      }
       workerBarChartData.labels.push('master')
       workerBarChartData.coroutine_data.push(data.coroutine_stats.coroutine_num)
       workerBarChartData.event_data.push(data.coroutine_stats.event_num)
@@ -569,7 +574,11 @@ export default class extends Vue {
     for (let i = 0; i < this.serverStats.worker_num; i++) {
       const worker_name = 'worker-' + i
       const { data } = await getWorkerInfo2(worker_name)
-
+      if (data.vm_status === undefined) {
+        data.vm_status = {
+          object_num: 0
+        }
+      }
       workerBarChartData.labels.push(worker_name)
       workerBarChartData.coroutine_data.push(data.coroutine_stats.coroutine_num)
       workerBarChartData.event_data.push(data.coroutine_stats.event_num)
@@ -579,7 +588,11 @@ export default class extends Vue {
 
     for (let i = 0; i < this.serverStats.task_worker_num; i++) {
       const { data } = await getWorkerInfo2('task_worker-' + i)
-
+      if (data.vm_status === undefined) {
+        data.vm_status = {
+          object_num: 0
+        }
+      }
       workerBarChartData.labels.push('task-worker-' + i)
       workerBarChartData.coroutine_data.push(data.coroutine_stats.coroutine_num)
       workerBarChartData.event_data.push(data.coroutine_stats.event_num)

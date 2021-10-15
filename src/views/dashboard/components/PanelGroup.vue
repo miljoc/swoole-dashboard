@@ -5,7 +5,8 @@
   >
     <el-col
         :xs="12"
-        :sm="12"
+        :sm="6"
+        :md="6"
         :lg="3"
         class="card-panel-col"
     >
@@ -29,7 +30,8 @@
 
     <el-col
         :xs="12"
-        :sm="12"
+        :sm="6"
+        :md="6"
         :lg="3"
         class="card-panel-col"
     >
@@ -53,7 +55,8 @@
 
     <el-col
         :xs="12"
-        :sm="12"
+        :sm="6"
+        :md="6"
         :lg="3"
         class="card-panel-col"
     >
@@ -75,7 +78,7 @@
       </div>
     </el-col>
 
-    <el-col :xs="12" :sm="12" :lg="3" class="card-panel-col">
+    <el-col :xs="12" :sm="6" :lg="3" class="card-panel-col">
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon
@@ -94,7 +97,8 @@
 
     <el-col
       :xs="12"
-      :sm="12"
+      :sm="6"
+      :md="6"
       :lg="3"
       class="card-panel-col"
     >
@@ -118,7 +122,8 @@
 
     <el-col
         :xs="12"
-        :sm="12"
+        :sm="6"
+        :md="6"
         :lg="3"
         class="card-panel-col"
     >
@@ -142,7 +147,8 @@
 
     <el-col
         :xs="12"
-        :sm="12"
+        :sm="6"
+        :md="6"
         :lg="3"
         class="card-panel-col"
     >
@@ -164,7 +170,7 @@
       </div>
     </el-col>
 
-    <el-col :xs="12" :sm="12" :lg="3" class="card-panel-col">
+    <el-col :xs="12" :sm="6" :md="6" :lg="3" class="card-panel-col">
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-close">
           <svg-icon

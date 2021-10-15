@@ -409,6 +409,10 @@ export default class extends Vue {
   private memoryUsageMax = 100
 
   private serverStats: IServerStats = {
+    session_round: 0,
+    pipe_packet_msg_id: 0,
+    max_fd: 0,
+    task_idle_worker_num: 0,
     abort_count: 0,
     close_count: 0,
     accept_count: 0,

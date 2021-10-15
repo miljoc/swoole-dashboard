@@ -24,7 +24,8 @@
           <div class="card-panel-text">
             Uptime
           </div>
-          <span class="card-panel-num"> {{ serverStats.start_time | parseUptime }} </span>
+          <span class="card-panel-num" v-if="serverStats.start_time > 0"> {{ serverStats.start_time | parseUptime }} </span>
+          <span class="card-panel-num" v-else> {{ serverStats.start_time }} </span>
         </div>
       </div>
     </el-col>

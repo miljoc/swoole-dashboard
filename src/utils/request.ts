@@ -15,6 +15,15 @@ service.interceptors.request.use(
     if (UserModule.token) {
       config.headers['X-Access-Token'] = UserModule.token
     }
+    if (!/^http:\/\/|^https:\/\//i.test(config.url as string)) {
+      if (getAdminServer() !== config.baseURL) {
+        if (config.url?.indexOf('/') === 0) {
+          config.url = getAdminServer() + config.url.substr(1)
+        } else {
+          config.url = getAdminServer() + config.url
+        }
+      }
+    }
     return config
   },
   (error) => {

@@ -11,7 +11,6 @@
                  clearable
                  default-first-option
                  @change="selectServer"
-                 @visible-change="handleVisibleChange"
                  :popper-append-to-body="false"
                  popper-class="adminSelect"
                  :placeholder="$t('login.address')">

@@ -6,13 +6,13 @@ export const getSidebarStatus = () => Cookies.get(sidebarStatusKey)
 export const setSidebarStatus = (sidebarStatus: string) => Cookies.set(sidebarStatusKey, sidebarStatus)
 
 const languageKey = 'language'
-export const getLanguage = () => Cookies.get(languageKey)
+export const getLanguage = () => Cookies.get(languageKey) || 'en'
 export const setLanguage = (language: string) => Cookies.set(languageKey, language)
 
 // User
 const tokenKey = 'swoole_dashboard_access_token'
 export const getToken = () => Cookies.get(tokenKey)
-export const setToken = (token: string) => Cookies.set(tokenKey, token)
+export const setToken = (token: string) => Cookies.set(tokenKey, token, { expires: 30 })
 export const removeToken = () => Cookies.remove(tokenKey)
 
 // API

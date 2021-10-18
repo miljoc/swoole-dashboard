@@ -227,7 +227,7 @@ import { bytesFormat, parseTime, getSortFun, amountRule } from '@/utils'
     parseTime: parseTime,
     amountRule: amountRule,
     toBytes: (bytes: string) => {
-      if (bytes.substring(bytes.length - 2, bytes.length) === 'kB') {
+      if (bytes && bytes.substring(bytes.length - 2, bytes.length) === 'kB') {
         return parseInt(bytes.substring(0, bytes.length - 3), 10) * 1024
       } else {
         return parseInt(bytes, 10)
@@ -307,10 +307,14 @@ export default class extends Vue {
       workers[index]['timer_stats.num'] = data.timer_stats.num
       workers[index]['vm_status.object_num'] = data.vm_status.object_num
       workers[index]['vm_status.resource_num'] = data.vm_status.resource_num
-      n = data.process_status.VmSize.indexOf(' ')
-      workers[index]['process_status.VmSize'] = data.process_status.VmSize.substr(0, n)
-      n = data.process_status.VmRSS.indexOf(' ')
-      workers[index]['process_status.VmRSS'] = data.process_status.VmRSS.substr(0, n)
+      if (data.process_status.VmSize) {
+        n = data.process_status.VmSize.indexOf(' ')
+        workers[index]['process_status.VmSize'] = data.process_status.VmSize.substr(0, n)
+      }
+      if (data.process_status.VmRSS) {
+        n = data.process_status.VmRSS.indexOf(' ')
+        workers[index]['process_status.VmRSS'] = data.process_status.VmRSS.substr(0, n)
+      }
       workers[index]['process_status.voluntary_ctxt_switches'] = data.process_status.voluntary_ctxt_switches
       workers[index]['process_status.nonvoluntary_ctxt_switches'] = data.process_status.nonvoluntary_ctxt_switches
     }
@@ -395,8 +399,6 @@ export default class extends Vue {
       workers[0].reload_last_time = data.reload_last_time
     } while (0)
 
-    console.dir(workers[0])
-
     this.allWorkers = JSON.parse(JSON.stringify(workers))
     this.workers = workers
     this.total = 1
@@ -426,10 +428,14 @@ export default class extends Vue {
       workers[index]['timer_stats.num'] = data.timer_stats.num
       workers[index]['vm_status.object_num'] = data.vm_status.object_num
       workers[index]['vm_status.resource_num'] = data.vm_status.resource_num
-      n = data.process_status.VmSize.indexOf(' ')
-      workers[index]['process_status.VmSize'] = data.process_status.VmSize.substr(0, n)
-      n = data.process_status.VmRSS.indexOf(' ')
-      workers[index]['process_status.VmRSS'] = data.process_status.VmRSS.substr(0, n)
+      if (data.process_status.VmSize) {
+        n = data.process_status.VmSize.indexOf(' ')
+        workers[index]['process_status.VmSize'] = data.process_status.VmSize.substr(0, n)
+      }
+      if (data.process_status.VmRSS) {
+        n = data.process_status.VmRSS.indexOf(' ')
+        workers[index]['process_status.VmRSS'] = data.process_status.VmRSS.substr(0, n)
+      }
       workers[index]['process_status.voluntary_ctxt_switches'] = data.process_status.voluntary_ctxt_switches
       workers[index]['process_status.nonvoluntary_ctxt_switches'] = data.process_status.nonvoluntary_ctxt_switches
     }

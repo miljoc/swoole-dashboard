@@ -221,7 +221,8 @@ export default {
     reloadSuccess: '服务已重载',
     shutDownSuccess: '服务已关闭',
     reloadWarning: '是否确认重载服务',
-    shutDownWarning: '是否确认关闭服务'
+    shutDownWarning: '是否确认关闭服务',
+    networkError: '请检查 admin-server 连接状态，刷新重试'
   },
   extensions: {
     classes: '类',

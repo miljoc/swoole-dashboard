@@ -84,6 +84,9 @@ export const numberFormat = (n: number, step = 1000, width = 3, max_index = 4, m
 }
 
 export const bytesFormat = (bytes: number) => {
+  if (isNaN(bytes)) {
+    return '-'
+  }
   return numberFormat(bytes, 1024, 2, 4, ['B', 'KB', 'MB', 'GB', 'TB'])
 }
 
@@ -218,9 +221,9 @@ export const parseResourceInfo = (row: any) => {
 }
 
 export const amountRule = (num: String) => {
-  const defaultAmount = ' '
+  const defaultAmount = '-'
   const setAmount = num + ' '
-  if (setAmount !== 'null' && setAmount !== '' && setAmount !== 'undefined' && setAmount !== '--') {
+  if (setAmount !== 'null' && setAmount !== '' && setAmount !== 'undefined' && typeof num !== 'undefined' && setAmount !== '--') {
     const defaultAmount = Number(setAmount).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
     return defaultAmount.replace('.00', '')
   } else {

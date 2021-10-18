@@ -297,6 +297,26 @@ export default new Router({
       ]
     },
     {
+      path: '/composer',
+      component: Layout,
+      redirect: '/composer_info',
+      meta: {
+        title: 'Composer',
+        icon: 'example'
+      },
+      children: [
+        {
+          path: '/composer_info',
+          component: () => import(/* webpackChunkName: "composer" */ '@/views/composer/Composer.vue'),
+          meta: {
+            title: 'Composer',
+            icon: 'component',
+            activeMenu: '/composer_info'
+          }
+        }
+      ]
+    },
+    {
       path: '*',
       redirect: '/404',
       meta: { hidden: true }

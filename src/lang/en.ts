@@ -7,6 +7,7 @@ export default {
     'Included Files': 'Included Files',
     'Included Files Content': 'Included Files Content',
     ZendVM: 'ZendVM',
+    Composer: 'Composer',
     'GC Status': 'GC Status',
     Classes: 'Classes',
     'Class Info': 'Class Info',
@@ -355,5 +356,14 @@ export default {
     execMsec: 'Exec Msec',
     execCount: 'Exec Count',
     round: 'Round'
+  },
+  composer: {
+    name: 'Name',
+    aliases: 'Aliases',
+    devRequirement: 'Dev Requirement',
+    type: 'Type',
+    version: 'Version',
+    reference: 'Reference',
+    installPath: 'Install Path'
   }
 }

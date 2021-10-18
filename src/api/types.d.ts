@@ -124,6 +124,10 @@ export interface IServerSetting {
 }
 
 export interface IServerStats {
+  session_round: number
+  pipe_packet_msg_id: number
+  max_fd: number
+  task_idle_worker_num: number
   start_time: number
   request_count: number
   response_count: number

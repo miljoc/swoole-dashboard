@@ -83,7 +83,7 @@ export const getConnections = (worker: any) =>
 export const closeConnection = (session_id: number, is_reset: number, worker: string | (string | null)[] = 'master') =>
   request({
     url: `/api/close_session/${worker}`,
-    method: 'get',
+    method: 'post',
     params: { session_id, force: is_reset }
   })
 
@@ -142,11 +142,11 @@ export const getServerMemoryUsage = () =>
 export const serverReload = () =>
   request({
     url: '/api/server_reload/master',
-    method: 'get'
+    method: 'post'
   })
 
 export const serverShutDown = () =>
   request({
     url: '/api/server_shutdown/master',
-    method: 'get'
+    method: 'post'
   })

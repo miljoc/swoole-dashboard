@@ -179,7 +179,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column :label="$t('common.actions')" align="center">
+      <el-table-column
+        :label="$t('common.actions')"
+        align="center"
+        width="200px"
+      >
         <template slot-scope="scope">
           <div style="display: flex; flex-direction: row; justify-content: center">
             <el-button type="warning" size="mini" @click="handleCloseSession(scope.row, 0)">

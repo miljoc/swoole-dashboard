@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export const getServerStats = (worker = 'worker-0') =>
   request({
@@ -84,7 +85,7 @@ export const closeConnection = (session_id: number, is_reset: number, worker: st
   request({
     url: `/api/close_session/${worker}`,
     method: 'post',
-    data: { session_id, force: is_reset }
+    data: qs.stringify({ session_id, force: is_reset })
   })
 
 export const getSocketInfo = (fd: string, worker: string) =>

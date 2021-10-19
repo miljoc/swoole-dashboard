@@ -3,6 +3,7 @@ export default {
     'Swoole Dashboard': '首页',
     'Worker Stats': '进程状态',
     ZendVM: 'ZendVM',
+    Composer: 'Composer',
     Extensions: '扩展',
     'Extension Detail': '扩展详情',
     'Included Files': '已加载文件',
@@ -350,5 +351,14 @@ export default {
     execMsec: '执行毫秒数',
     execCount: '执行次数',
     round: 'round'
+  },
+  composer: {
+    name: '名称',
+    aliases: '别名',
+    devRequirement: '开发依赖',
+    type: '类型',
+    version: '版本',
+    reference: 'Reference',
+    installPath: '安装目录'
   }
 }

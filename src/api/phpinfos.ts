@@ -100,3 +100,9 @@ export const getStaticPropertyValue = (class_name: string, property_name: string
     method: 'get',
     params: { class_name, property_name }
   })
+
+export const getComposer = (worker = 'master') =>
+  request({
+    url: `/api/get_composer_packages/${worker}`,
+    method: 'get'
+  })

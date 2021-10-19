@@ -208,8 +208,8 @@ export default class extends Vue {
       .then((response) => (
         this.composer_content = response.data.packages[row.name]
       )).catch(() => {
-      this.composer_content = ''
-    })
+        this.composer_content = ''
+      })
   }
 
   async handleClose(done: any) {

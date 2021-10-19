@@ -84,7 +84,7 @@ export const closeConnection = (session_id: number, is_reset: number, worker: st
   request({
     url: `/api/close_session/${worker}`,
     method: 'post',
-    params: { session_id, force: is_reset }
+    data: { session_id, force: is_reset }
   })
 
 export const getSocketInfo = (fd: string, worker: string) =>

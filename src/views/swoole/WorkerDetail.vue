@@ -79,16 +79,16 @@
                 'word-break': 'break-all'
             }"
           >
-            <el-descriptions-item label="runs">{{ workerInfo.gc_status.runs | amountRule }}</el-descriptions-item>
+            <el-descriptions-item label="runs">{{ workerInfo.gc_status && workerInfo.gc_status.runs | amountRule }}</el-descriptions-item>
             <el-descriptions-item label="collected">{{
-                workerInfo.gc_status.collected | amountRule
+                workerInfo.gc_status && workerInfo.gc_status.collected | amountRule
               }}
             </el-descriptions-item>
             <el-descriptions-item label="threshold">{{
-                workerInfo.gc_status.threshold | amountRule
+                workerInfo.gc_status && workerInfo.gc_status.threshold | amountRule
               }}
             </el-descriptions-item>
-            <el-descriptions-item label="roots">{{ workerInfo.gc_status.roots | amountRule }}</el-descriptions-item>
+            <el-descriptions-item label="roots">{{ workerInfo.gc_status && workerInfo.gc_status.roots | amountRule }}</el-descriptions-item>
           </el-descriptions>
           <el-divider content-position="left">Process Status</el-divider>
           <el-descriptions

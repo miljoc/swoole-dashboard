@@ -189,7 +189,7 @@
 
       <el-table-column :label="$t('common.actions')" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="viewWorkerDetail(scope.row, scope.$index)">
+          <el-button type="primary" size="mini" style="width: 100%;" @click="viewWorkerDetail(scope.row, scope.$index)">
             <svg-icon name="detail" />
             {{ $t('common.detail') }}
           </el-button

@@ -520,8 +520,17 @@ export default class extends Vue {
   }
 
   private async getServerStats() {
-    const { data } = await getServerStats('master')
-    this.serverStats = data
+    try {
+      const { data } = await getServerStats('master')
+      this.serverStats = data
+    } catch (e) {
+      clearInterval(this.timer_1)
+      clearInterval(this.timer_2)
+      this.$message({
+        message: this.$t('common.networkError') as string,
+        type: 'warning'
+      })
+    }
   }
 
   private async getLowFrequencyData() {

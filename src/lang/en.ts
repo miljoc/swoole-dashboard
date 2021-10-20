@@ -226,7 +226,8 @@ export default {
     reloadSuccess: 'Server Is Reload',
     shutDownSuccess: 'Server Is ShutDown',
     reloadWarning: 'Confirm whether to reload the server？',
-    shutDownWarning: 'Confirm whether to shutdown the server？'
+    shutDownWarning: 'Confirm whether to shutdown the server？',
+    networkError: 'Please check the admin-server connection status, refresh and retry'
   },
   extensions: {
     classes: 'Classes',

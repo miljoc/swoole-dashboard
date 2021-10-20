@@ -81,30 +81,30 @@ export default new Router({
           }
         },
         {
-          path: '/extension_detail',
-          component: () => import(/* webpackChunkName: "extension_detail" */ '@/views/php/ExtensionsDetail.vue'),
+          path: '/extension_info',
+          component: () => import(/* webpackChunkName: "extension_info" */ '@/views/php/ExtensionInfo.vue'),
           meta: {
-            title: 'Extension Detail',
+            title: 'Extension Info',
             hidden: true,
             activeMenu: '/extensions'
           }
         },
         {
-          path: '/includedfiles',
-          component: () => import(/* webpackChunkName: "includedfiles" */ '@/views/php/IncludedFiles.vue'),
+          path: '/included_files',
+          component: () => import(/* webpackChunkName: "included_files" */ '@/views/php/IncludedFiles.vue'),
           meta: {
             title: 'Included Files',
             icon: 'documentation',
-            activeMenu: '/includedfiles'
+            activeMenu: '/included_files'
           }
         },
         {
-          path: '/includedfiles_detail',
-          component: () => import(/* webpackChunkName: "includedfiles_detail" */ '@/views/php/IncludedFilesDetail.vue'),
+          path: '/included_file_info',
+          component: () => import(/* webpackChunkName: "included_file_info" */ '@/views/php/IncludedFileInfo.vue'),
           meta: {
-            title: 'Included Files Content',
+            title: 'Included File Info',
             hidden: true,
-            activeMenu: '/includedfiles'
+            activeMenu: '/included_files'
           }
         },
         {
@@ -135,8 +135,8 @@ export default new Router({
           }
         },
         {
-          path: '/functions_detail',
-          component: () => import(/* webpackChunkName: "functions_detail" */'@/views/php/FunctionsDetail.vue'),
+          path: '/function_info',
+          component: () => import(/* webpackChunkName: "function_info" */'@/views/php/FunctionInfo.vue'),
           meta: {
             title: 'Function Content',
             hidden: true,
@@ -251,9 +251,9 @@ export default new Router({
         },
         {
           path: '/worker/:id',
-          component: () => import(/* webpackChunkName: "worker" */ '@/views/swoole/WorkerDetail.vue'),
+          component: () => import(/* webpackChunkName: "worker" */ '@/views/swoole/WorkerInfo.vue'),
           meta: {
-            title: 'Worker Detail',
+            title: 'Worker Info',
             hidden: true,
             activeMenu: '/processes'
           }
@@ -277,7 +277,7 @@ export default new Router({
           }
         },
         {
-          path: '/memory_info/:worker',
+          path: '/memory_info/',
           component: () => import(/* webpackChunkName: "memory_info" */ '@/views/swoole/MemoryInfo.vue'),
           meta: {
             title: 'Memory Info',

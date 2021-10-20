@@ -137,7 +137,7 @@
                 <template slot-scope="scope">
                   <el-link type="primary">
                     <router-link class="link-type"
-                                 :to="{path: `/includedfiles_detail?file_name=${filename}&line=${scope.row.line}`}">{{ filename + ':' + scope.row.line }}
+                                 :to="{path: `/included_file_info?file_name=${filename}&line=${scope.row.line}`}">{{ filename + ':' + scope.row.line }}
                     </router-link>
                   </el-link>
                 </template>
@@ -167,7 +167,7 @@
                 <template slot-scope="scope">
                   <el-link type="primary">
                     <router-link class="link-type"
-                                 :to="{path: `/includedfiles_detail?file_name=${filename}&line=${scope.row.line}`}">{{ filename + ':' + scope.row.line }}
+                                 :to="{path: `/included_file_info?file_name=${filename}&line=${scope.row.line}`}">{{ filename + ':' + scope.row.line }}
                     </router-link>
                   </el-link>
                 </template>

@@ -14,7 +14,7 @@
           <el-descriptions-item :label="$t('function_detail.filename')" v-if="tmpFilename !== '-' ">
             <el-link type="primary">
               <router-link class="link-type"
-                           :to="{path: `/includedfiles_detail?file_name=${filename}&line=${line}`}">
+                           :to="{path: `/included_file_info?file_name=${filename}&line=${line}`}">
                 {{ tmpFilename }}
               </router-link>
             </el-link>

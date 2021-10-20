@@ -50,7 +50,7 @@
         <template slot-scope="{row}">
           <el-link type="primary" v-if="row.filename.length > 0">
             <router-link class="link-type"
-                         :to="{path: `/includedfiles_detail?file_name=${row.filename}&line=${row.line}`}">
+                         :to="{path: `/included_file_info?file_name=${row.filename}&line=${row.line}`}">
               {{ row.filename + ':' + row.line }}
             </router-link>
           </el-link>

@@ -158,7 +158,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/memory_info/${type}-${scope.$index}`}"> {{ scope.row.process_status.VmSize | toBytes | bytesFormat }}
+                         :to="{path: `/memory_info/?worker=${type}-${scope.$index}`}"> {{ scope.row.process_status.VmSize | toBytes | bytesFormat }}
             </router-link>
           </el-link>
         </template>
@@ -168,7 +168,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/memory_info/${type}-${scope.$index}`}">
+                         :to="{path: `/memory_info/?worker=${type}-${scope.$index}`}">
               {{ scope.row.process_status.VmRSS | toBytes | bytesFormat }}
             </router-link>
           </el-link>

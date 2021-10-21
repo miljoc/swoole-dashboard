@@ -125,7 +125,7 @@
         <template slot-scope="scope">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/functions_detail?function_name=${scope.row.name}`}">{{ scope.row.name }}
+                         :to="{path: `/function_info?function_name=${scope.row.name}`}">{{ scope.row.name }}
             </router-link>
           </el-link>
         </template>

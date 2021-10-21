@@ -2,16 +2,16 @@
   <div class="app-container">
       <el-row>
         <el-descriptions class="margin-top" border>
-          <el-descriptions-item :label="$t('function_detail.num')">{{ num }}</el-descriptions-item>
-          <el-descriptions-item :label="$t('function_detail.user_defined')" v-if="user_defined === true ">{{ user_defined }}</el-descriptions-item>
-          <el-descriptions-item :label="$t('function_detail.extension')" v-if="user_defined === false ">
+          <el-descriptions-item :label="$t('function_info.num')">{{ num }}</el-descriptions-item>
+          <el-descriptions-item :label="$t('function_info.user_defined')" v-if="user_defined === true ">{{ user_defined }}</el-descriptions-item>
+          <el-descriptions-item :label="$t('function_info.extension')" v-if="user_defined === false ">
             <el-link type="primary">
               <router-link class="link-type"
                            :to="{path: `/extension_detail/?extension_name=${extension}`}">{{ extension }}
               </router-link>
             </el-link>
           </el-descriptions-item>
-          <el-descriptions-item :label="$t('function_detail.filename')" v-if="tmpFilename !== '-' ">
+          <el-descriptions-item :label="$t('function_info.filename')" v-if="tmpFilename !== '-' ">
             <el-link type="primary">
               <router-link class="link-type"
                            :to="{path: `/included_file_info?file_name=${filename}&line=${line}`}">
@@ -19,7 +19,7 @@
               </router-link>
             </el-link>
           </el-descriptions-item>
-          <el-descriptions-item :label="$t('function_detail.filename')" v-else>
+          <el-descriptions-item :label="$t('function_info.filename')" v-else>
                 {{ tmpFilename }}
           </el-descriptions-item>
         </el-descriptions>
@@ -37,43 +37,43 @@
           <span style="margin-left: 10px">{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('function_detail.optional')">
+      <el-table-column :label="$t('function_info.optional')">
         <template slot-scope="scope">
           <span v-if="scope.row.data.optional === '?' ">true</span>
           <span v-else>false</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('function_detail.type')">
+      <el-table-column :label="$t('function_info.type')">
         <template slot-scope="scope">
           <span v-if="scope.row.data.type === '' ">-</span>
           <span v-else>{{ scope.row.data.type }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('function_detail.variadic')">
+      <el-table-column :label="$t('function_info.variadic')">
         <template slot-scope="scope" >
           <span v-if="scope.row.data.is_variadic === '...' ">true</span>
           <span v-else>false</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('function_detail.by_reference')">
+      <el-table-column :label="$t('function_info.by_reference')">
         <template slot-scope="scope">
           <span v-if="scope.row.data.is_passed_by_reference === '&' ">true</span>
           <span v-else>false</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('function_detail.name')">
+      <el-table-column :label="$t('function_info.name')">
         <template slot-scope="scope">
           <span v-if="scope.row.data.name === '' ">-</span>
           <span v-else>${{ scope.row.data.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('function_detail.default')">
+      <el-table-column :label="$t('function_info.default')">
         <template slot-scope="scope">
           <span v-if="scope.row.data.default === '' ">-</span>
           <span v-else>{{ scope.row.data.default | substr }}</span>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('function_detail.full')">
+      <el-table-column :label="$t('function_info.full')">
         <template slot-scope="scope">
           <span v-if="scope.row.data.full === '' ">-</span>
           <span v-else>{{ scope.row.data.full }}</span>

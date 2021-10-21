@@ -261,7 +261,7 @@ export default {
     type: 'Type',
     name: 'Function Name'
   },
-  function_detail: {
+  function_info: {
     type: 'Type',
     name: 'Name',
     default: 'Default',

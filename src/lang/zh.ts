@@ -256,7 +256,7 @@ export default {
     type: '类型',
     name: '函数名'
   },
-  function_detail: {
+  function_info: {
     type: '类型',
     name: '变量名',
     default: '默认值',

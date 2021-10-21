@@ -2,13 +2,13 @@
   <div class="app-container">
     <!--    class_name-->
     <el-table
-        v-if="type === 'classes'"
-        v-loading="listLoading"
-        :data="class_list"
-        highlight-current-row
-        fit
-        border
-        style="width: 100%"
+      v-if="type === 'classes'"
+      v-loading="listLoading"
+      :data="class_list"
+      highlight-current-row
+      fit
+      border
+      style="width: 100%"
     >
       <el-table-column label="ID" align="center">
         <template slot-scope="scope">
@@ -52,7 +52,7 @@
       </el-table-column>
     </el-table>
 
-<!--    iniEntries-->
+    <!--    iniEntries-->
     <el-table
       v-if="type === 'iniEntries'"
       v-loading="listLoading"
@@ -79,7 +79,7 @@
       </el-table-column>
     </el-table>
 
-<!--    dependencies-->
+    <!--    dependencies-->
     <el-table
       v-if="type === 'dependencies'"
       v-loading="listLoading"
@@ -106,7 +106,7 @@
       </el-table-column>
     </el-table>
 
-<!--    function-->
+    <!--    function-->
     <el-table
       v-if="type === 'functions'"
       v-loading="listLoading"
@@ -134,7 +134,12 @@
 
     <!--    info-->
     <p v-if="type === 'info'"></p>
-    <p v-html="info"></p>
+    <el-input
+      type="textarea"
+      autosize
+      spellcheck="false"
+      :value="info">
+    </el-input>
 
   </div>
 </template>
@@ -244,8 +249,7 @@ export default class extends Vue {
         }
         break
       case 'info': {
-        const info = data.info.replace(/(\r\n)|(\n)/g, '<br>')
-        this.info = info.trim('<br>')
+        this.info = data.info
         break
       }
       default:

@@ -6,7 +6,7 @@
             slot="header"
             class="clearfix"
         >
-          <span>Worker Detail</span>
+          <span>Worker Info</span>
         </div>
         <el-divider content-position="left">Worker Status</el-divider>
         <div style="padding: 0; margin: 0">

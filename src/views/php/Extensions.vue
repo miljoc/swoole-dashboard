@@ -34,7 +34,7 @@
         <template slot-scope="{row}">
           <el-link type="primary">
             <router-link class="link-type"
-                         :to="{path: `/extension_detail/?extension_name=${row.name}`}">{{ row.name }}
+                         :to="{path: `/extension_info/?extension_name=${row.name}`}">{{ row.name }}
             </router-link>
           </el-link>
         </template>

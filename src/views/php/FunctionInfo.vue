@@ -7,7 +7,7 @@
           <el-descriptions-item :label="$t('function_info.extension')" v-if="user_defined === false ">
             <el-link type="primary">
               <router-link class="link-type"
-                           :to="{path: `/extension_detail/?extension_name=${extension}`}">{{ extension }}
+                           :to="{path: `/extension_info/?extension_name=${extension}`}">{{ extension }}
               </router-link>
             </el-link>
           </el-descriptions-item>

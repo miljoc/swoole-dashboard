@@ -51,7 +51,7 @@
           <div class="card-panel-text">
             Connections
           </div>
-          <span class="card-panel-num"> {{ serverStats.connection_num | numberFormat }} </span>
+          <span class="card-panel-num"> {{ serverStats.connection_num | amountRule }} </span>
         </div>
       </div>
     </el-col>
@@ -77,7 +77,7 @@
           <div class="card-panel-text">
             Abort
           </div>
-          <span class="card-panel-num"> {{ serverStats.abort_count | numberFormat}} </span>
+          <span class="card-panel-num"> {{ serverStats.abort_count | amountRule }} </span>
         </div>
       </div>
     </el-col>
@@ -101,7 +101,7 @@
           <div class="card-panel-text">
             Accept
           </div>
-          <span class="card-panel-num"> {{ serverStats.accept_count | numberFormat}} </span>
+          <span class="card-panel-num"> {{ serverStats.accept_count | amountRule }} </span>
         </div>
       </div>
     </el-col>
@@ -127,7 +127,7 @@
           <div class="card-panel-text">
             Dispatch
           </div>
-          <span class="card-panel-num"> {{ serverStats.dispatch_count | numberFormat}} </span>
+          <span class="card-panel-num"> {{ serverStats.dispatch_count | amountRule }} </span>
         </div>
       </div>
     </el-col>
@@ -153,7 +153,7 @@
           <div class="card-panel-text">
             Request
           </div>
-          <span class="card-panel-num"> {{ serverStats.request_count | numberFormat}} </span>
+          <span class="card-panel-num"> {{ serverStats.request_count | amountRule }} </span>
         </div>
       </div>
     </el-col>
@@ -179,7 +179,7 @@
           <div class="card-panel-text">
             Response
           </div>
-          <span class="card-panel-num"> {{ serverStats.response_count | numberFormat }} </span>
+          <span class="card-panel-num"> {{ serverStats.response_count | amountRule }} </span>
         </div>
       </div>
     </el-col>
@@ -203,7 +203,7 @@
           <div class="card-panel-text">
             Close
           </div>
-          <span class="card-panel-num"> {{ serverStats.close_count | numberFormat }} </span>
+          <span class="card-panel-num"> {{ serverStats.close_count | amountRule }} </span>
         </div>
       </div>
     </el-col>
@@ -212,14 +212,15 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { numberFormat, parseUptime } from '@/utils'
+import { amountRule, numberFormat, parseUptime } from '@/utils'
 import { IServerStats } from '@/api/types'
 
 @Component({
   name: 'PanelGroup',
   filters: {
     parseUptime: parseUptime,
-    numberFormat: numberFormat
+    numberFormat: numberFormat,
+    amountRule: amountRule
   }
 })
 export default class extends Vue {

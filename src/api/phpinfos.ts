@@ -56,11 +56,11 @@ export const getDefinedFunctions = (worker = 'master') =>
     method: 'get'
   })
 
-export const getDefinedFunctionsContent = (function_name = '', worker = 'master') =>
+export const getDefinedFunctionsContent = (class_name = '', function_name = '', worker = 'master') =>
   request({
     url: `/api/get_function_info/${worker}`,
     method: 'get',
-    params: { function_name }
+    params: { class_name, function_name }
   })
 
 export const getResources = (worker = 'master') =>

@@ -1,6 +1,9 @@
 <template>
   <div class="app-container">
-      <el-row>
+
+    <el-divider content-position="left">{{ desc }}</el-divider>
+
+    <el-row>
         <el-descriptions class="margin-top" border>
           <el-descriptions-item :label="$t('function_info.num')">{{ num }}</el-descriptions-item>
           <el-descriptions-item :label="$t('function_info.user_defined')" v-if="user_defined === true ">{{ user_defined }}</el-descriptions-item>
@@ -89,6 +92,7 @@ import { getDefinedFunctionsContent } from '@/api/phpinfos'
 export default {
   data() {
     return {
+      desc: '',
       list: [],
       params: [],
       filename: '',
@@ -110,8 +114,10 @@ export default {
   methods: {
     async getDefinedFunctionsContent() {
       this.listLoading = true
+      const { class_name } = this.$route.query
       const { function_name } = this.$route.query
-      const { data } = await getDefinedFunctionsContent(function_name)
+      this.desc = (class_name !== undefined ? class_name : '') + '\\' + function_name
+      const { data } = await getDefinedFunctionsContent(class_name, function_name)
 
       let index = 0
       const tmpList = []

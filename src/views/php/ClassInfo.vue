@@ -125,7 +125,7 @@
                 <template slot-scope="scope">
                   <el-link type="primary">
                     <router-link class="link-type"
-                                 :to="{path: `/function_info?function_name=${scope.row.name}`}">
+                                 :to="{path: `/function_info?class_name=${ class_name }&function_name=${scope.row.name}`}">
                       {{
                         scope.row.name
                       }}
@@ -161,7 +161,16 @@
                 </template>
               </el-table-column>
               <el-table-column :label="$t('classes.methodName')" align="center">
-                <template slot-scope="scope">{{scope.row.name }}</template>
+                <template slot-scope="scope">
+                  <el-link type="primary">
+                    <router-link class="link-type"
+                                 :to="{path: `/function_info?class_name=${ class_name }&function_name=${scope.row.name}`}">
+                      {{
+                        scope.row.name
+                      }}
+                    </router-link>
+                  </el-link>
+                </template>
               </el-table-column>
               <el-table-column :label="$t('common.sourceFile')" align="center" v-if="filename.length > 0">
                 <template slot-scope="scope">

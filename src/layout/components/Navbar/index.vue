@@ -20,6 +20,8 @@
 
       <admin-server-select class="right-menu-item hover-effect" />
 
+      <screenfull class="right-menu-item hover-effect" />
+
       <lang-select class="right-menu-item hover-effect" />
 
       <server-action class="right-menu-item hover-effect" />
@@ -73,6 +75,7 @@ import { UserModule } from '@/store/modules/user'
 import AdminServerSelect from '@/components/AdminServerSelect/index.vue'
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import Hamburger from '@/components/Hamburger/index.vue'
+import Screenfull from '@/components/Screenfull/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
 import ServerAction from '@/components/ServerActions/index.vue'
 import { getVersionInfo } from '@/api/phpinfos'
@@ -84,6 +87,7 @@ import { IVersionInfo } from '@/api/types'
     AdminServerSelect,
     Breadcrumb,
     Hamburger,
+    Screenfull,
     LangSelect,
     ServerAction
   }

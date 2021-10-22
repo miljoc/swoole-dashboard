@@ -116,7 +116,7 @@ export default {
       this.listLoading = true
       const { class_name } = this.$route.query
       const { function_name } = this.$route.query
-      this.desc = (class_name !== undefined ? class_name : '') + '\\' + function_name
+      this.desc = (class_name !== undefined ? class_name + '\\' : '') + function_name
       const { data } = await getDefinedFunctionsContent(class_name, function_name)
 
       let index = 0

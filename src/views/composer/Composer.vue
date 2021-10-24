@@ -26,7 +26,7 @@
         <el-descriptions-item v-if="showDescriptions" :label="$t('composer.devRequirement')">{{ root.dev }}</el-descriptions-item>
         <el-descriptions-item v-if="showDescriptions" :label="$t('composer.aliases')">
           <span  v-if="root.aliases === '-'" >{{ root.aliases }}</span>
-          <span v-else @click="mouseOver(root.aliases)"  style="color:#1890ff;">{{ root.aliases }}</span>
+          <span v-else >{{ root.aliases }}</span>
         </el-descriptions-item>
         <el-descriptions-item v-if="showDescriptions" :label="$t('composer.type')">{{ root.type }}</el-descriptions-item>
         <el-descriptions-item :label="$t('composer.installPath')">{{ root.install_path }}</el-descriptions-item>
@@ -63,9 +63,9 @@
       </el-table-column>
       <el-table-column :label="$t('composer.aliases')" width="150">
         <template slot-scope="scope"  >
-          <span  v-if="scope.row.is_obg === '-'" >{{ scope.row.is_obg }}</span>
-          <div v-else @click="mouseOver(scope.row)" >
-            <span style="color:#1890ff;">{{ scope.row.is_obg }}</span>
+          <span  v-if="scope.row.aliases === '-'" >-</span>
+          <div v-else>
+            <span>{{ scope.row.aliases }}</span>
           </div>
         </template>
       </el-table-column>
@@ -95,16 +95,6 @@
       :limit.sync="listQuery.limit"
       @pagination="getComposer"
     />
-
-    <el-dialog
-      :title="$t('common.detail')"
-      :visible.sync="dialogTableVisible"
-      width="50%">
-      <json-viewer style="padding: 0px 0px; !important;" :value="value_content" :expand-depth=1 copyable></json-viewer>
-      <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="dialogTableVisible = false">{{ $t('common.close') }}</el-button>
-      </span>
-    </el-dialog>
 
     <el-dialog
       :title="$t('common.detail')"
@@ -192,6 +182,8 @@ export default class extends Vue {
     if (this.root.aliases) {
       if (this.root.aliases.constructor === Array && this.root.aliases.length === 0) {
         this.root.aliases = '-'
+      } else {
+        this.root.aliases = this.root.aliases[0] || '-'
       }
     }
     this.root.dev = this.root.dev ? this.root.dev : '-'
@@ -209,7 +201,7 @@ export default class extends Vue {
       const arr = this.versions[names].aliases
       if (arr) {
         if (arr.constructor === Array && arr.length > 0) {
-          value = arr
+          value = arr[0] || '-'
         } else {
           value = '-'
         }
@@ -217,8 +209,7 @@ export default class extends Vue {
       versions_data.push({
         id: id,
         name: names,
-        is_obg: value,
-        aliases: arr,
+        aliases: value,
         dev_requirement: this.versions[names].dev_requirement ? this.versions[names].dev_requirement : '-',
         install_path: this.versions[names].install_path ? this.versions[names].install_path : '-',
         pretty_version: this.versions[names].pretty_version ? this.versions[names].pretty_version : '-',
@@ -272,7 +263,6 @@ export default class extends Vue {
             aliases: tmpList[i].aliases,
             dev_requirement: tmpList[i].dev_requirement,
             install_path: tmpList[i].install_path,
-            is_obg: tmpList[i].is_obg,
             pretty_version: tmpList[i].pretty_version,
             reference: tmpList[i].reference,
             type: tmpList[i].type
@@ -304,11 +294,6 @@ export default class extends Vue {
       }
     }
     return arrs
-  }
-
-  async mouseOver(row: any) {
-    this.value_content = row.aliases
-    this.dialogTableVisible = true
   }
 
   async dialogVisibleDiv(row: any) {

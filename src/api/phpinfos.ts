@@ -50,6 +50,13 @@ export const getClassesInfo = (class_name: string, worker = 'master') =>
     params: { class_name }
   })
 
+export const getInterfaceInfo = (interface_name: string, worker = 'master') =>
+  request({
+    url: `/api/get_class_info/${worker}`,
+    method: 'get',
+    params: { interface_name }
+  })
+
 export const getDefinedFunctions = (worker = 'master') =>
   request({
     url: `/api/get_defined_functions/${worker}`,

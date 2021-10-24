@@ -32,7 +32,11 @@
         :label="$t('interfaces.name')"
       >
         <template slot-scope="{row}">
-          {{ row.name }}
+          <el-link type="primary">
+            <router-link class="link-type"
+                         :to="{path: `/class_info?interface_name=${row.name}`}">{{ row.name }}
+            </router-link>
+          </el-link>
         </template>
       </el-table-column>
     </el-table>

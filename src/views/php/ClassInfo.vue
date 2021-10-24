@@ -216,7 +216,7 @@
             </el-table-column>
             <el-table-column label="Name" align="center">
               <template slot-scope="scope">
-                <el-link type="primary" @click="jump(scope.row.name)">
+                <el-link type="primary" @click="jump(scope.row.name, true)">
                   {{ scope.row.name }}
                 </el-link>
               </template>
@@ -239,7 +239,7 @@ import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/monokai.css'
 import 'codemirror/mode/php/php.js'
 import 'codemirror/mode/javascript/javascript.js'
-import { getClassesInfo, getStaticPropertyValue } from '@/api/phpinfos'
+import { getClassesInfo, getInterfaceInfo, getStaticPropertyValue } from '@/api/phpinfos'
 
 export default {
   name: 'ClassInfo',
@@ -282,13 +282,14 @@ export default {
     }
   },
   created() {
-    this.class_name = this.$route.query.class_name
+    this.class_name = this.$route.query.class_name || this.$route.query.interface_name
+    this.is_interface = this.$route.query.interface_name || false
     this.getData(this.class_name)
   },
   methods: {
-    jump(class_name) {
+    jump(class_name, is_interface = false) {
       this.class_name = class_name
-      this.getData(this.class_name)
+      this.getData(this.class_name, is_interface)
     },
     async handleVarDump(row) {
       console.log(row)
@@ -311,8 +312,13 @@ export default {
       }
       this.coder.setValue(this.code)
     },
-    async getData(class_name) {
-      const data = await getClassesInfo(class_name)
+    async getData(class_name, is_interface) {
+      let data
+      if (is_interface || this.is_interface) {
+        data = await getInterfaceInfo(class_name)
+      } else {
+        data = await getClassesInfo(class_name)
+      }
       this.filename = data.data.filename
       let index = 0
       const tmpConstants = []

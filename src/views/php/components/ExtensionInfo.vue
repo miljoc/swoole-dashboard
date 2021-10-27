@@ -133,13 +133,14 @@
     </el-table>
 
     <!--    info-->
-    <p v-if="type === 'info'"></p>
-    <el-input
-      type="textarea"
-      autosize
-      spellcheck="false"
-      :value="info">
-    </el-input>
+    <p v-if="type === 'info'">
+      <el-input
+        type="textarea"
+        autosize
+        spellcheck="false"
+        :value="info">
+      </el-input>
+    </p>
 
   </div>
 </template>

@@ -95,7 +95,7 @@
               </el-table-column>
               <el-table-column :label="$t('classes.propertiesValue')" align="center">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.default }}</span>
+                  <span>{{ scope.row.default === null ? 'null' : scope.row.default }}</span>
                 </template>
               </el-table-column>
             </el-table>

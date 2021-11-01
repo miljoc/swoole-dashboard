@@ -15,19 +15,19 @@
         <lang-select class="set-language"/>
       </div>
 
-      <el-form-item prop="address">
-        <span class="svg-container">
-          <svg-icon name="link"/>
-        </span>
-        <el-input
-          ref="address"
-          v-model="loginForm.address"
-          name="address"
-          type="text"
-          autocomplete="off"
-          :placeholder="$t('login.address')"
-        />
-      </el-form-item>
+<!--      <el-form-item prop="address">-->
+<!--        <span class="svg-container">-->
+<!--          <svg-icon name="link"/>-->
+<!--        </span>-->
+<!--        <el-input-->
+<!--          ref="address"-->
+<!--          v-model="loginForm.address"-->
+<!--          name="address"-->
+<!--          type="text"-->
+<!--          autocomplete="off"-->
+<!--          :placeholder="$t('login.address')"-->
+<!--        />-->
+<!--      </el-form-item>-->
 
       <el-form-item prop="username">
         <span class="svg-container">
@@ -89,7 +89,6 @@ import { Form as ElForm, Input } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
 import LangSelect from '@/components/LangSelect/index.vue'
 import { isValidUsername } from '@/utils/validate'
-import { getAdminServer } from '@/utils/cookies'
 
 @Component({
   name: 'Login',
@@ -114,24 +113,14 @@ export default class extends Vue {
     }
   }
 
-  private validateAddress = (rule: any, value: string, callback: Function) => {
-    if (value.length <= 7 || !/http:\/\/|https:\/\//i.test(value)) {
-      callback(new Error(this.$t('login.address_error') as string))
-    } else {
-      callback()
-    }
-  }
-
   private loginForm = {
     username: '',
-    password: '',
-    address: getAdminServer()
+    password: ''
   }
 
   private loginRules = {
     username: [{ validator: this.validateUsername, trigger: 'blur' }],
-    password: [{ validator: this.validatePassword, trigger: 'blur' }],
-    address: [{ validator: this.validateAddress, trigger: 'blur' }]
+    password: [{ validator: this.validatePassword, trigger: 'blur' }]
   }
 
   private passwordType = 'password'
@@ -156,8 +145,6 @@ export default class extends Vue {
       (this.$refs.username as Input).focus()
     } else if (this.loginForm.password === '') {
       (this.$refs.password as Input).focus()
-    } else if (this.loginForm.address === '') {
-      (this.$refs.address as Input).focus()
     }
   }
 

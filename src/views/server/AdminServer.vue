@@ -255,14 +255,14 @@ export default class extends Vue {
       this.form.name === undefined ||
       this.form.remark === undefined
     ) {
-      const str = this.$t('admin_server.error')
+      const str = this.$t('admin_server.error') as string
       this.$message({ type: 'success', message: str })
     }
 
     const lang = Cookies.get('language') || 'en'
     this.form.lang = lang
     await serverCreate(this.form)
-    const str = this.$t('admin_server.success')
+    const str = this.$t('admin_server.success') as string
     this.$message({
       type: 'success',
       message: str
@@ -296,7 +296,7 @@ export default class extends Vue {
 
   private async serverDel(id: any) {
     await serverDel(id)
-    const str = this.$t('admin_server.success')
+    const str = this.$t('admin_server.success') as string
     this.$message({
       type: 'success',
       message: str

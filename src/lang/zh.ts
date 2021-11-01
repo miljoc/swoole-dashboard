@@ -1,6 +1,7 @@
 export default {
   route: {
     'Swoole Dashboard': '首页',
+    'Admin Server': '服务管理',
     'Worker Stats': '进程状态',
     ZendVM: 'ZendVM',
     Composer: 'Composer',
@@ -361,5 +362,24 @@ export default {
     version: '版本',
     reference: 'Reference',
     installPath: '安装目录'
+  },
+  admin_server: {
+    placeholder: '服务名称',
+    admin_server_url: '服务地址',
+    admin_server_group: '服务分组',
+    admin_add: '新增',
+    server_name: '服务名称',
+    server_server_url: '服务地址',
+    access_token: 'Access Token',
+    remark: '备注',
+    actions: '操作',
+    server_del: '删除',
+    confirm: '确定',
+    cancel: '取消',
+    title: '新增服务',
+    delWarning: '是否确认删除',
+    delText: '删除',
+    success: '操作成功',
+    error: '参数不能为空'
   }
 }

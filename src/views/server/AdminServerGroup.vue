@@ -1,5 +1,6 @@
 <template>
-  <div></div>
+  <div class="app-container">
+  </div>
 </template>
 
 <script lang="ts">

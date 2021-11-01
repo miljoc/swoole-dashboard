@@ -1,6 +1,7 @@
 export default {
   route: {
     'Swoole Dashboard': 'Home',
+    'Admin Server': 'Admin Server',
     'Worker Stats': 'Worker Stats',
     ZendVM: 'ZendVM',
     Extensions: 'Extensions',
@@ -361,5 +362,24 @@ export default {
     version: 'Version',
     reference: 'Reference',
     installPath: 'Install Path'
+  },
+  admin_server: {
+    placeholder: 'Admin Server Name',
+    admin_server_url: 'Admin Server Url',
+    admin_server_group: 'Admin Server Group',
+    admin_add: 'Add',
+    server_name: 'Server Name',
+    server_server_url: 'Server Server Url',
+    access_token: 'Access Token',
+    remark: 'Remark',
+    actions: 'Actions',
+    server_del: 'Delete',
+    confirm: 'Confirm',
+    cancel: 'Cancel',
+    title: 'Add Admin Server',
+    delWarning: 'Confirm whether to delete the server？',
+    delText: 'Delete',
+    success: 'Success',
+    error: 'Data cannot be empty'
   }
 }

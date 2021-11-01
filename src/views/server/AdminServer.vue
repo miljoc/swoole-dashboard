@@ -257,6 +257,7 @@ export default class extends Vue {
     ) {
       const str = this.$t('admin_server.error') as string
       this.$message({ type: 'success', message: str })
+      return
     }
 
     const lang = Cookies.get('language') || 'en'

@@ -59,6 +59,15 @@ export default new Router({
             hidden: true,
             activeMenu: '/dashboard'
           }
+        },
+        {
+          path: '/admin_server',
+          component: () => import('@/views/server/AdminServer.vue'),
+          meta: {
+            title: 'Admin Server',
+            hidden: true,
+            activeMenu: '/dashboard'
+          }
         }
       ]
     },

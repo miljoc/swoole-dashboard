@@ -151,3 +151,23 @@ export const serverShutDown = () =>
     url: '/api/server_shutdown/master',
     method: 'post'
   })
+
+export const getServerList = () =>
+  request({
+    url: 'https://business.swoole.com/adminServer/list',
+    method: 'get'
+  })
+
+export const serverCreate = (data: any) =>
+  request({
+    url: 'https://business.swoole.com/adminServer/create',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+
+export const serverDel = (id: number) =>
+  request({
+    url: 'https://business.swoole.com/adminServer/delete',
+    method: 'post',
+    data: qs.stringify({ id: id })
+  })

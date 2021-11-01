@@ -196,3 +196,14 @@ export interface IEventsData {
   port: number
   name?: string
 }
+
+export interface IServerData {
+  id: string
+  uid: string
+  name: string
+  admin_server_url: string
+  access_token: string
+  remark: string
+  create_at: string
+  lang?: string
+}

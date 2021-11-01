@@ -7,8 +7,6 @@
                  size="mini"
                  v-model="value"
                  filterable
-                 allow-create
-                 clearable
                  default-first-option
                  @change="selectServer"
                  :popper-append-to-body="false"
@@ -35,17 +33,33 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { AppModule } from '@/store/modules/app'
-import { getAdminServer, getAdminServerList, setAdminServerList } from '@/utils/cookies'
+import { getAdminServer, getAdminServerList, setAdminServerToken } from '@/utils/cookies'
 
 @Component({
   name: 'AdminServerSelect'
 })
 export default class extends Vue {
+  private adminList:any
+
   data() {
     return {
-      options: getAdminServerList(),
+      options: this.initData(),
       value: getAdminServer()
     }
+  }
+
+  private initData() {
+    const list = getAdminServerList()
+    this.adminList = list
+    const result = list.filter(function(item: any) {
+      return item.status === 200
+    })
+
+    if (result.length === 0 && this.$route.path !== '/admin_server') {
+      // goto add admin_server
+      this.$router.push('/admin_server?add')
+    }
+    return result
   }
 
   private showSelect(): void {
@@ -54,41 +68,15 @@ export default class extends Vue {
   }
 
   private selectServer(address: string) {
-    const addressList = getAdminServerList()
-    let message
+    AppModule.SetAdminServerAddress(address)
 
-    // delete
-    if (address === '') {
-      const delAddress = getAdminServer()
+    const nowAdminServer = this.adminList.filter(function(item: any) {
+      return item.value === address
+    })
+    setAdminServerToken(nowAdminServer[0].token)
 
-      const result = []
-      for (let i = 0; i < addressList.length; i++) {
-        const obj = addressList[i]
-        if (obj.value !== delAddress) {
-          result.push(obj)
-        }
-      }
-      setAdminServerList(JSON.stringify(result))
-      AppModule.SetAdminServerAddress(result[0] !== undefined ? result[0].value : 'http://127.0.0.1:9502/')
-
-      message = this.$t('components.deleteAdminServerTips').toString() + delAddress
-    } else {
-      if (address.length <= 7 || !/http:\/\/|https:\/\//i.test(address)) {
-        return this.$message({
-          message: this.$t('login.address_error') as string,
-          type: 'error'
-        })
-      }
-      const newAddress = { value: address }
-      if (JSON.stringify(addressList).indexOf(JSON.stringify(newAddress)) === -1) {
-        addressList.push(newAddress)
-      }
-      setAdminServerList(addressList)
-      AppModule.SetAdminServerAddress(address)
-      message = this.$t('components.changeAdminServerTips').toString() + address
-    }
     this.$message({
-      message: message,
+      message: this.$t('components.changeAdminServerTips').toString() + address,
       type: 'success',
       onClose: () => {
         this.$router.go(0)

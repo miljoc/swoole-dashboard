@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
-import { getAdminServer } from '@/utils/cookies'
+import { getAdminServer, getAdminServerToken } from '@/utils/cookies'
 
 const service = axios.create({
   baseURL: getAdminServer(),
@@ -14,6 +14,9 @@ service.interceptors.request.use(
     // Add X-Access-Token header to every request, you can add other custom headers here
     if (UserModule.token) {
       config.headers['X-Access-Token'] = UserModule.token
+    }
+    if (getAdminServerToken() !== '') {
+      config.headers['X-Admin-Server-Access-Token'] = getAdminServerToken()
     }
     if (!/^http:\/\/|^https:\/\//i.test(config.url as string)) {
       if (getAdminServer() !== config.baseURL) {

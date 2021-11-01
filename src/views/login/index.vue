@@ -15,20 +15,6 @@
         <lang-select class="set-language"/>
       </div>
 
-<!--      <el-form-item prop="address">-->
-<!--        <span class="svg-container">-->
-<!--          <svg-icon name="link"/>-->
-<!--        </span>-->
-<!--        <el-input-->
-<!--          ref="address"-->
-<!--          v-model="loginForm.address"-->
-<!--          name="address"-->
-<!--          type="text"-->
-<!--          autocomplete="off"-->
-<!--          :placeholder="$t('login.address')"-->
-<!--        />-->
-<!--      </el-form-item>-->
-
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon name="user"/>

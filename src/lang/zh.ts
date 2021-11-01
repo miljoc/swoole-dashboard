@@ -114,8 +114,7 @@ export default {
     thirdparty: '第三方登录',
     name: '请输入正确的用户名，只支持手机号',
     pwd: '密码不能少于6位',
-    address: 'admin-server 地址',
-    address_error: '请输入正确的 admin-server 地址'
+    address: 'admin-server 地址'
   },
   documentation: {
     documentation: '文档',
@@ -224,7 +223,8 @@ export default {
     shutDownSuccess: '服务已关闭',
     reloadWarning: '是否确认重载服务',
     shutDownWarning: '是否确认关闭服务',
-    networkError: '请检查 admin-server 连接状态，刷新重试'
+    networkError: '请检查 admin-server 连接状态，刷新重试',
+    status: '状态'
   },
   extensions: {
     classes: '类',
@@ -381,7 +381,8 @@ export default {
     delWarning: '是否确认删除',
     delText: '删除',
     success: '操作成功',
-    error: '参数不能为空'
+    error: '参数不能为空',
+    address_error: '请输入正确的 admin-server 地址'
   },
   admin_server_group: {
     placeholder: '分组名称',

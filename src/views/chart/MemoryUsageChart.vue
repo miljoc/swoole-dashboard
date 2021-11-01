@@ -112,7 +112,7 @@ export default class extends mixins(ResizeMixin) {
               formatter: function(value: number) {
                 return numberFormat(value, 1024, 0, 4, ['', 'K', 'M', 'G', 'T'])
               },
-              color: 'auto'
+              color: 'inherit'
             },
             data: [
               {

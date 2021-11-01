@@ -105,7 +105,7 @@ export default class extends mixins(ResizeMixin) {
               borderRadius: 8,
               fontWeight: 'bolder',
               formatter: '{value}%',
-              color: 'auto'
+              color: 'inherit'
             },
             data: [
               {

@@ -114,8 +114,7 @@ export default {
     thirdparty: 'Or connect with',
     name: 'Please enter the correct user name. Only mobile phone numbers are supported',
     pwd: 'The password can not be less than 6 digits',
-    address: 'admin-server address',
-    address_error: 'Please enter the correct admin-server address'
+    address: 'admin-server address'
   },
   documentation: {
     documentation: 'Documentation',
@@ -224,7 +223,8 @@ export default {
     shutDownSuccess: 'Server Is ShutDown',
     reloadWarning: 'Confirm whether to reload the server？',
     shutDownWarning: 'Confirm whether to shutdown the server？',
-    networkError: 'Please check the admin-server connection status, refresh and retry'
+    networkError: 'Please check the admin-server connection status, refresh and retry',
+    status: 'Status'
   },
   extensions: {
     classes: 'Classes',
@@ -381,7 +381,8 @@ export default {
     delWarning: 'Confirm whether to delete the server？',
     delText: 'Delete',
     success: 'Success',
-    error: 'Data cannot be empty'
+    error: 'Data cannot be empty',
+    address_error: 'Please enter the correct admin-server address'
   },
   admin_server_group: {
     placeholder: 'Group Name',

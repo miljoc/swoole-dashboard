@@ -40,7 +40,7 @@
     <el-button type="primary" @click="filterHandler" icon="el-icon-search">{{ $t('common.search') }}</el-button>
     <el-button type="default" style="color:#909399;" @click="clearFilter"><svg-icon name="clean" /> {{ $t('common.clear') }}</el-button>
 
-    <el-button style="float: right;" type="success" @click="showAdd" icon="el-icon-plus">{{ $t('admin_server.admin_add') }}</el-button>
+    <el-button style="float: right;" type="success" ref="showAdd" @click="showAdd" icon="el-icon-plus">{{ $t('admin_server.admin_add') }}</el-button>
     <!---------------------------查询------结束----------------------->
 
     <el-table
@@ -58,8 +58,8 @@
         width="200"
         sortable="id"
       >
-        <template slot-scope="{row}">
-          <span>{{ row.id }}</span>
+        <template slot-scope="scope">
+          <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
 
@@ -101,6 +101,16 @@
 
       <el-table-column
         align="center"
+        :label="$t('common.status')"
+      >
+        <template slot-scope="{row}">
+          <el-tag v-if="row.status === 200" type="success">online</el-tag>
+          <el-tag v-else type="danger">offline</el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        align="center"
         :label="$t('admin_server.actions')"
       >
         <template slot-scope="scope">
@@ -118,11 +128,13 @@
       :title="title"
       :visible.sync="dialogVisible"
     >
-      <el-form :model="form" label-width="120px">
-        <el-form-item label="name">
+      <el-form :model="form" label-width="150px">
+        <el-form-item>
+          <span slot="label">Name <span style="color: red">*</span></span>
           <el-input v-model="form.name" style="width: 80%;"></el-input>
         </el-form-item>
-        <el-form-item label="admin_server_url">
+        <el-form-item>
+          <span slot="label">Admin Server Url <span style="color: red">*</span></span>
           <el-input v-model="form.admin_server_url" style="width: 80%;"></el-input>
         </el-form-item>
         <el-form-item label="access_name">
@@ -157,7 +169,9 @@ import Vue from 'vue'
 import { getSortFun, inArray } from '@/utils'
 import Pagination from '@/components/Pagination/index.vue'
 import { getServerGroupList, getServerList, serverCreate, serverDel } from '@/api/server'
+import { setAdminServerList } from '@/utils/cookies'
 import Cookies from 'js-cookie'
+import axios from 'axios'
 
 @Component({
   name: 'AdminServer',
@@ -202,6 +216,24 @@ export default class extends Vue {
    */
   private async getServerList() {
     const { data } = await getServerList()
+    const admin_server_list = []
+    if (data.length > 0) {
+      for (const admin_server of data) {
+        const url = admin_server.admin_server_url + 'api/get_version_info/master'
+        await axios({
+          headers: {
+            'X-Admin-Server-Access-Token': admin_server.access_token
+          },
+          url: url
+        }).then((response) => (
+          admin_server.status = response.status
+        )).catch(() => {
+          admin_server.status = 404
+        })
+        admin_server_list.push({ value: admin_server.admin_server_url, token: admin_server.access_token, status: admin_server.status })
+      }
+    }
+    setAdminServerList(admin_server_list)
     return data
   }
 
@@ -249,6 +281,10 @@ export default class extends Vue {
     this.showList(this.handleAllList)
     this.total = this.handleAllList.length
     this.listLoading = false
+
+    if (this.$route.query.add === null && this.allList.length === 0) {
+      (this.$refs.showAdd as any).$el.click()
+    }
   }
 
   /**
@@ -283,19 +319,22 @@ export default class extends Vue {
    */
   private async submit() {
     // 校验参数
-    if (this.form.access_name === undefined ||
-      this.form.access_secret === undefined ||
-      this.form.admin_server_url === undefined ||
-      this.form.name === undefined ||
-      this.form.remark === undefined
+    if (this.form.admin_server_url === undefined ||
+      this.form.name === undefined
     ) {
       const str = this.$t('admin_server.error') as string
-      this.$message({ type: 'success', message: str })
+      this.$message({ type: 'error', message: str })
       return
     }
 
-    const lang = Cookies.get('language') || 'en'
-    this.form.lang = lang
+    if (this.form.admin_server_url.length <= 7 || !/http:\/\/|https:\/\//i.test(this.form.admin_server_url)) {
+      return this.$message({
+        message: this.$t('admin_server.address_error') as string,
+        type: 'error'
+      })
+    }
+
+    this.form.lang = Cookies.get('language') || 'en'
     await serverCreate(this.form)
     const str = this.$t('admin_server.success') as string
     this.$message({
@@ -373,6 +412,7 @@ export default class extends Vue {
         return false
       })
     }
+
     this.listQuery.page = 1
     this.total = this.handleAllList.length
     this.showList(this.handleAllList)

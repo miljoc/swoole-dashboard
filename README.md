@@ -51,4 +51,3 @@ yarn test:unit
 ```bash
 yarn svg
 ```
-

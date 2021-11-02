@@ -177,8 +177,8 @@ export const serverDel = (id: number) =>
 
 export const getServerGroupList = () =>
   request({
-    // url: 'https://business.swoole.com/adminServer/groupList',
-    url: 'http://swoole-cloud.test/adminServer/groupList',
+    url: 'https://business.swoole.com/adminServer/groupList',
+    // url: 'http://swoole-cloud.test/adminServer/groupList',
     method: 'get'
   })
 

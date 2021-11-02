@@ -2,6 +2,7 @@ export default {
   route: {
     'Swoole Dashboard': '首页',
     'Admin Server': '服务管理',
+    'Admin Server Group': '服务分组管理',
     'Worker Stats': '进程状态',
     ZendVM: 'ZendVM',
     Composer: 'Composer',
@@ -381,5 +382,19 @@ export default {
     delText: '删除',
     success: '操作成功',
     error: '参数不能为空'
+  },
+  admin_server_group: {
+    placeholder: '分组名称',
+    group_name: '分组名称',
+    admin_add: '新增',
+    actions: '操作',
+    group_edit: '编辑',
+    group_del: '删除',
+    error: '参数不能为空',
+    success: '操作成功',
+    phone_error: '手机号不合法',
+    delWarning: '是否确认删除',
+    cancel: '取消',
+    delText: '删除'
   }
 }

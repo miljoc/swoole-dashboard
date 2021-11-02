@@ -1,7 +1,8 @@
 export default {
   route: {
     'Swoole Dashboard': 'Home',
-    'Admin Server': 'Admin Server',
+    'Admin Server': 'AdminServer',
+    'Admin Server Group': 'AdminServer Group',
     'Worker Stats': 'Worker Stats',
     ZendVM: 'ZendVM',
     Extensions: 'Extensions',
@@ -381,5 +382,19 @@ export default {
     delText: 'Delete',
     success: 'Success',
     error: 'Data cannot be empty'
+  },
+  admin_server_group: {
+    placeholder: 'Group Name',
+    group_name: 'Group Name',
+    admin_add: 'Add',
+    actions: 'Actions',
+    group_edit: 'Edit',
+    group_del: 'Delete',
+    error: 'Data cannot be empty',
+    success: 'Success',
+    phone_error: 'Illegal mobile phone number',
+    delWarning: 'Confirm whether to delete the server？',
+    cancel: 'Cancel',
+    delText: 'Delete'
   }
 }

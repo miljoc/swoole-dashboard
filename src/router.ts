@@ -59,15 +59,6 @@ export default new Router({
             hidden: true,
             activeMenu: '/dashboard'
           }
-        },
-        {
-          path: '/admin_server',
-          component: () => import('@/views/server/AdminServer.vue'),
-          meta: {
-            title: 'Admin Server',
-            hidden: true,
-            activeMenu: '/dashboard'
-          }
         }
       ]
     },
@@ -321,6 +312,35 @@ export default new Router({
             title: 'Composer',
             icon: 'component',
             activeMenu: '/composer_info'
+          }
+        }
+      ]
+    },
+    {
+      path: '/server',
+      component: Layout,
+      redirect: '/server',
+      meta: {
+        title: 'Admin Server',
+        icon: 'server'
+      },
+      children: [
+        {
+          path: '/admin_server',
+          component: () => import('@/views/server/AdminServer.vue'),
+          meta: {
+            title: 'Admin Server',
+            icon: 'gallery-view',
+            activeMenu: '/server'
+          }
+        },
+        {
+          path: '/admin_server_group',
+          component: () => import('@/views/server/AdminServerGroup.vue'),
+          meta: {
+            title: 'Admin Server Group',
+            icon: 'education',
+            activeMenu: '/server'
           }
         }
       ]

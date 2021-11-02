@@ -155,12 +155,14 @@ export const serverShutDown = () =>
 export const getServerList = () =>
   request({
     url: 'https://business.swoole.com/adminServer/list',
+    // url: 'http://swoole-cloud.test/adminServer/list',
     method: 'get'
   })
 
 export const serverCreate = (data: any) =>
   request({
     url: 'https://business.swoole.com/adminServer/create',
+    // url: 'http://swoole-cloud.test/adminServer/create',
     method: 'post',
     data: qs.stringify(data)
   })
@@ -168,6 +170,54 @@ export const serverCreate = (data: any) =>
 export const serverDel = (id: number) =>
   request({
     url: 'https://business.swoole.com/adminServer/delete',
+    // url: 'http://swoole-cloud.test/adminServer/delete',
     method: 'post',
     data: qs.stringify({ id: id })
+  })
+
+export const getServerGroupList = () =>
+  request({
+    // url: 'https://business.swoole.com/adminServer/groupList',
+    url: 'http://swoole-cloud.test/adminServer/groupList',
+    method: 'get'
+  })
+
+export const createGroup = (data: any) =>
+  request({
+    url: 'https://business.swoole.com/adminServer/createGroup',
+    // url: 'http://swoole-cloud.test/adminServer/createGroup',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+
+export const updateGroup = (data: any) =>
+  request({
+    url: 'https://business.swoole.com/adminServer/updateGroup',
+    // url: 'http://swoole-cloud.test/adminServer/updateGroup',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+
+export const detailGroup = (data: any) =>
+  request({
+    url: 'https://business.swoole.com/adminServer/detailGroup',
+    // url: 'http://swoole-cloud.test/adminServer/detailGroup',
+    method: 'get',
+    params: data
+  })
+
+export const delGroup = (data: any) =>
+  request({
+    url: 'https://business.swoole.com/adminServer/delGroup',
+    // url: 'http://swoole-cloud.test/adminServer/delGroup',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+
+export const findUserByPhone = (data: any) =>
+  request({
+    url: 'https://business.swoole.com/adminServer/findUser',
+    // url: 'http://swoole-cloud.test/adminServer/findUser',
+    method: 'post',
+    data: qs.stringify(data)
   })

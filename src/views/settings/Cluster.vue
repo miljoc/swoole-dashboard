@@ -86,7 +86,7 @@
         :label="$t('admin_server.access_token')"
       >
         <template slot-scope="{row}">
-          <span>{{ row.access_token }}</span>
+          <span>{{ row.access_token | defaultValue('-') }}</span>
         </template>
       </el-table-column>
 
@@ -95,7 +95,7 @@
         :label="$t('admin_server.remark')"
       >
         <template slot-scope="{row}">
-          <span>{{ row.remark }}</span>
+          <span>{{ row.remark | defaultValue('-') }}</span>
         </template>
       </el-table-column>
 
@@ -166,7 +166,7 @@
 <script lang="ts">
 import { Component } from 'vue-property-decorator'
 import Vue from 'vue'
-import { getSortFun, inArray } from '@/utils'
+import { defaultValue, getSortFun, inArray } from '@/utils'
 import Pagination from '@/components/Pagination/index.vue'
 import { getServerGroupList, getServerList, serverCreate, serverDel } from '@/api/server'
 import { setAdminServerList } from '@/utils/cookies'
@@ -177,6 +177,9 @@ import axios from 'axios'
   name: 'AdminServer',
   components: {
     Pagination
+  },
+  filters: {
+    defaultValue: defaultValue
   }
 })
 

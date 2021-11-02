@@ -238,3 +238,11 @@ export const inArray = (search: any, arr: Array<any>) => {
     return true
   }
 }
+
+export const defaultValue = (value: any, default_value: any) => {
+  if (value) {
+    return value
+  } else {
+    return default_value
+  }
+}

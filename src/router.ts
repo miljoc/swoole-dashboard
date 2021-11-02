@@ -317,30 +317,30 @@ export default new Router({
       ]
     },
     {
-      path: '/server',
+      path: '/settings',
       component: Layout,
-      redirect: '/server',
+      redirect: '/cluster',
       meta: {
-        title: 'Admin Server',
-        icon: 'server'
+        title: 'Settings',
+        icon: 'cog-fill'
       },
       children: [
         {
-          path: '/admin_server',
-          component: () => import('@/views/server/AdminServer.vue'),
+          path: '/cluster',
+          component: () => import('@/views/settings/Cluster.vue'),
           meta: {
-            title: 'Admin Server',
-            icon: 'gallery-view',
-            activeMenu: '/server'
+            title: 'Cluster',
+            icon: 'server',
+            activeMenu: '/cluster'
           }
         },
         {
-          path: '/admin_server_group',
-          component: () => import('@/views/server/AdminServerGroup.vue'),
+          path: '/groups',
+          component: () => import('@/views/settings/Groups.vue'),
           meta: {
-            title: 'Admin Server Group',
+            title: 'Groups',
             icon: 'education',
-            activeMenu: '/server'
+            activeMenu: '/groups'
           }
         }
       ]

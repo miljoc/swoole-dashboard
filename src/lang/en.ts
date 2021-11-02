@@ -1,8 +1,9 @@
 export default {
   route: {
     'Swoole Dashboard': 'Home',
-    'Admin Server': 'AdminServer',
-    'Admin Server Group': 'AdminServer Group',
+    Settings: 'Settings',
+    Cluster: 'Cluster',
+    Groups: 'Groups',
     'Worker Stats': 'Worker Stats',
     ZendVM: 'ZendVM',
     Extensions: 'Extensions',
@@ -365,12 +366,12 @@ export default {
     installPath: 'Install Path'
   },
   admin_server: {
-    placeholder: 'Admin Server Name',
-    admin_server_url: 'Admin Server Url',
-    admin_server_group: 'Admin Server Group',
-    admin_add: 'Add',
-    server_name: 'Server Name',
-    server_server_url: 'Server Server Url',
+    placeholder: 'Node Name',
+    admin_server_url: 'Node Url',
+    admin_server_group: 'Group',
+    admin_add: 'Add Node',
+    server_name: 'Name',
+    server_server_url: 'Admin Server Url',
     access_token: 'Access Token',
     remark: 'Remark',
     actions: 'Actions',
@@ -387,7 +388,7 @@ export default {
   admin_server_group: {
     placeholder: 'Group Name',
     group_name: 'Group Name',
-    admin_add: 'Add',
+    admin_add: 'Add Group',
     actions: 'Actions',
     group_edit: 'Edit',
     group_del: 'Delete',

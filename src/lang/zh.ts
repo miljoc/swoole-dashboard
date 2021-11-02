@@ -1,8 +1,9 @@
 export default {
   route: {
     'Swoole Dashboard': '首页',
-    'Admin Server': '服务管理',
-    'Admin Server Group': '服务分组管理',
+    Settings: '系统设置',
+    Cluster: '集群管理',
+    Groups: '分组管理',
     'Worker Stats': '进程状态',
     ZendVM: 'ZendVM',
     Composer: 'Composer',
@@ -368,7 +369,7 @@ export default {
     placeholder: '服务名称',
     admin_server_url: '服务地址',
     admin_server_group: '服务分组',
-    admin_add: '新增',
+    admin_add: '新增节点',
     server_name: '服务名称',
     server_server_url: '服务地址',
     access_token: 'Access Token',
@@ -387,7 +388,7 @@ export default {
   admin_server_group: {
     placeholder: '分组名称',
     group_name: '分组名称',
-    admin_add: '新增',
+    admin_add: '新增分组',
     actions: '操作',
     group_edit: '编辑',
     group_del: '删除',

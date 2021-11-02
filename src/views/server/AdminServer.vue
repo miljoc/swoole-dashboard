@@ -273,7 +273,6 @@ export default class extends Vue {
     // }
     // }
     this.groupOptions = tmpGroup
-    console.log(this.groupOptions)
     // return
 
     this.allList = JSON.parse(JSON.stringify(data))

@@ -396,6 +396,12 @@ export default {
     phone_error: '手机号不合法',
     delWarning: '是否确认删除',
     cancel: '取消',
-    delText: '删除'
+    delText: '删除',
+    readonly: '只读',
+    readwrite: '可读可写',
+    search_title: '根据手机号搜索用户',
+    phone: '手机号',
+    search: '查询',
+    confirm: '确定'
   }
 }

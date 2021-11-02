@@ -81,28 +81,24 @@
             }"
             :data="serverList">
           </el-transfer>
-
-<!--          <el-checkbox-group v-model="serverListPick">-->
-<!--            <el-checkbox :label="item.id" v-for="item in serverList" v-bind:key="item.id">{{ item.name }}</el-checkbox>-->
-<!--          </el-checkbox-group>-->
         </el-form-item>
 
         <el-dialog
-          title="根据手机号搜索用户"
+          :title="$t('admin_server_group.search_title')"
           width="50%"
           :visible.sync="innerVisible"
           append-to-body
         >
-          <el-form-item label="手机号">
+          <el-form-item :label="$t('admin_server_group.phone')">
             <div style="display: flex;">
               <el-input v-model="findUserPhone" style="width: 60%;margin-right: 10px"></el-input>
-              <el-button type="primary" @click="findUser" style="width: 20%;">查询</el-button>
+              <el-button type="primary" @click="findUser" style="width: 20%;">{{ $t('admin_server_group.search') }}</el-button>
             </div>
           </el-form-item>
 
         </el-dialog>
 
-        <el-form-item label="Group Name">
+        <el-form-item :label="$t('admin_server_group.group_name')">
           <el-table
             :data="userData"
             style="width: 80%">
@@ -114,32 +110,32 @@
               </template>
             </el-table-column>
             <el-table-column
-              label="phone"
+              :label="$t('admin_server_group.phone')"
               width="180">
               <template slot-scope="scope">
                 {{ scope.row.phone }}
               </template>
             </el-table-column>
-            <el-table-column label="权限">
+            <el-table-column :label="$t('admin_server_group.actions')">
               <template slot-scope="scope">
-                <el-radio v-model="scope.row.permission" label="1">只读</el-radio>
-                <el-radio v-model="scope.row.permission" label="2">可读可写</el-radio>
+                <el-radio v-model="scope.row.permission" label="1">{{ $t('admin_server_group.readonly') }}</el-radio>
+                <el-radio v-model="scope.row.permission" label="2">{{ $t('admin_server_group.readwrite') }}</el-radio>
               </template>
             </el-table-column>
             <el-table-column align="right">
               <template slot="header">
-                <el-button type="success" style="margin-left: 20px;" @click="innerVisible = true">添加</el-button>
+                <el-button type="success" style="margin-left: 20px;" @click="innerVisible = true">{{ $t('admin_server_group.admin_add') }}</el-button>
               </template>
               <template slot-scope="scope">
-                <el-button @click="delUser(scope.$index)" type="danger">删除</el-button>
+                <el-button @click="delUser(scope.$index)" type="danger">{{ $t('admin_server_group.group_del') }}</el-button>
               </template>
             </el-table-column>
           </el-table>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel">{{ $t('admin_server.cancel') }}</el-button>
-        <el-button type="primary" @click="submit">{{ $t('admin_server.confirm') }}</el-button>
+        <el-button @click="cancel">{{ $t('admin_server_group.cancel') }}</el-button>
+        <el-button type="primary" @click="submit">{{ $t('admin_server_group.confirm') }}</el-button>
       </div>
     </el-dialog>
 
@@ -267,7 +263,7 @@ export default class extends Vue {
       uid: data.uid,
       name: data.nickname,
       phone: data.mobile,
-      permission: 1
+      permission: '1'
     })
     this.innerVisible = false
     this.findUserPhone = ''

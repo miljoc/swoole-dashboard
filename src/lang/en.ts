@@ -396,6 +396,12 @@ export default {
     phone_error: 'Illegal mobile phone number',
     delWarning: 'Confirm whether to delete the server？',
     cancel: 'Cancel',
-    delText: 'Delete'
+    delText: 'Delete',
+    readonly: 'ReadOnly',
+    readwrite: 'ReadWrite',
+    search_title: 'Search User By Phone Num',
+    phone: 'Phone Num',
+    search: 'Search',
+    confirm: 'Confirm'
   }
 }

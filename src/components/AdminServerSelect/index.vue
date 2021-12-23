@@ -55,9 +55,9 @@ export default class extends Vue {
       return item.status === 200
     })
 
-    if (result.length === 0 && this.$route.path !== '/admin_server') {
+    if (result.length === 0 && this.$route.path !== '/cluster') {
       // goto add admin_server
-      this.$router.push('/admin_server?add')
+      this.$router.push('/cluster?add')
     }
     return result
   }

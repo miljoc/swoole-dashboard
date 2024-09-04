@@ -123,11 +123,15 @@
       </el-table-column>
       <el-table-column label="Name" align="center" v-if="type === 'functions'">
         <template slot-scope="scope">
+<<<<<<< HEAD
           <el-link type="primary">
             <router-link class="link-type"
                          :to="{path: `/function_info?function_name=${scope.row.name}`}">{{ scope.row.name }}
             </router-link>
           </el-link>
+=======
+          <span>{{ scope.row.name }}</span>
+>>>>>>> parent of 3161e03 (Add Login (#9))
         </template>
       </el-table-column>
     </el-table>

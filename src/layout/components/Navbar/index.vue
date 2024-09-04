@@ -11,7 +11,7 @@
       class="breadcrumb-container"
     />
     <div class="right-menu">
-      <div class="right-menu-item version" style="font-size: 14px">
+      <div class="right-menu-item vsesion" style="font-size: 14px">
         <span>OS: <b>{{ versionInfo.os }}</b></span>
         <span>Swoole: <b>{{ versionInfo.swoole }}</b></span>
         <span>PHP: <b>{{ versionInfo.php }}</b></span>
@@ -32,14 +32,20 @@
       >
         <div class="avatar-wrapper">
           <img
-            :src="avatar"
+            src="/img/icons/favicon-32x32.png"
             class="user-avatar"
           >
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
+          <router-link to="/">
+            <el-dropdown-item>
+              Home
+            </el-dropdown-item>
+          </router-link>
           <a
             target="_blank"
+<<<<<<< HEAD
             href="https://github.com/swoole/swoole-src/issues"
           >
             <el-dropdown-item>
@@ -52,16 +58,35 @@
           >
             <el-dropdown-item divided>
               <svg-icon name="user" /> {{ $t('navbar.profile') }}
+=======
+            href="https://github.com/swoole/swoole-src"
+          >
+            <el-dropdown-item>
+              Github
+>>>>>>> parent of 3161e03 (Add Login (#9))
             </el-dropdown-item>
           </a>
-          <el-dropdown-item divided>
+          <a
+            target="_blank"
+            href="https://wiki.swoole.com/"
+          >
+            <el-dropdown-item>
+              Docs
+            </el-dropdown-item>
+          </a>
+          <!-- <el-dropdown-item divided>
             <span
               style="display:block;"
               @click="logout"
+<<<<<<< HEAD
             >
               <svg-icon name="logout" /> {{ $t('navbar.logOut') }}
             </span>
           </el-dropdown-item>
+=======
+            >LogOut</span>
+          </el-dropdown-item> -->
+>>>>>>> parent of 3161e03 (Add Login (#9))
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -211,7 +236,7 @@ export default class extends Vue {
       }
     }
   }
-  .version {
+  .vsesion {
     span {
       margin-right: 20px;
       b {

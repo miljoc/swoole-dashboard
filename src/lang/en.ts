@@ -109,7 +109,6 @@ export default {
   login: {
     title: 'Login Form',
     logIn: 'Login',
-    register: 'Register',
     username: 'Username',
     password: 'Password',
     thirdparty: 'Or connect with',

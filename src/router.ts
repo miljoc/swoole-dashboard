@@ -144,21 +144,31 @@ export default new Router({
           }
         },
         {
+<<<<<<< HEAD
           path: '/constants',
           component: () => import(/* webpackChunkName: "constants" */'@/views/php/Constants.vue'),
+=======
+          path: '/defined_constants',
+          component: () => import('@/views/php/DefinedConstants.vue'),
+>>>>>>> parent of 3161e03 (Add Login (#9))
           meta: {
             title: 'Constants',
             icon: 'hamburger',
-            activeMenu: '/constants'
+            activeMenu: '/defined_constants'
           }
         },
         {
+<<<<<<< HEAD
           path: '/interfaces',
           component: () => import(/* webpackChunkName: "interfaces" */'@/views/php/Interfaces.vue'),
+=======
+          path: '/defined_interfaces',
+          component: () => import('@/views/php/DefinedInterfaces.vue'),
+>>>>>>> parent of 3161e03 (Add Login (#9))
           meta: {
             title: 'Interfaces',
             icon: 'comment-lines',
-            activeMenu: '/interfaces'
+            activeMenu: '/defined_interfaces'
           }
         },
         {

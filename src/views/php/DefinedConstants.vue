@@ -32,7 +32,9 @@
         :label="$t('constants.name')"
       >
         <template slot-scope="{row}">
-          {{ row.name }}
+          <el-link type="primary">
+            {{ row.name }}
+          </el-link>
         </template>
       </el-table-column>
 

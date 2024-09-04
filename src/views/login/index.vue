@@ -59,9 +59,6 @@
       >
         {{ $t('login.logIn') }}
       </el-button>
-      <span class="register">
-        <a :href="registerUrl"> {{ $t('login.register') }}</a>
-      </span>
 
     </el-form>
   </div>
@@ -73,6 +70,7 @@ import { Route } from 'vue-router'
 import { Dictionary } from 'vue-router/types/router'
 import { Form as ElForm, Input } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
+import { isValidUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect/index.vue'
 import { isValidUsername } from '@/utils/validate'
 
@@ -84,11 +82,19 @@ import { isValidUsername } from '@/utils/validate'
 })
 export default class extends Vue {
   private validateUsername = (rule: any, value: string, callback: Function) => {
+<<<<<<< HEAD
     if (!value || !isValidUsername(value)) {
       callback(new Error(this.$t('login.name') as string))
     } else {
       callback()
     }
+=======
+    // if (!isValidUsername(value)) {
+    //   callback(new Error('Please enter the correct user name'))
+    // } else {
+    callback()
+    // }
+>>>>>>> parent of 3161e03 (Add Login (#9))
   }
 
   private validatePassword = (rule: any, value: string, callback: Function) => {
@@ -111,9 +117,9 @@ export default class extends Vue {
 
   private passwordType = 'password'
   private loading = false
+  private showDialog = false
   private redirect?: string
   private otherQuery: Dictionary<string> = {}
-  private registerUrl = ''
 
   @Watch('$route', { immediate: true })
   private onRouteChange(route: Route) {
@@ -132,14 +138,6 @@ export default class extends Vue {
     } else if (this.loginForm.password === '') {
       (this.$refs.password as Input).focus()
     }
-  }
-
-  created() {
-    this.getRegister()
-  }
-
-  private getRegister() {
-    this.registerUrl = 'https://business.swoole.com/page/register?refer=' + window.location.href
   }
 
   private showPwd() {
@@ -302,12 +300,5 @@ export default class extends Vue {
     cursor: pointer;
     user-select: none;
   }
-}
-
-.register {
-  color: white;
-  font-size: smaller;
-  font-style: oblique;
-  float: right;
 }
 </style>

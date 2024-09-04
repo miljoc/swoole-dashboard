@@ -33,9 +33,13 @@
       >
         <template slot-scope="{row}">
           <el-link type="primary">
+<<<<<<< HEAD:src/views/php/Interfaces.vue
             <router-link class="link-type"
                          :to="{path: `/class_info?interface_name=${row.name}`}">{{ row.name }}
             </router-link>
+=======
+            {{ row.name }}
+>>>>>>> parent of 3161e03 (Add Login (#9)):src/views/php/DefinedInterfaces.vue
           </el-link>
         </template>
       </el-table-column>

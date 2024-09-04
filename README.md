@@ -1,10 +1,10 @@
 # Swoole Dashboard
 
-* 安装依赖库： `npm install`
-* 启动服务：`npm run serve`
-* 打开浏览器：[http://localhost:8080/](http://localhost:8080/)
+* Install dependent libraries: `npm install`
+* Start the service: `npm run serve`
+* Open the browser: [http://localhost:8080/](http://localhost:8080/)
 
-> 修改 `.vue` 文件和 `.ts` 文件后不需要重启服务，刷新浏览器即可
+> After modifying `.vue` and `.ts` files, you don’t need to restart the service, just refresh the browser
 
 ## 环境
 

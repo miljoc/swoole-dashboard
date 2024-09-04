@@ -4,7 +4,7 @@ interface ISettings {
 
 // You can customize below settings :)
 const settings: ISettings = {
-  title: 'Swoole Dashboard'
+  title: 'DoorAPI Monitoring'
 }
 
 export default settings

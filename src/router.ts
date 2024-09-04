@@ -29,11 +29,6 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/login',
-      component: () => import(/* webpackChunkName: "login" */ '@/views/login/index.vue'),
-      meta: { hidden: true }
-    },
-    {
       path: '/404',
       component: () => import(/* webpackChunkName: "404" */ '@/views/404.vue'),
       meta: { hidden: true }
@@ -144,13 +139,8 @@ export default new Router({
           }
         },
         {
-<<<<<<< HEAD
-          path: '/constants',
-          component: () => import(/* webpackChunkName: "constants" */'@/views/php/Constants.vue'),
-=======
           path: '/defined_constants',
           component: () => import('@/views/php/DefinedConstants.vue'),
->>>>>>> parent of 3161e03 (Add Login (#9))
           meta: {
             title: 'Constants',
             icon: 'hamburger',
@@ -158,13 +148,8 @@ export default new Router({
           }
         },
         {
-<<<<<<< HEAD
-          path: '/interfaces',
-          component: () => import(/* webpackChunkName: "interfaces" */'@/views/php/Interfaces.vue'),
-=======
           path: '/defined_interfaces',
           component: () => import('@/views/php/DefinedInterfaces.vue'),
->>>>>>> parent of 3161e03 (Add Login (#9))
           meta: {
             title: 'Interfaces',
             icon: 'comment-lines',
